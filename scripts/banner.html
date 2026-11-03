@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Source for assets/banner.png. Render: python3 scripts/render_banner.py (needs Playwright). -->
+<!-- Source for assets/banner.png and site/assets/og.png. Render: node scripts/qa/render_banner.mjs (needs Playwright). -->
 <html><head><meta charset="utf-8">
 <link rel="stylesheet" href="../site/css/fonts.css">
 <style>
@@ -12,10 +12,11 @@
   .txt { position: absolute; left: 72px; top: 44px; width: 840px; }
   .eyebrow { font: 500 17px "IBM Plex Mono", monospace; letter-spacing: .22em; color: var(--amber); text-transform: uppercase; display: flex; align-items: center; gap: 14px; }
   .eyebrow::before { content: ""; width: 34px; height: 1.5px; background: var(--amber); }
-  h1 { white-space: nowrap; font: 700 92px/1 "Oxanium", sans-serif; letter-spacing: -.01em; margin-top: 14px; }
+  h1 { white-space: nowrap; font: 700 74px/.98 "Oxanium", sans-serif; letter-spacing: -.01em; margin-top: 14px; }
+  h1 span { display: block; }
   h1 span { background: linear-gradient(100deg, #7fd3d0 0%, #b58fd6 38%, #f2b84b 70%, #d9825b 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  p.tag { font-size: 20px; line-height: 1.4; color: var(--ink2); margin-top: 14px; max-width: 880px; }
-  .chips { display: flex; gap: 10px; margin-top: 20px; }
+  p.tag { font-size: 19px; line-height: 1.4; color: var(--ink2); margin-top: 12px; max-width: 820px; }
+  .chips { display: flex; gap: 10px; margin-top: 16px; }
   .chips b { font: 500 13px "IBM Plex Mono", monospace; color: var(--ink); border: 1px solid #2f3845; background: rgba(16,20,26,.85); border-radius: 999px; padding: 7px 14px; }
   .chips b i { font-style: normal; color: var(--amber); }
   .cards { position: absolute; left: 72px; right: 72px; bottom: 34px; display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
@@ -31,10 +32,10 @@
   <g id="curves"></g>
 </svg>
 <div class="txt">
-  <div class="eyebrow">An open history of the transistor · 1947 → 2026</div>
-  <h1>Transistor <span>Odyssey</span></h1>
-  <p class="tag">From a germanium point contact to gate-all-around nanosheets, IBM's 7 Å nanostack and a 0.42 nm MoS₂ interface, plus GaN, GaAs, SiC and diamond. Simulated, animated and sourced.</p>
-  <div class="chips"><b><i>19</i> animated devices</b><b><i>38</i> band diagrams</b><b><i>12</i> physics labs</b><b><i>20</i> chapters</b><b><i>256</i> references</b></div>
+  <div class="eyebrow">How transistors are made · 1947 → 2026</div>
+  <h1>Transistor<span>Foundry Expedition</span></h1>
+  <p class="tag">From sand to a gate-all-around nanosheet: how every step of making a transistor works, and how the switch changed from 1947 to today. Simulated, animated and sourced.</p>
+  <div class="chips"><b><i>6</i> interactive pages</b><b><i>19</i> animated devices</b><b><i>15</i> physics labs</b><b><i id="nch">23</i> chapters</b><b><i id="nref">316</i> references</b></div>
 </div>
 <div class="cards">
   <div class="card"><img src="../figures/cross_sections/point_contact.svg"><div class="y">1947</div><div class="n">Point contact</div></div>

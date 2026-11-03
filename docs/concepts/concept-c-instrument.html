@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Concept C · Exploded Instrument</title>
+<link rel="stylesheet" href="concepts.css">
+<style>
+/* Concept C: every process is a precise isometric instrument on a bench, drawn with solid parts, four-tone shading and callouts (after the Anatomy skill). The page reads like a technical manual. */
+.grid-bg { background-color: var(--bg); background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); background-size: 32px 32px; }
+.callout { font: 12px var(--mono); fill: var(--ink-2); }
+.callout-b { font: 600 12px var(--mono); fill: var(--amber); }
+#hero { display: grid; grid-template-columns: .9fr 1.1fr; gap: 24px; padding: 64px var(--gutter); min-height: 900px; }
+#hero h1 { font-size: 70px; margin-top: 16px; }
+#hero .lead { color: var(--ink-2); font-size: 18px; margin-top: 20px; max-width: 32em; }
+.ruler { margin-top: 36px; display: grid; gap: 0; border-left: 1px solid var(--line-2); }
+.ruler div { display: flex; align-items: center; gap: 14px; padding: 9px 0 9px 16px; font: 13px var(--mono); color: var(--muted); position: relative; }
+.ruler div::before { content: ""; position: absolute; left: -1px; width: 10px; height: 1px; background: var(--line-2); }
+.ruler div.on { color: var(--amber); }
+.ruler div.on::before { background: var(--amber); width: 18px; height: 2px; }
+.ruler b { font-weight: 500; color: var(--ink); min-width: 92px; }
+.ruler div.on b { color: var(--amber); }
+#hero svg { width: 100%; height: 820px; }
+
+#theater { padding: 48px var(--gutter); display: grid; grid-template-columns: 1.5fr 1fr; gap: 28px; min-height: 900px; }
+.fig { align-self: start; background: var(--surface); border: 1px solid var(--line-2); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; }
+.fig-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border-bottom: 1px solid var(--line); font: 12px var(--mono); color: var(--muted); }
+.fig-head b { color: var(--ink); font: 600 14px var(--display); letter-spacing: .02em; }
+.fig svg { width: 100%; height: auto; display: block; }
+.fig-foot { display: flex; gap: 14px; align-items: center; padding: 12px 18px; border-top: 1px solid var(--line); flex-wrap: wrap; }
+.side { display: grid; gap: 16px; align-content: start; }
+.side h2 { font-size: 44px; margin-top: 8px; }
+.side p { color: var(--ink-2); }
+.spec { border: 1px solid var(--line-2); border-radius: 12px; padding: 16px; }
+.spec h3 { font: 500 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.readout { display: flex; gap: 22px; font: 12px var(--mono); color: var(--muted); margin-top: 8px; }
+.readout b { display: block; font: 600 22px var(--display); color: var(--amber); }
+
+#vfab { padding: 48px var(--gutter); min-height: 640px; }
+#vfab .bench { display: grid; grid-template-columns: 1.3fr 1fr; gap: 26px; margin-top: 22px; }
+.tray { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; align-content: start; }
+.part { border: 1px solid var(--line-2); border-radius: 10px; padding: 10px; background: var(--surface); font-size: 14px; display: flex; gap: 10px; align-items: center; }
+.part svg { width: 54px; height: 40px; flex: none; }
+.part.lift { border-color: var(--amber); transform: translateY(-6px); box-shadow: 0 18px 40px rgba(0,0,0,.45); }
+
+#map { padding: 56px var(--gutter); min-height: 900px; }
+#map svg { width: 100%; height: auto; margin-top: 18px; }
+
+@media (max-width: 600px) {
+  #theater { grid-template-columns: 1fr; padding: 16px; gap: 16px; min-height: 0; }
+  .side { order: -1; }
+  .side h2 { font-size: 32px; }
+  .fig-head { padding: 10px 12px; }
+}
+</style>
+</head>
+<body>
+
+<section class="frame grid-bg" id="hero" aria-label="Hero mockup">
+  <div>
+    <span class="eyebrow">Transistor Foundry Expedition · fig. 1</span>
+    <h1>One grain of sand, taken apart down to its gate.</h1>
+    <p class="lead">Scroll and the drawing explodes downward, one scale at a time, until three silicon sheets sit inside a metal gate. Keep scrolling and it reassembles into a finished chip.</p>
+    <div class="ruler" aria-label="Scale ruler">
+      <div><b>Planet</b>quartz in the ground</div>
+      <div><b>Fab</b>the building</div>
+      <div><b>Tool</b>one machine</div>
+      <div><b>Wafer</b>300 mm disc</div>
+      <div><b>Die</b>one chip</div>
+      <div class="on"><b>Transistor</b>gate-all-around</div>
+      <div><b>Atoms</b>the silicon lattice</div>
+    </div>
+  </div>
+  <svg id="heroFig" viewBox="0 0 760 820" role="img" aria-label="Exploded isometric column: a grain of sand, a silicon ingot, a wafer, a die and a gate-all-around transistor, joined by dashed leader lines"></svg>
+  <span class="frame-tag">CONCEPT C · EXPLODED INSTRUMENT · HERO · 1440</span>
+</section>
+
+<section class="frame grid-bg" id="theater" aria-label="Lithography process theater mockup">
+  <div class="fig">
+    <div class="fig-head"><b>FIG. 4 · SCANNER, EXPLODED</b><span>drag to rotate · scroll to explode</span></div>
+    <svg id="scanFig" viewBox="0 0 900 560" role="img" aria-label="Exploded isometric scanner: light source, illuminator, mask stage, projection lens and wafer stage stacked with callouts"></svg>
+    <div class="fig-foot">
+      <div class="scrub" style="flex:1;min-width:220px" role="slider" aria-label="Explode" aria-valuetext="70 percent"><div class="rail"></div><div class="fill" style="width:70%"></div><div class="knob" style="left:70%"></div><div class="ticks"><span>assembled</span><span>exploded</span></div></div>
+      <div class="seg"><span>Tool</span><span class="on">Section</span><span>Photo</span></div>
+    </div>
+  </div>
+  <div class="side">
+    <span class="eyebrow">Area 4 · Lithography</span>
+    <h2>Print the pattern with light</h2>
+    <p>The scanner shines light through a mask and a reduction lens onto resist. Each part sets one limit: the source sets the wavelength, the lens sets the numerical aperture, the stage sets the overlay.</p>
+    <div class="spec"><h3>Live model</h3><div style="font:500 20px var(--body)">pitch = λ / (2·NA)</div>
+      <div class="readout"><span>λ<b>193 nm</b></span><span>NA<b>1.35</b></span><span>pitch<b>71 nm</b></span></div>
+      <p class="cite" style="margin-top:8px">ArF immersion · litho.py ↔ litho.js · [@mack2007] [@levinson2019]</p></div>
+    <div class="spec"><h3>Failure modes</h3><div style="display:flex;gap:8px;flex-wrap:wrap"><span class="chip">defocus</span><span class="chip">overlay</span><span class="chip">lens heating</span><span class="chip" style="color:var(--m-p);border-color:rgba(224,127,63,.6)">stochastic bridge</span></div></div>
+    <div class="seg"><span>Beginner</span><span class="on">Engineer</span><span>Process engineer</span></div>
+  </div>
+  <span class="frame-tag">CONCEPT C · THEATER: LITHOGRAPHY</span>
+</section>
+
+<section class="frame grid-bg" id="vfab" aria-label="Virtual Fab sandbox mockup">
+  <span class="eyebrow">Virtual Fab · fig. 9</span>
+  <h2 style="font-size:44px;margin-top:10px">Assemble a transistor on the bench</h2>
+  <div class="bench">
+    <div class="fig"><div class="fig-head"><b>WORKPIECE</b><span>step 3 of 9 · 1 mask used</span></div><svg id="benchFig" viewBox="0 0 680 420" role="img" aria-label="Isometric workpiece: silicon block with an oxide layer and a polysilicon gate being lowered onto it"></svg></div>
+    <div>
+      <div class="tray">
+        <div class="part"><svg viewBox="0 0 54 40"><polygon points="4,22 27,10 50,22 27,34" fill="#8fcfd4"/></svg>Oxide</div>
+        <div class="part lift"><svg viewBox="0 0 54 40"><polygon points="14,18 27,11 40,18 27,25" fill="#c95c50"/><polygon points="14,18 27,25 27,32 14,25" fill="#9b463d"/><polygon points="40,18 27,25 27,32 40,25" fill="#b0524a"/></svg>Polysilicon gate</div>
+        <div class="part"><svg viewBox="0 0 54 40"><polygon points="4,22 27,10 50,22 27,34" fill="#e07fb0"/></svg>Resist and mask</div>
+        <div class="part"><svg viewBox="0 0 54 40"><g fill="#3f7fe0"><circle cx="18" cy="16" r="3"/><circle cx="30" cy="12" r="3"/><circle cx="36" cy="22" r="3"/><circle cx="24" cy="26" r="3"/></g></svg>Implant n⁺</div>
+        <div class="part"><svg viewBox="0 0 54 40"><polygon points="4,22 27,10 50,22 27,34" fill="#cfd6e0"/></svg>Spacer</div>
+        <div class="part"><svg viewBox="0 0 54 40"><polygon points="4,22 27,10 50,22 27,34" fill="#d9825b"/></svg>Metal</div>
+      </div>
+      <div class="spec" style="margin-top:16px"><h3>Inspector</h3><p style="font-size:14.5px">The gate lands on the thin gate oxide. Next: implant the source and drain; the gate itself masks the channel, which is why it is called self-aligned.</p>
+        <div class="readout"><span>masks<b>1</b></span><span>steps<b>3</b></span><span>order<b style="color:var(--good)">ok</b></span></div></div>
+    </div>
+  </div>
+  <span class="frame-tag">CONCEPT C · VIRTUAL FAB</span>
+</section>
+
+<section class="frame grid-bg" id="map" aria-label="Fab Journey progress map mockup">
+  <span class="eyebrow">Fab Journey · route map</span>
+  <h2 style="font-size:44px;margin-top:10px">The fab line, as a route map</h2>
+  <svg id="routeFig" viewBox="0 0 1480 560" role="img" aria-label="Route map: three coloured lines, one per track, run through 13 stations, one per process area; the first three stations are filled"></svg>
+  <span class="frame-tag">CONCEPT C · PROGRESS MAP</span>
+</section>
+
+<script>
+const NS = 'http://www.w3.org/2000/svg';
+const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent && parent.appendChild(e); return e; };
+const C30 = Math.cos(Math.PI / 6), S30 = 0.5;
+// isometric projection around an origin
+const P = (o, x, y, z) => [o[0] + (x - y) * C30, o[1] + (x + y) * S30 - z];
+const pts = (a) => a.map((p) => p.join(',')).join(' ');
+const shade = (hex, f) => { const n = parseInt(hex.slice(1), 16); const c = [n >> 16, (n >> 8) & 255, n & 255].map((v) => Math.round(Math.min(255, v * f))); return '#' + c.map((v) => v.toString(16).padStart(2, '0')).join(''); };
+function box(g, o, x, y, z, w, d, h, col, stroke) {
+  const top = [P(o, x, y, z + h), P(o, x + w, y, z + h), P(o, x + w, y + d, z + h), P(o, x, y + d, z + h)];
+  const left = [P(o, x, y + d, z), P(o, x + w, y + d, z), P(o, x + w, y + d, z + h), P(o, x, y + d, z + h)];
+  const right = [P(o, x + w, y, z), P(o, x + w, y + d, z), P(o, x + w, y + d, z + h), P(o, x + w, y, z + h)];
+  const s = stroke ? { stroke: '#0a0d11', 'stroke-opacity': '.45', 'stroke-width': '.8' } : {};
+  el('polygon', { points: pts(left), fill: shade(col, .72), ...s }, g);
+  el('polygon', { points: pts(right), fill: shade(col, .86), ...s }, g);
+  el('polygon', { points: pts(top), fill: col, ...s }, g);
+}
+function disc(g, cx, cy, rx, ry, h, col) {
+  el('path', { d: `M${cx - rx},${cy} v${h} a${rx},${ry} 0 0 0 ${2 * rx},0 v${-h} Z`, fill: shade(col, .75) }, g);
+  el('ellipse', { cx, cy, rx, ry, fill: col }, g);
+}
+const lead = (g, x1, y1, x2, y2, label, sub, cls = 'callout') => {
+  el('path', { d: `M${x1},${y1} L${x2},${y2} h40`, fill: 'none', stroke: '#8a94a3', 'stroke-width': '1', 'stroke-dasharray': '3 3' }, g);
+  el('circle', { cx: x1, cy: y1, r: 3, fill: '#f2b84b' }, g);
+  const t = el('text', { x: x2 + 46, y: y2 + 4, class: cls === 'callout' ? 'callout-b' : cls }, g); t.textContent = label;
+  if (sub) { const s = el('text', { x: x2 + 46, y: y2 + 20, class: 'callout' }, g); s.textContent = sub; }
+};
+
+// ---------- hero column ----------
+(() => {
+  const g = document.getElementById('heroFig');
+  // grain
+  const grain = el('g', { transform: 'translate(260 70)' }, g);
+  el('polygon', { points: '-34,-4 -18,-30 10,-34 32,-18 36,8 20,32 -12,34 -34,16', fill: '#d9c08f' }, grain);
+  el('polygon', { points: '-18,-30 10,-34 4,-8 -14,-6', fill: '#f1dcae' }, grain);
+  el('polygon', { points: '10,-34 32,-18 20,0 4,-8', fill: '#e8cf9d' }, grain);
+  lead(g, 296, 70, 420, 50, 'GRAIN', 'quartz sand, SiO₂');
+  // ingot
+  disc(g, 260, 170, 46, 16, 120, '#8f9aab');
+  el('ellipse', { cx: 260, cy: 170, rx: 46, ry: 16, fill: '#b9c3cd' }, g);
+  lead(g, 306, 220, 420, 200, 'INGOT', 'one single crystal');
+  // wafer
+  disc(g, 260, 395, 120, 42, 8, '#7b8ca5');
+  for (let i = -3; i <= 3; i++) for (let j = -2; j <= 2; j++) { const x = 260 + i * 30 + j * 0, y = 395 + j * 14 + i * 0; if (((x - 260) / 110) ** 2 + ((y - 395) / 38) ** 2 < 1) el('rect', { x: x - 12, y: y - 5, width: 24, height: 10, fill: '#5d6c84', stroke: '#0a0d11', 'stroke-opacity': '.4' }, g); }
+  lead(g, 380, 395, 450, 370, 'WAFER', 'sliced, polished, patterned');
+  // die
+  const o = [260, 500];
+  box(g, o, -40, -40, 0, 80, 80, 8, '#4b596d', true);
+  for (let i = 0; i < 4; i++) box(g, o, -32 + i * 18, -32, 8, 12, 64, 2, '#d9825b');
+  lead(g, 300, 505, 450, 490, 'DIE', 'billions of transistors, wired');
+  // transistor (GAA) blown up
+  const t = [260, 690];
+  box(g, t, -70, -40, 0, 140, 80, 18, '#4b596d', true);
+  box(g, t, -70, -40, 18, 34, 80, 70, '#3f7fe0', true);
+  box(g, t, 36, -40, 18, 34, 80, 70, '#3f7fe0', true);
+  for (let k = 0; k < 3; k++) { box(g, t, -36, -24, 26 + k * 22, 72, 48, 4, '#9a80dc'); box(g, t, -36, -20, 30 + k * 22, 72, 40, 8, '#7b8ca5', true); }
+  box(g, t, -30, -40, 18, 60, 14, 78, '#e2b650', true);
+  el('ellipse', { cx: 260, cy: 650, rx: 110, ry: 60, fill: '#f2b84b', opacity: '.10' }, g);
+  lead(g, 300, 640, 450, 620, 'TRANSISTOR', 'three sheets, gate on four sides');
+  // dashed explode axis
+  el('line', { x1: 260, y1: 105, x2: 260, y2: 150, stroke: '#2f3845', 'stroke-dasharray': '4 4' }, g);
+  el('line', { x1: 260, y1: 310, x2: 260, y2: 352, stroke: '#2f3845', 'stroke-dasharray': '4 4' }, g);
+  el('line', { x1: 260, y1: 445, x2: 260, y2: 470, stroke: '#2f3845', 'stroke-dasharray': '4 4' }, g);
+  el('line', { x1: 260, y1: 540, x2: 260, y2: 600, stroke: '#2f3845', 'stroke-dasharray': '4 4' }, g);
+})();
+
+// ---------- scanner ----------
+(() => {
+  const g = document.getElementById('scanFig'), o = [330, 300];
+  // wafer stage
+  box(g, [330, 470], -150, -110, 0, 300, 220, 26, '#2f3845', true);
+  disc(g, 330, 432, 120, 50, 6, '#e07fb0');
+  el('ellipse', { cx: 330, cy: 432, rx: 120, ry: 50, fill: '#e07fb0' }, g);
+  lead(g, 440, 455, 520, 480, 'WAFER STAGE', 'moves the wafer under the slit');
+  // lens column
+  for (let i = 0; i < 5; i++) disc(g, 330, 330 - i * 22, 70 - i * 4, 22, 14, i % 2 ? '#7fd3d0' : '#5fb3b0');
+  lead(g, 396, 300, 520, 330, 'PROJECTION LENS', 'NA 1.35 in water (ArF-i)');
+  // light cone
+  el('polygon', { points: '300,150 360,150 350,240 310,240', fill: '#b58fd6', opacity: '.35' }, g);
+  el('polygon', { points: '318,330 342,330 336,420 324,420', fill: '#b58fd6', opacity: '.45' }, g);
+  // reticle stage
+  box(g, [330, 150], -110, -70, 0, 220, 140, 10, '#3a4352', true);
+  box(g, [330, 150], -50, -40, 10, 100, 80, 3, '#cfd6e0');
+  lead(g, 420, 140, 520, 180, 'MASK STAGE', 'mask 4× larger than the print');
+  // illuminator + source
+  box(g, [330, 70], -60, -40, 0, 120, 80, 40, '#4b596d', true);
+  lead(g, 380, 50, 520, 60, 'SOURCE + ILLUMINATOR', 'ArF excimer laser, 193 nm');
+  el('text', { x: 24, y: 540, class: 'callout' }, g).textContent = 'Values: ArF immersion preset of the Physics Lab [@levinson2019]';
+})();
+
+// ---------- bench ----------
+(() => {
+  const g = document.getElementById('benchFig'), o = [300, 250];
+  box(g, o, -160, -110, 0, 320, 220, 50, '#4b596d', true);
+  box(g, o, -160, -110, 50, 320, 220, 6, '#8fcfd4', true);
+  box(g, o, -30, -110, 120, 60, 220, 50, '#c95c50', true);
+  el('line', { x1: 300, y1: 120, x2: 300, y2: 170, stroke: '#f2b84b', 'stroke-dasharray': '4 4' }, g);
+  el('polygon', { points: '294,162 306,162 300,172', fill: '#f2b84b' }, g);
+  lead(g, 360, 110, 470, 70, 'POLY GATE', 'lowering onto the oxide');
+  lead(g, 420, 225, 500, 230, 'GATE OXIDE', 'thermal SiO₂');
+  lead(g, 420, 290, 500, 320, 'SILICON', 'p-type substrate');
+})();
+
+// ---------- route map ----------
+(() => {
+  const g = document.getElementById('routeFig');
+  const names = ['Materials','Cleaning','Oxidation','Lithography','Etch','Doping','Deposition','CMP','Modules','Interconnect','Back end','Families','History'];
+  const X = (i) => 70 + i * 100;
+  const lines = [{ c: '#f2b84b', y: 220, name: 'Modern GAA', skip: [12] }, { c: '#7fd3d0', y: 280, name: 'Teaching CMOS', skip: [7, 8, 11] }, { c: '#b58fd6', y: 340, name: 'Historical', skip: [7, 8, 9] }];
+  lines.forEach((L, li) => {
+    let d = `M${X(0)},${L.y}`;
+    for (let i = 1; i < 13; i++) { const yy = L.skip.includes(i) ? L.y + 70 + li * 12 : L.y; d += ` L${X(i) - 30},${L.y} Q${X(i) - 15},${L.y} ${X(i)},${yy}`; if (!L.skip.includes(i)) d += ''; }
+    el('path', { d: `M${X(0)},${L.y} H${X(12)}`, fill: 'none', stroke: L.c, 'stroke-width': 6, 'stroke-linecap': 'round', opacity: li === 0 ? 1 : .55 }, g);
+    const t = el('text', { x: X(12) + 26, y: L.y + 4, class: 'callout' }, g); t.textContent = L.name; t.setAttribute('fill', L.c);
+    L.skip.forEach((i) => el('circle', { cx: X(i), cy: L.y, r: 6, fill: '#0a0d11', stroke: '#2f3845', 'stroke-width': 2 }, g));
+  });
+  names.forEach((n, i) => {
+    const done = i < 3, here = i === 3;
+    el('rect', { x: X(i) - 16, y: 200, width: 32, height: 160, rx: 16, fill: done ? 'rgba(242,184,75,.16)' : here ? 'rgba(242,184,75,.06)' : 'rgba(255,255,255,.02)', stroke: here ? '#f2b84b' : done ? 'rgba(242,184,75,.5)' : '#2f3845', 'stroke-width': here ? 2 : 1 }, g);
+    const num = el('text', { x: X(i), y: 180, 'text-anchor': 'middle', class: here ? 'callout-b' : 'callout' }, g); num.textContent = String(i + 1).padStart(2, '0');
+    const t = el('text', { x: X(i), y: 396, 'text-anchor': 'end', class: here ? 'callout-b' : 'callout', transform: `rotate(-40 ${X(i)} 396)` }, g); t.textContent = n;
+    if (done) el('text', { x: X(i), y: 150, 'text-anchor': 'middle', class: 'callout-b' }, g).textContent = '✓';
+  });
+  el('text', { x: X(3), y: 120, 'text-anchor': 'middle', class: 'callout-b' }, g).textContent = 'YOU ARE HERE';
+  el('path', { d: `M${X(3)},128 v40`, stroke: '#f2b84b', 'stroke-width': 1.5 }, g);
+  const legend = el('text', { x: 70, y: 520, class: 'callout' }, g); legend.textContent = 'Hollow rings: the track skips that area. Click a station to open its process theater; each line keeps its own progress.';
+})();
+</script>
+</body>
+</html>

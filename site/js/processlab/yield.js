@@ -133,7 +133,7 @@ export function init(sec) {
 
 export function record(stage, next) {
   stage.innerHTML = `<div class="rec-head"><span class="eyebrow">Monte Carlo yield</span><h2>Defects landing on a 300 mm wafer</h2><span class="rec-state" id="rs"></span></div><canvas></canvas>
-    <div class="rec-foot"><span style="color:#7fe0c8">■ good die</span><span style="color:#ff8a55">■ killed by a defect</span><span class="rec-brand">Transistor Odyssey · Process Lab</span></div>`;
+    <div class="rec-foot"><span style="color:#7fe0c8">■ good die</span><span style="color:#ff8a55">■ killed by a defect</span><span class="rec-brand">Transistor Foundry Expedition · Process Lab</span></div>`;
   const v = new WaferView(stage.querySelector('canvas')), dd = [Math.sqrt(150 * 1.25), 150 / Math.sqrt(150 * 1.25)];
   v.set(YC.simulateWafer(dd[0], dd[1], 0.3, 2, 5), dd, 0.3);
   return (n = 96) => { const k = next(); if (k % n === 0) v.t = 0; v.draw(1 / 12, 1.25); stage.querySelector('#rs').textContent = '150 mm² dies, D₀ = 0.3 /cm²'; return k + 1; };

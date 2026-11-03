@@ -1,6 +1,16 @@
 # Changelog
 
-All notable changes to Transistor Odyssey. Versions follow the `version` field in [CITATION.cff](CITATION.cff); `scripts/setup_ubuntu.sh` uses the newest entry as the commit message.
+All notable changes to Transistor Foundry Expedition (formerly Transistor Odyssey). Versions follow the `version` field in [CITATION.cff](CITATION.cff); `scripts/setup_ubuntu.sh` uses the newest entry as the commit message.
+
+## v1.11 — Rename to Transistor Foundry Expedition and QA tooling
+
+- Renamed from Transistor Odyssey to **Transistor Foundry Expedition**; the repository, Pages address and release zip use the slug `transistor-foundry-expedition`. `scripts/setup_ubuntu.sh` renames the old repository with `gh repo rename` when it finds it, and `docs/moved/` holds a forwarding page for the old address.
+- `tests/test_rename.py` fails if the old slug appears anywhere except this changelog and the "formerly" lines.
+- **QA tooling:** `make qa` serves the site and runs Playwright at 1440 and 390 px: tiled screenshots, horizontal overflow, a nav check that every page is reachable, a click-through of every nav link, unlabelled canvases and controls, and broken local links. A new CI job runs it and uploads the report.
+- **GIF recorder:** `make gifs` re-records the README animations from each page's record mode and encodes them with ffmpeg and gifsicle until each fits its budget; all 25 are now under 1 MB (13.1 MB in total, from 17.2 MB). `tests/test_budget.py` checks the per-GIF limit, folder ceilings and the zip size.
+- **Fixes:** the index timeline no longer overflows at 1440 px (it had been hidden by `overflow-x: hidden` on the body), the marquee is clipped, the Device Atlas nav no longer scrolls sideways, every page links to every other page at 390 px through a generated menu (`scripts/build_nav.py`), and 25 canvases gained an `aria-label`.
+- **Planning for the process theatres:** `data/fab_steps.json` (13 seed steps, three tracks, safety tiers), a photo candidate list awaiting a licence check (`scripts/check_photo_licenses.py`), the process coverage plan and three visual concepts in `docs/concepts/`.
+- `scripts/make_zip.py` builds `transistor-foundry-expedition-v1.11.zip`; the banner is re-rendered with Playwright for Node; 38 new tests (220 in total).
 
 ## v1.10 — Analog & RF Lab: the transistor as an amplifier
 

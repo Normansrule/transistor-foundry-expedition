@@ -2,17 +2,18 @@
 # One-shot setup for Ubuntu / WSL2: build, test, create the GitHub repo, push, enable Pages.
 # Run from inside the unzipped repo:   bash scripts/setup_ubuntu.sh
 # Options (environment variables):
-#   OWNER=Normansrule  REPO=transistor-odyssey  SSH_HOST=github-normansrule  SKIP_GITHUB=1
+#   OWNER=Normansrule  REPO=transistor-foundry-expedition  SSH_HOST=github-normansrule  SKIP_GITHUB=1
 set -euo pipefail
 
 OWNER="${OWNER:-Normansrule}"
-REPO="${REPO:-transistor-odyssey}"
+REPO="${REPO:-transistor-foundry-expedition}"
 SSH_HOST="${SSH_HOST:-github-normansrule}"
+OLD_REPO="${OLD_REPO:-transistor-odyssey}"  # the repo's name before v1.11 (formerly Transistor Odyssey)
 
 cd "$(dirname "$0")/.."
 ROOT="$(pwd)"
 if [ "$ROOT" = "$HOME" ] || [ ! -f "$ROOT/Makefile" ] || [ ! -d "$ROOT/site" ]; then
-  echo "error: run this from inside the transistor-odyssey folder (found: $ROOT)" >&2
+  echo "error: run this from inside the transistor-foundry-expedition folder (found: $ROOT)" >&2
   exit 1
 fi
 echo "==> repo: $ROOT"
@@ -62,10 +63,15 @@ gh auth status >/dev/null 2>&1 || { echo "error: run 'gh auth login' first" >&2;
 
 if gh repo view "$OWNER/$REPO" >/dev/null 2>&1; then
   echo "==> $OWNER/$REPO already exists"
+elif [ "$OLD_REPO" != "$REPO" ] && gh api "repos/$OWNER/$OLD_REPO" --jq .name 2>/dev/null | grep -qx "$OLD_REPO"; then
+  # The project still lives under its old name: rename it rather than starting a second repository.
+  echo "==> renaming $OWNER/$OLD_REPO to $OWNER/$REPO (history, stars, issues and Pages settings move with it)"
+  gh repo rename "$REPO" -R "$OWNER/$OLD_REPO" --yes
+  gh repo edit "$OWNER/$REPO" --homepage "https://$(echo "$OWNER" | tr '[:upper:]' '[:lower:]').github.io/$REPO/" >/dev/null
 else
   echo "==> creating $OWNER/$REPO"
   gh repo create "$OWNER/$REPO" --public \
-    --description "Interactive, simulated history of the transistor: 1947 point contact to 2 nm GAA, IBM 0.7 nm nanostack, 0.42 nm MoS2 interface, GaN/GaAs/SiC/diamond" \
+    --description "How transistors are made, from sand to 2 nm gate-all-around: interactive, simulated and sourced, 1947-2026" \
     --homepage "https://$(echo "$OWNER" | tr '[:upper:]' '[:lower:]').github.io/$REPO/"
 fi
 

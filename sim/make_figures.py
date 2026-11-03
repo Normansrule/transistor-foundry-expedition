@@ -50,7 +50,7 @@ plt.rcParams.update({
     "font.family": ["DejaVu Sans"], "font.size": 10.5, "axes.titlesize": 13, "axes.titleweight": "bold",
     "axes.titlelocation": "left", "axes.titlepad": 24, "legend.frameon": False, "legend.labelcolor": INK2,
     "lines.linewidth": 2, "lines.solid_capstyle": "round", "lines.solid_joinstyle": "round",
-    "svg.hashsalt": "transistor-odyssey",  # stable SVG ids so regenerating does not churn git
+    "svg.hashsalt": "transistor-foundry-expedition",  # stable SVG ids so regenerating does not churn git
 })
 
 

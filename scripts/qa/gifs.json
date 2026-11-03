@@ -1,0 +1,167 @@
+{
+ "_comment": "GIF recordings for the README, made by scripts/qa/record_gifs.mjs from each page's ?record= mode. frames = frames recorded (also passed to the page as n), step = keep every step-th frame, colors = palette size, scale = device pixel ratio (800x450 stage). budget = target bytes; the encoder steps quality down until the GIF fits it (README GIFs aim for 700 kB). The hard limit per GIF is 1.5 MB (tests/test_budget.py).",
+ "defaults": {
+  "frames": 72,
+  "step": 1,
+  "colors": 256,
+  "scale": 1.25,
+  "delay": 80,
+  "budget": 700000
+ },
+ "gifs": [
+  {
+   "out": "planar_mosfet",
+   "page": "devices",
+   "id": "planar_mosfet"
+  },
+  {
+   "out": "finfet",
+   "page": "devices",
+   "id": "finfet"
+  },
+  {
+   "out": "gaa",
+   "page": "devices",
+   "id": "gaa"
+  },
+  {
+   "out": "gan_hemt",
+   "page": "devices",
+   "id": "gan_hemt"
+  },
+  {
+   "out": "bjt",
+   "page": "devices",
+   "id": "bjt"
+  },
+  {
+   "out": "tfet",
+   "page": "devices",
+   "id": "tfet"
+  },
+  {
+   "out": "igbt",
+   "page": "devices",
+   "id": "igbt"
+  },
+  {
+   "out": "cnt_fet",
+   "page": "devices",
+   "id": "cnt_fet"
+  },
+  {
+   "out": "diamond_fet",
+   "page": "devices",
+   "id": "diamond_fet"
+  },
+  {
+   "out": "compare",
+   "page": "devices",
+   "id": "compare"
+  },
+  {
+   "out": "pn",
+   "page": "devices",
+   "id": "pn"
+  },
+  {
+   "out": "circuit_zoom",
+   "page": "circuits",
+   "id": "zoom",
+   "frames": 110,
+   "step": 2,
+   "colors": 128,
+   "scale": 1,
+   "delay": 160,
+   "budget": 1000000
+  },
+  {
+   "out": "circuit_gates",
+   "page": "circuits",
+   "id": "gates",
+   "frames": 96
+  },
+  {
+   "out": "circuit_adder",
+   "page": "circuits",
+   "id": "adder",
+   "frames": 122
+  },
+  {
+   "out": "circuit_sram",
+   "page": "circuits",
+   "id": "sram",
+   "frames": 72
+  },
+  {
+   "out": "circuit_flash",
+   "page": "circuits",
+   "id": "flash",
+   "frames": 95
+  },
+  {
+   "out": "process_oxide",
+   "page": "process",
+   "id": "oxide",
+   "frames": 96
+  },
+  {
+   "out": "process_implant",
+   "page": "process",
+   "id": "implant",
+   "frames": 108
+  },
+  {
+   "out": "process_yield",
+   "page": "process",
+   "id": "yield",
+   "frames": 96
+  },
+  {
+   "out": "process_em",
+   "page": "process",
+   "id": "em",
+   "frames": 108
+  },
+  {
+   "out": "analog_hero",
+   "page": "analog",
+   "id": "hero",
+   "frames": 96,
+   "step": 2,
+   "colors": 128,
+   "delay": 160,
+   "budget": 1000000
+  },
+  {
+   "out": "analog_amp",
+   "page": "analog",
+   "id": "amp",
+   "frames": 96
+  },
+  {
+   "out": "analog_gain",
+   "page": "analog",
+   "id": "gain",
+   "frames": 96
+  },
+  {
+   "out": "analog_bode",
+   "page": "analog",
+   "id": "bode",
+   "frames": 96,
+   "step": 2,
+   "colors": 128,
+   "delay": 160,
+   "budget": 1000000
+  },
+  {
+   "out": "analog_noise",
+   "page": "analog",
+   "id": "noise",
+   "frames": 60,
+   "colors": 96,
+   "budget": 1000000
+  }
+ ]
+}

@@ -66,7 +66,7 @@ async function recordMode(id) {
   if (id === 'hero') {
     recordFonts(1.1); stage.className = 'rec-panel rec-hero';
     stage.innerHTML = `<div class="rec-head"><span class="eyebrow">Radio spectrum</span><h2>From audio to a terahertz</h2><span class="rec-state" id="rs"></span></div><canvas></canvas>
-      <div class="rec-foot"><span id="rd"></span><span class="rec-brand">Transistor Odyssey · Analog &amp; RF Lab</span></div>`;
+      <div class="rec-foot"><span id="rd"></span><span class="rec-brand">Transistor Foundry Expedition · Analog &amp; RF Lab</span></div>`;
     const H = new Hero(stage.querySelector('canvas'));
     window.__frame = (n = 160) => { const u = 0.02 + 0.96 * (k % n) / (n - 1), f = uToF(u); k++;
       H.draw(u, k / 12, 0.5); stage.querySelector('#rs').textContent = `${fmtHz(f)} · ${regionAt(f).name}`; return k; };

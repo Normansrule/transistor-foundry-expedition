@@ -145,7 +145,7 @@ export function init(sec) {
 
 export function record(stage, next) {
   stage.innerHTML = `<div class="rec-head"><span class="eyebrow">Intrinsic gain</span><h2>Why analog got harder, then easier</h2><span class="rec-state" id="rs"></span></div><canvas></canvas>
-    <div class="rec-foot"><span style="color:#f2b84b">— operating curve</span><span style="color:#e8ecf1">- - slope g<sub>ds</sub></span><span class="rec-brand">Transistor Odyssey · Analog &amp; RF Lab</span></div>`;
+    <div class="rec-foot"><span style="color:#f2b84b">— operating curve</span><span style="color:#e8ecf1">- - slope g<sub>ds</sub></span><span class="rec-brand">Transistor Foundry Expedition · Analog &amp; RF Lab</span></div>`;
   const v = new IVView(stage.querySelector('canvas')), seq = ['1999_180nm', '2007_45nm_hkmg', '2011_22nm_finfet', '2025_2nm_gaa'];
   let cur = null;
   return (n = 160) => {

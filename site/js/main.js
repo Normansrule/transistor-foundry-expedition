@@ -267,7 +267,7 @@ document.addEventListener('pointermove', e => {
   const r = g.getBoundingClientRect(); g.style.setProperty('--mx', (e.clientX - r.left) + 'px'); g.style.setProperty('--my', (e.clientY - r.top) + 'px');
 }, { passive: true });
 safe(() => {
-  const links = [...document.querySelectorAll('.nav-links a')];
+  const links = [...document.querySelectorAll('.nav-menu-panel a[href^="#"]')];
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id)); }), { rootMargin: '-45% 0px -50% 0px' });
   links.forEach(a => { const s = document.querySelector(a.getAttribute('href')); if (s) io.observe(s); });
 }, 'nav');

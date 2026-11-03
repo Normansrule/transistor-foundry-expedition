@@ -2,7 +2,7 @@
 
 Before transistors computed, they amplified. The first transistorized consumer product in the US was a Sonotone hearing aid in 1952, and the Regency TR-1 radio followed in October 1954 with four germanium junction transistors [@chm_consumer1952]. Every radio, radar and sensor still starts and ends with a transistor that turns a small signal into a larger one.
 
-The [Analog & RF Lab](https://normansrule.github.io/transistor-odyssey/analog.html) builds that amplifier from the same compact transistor model as the rest of the site. It opens on the radio spectrum from 10 Hz to 2 THz, with the bands each technology made usable and the fastest transistors on record. The models live in `sim/transistor_sim/physics/analog.py`, with a JavaScript twin that `tests/js_parity.mjs` checks against it; `tests/test_analoglab.py` checks them against closed forms and limits.
+The [Analog & RF Lab](https://normansrule.github.io/transistor-foundry-expedition/analog.html) builds that amplifier from the same compact transistor model as the rest of the site. It opens on the radio spectrum from 10 Hz to 2 THz, with the bands each technology made usable and the fastest transistors on record. The models live in `sim/transistor_sim/physics/analog.py`, with a JavaScript twin that `tests/js_parity.mjs` checks against it; `tests/test_analoglab.py` checks them against closed forms and limits.
 
 <p align="center"><img src="../figures/anim/analog_hero.gif" width="100%" alt="The radio spectrum as a chirp from audio to terahertz"></p>
 

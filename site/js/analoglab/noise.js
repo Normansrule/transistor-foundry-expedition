@@ -153,7 +153,7 @@ export function init(sec) {
 
 export function record(stage, next) {
   stage.innerHTML = `<div class="rec-head"><span class="eyebrow">Transistor noise</span><h2>A faint signal, and the noise under it</h2><span class="rec-state" id="rs"></span></div><canvas></canvas>
-    <div class="rec-foot"><span style="color:#f2b84b">● signal</span><span style="color:#a0bee6">● signal + noise</span><span class="rec-brand">Transistor Odyssey · Analog &amp; RF Lab</span></div>`;
+    <div class="rec-foot"><span style="color:#f2b84b">● signal</span><span style="color:#a0bee6">● signal + noise</span><span class="rec-brand">Transistor Foundry Expedition · Analog &amp; RF Lab</span></div>`;
   let a = 99; rnd = () => { a = (a * 1103515245 + 12345) & 0x7fffffff; return a / 0x7fffffff; };
   const v = new NoiseView(stage.querySelector('canvas'));
   return (n = 160) => {

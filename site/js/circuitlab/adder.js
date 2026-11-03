@@ -172,7 +172,7 @@ export function init(sec) {
 /** Record mode: 0 + 0 → 255 + 1, then 255 + 1 → 170 + 85. */
 export function record(stage, next) {
   stage.innerHTML = `<div class="rec-head"><span class="eyebrow">Event-driven simulation</span><h2>An 8-bit adder: the carry ripples</h2><span class="rec-state" id="rs"></span></div><canvas></canvas>
-    <div class="rec-foot"><span style="color:#f2b84b">— logic 1</span><span style="color:#56739e">— logic 0</span><span style="color:#ff8a7a">□ wrong for now</span><span class="rec-brand">Transistor Odyssey · Circuit Lab</span></div>`;
+    <div class="rec-foot"><span style="color:#f2b84b">— logic 1</span><span style="color:#56739e">— logic 0</span><span style="color:#ff8a7a">□ wrong for now</span><span class="rec-brand">Transistor Foundry Expedition · Circuit Lab</span></div>`;
   const v = new AdderView(stage.querySelector('canvas')), tp = tauPs('2025_2nm_gaa');
   const cases = [[0, 0, 255, 1], [255, 1, 170, 85]]; let cur = -1;
   return (n = 144) => {

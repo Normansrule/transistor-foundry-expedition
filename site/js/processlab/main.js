@@ -64,7 +64,7 @@ async function recordMode(id) {
   if (id === 'hero') {
     recordFonts(1.15); stage.className = 'rec-panel rec-hero';
     stage.innerHTML = `<div class="rec-head"><span class="eyebrow">Process flow</span><h2>Building a transistor, step by step</h2><span class="rec-state" id="rs"></span></div><canvas></canvas>
-      <div class="rec-foot"><span id="rd"></span><span class="rec-brand">Transistor Odyssey · Process Lab</span></div>`;
+      <div class="rec-foot"><span id="rd"></span><span class="rec-brand">Transistor Foundry Expedition · Process Lab</span></div>`;
     const H = new Hero(stage.querySelector('canvas'));
     Math.random = (() => { let a = 12345; return () => { a = (a * 1103515245 + 12345) & 0x7fffffff; return a / 0x7fffffff; }; })();
     window.__frame = (n = 192) => { if (k === 0) H.ions = []; const per = n / (STEPS.length + 0.5), s = Math.min(k / per, STEPS.length - 0.001), fs = Math.floor(s), f = s - fs, se = fs + Math.min(f * 2.2, 0.999); k++;

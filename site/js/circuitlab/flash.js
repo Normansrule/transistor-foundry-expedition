@@ -182,7 +182,7 @@ export function init(sec) {
 /** Record mode: a TLC cell being programmed. */
 export function record(stage, next) {
   stage.innerHTML = `<div class="rec-head"><span class="eyebrow">Fowler–Nordheim tunnelling</span><h2>Programming a flash cell</h2><span class="rec-state" id="rs"></span></div><canvas></canvas>
-    <div class="rec-foot"><span style="color:#bcd8ff">● electron</span><span style="color:#e0b14d">tunnel oxide</span><span class="rec-brand">Transistor Odyssey · Circuit Lab</span></div>`;
+    <div class="rec-foot"><span style="color:#bcd8ff">● electron</span><span style="color:#e0b14d">tunnel oxide</span><span class="rec-brand">Transistor Foundry Expedition · Circuit Lab</span></div>`;
   const v = new CellView(stage.querySelector('canvas'));
   const m = model({ bits: 2, step: 0.3, sigma: 0.04, tox: 8, alpha: 0.6 }); v.set(m);
   return () => { const k = next(); v.draw(1 / 12); stage.querySelector('#rs').textContent = `MLC · ${m.P.pulses} pulses`; return k + 1; };

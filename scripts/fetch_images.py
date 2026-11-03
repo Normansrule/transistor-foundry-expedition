@@ -19,7 +19,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 API = "https://commons.wikimedia.org/w/api.php"
-UA = "transistor-odyssey/1.0 (educational repository; https://github.com/)"
+UA = "transistor-foundry-expedition/1.0 (educational repository; https://github.com/)"
 
 
 def api_info(file: str, width: int) -> dict:

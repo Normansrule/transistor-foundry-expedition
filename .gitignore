@@ -6,3 +6,6 @@ __pycache__/
 sim/spice/*.csv
 site/assets/photos/
 .DS_Store
+qa-out/
+dist/
+node_modules/

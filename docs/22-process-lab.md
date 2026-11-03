@@ -2,7 +2,7 @@
 
 [Chapter 16](16-process-flow.md) walks through the steps that build a 2 nm-class transistor. This chapter covers the physics behind four of those steps, and the economics and reliability that follow from them.
 
-The [Process Lab](https://normansrule.github.io/transistor-odyssey/process.html) runs each model live in the browser. Every model is a JavaScript twin of a Python module in `sim/transistor_sim/physics/` (`oxidation.py`, `implant.py`, `yieldcost.py`, `electromigration.py`). `tests/test_processlab.py` and `tests/js_parity.mjs` check them against each other and against closed forms or published numbers.
+The [Process Lab](https://normansrule.github.io/transistor-foundry-expedition/process.html) runs each model live in the browser. Every model is a JavaScript twin of a Python module in `sim/transistor_sim/physics/` (`oxidation.py`, `implant.py`, `yieldcost.py`, `electromigration.py`). `tests/test_processlab.py` and `tests/js_parity.mjs` check them against each other and against closed forms or published numbers.
 
 ## 1 · Thermal oxidation (Deal–Grove)
 

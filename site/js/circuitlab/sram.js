@@ -204,7 +204,7 @@ export function init(sec) {
 /** Record mode: the read cycle with the butterfly beside it. */
 export function record(stage, next) {
   stage.innerHTML = `<div class="rec-head"><span class="eyebrow">Six-transistor SRAM · 22 nm FinFET model</span><h2>Reading a bit without destroying it</h2><span class="rec-state" id="rs" hidden></span></div><canvas></canvas>
-    <div class="rec-foot"><span style="color:#f2b84b">— 1 / V_DD</span><span style="color:#56739e">— 0</span><span style="color:#7fd3d0">BL: bitline</span><span class="rec-brand">Transistor Odyssey · Circuit Lab</span></div>`;
+    <div class="rec-foot"><span style="color:#f2b84b">— 1 / V_DD</span><span style="color:#56739e">— 0</span><span style="color:#7fd3d0">BL: bitline</span><span class="rec-brand">Transistor Foundry Expedition · Circuit Lab</span></div>`;
   const v = new CellView(stage.querySelector('canvas')), p = DATA.presets['2011_22nm_finfet'];
   v.set(SR.cell(p, { cr: 2, beta: 0.8 }));
   return (n = 72) => { const k = next(); v.draw((k % n) / n); stage.querySelector('#rs').textContent = 'stores Q = 0'; return k + 1; };

@@ -39,6 +39,8 @@ export function init(sec) {
   try { renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true }); }
   catch { stage.insertAdjacentHTML('beforeend', '<div class="stage-fallback">The 3D viewer needs WebGL, which this browser has turned off.</div>'); return; }
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.domElement.setAttribute('role', 'img');
+  renderer.domElement.setAttribute('aria-label', 'Interactive 3D crystal lattice; drag to rotate, scroll to zoom');
   stage.prepend(renderer.domElement);
   const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(32, 1, 0.1, 400);
   camera.position.set(18, 12, 22);

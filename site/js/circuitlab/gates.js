@@ -248,7 +248,7 @@ export function init(sec) {
 /** Record mode: a NAND2 cycling through its truth table. */
 export function record(stage, next) {
   stage.innerHTML = `<div class="rec-head"><span class="eyebrow">Switch-level simulation</span><h2>A CMOS NAND gate, switch by switch</h2><span class="rec-state" id="rs"></span></div><canvas></canvas>
-    <div class="rec-foot"><span style="color:#5aa2ff">■ nFET on</span><span style="color:#ff8a55">■ pFET on</span><span style="color:#f2b84b">— logic 1</span><span style="color:#56739e">— logic 0</span><span class="rec-brand">Transistor Odyssey · Circuit Lab</span></div>`;
+    <div class="rec-foot"><span style="color:#5aa2ff">■ nFET on</span><span style="color:#ff8a55">■ pFET on</span><span style="color:#f2b84b">— logic 1</span><span style="color:#56739e">— logic 0</span><span class="rec-brand">Transistor Foundry Expedition · Circuit Lab</span></div>`;
   const v = new GateView(stage.querySelector('canvas')); v.setGate('nand2');
   const seq = [[0, 0], [1, 0], [1, 1], [0, 1]]; let last = -1;
   return (n = 96) => {

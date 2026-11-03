@@ -1,0 +1,41 @@
+/* Shared tokens for the v1.11 concept mockups. Same system as site/css/style.css; material colours from sim/transistor_sim/crosssection.py. */
+@import url("../../site/css/fonts.css");
+:root {
+  color-scheme: dark;
+  --bg: #0a0d11; --surface: #10141a; --surface-2: #161c24; --surface-3: #1d2530;
+  --line: #232a34; --line-2: #2f3845; --ink: #e8ecf1; --ink-2: #aab3c0; --muted: #8a94a3;
+  --amber: #f2b84b; --amber-2: #ffd27a; --amber-ink: #1a1305; --copper: #d9825b; --teal: #7fd3d0; --violet: #b58fd6;
+  --m-si: #4b596d; --m-sich: #7b8ca5; --m-oxide: #8fcfd4; --m-sti: #6fa9b3; --m-poly: #c95c50; --m-metal: #e2b650;
+  --m-highk: #9a80dc; --m-spacer: #cfd6e0; --m-n: #3f7fe0; --m-p: #e07f3f; --m-cu: #d9825b; --m-sige: #b58fd6;
+  --m-resist: #e07fb0; /* proposed: no resist colour exists yet */
+  --display: "Oxanium", "Bahnschrift", system-ui, sans-serif;
+  --body: "IBM Plex Sans", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+  --gutter: clamp(16px, 4vw, 48px);
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 var(--body); -webkit-font-smoothing: antialiased; }
+h1, h2, h3 { font-family: var(--display); font-weight: 600; line-height: 1.05; margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+p { margin: 0; }
+.frame { position: relative; overflow: hidden; min-height: 900px; border-bottom: 1px solid var(--line); }
+.frame-tag { position: absolute; right: 16px; bottom: 12px; font: 11px var(--mono); color: var(--muted); letter-spacing: .08em; z-index: 9; }
+.eyebrow { font: 500 12px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--amber); }
+.mono { font-family: var(--mono); }
+.cite { font: 11px var(--mono); color: var(--muted); }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 18px; border-radius: 999px; font: 600 14px var(--body); text-decoration: none; border: 1px solid var(--line-2); color: var(--ink); background: var(--surface-2); }
+.btn.primary { background: var(--amber); color: var(--amber-ink); border-color: var(--amber); }
+.chip { display: inline-flex; align-items: center; gap: 6px; font: 12px var(--mono); padding: 5px 10px; border-radius: 999px; border: 1px solid var(--line-2); color: var(--ink-2); }
+.seg { display: inline-flex; border: 1px solid var(--line-2); border-radius: 999px; padding: 3px; gap: 2px; }
+.seg span { font: 500 13px var(--body); padding: 6px 12px; border-radius: 999px; color: var(--ink-2); }
+.seg span.on { background: var(--surface-3); color: var(--ink); box-shadow: inset 0 0 0 1px rgba(242,184,75,.45); }
+.scrub { position: relative; height: 46px; }
+.scrub .rail { position: absolute; left: 0; right: 0; top: 8px; height: 2px; background: var(--line-2); border-radius: 2px; }
+.scrub .fill { position: absolute; left: 0; top: 8px; height: 2px; background: var(--amber); border-radius: 2px; }
+.scrub .knob { position: absolute; top: 0; width: 18px; height: 18px; margin-left: -9px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 0 6px rgba(242,184,75,.18); }
+.scrub .ticks { position: absolute; left: 0; right: 0; top: 24px; display: flex; justify-content: space-between; font: 11px var(--mono); color: var(--muted); }
+table.recipe { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+table.recipe th.sym { text-transform: none; }
+table.recipe th { text-align: left; font: 500 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 6px 8px; border-bottom: 1px solid var(--line-2); }
+table.recipe td { padding: 7px 8px; border-bottom: 1px solid var(--line); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+table.recipe td b { color: var(--ink); font-weight: 600; }
+@media (max-width: 600px) { .frame { min-height: 0; } }

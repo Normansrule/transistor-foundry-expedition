@@ -92,6 +92,8 @@ export function initExplorer(DATA) {
   try { renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true }); }
   catch (e) { stage.insertAdjacentHTML('beforeend', '<div class="stage-fallback">3D needs WebGL, which this browser has turned off. The cross-sections in the timeline show the same structures.</div>'); return; }
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.domElement.setAttribute('role', 'img');
+  renderer.domElement.setAttribute('aria-label', 'Interactive 3D model of the selected transistor; drag to rotate, scroll to zoom');
   stage.prepend(renderer.domElement);
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);

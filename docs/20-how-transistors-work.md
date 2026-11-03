@@ -1,6 +1,6 @@
 # 20 · How each transistor works: cross-sections and energy band diagrams
 
-> **Live version:** the [Device Atlas](https://normansrule.github.io/transistor-odyssey/devices.html) animates every device in this chapter. Drag the gate and drain voltages and the band diagrams are recomputed in your browser from the same model that drew the figures below.
+> **Live version:** the [Device Atlas](https://normansrule.github.io/transistor-foundry-expedition/devices.html) animates every device in this chapter. Drag the gate and drain voltages and the band diagrams are recomputed in your browser from the same model that drew the figures below.
 
 The first nineteen chapters follow the transistor through history. This one takes the same devices and asks one question of each: *what does an electron see?* The answer is an energy band diagram, the single most useful picture in semiconductor physics. Nineteen devices, from the 1947 point contact to the complementary FET (CFET) now in research, are drawn here with two diagrams each: one along the path the current takes, and one straight down through the gate.
 
@@ -40,7 +40,7 @@ Bipolar transistors have no insulated gate. The control terminal, the base, is a
 
 ### Point-contact transistor · 1947
 
-<sub>J. Bardeen, W. Brattain (Bell Labs) · material: Ge · hole current · [open in the Device Atlas](https://normansrule.github.io/transistor-odyssey/devices.html#point_contact)</sub>
+<sub>J. Bardeen, W. Brattain (Bell Labs) · material: Ge · hole current · [open in the Device Atlas](https://normansrule.github.io/transistor-foundry-expedition/devices.html#point_contact)</sub>
 
 Two gold contacts 50 µm apart press on n-type germanium. Forward-biasing the emitter injects holes into a thin surface layer; the reverse-biased collector sweeps them up, and a small emitter current controls a larger collector voltage swing.
 
@@ -65,7 +65,7 @@ Two gold contacts 50 µm apart press on n-type germanium. Forward-biasing the em
 
 ### Bipolar junction transistor (npn) · 1951
 
-<sub>W. Shockley (Bell Labs) · material: Si · electron current · [open in the Device Atlas](https://normansrule.github.io/transistor-odyssey/devices.html#bjt)</sub>
+<sub>W. Shockley (Bell Labs) · material: Si · electron current · [open in the Device Atlas](https://normansrule.github.io/transistor-foundry-expedition/devices.html#bjt)</sub>
 
 <p align="center"><img src="../figures/anim/bjt.gif" width="100%" alt="Animated cross-section and band diagram of the Bipolar junction transistor (npn)"></p>
 
@@ -92,7 +92,7 @@ A thin p-type base sits between an n⁺ emitter and an n collector. The base–e
 
 ### Heterojunction bipolar transistor (SiGe / InP) · 1987
 
-<sub>Concept: H. Kroemer (1957); SiGe HBTs: IBM (late 1980s) · material: SiGe · electron current · [open in the Device Atlas](https://normansrule.github.io/transistor-odyssey/devices.html#hbt)</sub>
+<sub>Concept: H. Kroemer (1957); SiGe HBTs: IBM (late 1980s) · material: SiGe · electron current · [open in the Device Atlas](https://normansrule.github.io/transistor-foundry-expedition/devices.html#hbt)</sub>
 
 A narrower-gap base (SiGe, or InGaAs in InP HBTs) creates a valence-band step that blocks holes from flowing back into the emitter. The base can then be heavily doped and very thin, reaching hundreds of GHz.
 
@@ -122,7 +122,7 @@ The first field-effect transistors to work did not use an oxide at all. A revers
 
 ### Junction field-effect transistor · 1953
 
-<sub>W. Shockley (theory 1952); G. Dacey, I. Ross (1953) · material: Si · electron current · [open in the Device Atlas](https://normansrule.github.io/transistor-odyssey/devices.html#jfet)</sub>
+<sub>W. Shockley (theory 1952); G. Dacey, I. Ross (1953) · material: Si · electron current · [open in the Device Atlas](https://normansrule.github.io/transistor-foundry-expedition/devices.html#jfet)</sub>
 
 Current flows through an n-type channel between two p⁺ gate junctions. Reverse-biasing the gate widens the depletion regions until they meet and pinch the channel off. It is normally on.
 
@@ -152,7 +152,7 @@ Compound and wide-gap semiconductors trade silicon's manufacturing maturity for 
 
 ### GaAs MESFET · 1966
 
-<sub>C. Mead (Caltech, 1966); first GaAs MESFET: W. Hooper, W. Lehrer (1967) · material: GaAs · electron current · [open in the Device Atlas](https://normansrule.github.io/transistor-odyssey/devices.html#mesfet)</sub>
+<sub>C. Mead (Caltech, 1966); first GaAs MESFET: W. Hooper, W. Lehrer (1967) · material: GaAs · electron current · [open in the Device Atlas](https://normansrule.github.io/transistor-foundry-expedition/devices.html#mesfet)</sub>
 
 GaAs has no good native oxide, so the gate is a metal Schottky contact directly on a thin n-type channel. The Schottky depletion region replaces the JFET's p-n junction; GaAs's light electrons make it fast.
 
@@ -177,7 +177,7 @@ GaAs has no good native oxide, so the gate is a metal Schottky contact directly 
 
 ### AlGaN/GaN HEMT · 1993
 
-<sub>Concept: T. Mimura (GaAs, 1980); first AlGaN/GaN HEMT: M. A. Khan et al. (1993) · material: GaN · electron current · [open in the Device Atlas](https://normansrule.github.io/transistor-odyssey/devices.html#gan_hemt)</sub>
+<sub>Concept: T. Mimura (GaAs, 1980); first AlGaN/GaN HEMT: M. A. Khan et al. (1993) · material: GaN · electron current · [open in the Device Atlas](https://normansrule.github.io/transistor-foundry-expedition/devices.html#gan_hemt)</sub>
 
 <p align="center"><img src="../figures/anim/gan_hemt.gif" width="100%" alt="Animated cross-section and band diagram of the AlGaN/GaN HEMT"></p>
 
@@ -204,7 +204,7 @@ Polarization charge at the AlGaN/GaN interface creates a sheet of ~10¹³ electr
 
 ### Hydrogen-terminated diamond FET · 1994
 
-<sub>H. Kawarada et al. (Waseda, 1994); transfer doping: F. Maier et al. (2000) · material: C-H · hole current · [open in the Device Atlas](https://normansrule.github.io/transistor-odyssey/devices.html#diamond_fet)</sub>
+<sub>H. Kawarada et al. (Waseda, 1994); transfer doping: F. Maier et al. (2000) · material: C-H · hole current · [open in the Device Atlas](https://normansrule.github.io/transistor-foundry-expedition/devices.html#diamond_fet)</sub>
 
 <p align="center"><img src="../figures/anim/diamond_fet.gif" width="100%" alt="Animated cross-section and band diagram of the Hydrogen-terminated diamond FET"></p>
 
@@ -235,12 +235,12 @@ Every metal-oxide-semiconductor field-effect transistor (MOSFET) on this list wo
 
 <p align="center"><img src="../figures/anim/compare.gif" width="100%" alt="Planar MOSFET, FinFET and gate-all-around nanosheet with the gate off and the drain voltage rising"></p>
 
-The animation drives all three silicon devices the same way: gate off, drain voltage rising from zero to its rated value. The drain lowers the planar transistor's barrier by about 120 meV, the FinFET's by about 40 meV and the nanosheet's by about 22 meV. Since leakage grows tenfold for every 60 meV of barrier lost, that difference is the whole case for wrapping the gate around the channel [@hisamoto2000; @loubet2017]. The same comparison is live on the [Device Atlas](https://normansrule.github.io/transistor-odyssey/devices.html#compare).
+The animation drives all three silicon devices the same way: gate off, drain voltage rising from zero to its rated value. The drain lowers the planar transistor's barrier by about 120 meV, the FinFET's by about 40 meV and the nanosheet's by about 22 meV. Since leakage grows tenfold for every 60 meV of barrier lost, that difference is the whole case for wrapping the gate around the channel [@hisamoto2000; @loubet2017]. The same comparison is live on the [Device Atlas](https://normansrule.github.io/transistor-foundry-expedition/devices.html#compare).
 
 
 ### Planar MOSFET (bulk silicon) · 1960
 
-<sub>D. Kahng, M. Atalla (Bell Labs) · material: Si · electron current · [open in the Device Atlas](https://normansrule.github.io/transistor-odyssey/devices.html#planar_mosfet)</sub>
+<sub>D. Kahng, M. Atalla (Bell Labs) · material: Si · electron current · [open in the Device Atlas](https://normansrule.github.io/transistor-foundry-expedition/devices.html#planar_mosfet)</sub>
 
 <p align="center"><img src="../figures/anim/planar_mosfet.gif" width="100%" alt="Animated cross-section and band diagram of the Planar MOSFET (bulk silicon)"></p>
 
@@ -267,7 +267,7 @@ A gate on thin oxide pulls electrons to the surface of p-type silicon, forming a
 
 ### Fully depleted SOI MOSFET · 2012
 
-<sub>Research: J.-P. Colinge and others; production: STMicroelectronics, GlobalFoundries (28/22 nm) · material: Si · electron current · [open in the Device Atlas](https://normansrule.github.io/transistor-odyssey/devices.html#fdsoi)</sub>
+<sub>Research: J.-P. Colinge and others; production: STMicroelectronics, GlobalFoundries (28/22 nm) · material: Si · electron current · [open in the Device Atlas](https://normansrule.github.io/transistor-foundry-expedition/devices.html#fdsoi)</sub>
 
 The channel is an ultra-thin silicon film (~7 nm) on a buried oxide. There is no deep silicon below for the drain's field to leak through, and the substrate can act as a second 'back gate' to tune the threshold.
 
@@ -292,7 +292,7 @@ The channel is an ultra-thin silicon film (~7 nm) on a buried oxide. There is no
 
 ### FinFET (tri-gate) · 2011
 
-<sub>D. Hisamoto, C. Hu et al. (1998–2000); first in production: Intel 22 nm (2011) · material: Si · electron current · [open in the Device Atlas](https://normansrule.github.io/transistor-odyssey/devices.html#finfet)</sub>
+<sub>D. Hisamoto, C. Hu et al. (1998–2000); first in production: Intel 22 nm (2011) · material: Si · electron current · [open in the Device Atlas](https://normansrule.github.io/transistor-foundry-expedition/devices.html#finfet)</sub>
 
 <p align="center"><img src="../figures/anim/finfet.gif" width="100%" alt="Animated cross-section and band diagram of the FinFET (tri-gate)"></p>
 
@@ -319,7 +319,7 @@ The channel stands up as a thin fin and the gate wraps its top and both sides. G
 
 ### Gate-all-around nanosheet · 2022
 
-<sub>Research: IBM, imec (2017); production: Samsung 3 nm (2022), TSMC N2 and Intel 18A (2025) · material: Si · electron current · [open in the Device Atlas](https://normansrule.github.io/transistor-odyssey/devices.html#gaa)</sub>
+<sub>Research: IBM, imec (2017); production: Samsung 3 nm (2022), TSMC N2 and Intel 18A (2025) · material: Si · electron current · [open in the Device Atlas](https://normansrule.github.io/transistor-foundry-expedition/devices.html#gaa)</sub>
 
 <p align="center"><img src="../figures/anim/gaa.gif" width="100%" alt="Animated cross-section and band diagram of the Gate-all-around nanosheet"></p>
 
@@ -346,7 +346,7 @@ Three or four horizontal silicon sheets, each ~5 nm thick, are stacked and compl
 
 ### Complementary FET (stacked nFET/pFET) · 2026
 
-<sub>imec (roadmap, 2018); research demos by IBM, Intel, TSMC · material: Si · electron current · [open in the Device Atlas](https://normansrule.github.io/transistor-odyssey/devices.html#cfet)</sub>
+<sub>imec (roadmap, 2018); research demos by IBM, Intel, TSMC · material: Si · electron current · [open in the Device Atlas](https://normansrule.github.io/transistor-foundry-expedition/devices.html#cfet)</sub>
 
 The pFET nanosheets are stacked directly on top of the nFET nanosheets under one gate, so a CMOS inverter uses the footprint of one transistor. The band diagram shows the nFET tier; the pFET above mirrors it with holes.
 
@@ -376,7 +376,7 @@ Power transistors spend most of their area holding voltage off. A thick, lightly
 
 ### SiC power MOSFET (vertical) · 2011
 
-<sub>Cree/Wolfspeed first commercial (2011); B. J. Baliga's figure of merit (1982) · material: 4H-SiC · electron current · [open in the Device Atlas](https://normansrule.github.io/transistor-odyssey/devices.html#sic_mosfet)</sub>
+<sub>Cree/Wolfspeed first commercial (2011); B. J. Baliga's figure of merit (1982) · material: 4H-SiC · electron current · [open in the Device Atlas](https://normansrule.github.io/transistor-foundry-expedition/devices.html#sic_mosfet)</sub>
 
 Current flows through a short MOS channel at the surface of the p-body, then vertically down a thick, lightly doped n⁻ drift layer to the drain on the back. SiC's 10× higher breakdown field lets the drift layer be 10× thinner than silicon's for the same voltage.
 
@@ -401,7 +401,7 @@ Current flows through a short MOS channel at the surface of the p-body, then ver
 
 ### Insulated-gate bipolar transistor · 1982
 
-<sub>B. J. Baliga (GE, 1982) · material: Si · electron current · [open in the Device Atlas](https://normansrule.github.io/transistor-odyssey/devices.html#igbt)</sub>
+<sub>B. J. Baliga (GE, 1982) · material: Si · electron current · [open in the Device Atlas](https://normansrule.github.io/transistor-foundry-expedition/devices.html#igbt)</sub>
 
 <p align="center"><img src="../figures/anim/igbt.gif" width="100%" alt="Animated cross-section and band diagram of the Insulated-gate bipolar transistor"></p>
 
@@ -433,7 +433,7 @@ The emerging devices attack the limits of the thermionic barrier from two direct
 
 ### Monolayer MoS₂ FET · 2011
 
-<sub>B. Radisavljevic, A. Kis et al. (EPFL, 2011); 0.42 nm AlOx interface: NYCU + TSMC (2026) · material: MoS2 · electron current · [open in the Device Atlas](https://normansrule.github.io/transistor-odyssey/devices.html#mos2_fet)</sub>
+<sub>B. Radisavljevic, A. Kis et al. (EPFL, 2011); 0.42 nm AlOx interface: NYCU + TSMC (2026) · material: MoS2 · electron current · [open in the Device Atlas](https://normansrule.github.io/transistor-foundry-expedition/devices.html#mos2_fet)</sub>
 
 The channel is a single molecular layer of MoS₂, 0.65 nm thick, with no dangling bonds. The gate controls every atom of the channel, so short-channel effects are tiny; the challenges are contacts, interfaces and wafer-scale growth.
 
@@ -458,7 +458,7 @@ The channel is a single molecular layer of MoS₂, 0.65 nm thick, with no dangli
 
 ### Carbon-nanotube FET · 1998
 
-<sub>S. Tans, A. Verschueren, C. Dekker (Delft, 1998); RV16X-NANO CPU: MIT (2019) · material: CNT · electron current · [open in the Device Atlas](https://normansrule.github.io/transistor-odyssey/devices.html#cnt_fet)</sub>
+<sub>S. Tans, A. Verschueren, C. Dekker (Delft, 1998); RV16X-NANO CPU: MIT (2019) · material: CNT · electron current · [open in the Device Atlas](https://normansrule.github.io/transistor-foundry-expedition/devices.html#cnt_fet)</sub>
 
 <p align="center"><img src="../figures/anim/cnt_fet.gif" width="100%" alt="Animated cross-section and band diagram of the Carbon-nanotube FET"></p>
 
@@ -485,7 +485,7 @@ A single semiconducting nanotube ~1.5 nm across bridges two metal contacts. Wher
 
 ### Tunnel FET · 2004
 
-<sub>Band-to-band tunnelling: L. Esaki (1958); TFET review: A. Ionescu, H. Riel (2011) · material: Si · electron current · [open in the Device Atlas](https://normansrule.github.io/transistor-odyssey/devices.html#tfet)</sub>
+<sub>Band-to-band tunnelling: L. Esaki (1958); TFET review: A. Ionescu, H. Riel (2011) · material: Si · electron current · [open in the Device Atlas](https://normansrule.github.io/transistor-foundry-expedition/devices.html#tfet)</sub>
 
 <p align="center"><img src="../figures/anim/tfet.gif" width="100%" alt="Animated cross-section and band diagram of the Tunnel FET"></p>
 
@@ -517,7 +517,7 @@ The last two are field-effect transistors built for jobs other than logic: a thi
 
 ### IGZO thin-film transistor · 2004
 
-<sub>K. Nomura, H. Hosono et al. (Tokyo Tech, 2004) · material: IGZO · electron current · [open in the Device Atlas](https://normansrule.github.io/transistor-odyssey/devices.html#igzo_tft)</sub>
+<sub>K. Nomura, H. Hosono et al. (Tokyo Tech, 2004) · material: IGZO · electron current · [open in the Device Atlas](https://normansrule.github.io/transistor-foundry-expedition/devices.html#igzo_tft)</sub>
 
 An amorphous indium–gallium–zinc oxide film deposited at low temperature on glass or plastic, gated from below. Its wide gap gives extremely low leakage, and its mobility (~10 cm²/V·s) beats amorphous silicon's by 10×.
 
@@ -542,7 +542,7 @@ An amorphous indium–gallium–zinc oxide film deposited at low temperature on 
 
 ### Floating-gate flash memory cell · 1967
 
-<sub>D. Kahng, S. M. Sze (Bell Labs, 1967); flash: F. Masuoka (Toshiba, 1980s) · material: Si · electron current · [open in the Device Atlas](https://normansrule.github.io/transistor-odyssey/devices.html#flash)</sub>
+<sub>D. Kahng, S. M. Sze (Bell Labs, 1967); flash: F. Masuoka (Toshiba, 1980s) · material: Si · electron current · [open in the Device Atlas](https://normansrule.github.io/transistor-foundry-expedition/devices.html#flash)</sub>
 
 A MOSFET with an extra, electrically isolated floating gate buried in its oxide. Electrons pushed onto the floating gate by tunnelling raise the threshold voltage; reading checks whether the cell turns on at a reference gate voltage.
 
@@ -591,7 +591,7 @@ The three panels show the three things band bending does. In a silicon pn juncti
 
 <p align="center"><img src="../figures/anim/pn.gif" width="100%" alt="A silicon pn junction swept from reverse to forward bias, solved live"></p>
 
-The [heterojunction builder](https://normansrule.github.io/transistor-odyssey/devices.html#hetero) on the Device Atlas page does all of this live: pick any two of the 21 materials, set the doping type and level on each side and the bias, and it shows the flat-band alignment next to the solved band diagram, the carrier densities, the band bending and the charge collected at the interface.
+The [heterojunction builder](https://normansrule.github.io/transistor-foundry-expedition/devices.html#hetero) on the Device Atlas page does all of this live: pick any two of the 21 materials, set the doping type and level on each side and the bias, and it shows the flat-band alignment next to the solved band diagram, the carrier densities, the band bending and the charge collected at the interface.
 
 ## Limits of these pictures
 

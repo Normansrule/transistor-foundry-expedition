@@ -150,7 +150,7 @@ export function init(sec) {
 
 export function record(stage, next) {
   stage.innerHTML = `<div class="rec-head"><span class="eyebrow">LSS theory · Monte Carlo trajectories</span><h2>Implanting arsenic</h2><span class="rec-state" id="rs"></span></div><canvas></canvas>
-    <div class="rec-foot"><span style="color:#3cc0b4">— ion path</span><span>histogram: where they stopped</span><span class="rec-brand">Transistor Odyssey · Process Lab</span></div>`;
+    <div class="rec-foot"><span style="color:#3cc0b4">— ion path</span><span>histogram: where they stopped</span><span class="rec-brand">Transistor Foundry Expedition · Process Lab</span></div>`;
   let a = 99; const rnd = () => { a = (a * 1103515245 + 12345) & 0x7fffffff; return a / 0x7fffffff; };
   Math.random = rnd;
   const v = new ImplantView(stage.querySelector('canvas'), rnd);

@@ -204,7 +204,7 @@ export function init(sec) {
 
 export function record(stage_, next) {
   stage_.innerHTML = `<div class="rec-head"><span class="eyebrow">Common-source amplifier</span><h2>A small signal in, a big one out</h2><span class="rec-state" id="rs"></span></div><canvas></canvas>
-    <div class="rec-foot"><span style="color:#3cc0b4">● input</span><span style="color:#f2b84b">● output</span><span class="rec-brand">Transistor Odyssey · Analog &amp; RF Lab</span></div>`;
+    <div class="rec-foot"><span style="color:#3cc0b4">● input</span><span style="color:#f2b84b">● output</span><span class="rec-brand">Transistor Foundry Expedition · Analog &amp; RF Lab</span></div>`;
   const v = new AmpView(stage_.querySelector('canvas'));
   return (n = 144) => {
     const k = next(), f = (k % n) / n, amp = 10 ** (-2.3 + 1.8 * (0.5 - 0.5 * Math.cos(2 * Math.PI * f)));

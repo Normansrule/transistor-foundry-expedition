@@ -151,7 +151,7 @@ export function init(sec) {
 
 export function record(stage, next) {
   stage.innerHTML = `<div class="rec-head"><span class="eyebrow">Deal–Grove model</span><h2>Growing silicon dioxide in steam</h2><span class="rec-state" id="rs"></span></div><canvas></canvas>
-    <div class="rec-foot"><span style="color:#7fd3d0">● H₂O</span><span style="color:#ffd27a">■ SiO₂</span><span class="rec-brand">Transistor Odyssey · Process Lab</span></div>`;
+    <div class="rec-foot"><span style="color:#7fd3d0">● H₂O</span><span style="color:#ffd27a">■ SiO₂</span><span class="rec-brand">Transistor Foundry Expedition · Process Lab</span></div>`;
   const v = new OxideView(stage.querySelector('canvas')), s = { amb: 'wet', orient: '100', T: 1000, t: 2, p: 1 };
   const [B, BA] = OX.rateConstants('wet', 1000); v.set({ ...s, A: B / BA, B });
   Math.random = (() => { let a = 7; return () => { a = (a * 1103515245 + 12345) & 0x7fffffff; return a / 0x7fffffff; }; })();

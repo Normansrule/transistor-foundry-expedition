@@ -5,8 +5,6 @@
 
 body.physics { --maxw: 1440px; overflow-x: clip; }
 
-.nav-crumb { font: 500 13px var(--mono); color: var(--amber); white-space: nowrap; }
-@media (max-width: 560px) { .nav-crumb { display: none; } }
 
 /* sliders with a filled track */
 .physics input[type="range"] {

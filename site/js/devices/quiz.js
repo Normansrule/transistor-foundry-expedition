@@ -91,7 +91,7 @@ export function initQuiz(DEVICES, ALIGN, { onOpen } = {}) {
     bar.style.setProperty('--p', `${(k / qs.length) * 100}%`);
     out.textContent = `Question ${k + 1} of ${qs.length} · score ${score}`;
     const q = qs[k];
-    view.innerHTML = `<div class="qz-figs qz-n${q.draw.length}">${q.draw.map(() => '<canvas></canvas>').join('')}</div><p class="qz-q">${q.q}</p><div class="qz-opts">${q.opts.map((o, i) => `<button type="button" data-i="${i}">${o}</button>`).join('')}</div><p class="qz-why" hidden></p><div class="qz-next" hidden><button type="button" class="btn sm" data-next>${k + 1 < qs.length ? 'Next question →' : 'See your score'}</button>${q.dev ? '<button type="button" class="linkish" data-open>Open this device in the atlas →</button>' : ''}</div>`;
+    view.innerHTML = `<div class="qz-figs qz-n${q.draw.length}">${q.draw.map((_, j) => `<canvas role="img" aria-label="Energy band diagram ${q.draw.length > 1 ? (j + 1) + ' of ' + q.draw.length + ' ' : ''}for this question"></canvas>`).join('')}</div><p class="qz-q">${q.q}</p><div class="qz-opts">${q.opts.map((o, i) => `<button type="button" data-i="${i}">${o}</button>`).join('')}</div><p class="qz-why" hidden></p><div class="qz-next" hidden><button type="button" class="btn sm" data-next>${k + 1 < qs.length ? 'Next question →' : 'See your score'}</button>${q.dev ? '<button type="button" class="linkish" data-open>Open this device in the atlas →</button>' : ''}</div>`;
     view.querySelectorAll('.qz-figs canvas').forEach((cv, i) => q.draw[i](cv));
     view.querySelector('.qz-opts').onclick = e => {
       const b = e.target.closest('button'); if (!b || answered) return; answered = true;

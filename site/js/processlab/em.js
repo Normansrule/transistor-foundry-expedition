@@ -132,7 +132,7 @@ export function init(sec) {
 
 export function record(stage, next) {
   stage.innerHTML = `<div class="rec-head"><span class="eyebrow">Korhonen stress model</span><h2>Electromigration in a copper line</h2><span class="rec-state" id="rs"></span></div><canvas></canvas>
-    <div class="rec-foot"><span style="color:#ff8a55">■ tension</span><span style="color:#5598e7">■ compression</span><span style="color:#bcd8ff">● electrons</span><span class="rec-brand">Transistor Odyssey · Process Lab</span></div>`;
+    <div class="rec-foot"><span style="color:#ff8a55">■ tension</span><span style="color:#5598e7">■ compression</span><span style="color:#bcd8ff">● electrons</span><span class="rec-brand">Transistor Foundry Expedition · Process Lab</span></div>`;
   let a = 3; Math.random = () => { a = (a * 1103515245 + 12345) & 0x7fffffff; return a / 0x7fffffff; };
   const v = new LineView(stage.querySelector('canvas')), s = { L: 100, j: 2, T: 300 }; v.set(s);
   return (n = 108) => { const k = next(); if (k % n === 0) v.set(s); v.draw(1 / 12, n / 12 * 0.9); stage.querySelector('#rs').textContent = '100 µm · 2 MA/cm² · 300 °C'; return k + 1; };

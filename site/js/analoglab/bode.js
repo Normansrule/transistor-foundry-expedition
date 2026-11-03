@@ -157,7 +157,7 @@ export function init(sec) {
 
 export function record(stage, next) {
   stage.innerHTML = `<div class="rec-head"><span class="eyebrow">Frequency response</span><h2>Faster signals, less gain</h2><span class="rec-state" id="rs"></span></div><canvas></canvas>
-    <div class="rec-foot"><span style="color:#3cc0b4">● input</span><span style="color:#f2b84b">● output</span><span class="rec-brand">Transistor Odyssey · Analog &amp; RF Lab</span></div>`;
+    <div class="rec-foot"><span style="color:#3cc0b4">● input</span><span style="color:#f2b84b">● output</span><span class="rec-brand">Transistor Foundry Expedition · Analog &amp; RF Lab</span></div>`;
   const v = new ScopeView(stage.querySelector('canvas'));
   return (n = 144) => {
     const k = next(), q = (k % n) / (n - 1), f = 10 ** (6 + 4.5 * (0.5 - 0.5 * Math.cos(2 * Math.PI * q)));

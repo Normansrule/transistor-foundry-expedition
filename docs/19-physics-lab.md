@@ -1,6 +1,6 @@
 # 19 · The Physics Lab: semiconductor physics you can run
 
-The [Physics Lab](https://normansrule.github.io/transistor-odyssey/physics.html) is a second page of the site with fifteen live simulations in six parts.
+The [Physics Lab](https://normansrule.github.io/transistor-foundry-expedition/physics.html) is a second page of the site with fifteen live simulations in six parts.
 
 Each simulation solves its governing equations in the browser (`site/js/physics/`) and has a Python twin in `sim/transistor_sim/physics/`. `tests/test_semiphysics.py` and `tests/test_circuit.py` pin every Python model to a closed form or a measured number. `tests/js_parity.mjs` then checks that the JavaScript reproduces the Python results (`data/physics_reference.json`). CI runs both.
 

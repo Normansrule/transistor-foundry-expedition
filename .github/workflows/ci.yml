@@ -20,3 +20,31 @@ jobs:
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq ngspice
           make spice
+  qa:
+    # Browser QA: every page at 1440 and 390 px, overflow, navigation, click-through, canvas labels,
+    # plus the size budget. Screens and the report are uploaded as an artifact.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - uses: actions/setup-node@v4
+        with: { node-version: "20" }
+      - run: pip install -r requirements.txt
+      - name: Install Playwright and Chromium
+        run: |
+          npm install -g playwright@1.48.2
+          npx -y playwright@1.48.2 install --with-deps chromium
+          echo "NODE_PATH=$(npm root -g)" >> "$GITHUB_ENV"
+      - name: Regenerate figures, site data and navigation
+        run: make figures
+      - name: Size budget (zip under 30 MiB, GIFs under 1.5 MB)
+        run: python -m pytest -q tests/test_budget.py tests/test_rename.py
+      - name: Browser QA
+        run: make qa
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-screens
+          path: qa-out/
+          retention-days: 14

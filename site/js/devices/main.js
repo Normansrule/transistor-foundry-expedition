@@ -150,13 +150,13 @@ function renderSteps(dev) {
 const stateSet = dev => dev.model.flash ? 'flash' : dev.model.lateral === 'bjt' ? 'bjt' : dev.model.lateral === 'tfet' ? 'tfet' : 'default';
 
 function renderDetail(dev) {
-  const docs = `https://github.com/Normansrule/transistor-odyssey/blob/main/docs/${dev.docs}`;
+  const docs = `https://github.com/Normansrule/transistor-foundry-expedition/blob/main/docs/${dev.docs}`;
   $('#dvAbout').innerHTML = `<h3>Where you find it</h3><p>${esc(dev.where)}</p>
     <h3>Go deeper</h3><ul class="dv-links">
       <li><a href="physics.html#${dev.lab}">Physics Lab: the physics behind it →</a></li>
       <li><a href="${docs}" rel="noopener">Read the chapter (${esc(dev.docs.replace('.md', ''))}) →</a></li>
       <li><a href="assets/xsec/${dev.xsec}.svg">Engineering cross-section (SVG) →</a></li>
-      <li><a href="https://github.com/Normansrule/transistor-odyssey/blob/main/sim/transistor_sim/bandatlas.py" rel="noopener">Band-diagram model in Python →</a></li>
+      <li><a href="https://github.com/Normansrule/transistor-foundry-expedition/blob/main/sim/transistor_sim/bandatlas.py" rel="noopener">Band-diagram model in Python →</a></li>
     </ul>`;
   $('#dvFacts').innerHTML = `<h3>Key numbers</h3><table class="dv-facts">${dev.facts.map(([k, v]) => `<tr><th>${esc(k)}</th><td>${sub(v)}</td></tr>`).join('')}</table>
     <h3>Sources</h3><div class="refchips">${dev.refs.filter(k => REFS[k]).map(k => `<a href="#ref-${k}" title="${esc(REFS[k].cite)}">${k}</a>`).join('')}</div>`;
@@ -291,7 +291,7 @@ function drawThumb(cv, dev) {
 }
 function buildGallery() {
   const host = $('#dvGallery');
-  host.innerHTML = DEVICES.map(d => `<button type="button" class="card dv-gal-card" data-id="${d.id}"><span class="dv-gal-top"><b>${d.year}</b><span>${esc(d.family)}</span></span><canvas></canvas><span class="dv-gal-name">${esc(d.short)}</span><span class="dv-gal-key"><i class="off"></i>off <i class="on"></i>on</span></button>`).join('');
+  host.innerHTML = DEVICES.map(d => `<button type="button" class="card dv-gal-card" data-id="${d.id}"><span class="dv-gal-top"><b>${d.year}</b><span>${esc(d.family)}</span></span><canvas aria-hidden="true"></canvas><span class="dv-gal-name">${esc(d.short)}</span><span class="dv-gal-key"><i class="off"></i>off <i class="on"></i>on</span></button>`).join('');
   const draw = () => host.querySelectorAll('.dv-gal-card').forEach(c => drawThumb(c.querySelector('canvas'), BY_ID[c.dataset.id]));
   draw(); let t; new ResizeObserver(() => { clearTimeout(t); t = setTimeout(draw, 120); }).observe(host);
   host.addEventListener('click', e => { const c = e.target.closest('.dv-gal-card'); if (!c) return; select(c.dataset.id); $('#atlas').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); });
@@ -486,7 +486,7 @@ function recordFonts(scale) { // enlarge every canvas label for GIF capture
   Object.defineProperty(CanvasRenderingContext2D.prototype, 'font', { configurable: true, get() { return d.get.call(this); },
     set(v) { d.set.call(this, String(v).replace(/([\d.]+)px/, (m, n) => (n * scale).toFixed(1) + 'px')); } });
 }
-const recFoot = extra => `<div class="rec-foot"><span><i class="e"></i>electron</span><span><i class="h"></i>hole</span><span id="recV">${extra || ''}</span><span class="rec-brand">Transistor Odyssey · Device Atlas</span></div>`;
+const recFoot = extra => `<div class="rec-foot"><span><i class="e"></i>electron</span><span><i class="h"></i>hole</span><span id="recV">${extra || ''}</span><span class="rec-brand">Transistor Foundry Expedition · Device Atlas</span></div>`;
 function recordMode(id) {
   document.body.classList.add('record'); recordFonts(1.2);
   const stage = document.createElement('div'); stage.id = 'rec'; document.body.appendChild(stage);
@@ -496,7 +496,7 @@ function recordMode(id) {
     const ids = ['planar_mosfet', 'finfet', 'gaa'];
     stage.className = 'rec-cmp';
     stage.innerHTML = `<div class="rec-head"><span class="eyebrow">Gate off · drain rising</span><h2>Why the FinFET had to happen</h2><span class="rec-state" id="recState"></span></div>
-      <div class="rec-row">${ids.map(i => `<figure><figcaption>${esc(BY_ID[i].short)} <span id="rb_${i}"></span></figcaption><canvas id="rc_${i}"></canvas></figure>`).join('')}</div>${recFoot('drain-induced barrier lowering (DIBL)')}`;
+      <div class="rec-row">${ids.map(i => `<figure><figcaption>${esc(BY_ID[i].short)} <span id="rb_${i}"></span></figcaption><canvas id="rc_${i}" role="img" aria-label="${esc(BY_ID[i].short)}: conduction band along the channel"></canvas></figure>`).join('')}</div>${recFoot('drain-induced barrier lowering (DIBL)')}`;
     const views = ids.map(i => { const v = new LateralView($(`#rc_${i}`), rnd); v.reset(BY_ID[i]); return [i, v]; });
     window.__frame = (n = 72) => {
       const ph = (k / n) * 2 * Math.PI; k++; const d01 = 0.5 - 0.5 * Math.cos(ph);
@@ -512,7 +512,7 @@ function recordMode(id) {
   } else if (id === 'pn') {
     stage.className = 'rec-pn';
     stage.innerHTML = `<div class="rec-head"><span class="eyebrow">Solved · Poisson + Boltzmann</span><h2>A silicon pn junction under bias</h2><span class="rec-state" id="recState"></span></div>
-      <canvas id="recE"></canvas><canvas id="recD"></canvas>${recFoot('amber band: space-charge region')}`;
+      <canvas id="recE" role="img" aria-label="Energy band diagram across the junction"></canvas><canvas id="recD" role="img" aria-label="Charge and electric field across the junction"></canvas>${recFoot('amber band: space-charge region')}`;
     const ev = new EqView($('#recE'), $('#recD'), rnd); ev.setZoom('250');
     window.__frame = (n = 72) => {
       const ph = (k / n) * 2 * Math.PI; k++;
@@ -525,7 +525,7 @@ function recordMode(id) {
   } else {
     const dev = BY_ID[id] || DEVICES[0];
     stage.innerHTML = `<div class="rec-head"><span class="eyebrow">${esc(dev.family)} · ${dev.year}</span><h2>${esc(dev.name)}</h2><span class="rec-state" id="recState"></span></div>
-      <canvas id="recX"></canvas><canvas id="recL"></canvas>${recFoot()}`;
+      <canvas id="recX" role="img" aria-label="Device cross-section"></canvas><canvas id="recL" role="img" aria-label="Band diagram along the current path"></canvas>${recFoot()}`;
     xsec = new XSec($('#recX'), rnd); latView = new LateralView($('#recL'), rnd);
     S.dev = dev; xsec.setScene(SCENES[dev.id], dev); latView.reset(dev);
     const e = ends(dev), m = dev.model;

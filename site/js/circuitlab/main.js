@@ -110,7 +110,7 @@ async function recordMode(id) {
   if (id === 'zoom') {
     recordFonts(1.15);
     stage.innerHTML = `<canvas></canvas><div class="rec-head"><span class="eyebrow">Powers of ten</span><h2>From wafer to atom</h2></div>
-      <div class="rec-zoomhud"><span id="rl"></span><b id="rs"></b><p id="rd"></p></div><div class="rec-foot"><span></span><span class="rec-brand">Transistor Odyssey · Circuit Lab</span></div>`;
+      <div class="rec-zoomhud"><span id="rl"></span><b id="rs"></b><p id="rd"></p></div><div class="rec-foot"><span></span><span class="rec-brand">Transistor Foundry Expedition · Circuit Lab</span></div>`;
     const z = new Zoom(stage.querySelector('canvas'), { focusX: 0.36, focusY: 0.5 });
     window.__frame = (n = 240) => {
       const u = Math.min(k / n * (ZMAX + 0.6), ZMAX), zz = ease(u); k++;

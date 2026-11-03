@@ -55,7 +55,7 @@ export function initCompare(DEVICES, { onOpen } = {}) {
 
   function sync() {
     chips.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(chosen.includes(b.dataset.id))));
-    cards.innerHTML = chosen.map(id => `<figure class="card cmp-card" data-id="${id}"><figcaption><b>${esc(BY[id].short)}</b><span>${BY[id].year} · ${esc(BY[id].material)}</span></figcaption><canvas></canvas><div class="cmp-read"></div><button type="button" class="linkish">Open in the atlas →</button></figure>`).join('');
+    cards.innerHTML = chosen.map(id => `<figure class="card cmp-card" data-id="${id}"><figcaption><b>${esc(BY[id].short)}</b><span>${BY[id].year} · ${esc(BY[id].material)}</span></figcaption><canvas role="img" aria-label="${esc(BY[id].short)}: cross-section and energy band diagram with the gate off and the drain voltage rising"></canvas><div class="cmp-read"></div><button type="button" class="linkish">Open in the atlas →</button></figure>`).join('');
     views.clear();
     cards.querySelectorAll('.cmp-card').forEach(c => {
       const v = new LateralView(c.querySelector('canvas')); v.reset(BY[c.dataset.id]); views.set(c.dataset.id, { v, read: c.querySelector('.cmp-read') });

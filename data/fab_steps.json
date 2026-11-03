@@ -1,0 +1,647 @@
+{
+ "_about": "Process steps for the Fab Journey, process theaters and Virtual Fab (v1.11 seed). Each step lists which tracks use it, what it requires, the model that simulates it, and photos by candidate id (data/photo_candidates.json). Recipe ranges stay empty until each number has a reference in references.json; needs_source says which source to check. safety_tier: 0 safe to describe, 1 describe with care, 2 equipment/heat (describe, no home procedure), 3 institution-only chemistry or gases (conceptual only). Tier definitions to be reconciled with HANDOFF.md section 9.4.",
+ "schema_version": 1,
+ "tracks": [
+  {
+   "id": "modern_gaa",
+   "name": "Modern 2 nm-class gate-all-around with backside power"
+  },
+  {
+   "id": "teaching_cmos",
+   "name": "Teaching-cleanroom CMOS (4–6 masks)"
+  },
+  {
+   "id": "historical_planar",
+   "name": "Historical: planar process to silicon gate"
+  }
+ ],
+ "areas": [
+  {
+   "id": "materials",
+   "name": "Materials: sand to wafer",
+   "number": 1
+  },
+  {
+   "id": "cleaning",
+   "name": "Cleaning and the cleanroom",
+   "number": 2
+  },
+  {
+   "id": "oxidation",
+   "name": "Oxidation",
+   "number": 3
+  },
+  {
+   "id": "lithography",
+   "name": "Lithography",
+   "number": 4
+  },
+  {
+   "id": "etch",
+   "name": "Etch",
+   "number": 5
+  },
+  {
+   "id": "doping",
+   "name": "Doping",
+   "number": 6
+  },
+  {
+   "id": "deposition",
+   "name": "Deposition",
+   "number": 7
+  },
+  {
+   "id": "planarization",
+   "name": "Planarization (CMP)",
+   "number": 8
+  },
+  {
+   "id": "modules",
+   "name": "Device modules",
+   "number": 9
+  },
+  {
+   "id": "interconnect",
+   "name": "Interconnect",
+   "number": 10
+  },
+  {
+   "id": "backend",
+   "name": "Back end: test and packaging",
+   "number": 11
+  },
+  {
+   "id": "families",
+   "name": "Other process families",
+   "number": 12
+  },
+  {
+   "id": "history",
+   "name": "Historical processes",
+   "number": 13
+  }
+ ],
+ "steps": [
+  {
+   "id": "wafer_start",
+   "area": "materials",
+   "title": "Start with a polished silicon wafer",
+   "tracks": [
+    "modern_gaa",
+    "teaching_cmos",
+    "historical_planar"
+   ],
+   "requires": [],
+   "problem": "Every transistor needs a near-perfect single crystal to sit in.",
+   "physics": "Czochralski growth pulls one crystal from molten silicon; the ingot is sliced, lapped and polished to a mirror finish.",
+   "model": null,
+   "recipe": [],
+   "needs_source": [
+    "Ingot diameter and pull-rate ranges: check Plummer et al. 2000, ch. 3 [@plummer2000]"
+   ],
+   "metrology": [
+    "flatness",
+    "particle count"
+   ],
+   "failure_modes": [],
+   "photos": [
+    "cand_cz_ingot",
+    "cand_wafer_mirror"
+   ],
+   "timeline": [],
+   "safety_tier": 0,
+   "refs": [
+    "plummer2000"
+   ],
+   "depth": {
+    "beginner": "",
+    "engineer": "",
+    "process": ""
+   },
+   "status": "seed"
+  },
+  {
+   "id": "rca_clean",
+   "area": "cleaning",
+   "title": "Clean the surface",
+   "tracks": [
+    "teaching_cmos",
+    "modern_gaa",
+    "historical_planar"
+   ],
+   "requires": [
+    "wafer_start"
+   ],
+   "problem": "A single particle or a trace of metal on the surface can kill a die.",
+   "physics": "Wet chemical cleans remove organics, oxide and metal ions; explained conceptually only (institution-only chemistry).",
+   "model": null,
+   "recipe": [],
+   "needs_source": [
+    "Primary source for the RCA clean (Kern and Puotinen 1970) to be added to references.json"
+   ],
+   "metrology": [
+    "particle count",
+    "surface metals"
+   ],
+   "failure_modes": [
+    "particles",
+    "metal contamination"
+   ],
+   "photos": [
+    "cand_cleanroom_litho"
+   ],
+   "timeline": [],
+   "safety_tier": 3,
+   "refs": [],
+   "depth": {
+    "beginner": "",
+    "engineer": "",
+    "process": "Conceptual only: no recipes, concentrations or temperatures are published here (safety tier 3)."
+   },
+   "status": "seed"
+  },
+  {
+   "id": "ox_thermal",
+   "area": "oxidation",
+   "title": "Grow a thermal oxide",
+   "tracks": [
+    "teaching_cmos",
+    "historical_planar"
+   ],
+   "requires": [
+    "rca_clean"
+   ],
+   "problem": "Bare silicon surfaces leak; a grown oxide passivates the surface and masks dopants.",
+   "physics": "Oxidant diffuses through the growing oxide and reacts at the Si/SiO2 interface (Deal–Grove).",
+   "model": {
+    "py": "sim/transistor_sim/physics/oxidation.py",
+    "js": "site/js/physics/oxidation.js",
+    "lab": "process.html#oxide"
+   },
+   "recipe": [],
+   "needs_source": [
+    "Furnace temperature and time ranges for gate and field oxides: Plummer et al. 2000, ch. 6 [@plummer2000]"
+   ],
+   "metrology": [
+    "ellipsometry thickness",
+    "C–V interface charge"
+   ],
+   "failure_modes": [
+    "thickness non-uniformity",
+    "interface traps"
+   ],
+   "photos": [
+    "cand_diffusion_furnace"
+   ],
+   "timeline": [
+    {
+     "year": 1959,
+     "event": "Thermally grown oxide stabilises silicon surfaces",
+     "refs": [
+      "atalla1959"
+     ]
+    },
+    {
+     "year": 1965,
+     "event": "Deal–Grove model of thermal oxidation",
+     "refs": [
+      "dealgrove1965"
+     ]
+    }
+   ],
+   "safety_tier": 2,
+   "refs": [
+    "dealgrove1965",
+    "atalla1959",
+    "hollauer_dg"
+   ],
+   "depth": {
+    "beginner": "",
+    "engineer": "",
+    "process": ""
+   },
+   "status": "seed"
+  },
+  {
+   "id": "litho_expose",
+   "area": "lithography",
+   "title": "Coat, expose and develop the resist",
+   "tracks": [
+    "modern_gaa",
+    "teaching_cmos",
+    "historical_planar"
+   ],
+   "requires": [
+    "ox_thermal"
+   ],
+   "problem": "Every layer needs a pattern; resolution sets how small the transistor can be.",
+   "physics": "Light through a mask images the pattern into a photosensitive resist; resolution scales as k1·λ/NA (Rayleigh).",
+   "model": {
+    "py": "sim/transistor_sim/physics/litho.py",
+    "js": "site/js/physics/litho.js",
+    "lab": "physics.html#litho"
+   },
+   "recipe": [],
+   "needs_source": [
+    "Wavelength, NA and k1 per generation (g-line to High-NA EUV): Levinson 2019 [@levinson2019] and ASML [@asml_euv]",
+    "New model: depth of focus and EUV line-edge roughness (twin + tests)"
+   ],
+   "metrology": [
+    "critical dimension (CD-SEM)",
+    "overlay"
+   ],
+   "failure_modes": [
+    "defocus",
+    "overlay error",
+    "stochastic defects (EUV)"
+   ],
+   "photos": [
+    "cand_cleanroom_litho",
+    "cand_euv_tool",
+    "cand_stepper_anim"
+   ],
+   "timeline": [],
+   "safety_tier": 1,
+   "refs": [
+    "levinson2019",
+    "mack2007",
+    "bakshi2018",
+    "asml_euv"
+   ],
+   "depth": {
+    "beginner": "",
+    "engineer": "",
+    "process": ""
+   },
+   "status": "seed"
+  },
+  {
+   "id": "etch_rie",
+   "area": "etch",
+   "title": "Etch the pattern into the film",
+   "tracks": [
+    "modern_gaa",
+    "teaching_cmos"
+   ],
+   "requires": [
+    "litho_expose"
+   ],
+   "problem": "Wet etches undercut the mask; small features need vertical walls.",
+   "physics": "A plasma supplies reactive radicals and directional ions; ion-assisted etching is anisotropic.",
+   "model": null,
+   "recipe": [],
+   "needs_source": [
+    "Selectivity and anisotropy figures from a primary plasma-etch reference",
+    "New model: etch selectivity and profile (twin + tests)"
+   ],
+   "metrology": [
+    "profile (cross-section SEM)",
+    "selectivity"
+   ],
+   "failure_modes": [
+    "undercut",
+    "microloading",
+    "aspect-ratio-dependent etch"
+   ],
+   "photos": [],
+   "timeline": [],
+   "safety_tier": 2,
+   "refs": [],
+   "depth": {
+    "beginner": "",
+    "engineer": "",
+    "process": ""
+   },
+   "status": "seed"
+  },
+  {
+   "id": "implant",
+   "area": "doping",
+   "title": "Implant dopants",
+   "tracks": [
+    "modern_gaa",
+    "teaching_cmos"
+   ],
+   "requires": [
+    "litho_expose"
+   ],
+   "problem": "Diffusion from the surface cannot give shallow, precisely dosed junctions.",
+   "physics": "Accelerated ions slow by nuclear and electronic stopping (LSS); a Gaussian profile with range Rp and straggle ΔRp.",
+   "model": {
+    "py": "sim/transistor_sim/physics/implant.py",
+    "js": "site/js/physics/implant.js",
+    "lab": "process.html#implant"
+   },
+   "recipe": [],
+   "needs_source": [],
+   "metrology": [
+    "sheet resistance (four-point probe)",
+    "SIMS profile"
+   ],
+   "failure_modes": [
+    "channeling",
+    "damage",
+    "dose error"
+   ],
+   "photos": [
+    "cand_implanter_schematic"
+   ],
+   "timeline": [
+    {
+     "year": 1974,
+     "event": "Ion-implanted MOSFETs in Dennard's scaling paper",
+     "refs": [
+      "dennard1974"
+     ]
+    }
+   ],
+   "safety_tier": 2,
+   "refs": [
+    "tuttle_implant",
+    "dennard1974"
+   ],
+   "depth": {
+    "beginner": "",
+    "engineer": "",
+    "process": ""
+   },
+   "status": "seed"
+  },
+  {
+   "id": "anneal",
+   "area": "doping",
+   "title": "Anneal to activate and repair",
+   "tracks": [
+    "modern_gaa",
+    "teaching_cmos"
+   ],
+   "requires": [
+    "implant"
+   ],
+   "problem": "Implanted atoms sit off-lattice and the crystal is damaged.",
+   "physics": "Heat moves dopants onto lattice sites and repairs damage, while diffusion spreads the profile (furnace, rapid thermal, laser spike).",
+   "model": {
+    "py": "sim/transistor_sim/physics/implant.py",
+    "js": "site/js/physics/implant.js",
+    "lab": "process.html#implant"
+   },
+   "recipe": [],
+   "needs_source": [
+    "Anneal regimes (furnace, RTA, spike, laser): Plummer et al. 2000 [@plummer2000]"
+   ],
+   "metrology": [],
+   "failure_modes": [],
+   "photos": [],
+   "timeline": [],
+   "safety_tier": 2,
+   "refs": [
+    "plummer2000"
+   ],
+   "depth": {
+    "beginner": "",
+    "engineer": "",
+    "process": ""
+   },
+   "status": "seed"
+  },
+  {
+   "id": "dep_pvd",
+   "area": "deposition",
+   "title": "Sputter a metal film",
+   "tracks": [
+    "teaching_cmos",
+    "modern_gaa"
+   ],
+   "requires": [
+    "anneal"
+   ],
+   "problem": "Contacts and wires need conducting films a few nanometres to microns thick.",
+   "physics": "Ions from a magnetron plasma knock atoms off a target; they land on the wafer as a film.",
+   "model": null,
+   "recipe": [],
+   "needs_source": [
+    "Primary source on magnetron sputtering for the theater"
+   ],
+   "metrology": [
+    "sheet resistance",
+    "thickness (XRR)"
+   ],
+   "failure_modes": [
+    "poor step coverage",
+    "voids"
+   ],
+   "photos": [
+    "cand_magnetron"
+   ],
+   "timeline": [],
+   "safety_tier": 1,
+   "refs": [],
+   "depth": {
+    "beginner": "",
+    "engineer": "",
+    "process": ""
+   },
+   "status": "seed"
+  },
+  {
+   "id": "cmp",
+   "area": "planarization",
+   "title": "Polish flat (CMP)",
+   "tracks": [
+    "modern_gaa"
+   ],
+   "requires": [
+    "dep_pvd"
+   ],
+   "problem": "Stacked layers become too bumpy to focus the next exposure on.",
+   "physics": "Slurry chemistry softens the surface and the pad removes it; wide features dish and dense areas erode.",
+   "model": null,
+   "recipe": [],
+   "needs_source": [
+    "New model: CMP dishing and erosion (twin + tests) with a primary source"
+   ],
+   "metrology": [
+    "post-CMP topography",
+    "dishing and erosion"
+   ],
+   "failure_modes": [
+    "dishing",
+    "erosion",
+    "scratches"
+   ],
+   "photos": [
+    "cand_wafer_mirror"
+   ],
+   "timeline": [],
+   "safety_tier": 1,
+   "refs": [],
+   "depth": {
+    "beginner": "",
+    "engineer": "",
+    "process": ""
+   },
+   "status": "seed"
+  },
+  {
+   "id": "gaa_release",
+   "area": "modules",
+   "title": "Release the nanosheets",
+   "tracks": [
+    "modern_gaa"
+   ],
+   "requires": [
+    "etch_rie"
+   ],
+   "problem": "To put the gate on all four sides of each channel, the sacrificial SiGe between sheets must go.",
+   "physics": "A selective etch removes SiGe from a Si/SiGe superlattice; inner spacers protect the source and drain.",
+   "model": null,
+   "recipe": [],
+   "needs_source": [],
+   "metrology": [],
+   "failure_modes": [],
+   "photos": [],
+   "timeline": [
+    {
+     "year": 2017,
+     "event": "Stacked nanosheet GAA shown as the successor to FinFET",
+     "refs": [
+      "loubet2017"
+     ]
+    }
+   ],
+   "safety_tier": 1,
+   "refs": [
+    "loubet2017"
+   ],
+   "depth": {
+    "beginner": "",
+    "engineer": "",
+    "process": ""
+   },
+   "status": "seed"
+  },
+  {
+   "id": "damascene",
+   "area": "interconnect",
+   "title": "Copper dual damascene",
+   "tracks": [
+    "modern_gaa"
+   ],
+   "requires": [
+    "cmp"
+   ],
+   "problem": "Copper cannot be plasma-etched cleanly, but it conducts far better than aluminium.",
+   "physics": "Trenches and vias are etched in the dielectric, lined with a barrier, filled with copper and polished back.",
+   "model": {
+    "py": "sim/transistor_sim/physics/electromigration.py",
+    "js": "site/js/physics/electromigration.js",
+    "lab": "process.html#em"
+   },
+   "recipe": [],
+   "needs_source": [],
+   "metrology": [
+    "via resistance",
+    "line resistance"
+   ],
+   "failure_modes": [
+    "electromigration voids",
+    "barrier breach"
+   ],
+   "photos": [],
+   "timeline": [],
+   "safety_tier": 1,
+   "refs": [
+    "black1969",
+    "blech1976",
+    "korhonen1993"
+   ],
+   "depth": {
+    "beginner": "",
+    "engineer": "",
+    "process": ""
+   },
+   "status": "seed"
+  },
+  {
+   "id": "probe_dice_bond",
+   "area": "backend",
+   "title": "Probe, dice and bond",
+   "tracks": [
+    "teaching_cmos",
+    "modern_gaa",
+    "historical_planar"
+   ],
+   "requires": [
+    "damascene"
+   ],
+   "problem": "Only working dies are worth packaging.",
+   "physics": "Probe cards test each die on the wafer; the wafer is diced and dies are wire-bonded or flip-chip mounted.",
+   "model": {
+    "py": "sim/transistor_sim/physics/yieldcost.py",
+    "js": "site/js/physics/yieldcost.js",
+    "lab": "process.html#yield"
+   },
+   "recipe": [],
+   "needs_source": [],
+   "metrology": [],
+   "failure_modes": [],
+   "photos": [
+    "cand_wafer_prober",
+    "cand_dicing_tape",
+    "cand_wire_bond"
+   ],
+   "timeline": [],
+   "safety_tier": 0,
+   "refs": [
+    "stapper1973",
+    "tsmc_3dfabric"
+   ],
+   "depth": {
+    "beginner": "",
+    "engineer": "",
+    "process": ""
+   },
+   "status": "seed"
+  },
+  {
+   "id": "planar_hoerni",
+   "area": "history",
+   "title": "Hoerni's planar process",
+   "tracks": [
+    "historical_planar"
+   ],
+   "requires": [
+    "ox_thermal"
+   ],
+   "problem": "Mesa transistors had exposed junctions that were fragile and unreliable.",
+   "physics": "Oxide is left on the wafer as a mask and a protective layer over the junctions; everything stays flat.",
+   "model": null,
+   "recipe": [],
+   "needs_source": [],
+   "metrology": [],
+   "failure_modes": [],
+   "photos": [],
+   "timeline": [
+    {
+     "year": 1959,
+     "event": "Planar process (patent filed 1959, granted 1962)",
+     "refs": [
+      "hoerni1962"
+     ]
+    }
+   ],
+   "safety_tier": 0,
+   "refs": [
+    "hoerni1962",
+    "riordan1997"
+   ],
+   "depth": {
+    "beginner": "",
+    "engineer": "",
+    "process": ""
+   },
+   "status": "seed"
+  }
+ ]
+}

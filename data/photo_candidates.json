@@ -1,0 +1,236 @@
+{
+ "_about": "Photo candidates for the process theaters. Found by web search of Wikimedia Commons on 2026-11-03; NOT yet licence-checked, because Commons was unreachable from the build sandbox. Run python scripts/check_photo_licenses.py (needs network) to fill author, license and status from the Commons API. Only status=verified entries may be moved into data/images.json. Manufacturer press images (ASML, Applied Materials, Lam, TEL, KLA) are all-rights-reserved and are excluded unless written permission is logged.",
+ "checked": null,
+ "candidates": [
+  {
+   "id": "cand_cz_ingot",
+   "area": "materials",
+   "file": "Monocrystalline silicon ingot.jpg",
+   "subject": "Czochralski-grown single-crystal silicon ingot",
+   "source": "https://commons.wikimedia.org/wiki/File:Monocrystalline_silicon_ingot.jpg",
+   "license": null,
+   "author": null,
+   "status": "unverified"
+  },
+  {
+   "id": "cand_si_single_crystal",
+   "area": "materials",
+   "file": "Silicon single crystal.jpg",
+   "subject": "Silicon single crystal",
+   "source": "https://commons.wikimedia.org/wiki/File:Silicon_single_crystal.jpg",
+   "license": null,
+   "author": null,
+   "status": "unverified"
+  },
+  {
+   "id": "cand_poly_rod",
+   "area": "materials",
+   "file": "Polycrystalline silicon rod.jpg",
+   "subject": "Polysilicon rod (Siemens process)",
+   "source": "https://commons.wikimedia.org/wiki/File:Polycrystalline_silicon_rod.jpg",
+   "license": null,
+   "author": null,
+   "status": "unverified"
+  },
+  {
+   "id": "cand_poly_compilation",
+   "area": "materials",
+   "file": "Polysilicon compilation.jpg",
+   "subject": "Polysilicon chunks and rods",
+   "source": "https://commons.wikimedia.org/wiki/File:Polysilicon_compilation.jpg",
+   "license": null,
+   "author": null,
+   "status": "unverified"
+  },
+  {
+   "id": "cand_cz_diagram",
+   "area": "materials",
+   "file": "Czochralski Process.svg",
+   "subject": "Czochralski process diagram",
+   "source": "https://commons.wikimedia.org/wiki/File:Czochralski_Process.svg",
+   "license": null,
+   "author": null,
+   "status": "unverified"
+  },
+  {
+   "id": "cand_wafer_mirror",
+   "area": "materials",
+   "file": "Silicon wafer with mirror finish.jpg",
+   "subject": "Polished silicon wafer, mirror finish",
+   "source": "https://commons.wikimedia.org/wiki/File:Silicon_wafer_with_mirror_finish.jpg",
+   "license": null,
+   "author": null,
+   "status": "unverified"
+  },
+  {
+   "id": "cand_wafer_sizes",
+   "area": "materials",
+   "file": "Wafer 2 Zoll bis 8 Zoll 2.jpg",
+   "subject": "Wafers from 2 to 8 inch",
+   "source": "https://commons.wikimedia.org/wiki/File:Wafer_2_Zoll_bis_8_Zoll_2.jpg",
+   "license": null,
+   "author": null,
+   "status": "unverified"
+  },
+  {
+   "id": "cand_cleanroom_litho",
+   "area": "cleaning",
+   "file": "Cleanroom - photolithography lab (9148355951).jpg",
+   "subject": "Photolithography bay in a university cleanroom",
+   "source": "https://commons.wikimedia.org/wiki/File:Cleanroom_-_photolithography_lab_(9148355951).jpg",
+   "license": null,
+   "author": null,
+   "status": "unverified"
+  },
+  {
+   "id": "cand_lcn_litho",
+   "area": "lithography",
+   "file": "Photolithography lab in the LCN cleanroom.jpg",
+   "subject": "Photolithography lab, London Centre for Nanotechnology",
+   "source": "https://commons.wikimedia.org/wiki/File:Photolithography_lab_in_the_LCN_cleanroom.jpg",
+   "license": null,
+   "author": null,
+   "status": "unverified"
+  },
+  {
+   "id": "cand_ucdavis_cleanroom",
+   "area": "cleaning",
+   "file": "UC Davis Cleanroom (45490130562).jpg",
+   "subject": "University cleanroom",
+   "source": "https://commons.wikimedia.org/wiki/File:UC_Davis_Cleanroom_(45490130562).jpg",
+   "license": null,
+   "author": null,
+   "status": "unverified"
+  },
+  {
+   "id": "cand_stepper_anim",
+   "area": "lithography",
+   "file": "Stepper.gif",
+   "subject": "Step-and-repeat exposure animation",
+   "source": "https://commons.wikimedia.org/wiki/File:Stepper.gif",
+   "license": null,
+   "author": null,
+   "status": "unverified"
+  },
+  {
+   "id": "cand_euv_tool",
+   "area": "lithography",
+   "file": "Extreme ultraviolet lithography tool.jpg",
+   "subject": "EUV lithography tool",
+   "source": "https://commons.wikimedia.org/wiki/File:Extreme_ultraviolet_lithography_tool.jpg",
+   "license": null,
+   "author": null,
+   "status": "unverified"
+  },
+  {
+   "id": "cand_euv_fr",
+   "area": "lithography",
+   "file": "Lithographie EUV.jpg",
+   "subject": "EUV lithography (French Wikipedia illustration)",
+   "source": "https://commons.wikimedia.org/wiki/File:Lithographie_EUV.jpg",
+   "license": null,
+   "author": null,
+   "status": "unverified"
+  },
+  {
+   "id": "cand_diffusion_furnace",
+   "area": "oxidation",
+   "file": "Centrotherm diffusion furnaces at LAAS 0481.jpg",
+   "subject": "Horizontal diffusion and oxidation furnaces, LAAS-CNRS",
+   "source": "https://commons.wikimedia.org/wiki/File:Centrotherm_diffusion_furnaces_at_LAAS_0481.jpg",
+   "license": null,
+   "author": null,
+   "status": "unverified"
+  },
+  {
+   "id": "cand_implanter_schematic",
+   "area": "doping",
+   "file": "Ion implanter schematic.png",
+   "subject": "Ion implanter schematic",
+   "source": "https://commons.wikimedia.org/wiki/File:Ion_implanter_schematic.png",
+   "license": null,
+   "author": null,
+   "status": "unverified"
+  },
+  {
+   "id": "cand_magnetron",
+   "area": "deposition",
+   "file": "Magnetron sputtering source.jpg",
+   "subject": "Magnetron sputtering source",
+   "source": "https://commons.wikimedia.org/wiki/File:Magnetron_sputtering_source.jpg",
+   "license": null,
+   "author": null,
+   "status": "unverified"
+  },
+  {
+   "id": "cand_cvd_chamber",
+   "area": "deposition",
+   "file": "CVD Reaction Chamber - GPN-2000-001466.jpg",
+   "subject": "CVD reaction chamber (NASA image, GPN series)",
+   "source": "https://commons.wikimedia.org/wiki/File:CVD_Reaction_Chamber_-_GPN-2000-001466.jpg",
+   "license": null,
+   "author": null,
+   "status": "unverified"
+  },
+  {
+   "id": "cand_wafer_prober",
+   "area": "backend",
+   "file": "Wafer prober.jpg",
+   "subject": "Wafer prober",
+   "source": "https://commons.wikimedia.org/wiki/File:Wafer_prober.jpg",
+   "license": null,
+   "author": null,
+   "status": "unverified"
+  },
+  {
+   "id": "cand_dicing_tape",
+   "area": "backend",
+   "file": "A semiconductor wafer on a dicing (blue) tape. Few chips (dies) from the wafer have already been picked up (removed) for further manufacturing.png",
+   "subject": "Diced wafer on blue tape, some dies picked",
+   "source": "https://commons.wikimedia.org/wiki/File:A_semiconductor_wafer_on_a_dicing_(blue)_tape._Few_chips_(dies)_from_the_wafer_have_already_been_picked_up_(removed)_for_further_manufacturing.png",
+   "license": null,
+   "author": null,
+   "status": "unverified"
+  },
+  {
+   "id": "cand_stealth_dicing",
+   "area": "backend",
+   "file": "Stealth diced Si wafer 150µm 430x400 MB11.png",
+   "subject": "Stealth-diced silicon wafer",
+   "source": "https://commons.wikimedia.org/wiki/File:Stealth_diced_Si_wafer_150µm_430x400_MB11.png",
+   "license": null,
+   "author": null,
+   "status": "unverified"
+  },
+  {
+   "id": "cand_wire_bond",
+   "area": "backend",
+   "file": "Integrated circuit wire bonding.jpg",
+   "subject": "Wire bonds on an integrated circuit",
+   "source": "https://commons.wikimedia.org/wiki/File:Integrated_circuit_wire_bonding.jpg",
+   "license": null,
+   "author": null,
+   "status": "unverified"
+  },
+  {
+   "id": "cand_wedge_bond",
+   "area": "backend",
+   "file": "Close up pic of an aluminium wires wedge-bonded to a silicon die-MD6100 transistor.jpg",
+   "subject": "Aluminium wedge bonds on a transistor die",
+   "source": "https://commons.wikimedia.org/wiki/File:Close_up_pic_of_an_aluminium_wires_wedge-bonded_to_a_silicon_die-MD6100_transistor.jpg",
+   "license": null,
+   "author": null,
+   "status": "unverified"
+  },
+  {
+   "id": "cand_photonics_wafer",
+   "area": "families",
+   "file": "Silicon Photonics 300mm wafer.JPG",
+   "subject": "300 mm silicon photonics wafer",
+   "source": "https://commons.wikimedia.org/wiki/File:Silicon_Photonics_300mm_wafer.JPG",
+   "license": null,
+   "author": null,
+   "status": "unverified"
+  }
+ ]
+}

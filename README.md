@@ -1,26 +1,27 @@
 <p align="center">
-  <a href="https://normansrule.github.io/transistor-odyssey/"><img src="assets/banner.png" width="100%" alt="Transistor Odyssey: an open history of the transistor, 1947 to 2026"></a>
+  <a href="https://normansrule.github.io/transistor-foundry-expedition/"><img src="assets/banner.png" width="100%" alt="Transistor Foundry Expedition: an open history of the transistor, 1947 to 2026"></a>
 </p>
 
 <p align="center">
-  <b>An open, simulated history of the transistor, 1947 → 2026.</b><br>
-  How the switch changed shape, what an electron sees inside each one, and what might replace silicon.
+  <b>How transistors are made, and how they changed, 1947 → 2026.</b><br>
+  Every step from sand to chip, how the switch changed shape, what an electron sees inside each one, and what might replace silicon.<br>
+  <sub>Transistor Foundry Expedition was formerly Transistor Odyssey (github.com/Normansrule/transistor-odyssey); old links redirect.</sub>
 </p>
 
 <p align="center">
-  <a href="https://normansrule.github.io/transistor-odyssey/"><b>Website</b></a> &nbsp;·&nbsp;
-  <a href="https://normansrule.github.io/transistor-odyssey/devices.html"><b>Device Atlas</b></a> &nbsp;·&nbsp;
-  <a href="https://normansrule.github.io/transistor-odyssey/physics.html"><b>Physics Lab</b></a> &nbsp;·&nbsp;
-  <a href="https://normansrule.github.io/transistor-odyssey/circuits.html"><b>Circuit Lab</b></a> &nbsp;·&nbsp;
-  <a href="https://normansrule.github.io/transistor-odyssey/process.html"><b>Process Lab</b></a> &nbsp;·&nbsp;
-  <a href="https://normansrule.github.io/transistor-odyssey/analog.html"><b>Analog &amp; RF Lab</b></a> &nbsp;·&nbsp;
+  <a href="https://normansrule.github.io/transistor-foundry-expedition/"><b>Website</b></a> &nbsp;·&nbsp;
+  <a href="https://normansrule.github.io/transistor-foundry-expedition/devices.html"><b>Device Atlas</b></a> &nbsp;·&nbsp;
+  <a href="https://normansrule.github.io/transistor-foundry-expedition/physics.html"><b>Physics Lab</b></a> &nbsp;·&nbsp;
+  <a href="https://normansrule.github.io/transistor-foundry-expedition/circuits.html"><b>Circuit Lab</b></a> &nbsp;·&nbsp;
+  <a href="https://normansrule.github.io/transistor-foundry-expedition/process.html"><b>Process Lab</b></a> &nbsp;·&nbsp;
+  <a href="https://normansrule.github.io/transistor-foundry-expedition/analog.html"><b>Analog &amp; RF Lab</b></a> &nbsp;·&nbsp;
   <a href="docs/README.md"><b>Chapters</b></a> &nbsp;·&nbsp;
   <a href="#quick-start"><b>Quick start</b></a>
 </p>
 
 <p align="center">
-  <a href="https://normansrule.github.io/transistor-odyssey/"><img alt="Live site" src="https://img.shields.io/badge/live%20site-GitHub%20Pages-f2b84b?style=flat-square&labelColor=10141a"></a>
-  <a href=".github/workflows/ci.yml"><img alt="Tests" src="https://img.shields.io/github/actions/workflow/status/Normansrule/transistor-odyssey/ci.yml?style=flat-square&labelColor=10141a&label=tests"></a>
+  <a href="https://normansrule.github.io/transistor-foundry-expedition/"><img alt="Live site" src="https://img.shields.io/badge/live%20site-GitHub%20Pages-f2b84b?style=flat-square&labelColor=10141a"></a>
+  <a href=".github/workflows/ci.yml"><img alt="Tests" src="https://img.shields.io/github/actions/workflow/status/Normansrule/transistor-foundry-expedition/ci.yml?style=flat-square&labelColor=10141a&label=tests"></a>
   <a href="REFERENCES.md"><img alt="316 references" src="https://img.shields.io/badge/references-316-b58fd6?style=flat-square&labelColor=10141a"></a>
   <a href="docs/README.md"><img alt="23 chapters" src="https://img.shields.io/badge/chapters-23-7fd3d0?style=flat-square&labelColor=10141a"></a>
   <a href="LICENSE"><img alt="MIT and CC BY 4.0" src="https://img.shields.io/badge/license-MIT%20%2B%20CC%20BY%204.0-d9825b?style=flat-square&labelColor=10141a"></a>
@@ -28,19 +29,19 @@
 
 <br>
 
-<p align="center"><a href="https://normansrule.github.io/transistor-odyssey/devices.html#finfet"><img src="figures/anim/finfet.gif" width="100%" alt="Animated FinFET: cross-section with moving electrons beside its live energy band diagram"></a></p>
+<p align="center"><a href="https://normansrule.github.io/transistor-foundry-expedition/devices.html#finfet"><img src="figures/anim/finfet.gif" width="100%" alt="Animated FinFET: cross-section with moving electrons beside its live energy band diagram"></a></p>
 
-<p align="center"><sub>The FinFET from the <a href="https://normansrule.github.io/transistor-odyssey/devices.html#finfet">Device Atlas</a>. The gate sweeps from off to on; electrons (blue) pile up behind the source barrier, then flow over it as the gate pulls it down. Recorded from the live page.</sub></p>
+<p align="center"><sub>The FinFET from the <a href="https://normansrule.github.io/transistor-foundry-expedition/devices.html#finfet">Device Atlas</a>. The gate sweeps from off to on; electrons (blue) pile up behind the source barrier, then flow over it as the gate pulls it down. Recorded from the live page.</sub></p>
 
 ## Overview
 
-Transistor Odyssey follows the transistor from a 50 µm gold contact on germanium to gate-all-around nanosheets, IBM's 7 Å nanostack and a 0.42 nm oxide on one-molecule-thick molybdenum disulfide (MoS₂), and through the gallium nitride (GaN), gallium arsenide (GaAs), silicon carbide (SiC) and diamond devices that compete with silicon. It is three things at once:
+Transistor Foundry Expedition (formerly Transistor Odyssey) follows the transistor from a 50 µm gold contact on germanium to gate-all-around nanosheets, IBM's 7 Å nanostack and a 0.42 nm oxide on one-molecule-thick molybdenum disulfide (MoS₂), and through the gallium nitride (GaN), gallium arsenide (GaAs), silicon carbide (SiC) and diamond devices that compete with silicon. It is three things at once:
 
 | | |
 |---|---|
-| **A website** | An animated history, a [Device Atlas](https://normansrule.github.io/transistor-odyssey/devices.html) of 19 transistors with live energy band diagrams, a [Physics Lab](https://normansrule.github.io/transistor-odyssey/physics.html) of 15 simulations, and a [Circuit Lab](https://normansrule.github.io/transistor-odyssey/circuits.html) that zooms from wafer to atom and builds gates, an adder, SRAM and flash, a [Process Lab](https://normansrule.github.io/transistor-odyssey/process.html) on oxidation, implantation, yield and electromigration, and an [Analog & RF Lab](https://normansrule.github.io/transistor-odyssey/analog.html) on gain, bandwidth, distortion and noise. Everything runs in the browser; nothing is pre-rendered. |
+| **A website** | An animated history, a [Device Atlas](https://normansrule.github.io/transistor-foundry-expedition/devices.html) of 19 transistors with live energy band diagrams, a [Physics Lab](https://normansrule.github.io/transistor-foundry-expedition/physics.html) of 15 simulations, and a [Circuit Lab](https://normansrule.github.io/transistor-foundry-expedition/circuits.html) that zooms from wafer to atom and builds gates, an adder, SRAM and flash, a [Process Lab](https://normansrule.github.io/transistor-foundry-expedition/process.html) on oxidation, implantation, yield and electromigration, and an [Analog & RF Lab](https://normansrule.github.io/transistor-foundry-expedition/analog.html) on gain, bandwidth, distortion and noise. Everything runs in the browser; nothing is pre-rendered. |
 | **A textbook** | [23 chapters](docs/README.md), from the point contact to packaging, memory, manufacturing and amplifiers, with 316 cited sources. Every number traces to a reference. |
-| **A simulation package** | Python models in [`sim/transistor_sim`](sim/transistor_sim) that draw every figure here, each with a browser twin checked against it by 182 tests in continuous integration. |
+| **A simulation package** | Python models in [`sim/transistor_sim`](sim/transistor_sim) that draw every figure here, each with a browser twin checked against it by 220 tests in continuous integration. |
 
 > [!IMPORTANT]
 > **About "0.42 nm".** No foundry manufactures a 0.42 nm (or 0.7 nm) process. As of September 2026 the most advanced production nodes are 2 nm-class (TSMC N2 and Intel 18A, both in volume since Q4 2025), with TSMC A16 ramping. **0.7 nm** is IBM's *research* node announced on 25 June 2026. **0.42 nm** is the measured thickness of an aluminium-oxide interface layer in a 2026 NYCU + TSMC monolayer-MoS₂ transistor whose channel is ~100 nm long. This repository explains all three and why node names stopped being lengths. See [Chapter 8](docs/08-gaa-and-angstrom-era.md) and [Chapter 9](docs/09-2d-materials.md).
@@ -49,11 +50,11 @@ Transistor Odyssey follows the transistor from a 50 µm gold contact on germaniu
 
 | You are… | Suggested path |
 |---|---|
-| **New to semiconductors** | [How to read a band diagram](https://normansrule.github.io/transistor-odyssey/devices.html#primer) → the [planar MOSFET](https://normansrule.github.io/transistor-odyssey/devices.html#planar_mosfet) and [bipolar transistor](https://normansrule.github.io/transistor-odyssey/devices.html#bjt) in the atlas → Physics Lab parts [I](https://normansrule.github.io/transistor-odyssey/physics.html#crystal) and [II](https://normansrule.github.io/transistor-odyssey/physics.html#pn) → the [self-test quiz](https://normansrule.github.io/transistor-odyssey/devices.html#quiz) |
-| **An engineer asking why FinFET and GAA** | [Physics Lab 09: 2D electrostatics](https://normansrule.github.io/transistor-odyssey/physics.html#short) → [the side-by-side comparison](https://normansrule.github.io/transistor-odyssey/devices.html#compare) → [Labs 13–15: inverter, ballistic limit, wires](https://normansrule.github.io/transistor-odyssey/physics.html#part-vi) → [Chapter 6](docs/06-finfet.md), [Chapter 8](docs/08-gaa-and-angstrom-era.md) and [the process flow](docs/16-process-flow.md) |
-| **Working in power or radio frequency** | [Analog & RF Lab: gain, Miller effect and speed records](https://normansrule.github.io/transistor-odyssey/analog.html#bode) → [materials chart](https://normansrule.github.io/transistor-odyssey/devices.html#align) → [GaN HEMT](https://normansrule.github.io/transistor-odyssey/devices.html#gan_hemt) → [heterojunction builder](https://normansrule.github.io/transistor-odyssey/devices.html#hetero) → [self-heating lab](https://normansrule.github.io/transistor-odyssey/physics.html#heat) → [Chapters 10](docs/10-compound-semiconductors.md), [13](docs/13-diamond-electronics.md) and [23](docs/23-analog-rf-lab.md) |
-| **Curious how a computer is built from them** | [The powers-of-ten zoom](https://normansrule.github.io/transistor-odyssey/circuits.html#zoom) → [gate builder](https://normansrule.github.io/transistor-odyssey/circuits.html#gates) → [8-bit adder](https://normansrule.github.io/transistor-odyssey/circuits.html#adder) → [SRAM](https://normansrule.github.io/transistor-odyssey/circuits.html#sram) and [flash](https://normansrule.github.io/transistor-odyssey/circuits.html#flash) cells → [Chapter 21](docs/21-circuit-lab.md) |
-| **Interested in how chips are manufactured** | [Process flow animation](https://normansrule.github.io/transistor-odyssey/process.html) → [oxidation](https://normansrule.github.io/transistor-odyssey/process.html#oxide) → [implant and anneal](https://normansrule.github.io/transistor-odyssey/process.html#implant) → [yield and cost](https://normansrule.github.io/transistor-odyssey/process.html#yield) → [electromigration](https://normansrule.github.io/transistor-odyssey/process.html#em) → [Chapters 16](docs/16-process-flow.md) and [22](docs/22-process-lab.md) |
+| **New to semiconductors** | [How to read a band diagram](https://normansrule.github.io/transistor-foundry-expedition/devices.html#primer) → the [planar MOSFET](https://normansrule.github.io/transistor-foundry-expedition/devices.html#planar_mosfet) and [bipolar transistor](https://normansrule.github.io/transistor-foundry-expedition/devices.html#bjt) in the atlas → Physics Lab parts [I](https://normansrule.github.io/transistor-foundry-expedition/physics.html#crystal) and [II](https://normansrule.github.io/transistor-foundry-expedition/physics.html#pn) → the [self-test quiz](https://normansrule.github.io/transistor-foundry-expedition/devices.html#quiz) |
+| **An engineer asking why FinFET and GAA** | [Physics Lab 09: 2D electrostatics](https://normansrule.github.io/transistor-foundry-expedition/physics.html#short) → [the side-by-side comparison](https://normansrule.github.io/transistor-foundry-expedition/devices.html#compare) → [Labs 13–15: inverter, ballistic limit, wires](https://normansrule.github.io/transistor-foundry-expedition/physics.html#part-vi) → [Chapter 6](docs/06-finfet.md), [Chapter 8](docs/08-gaa-and-angstrom-era.md) and [the process flow](docs/16-process-flow.md) |
+| **Working in power or radio frequency** | [Analog & RF Lab: gain, Miller effect and speed records](https://normansrule.github.io/transistor-foundry-expedition/analog.html#bode) → [materials chart](https://normansrule.github.io/transistor-foundry-expedition/devices.html#align) → [GaN HEMT](https://normansrule.github.io/transistor-foundry-expedition/devices.html#gan_hemt) → [heterojunction builder](https://normansrule.github.io/transistor-foundry-expedition/devices.html#hetero) → [self-heating lab](https://normansrule.github.io/transistor-foundry-expedition/physics.html#heat) → [Chapters 10](docs/10-compound-semiconductors.md), [13](docs/13-diamond-electronics.md) and [23](docs/23-analog-rf-lab.md) |
+| **Curious how a computer is built from them** | [The powers-of-ten zoom](https://normansrule.github.io/transistor-foundry-expedition/circuits.html#zoom) → [gate builder](https://normansrule.github.io/transistor-foundry-expedition/circuits.html#gates) → [8-bit adder](https://normansrule.github.io/transistor-foundry-expedition/circuits.html#adder) → [SRAM](https://normansrule.github.io/transistor-foundry-expedition/circuits.html#sram) and [flash](https://normansrule.github.io/transistor-foundry-expedition/circuits.html#flash) cells → [Chapter 21](docs/21-circuit-lab.md) |
+| **Interested in how chips are manufactured** | [Process flow animation](https://normansrule.github.io/transistor-foundry-expedition/process.html) → [oxidation](https://normansrule.github.io/transistor-foundry-expedition/process.html#oxide) → [implant and anneal](https://normansrule.github.io/transistor-foundry-expedition/process.html#implant) → [yield and cost](https://normansrule.github.io/transistor-foundry-expedition/process.html#yield) → [electromigration](https://normansrule.github.io/transistor-foundry-expedition/process.html#em) → [Chapters 16](docs/16-process-flow.md) and [22](docs/22-process-lab.md) |
 | **Teaching** | Every figure is CC BY 4.0 and regenerated by `python sim/make_figures.py`; the atlas deep-links to any device (`devices.html#finfet`), and the quiz draws new questions each round. |
 
 ## Contents
@@ -73,35 +74,35 @@ Transistor Odyssey follows the transistor from a 50 µm gold contact on germaniu
 
 ## How each transistor works
 
-Each animation is recorded from the [Device Atlas](https://normansrule.github.io/transistor-odyssey/devices.html). The left panel is the device's cross-section, with electrons (filled blue) and holes (open orange) moving along the current path; the right panel is the energy band diagram along that path, computed from the same model. [Chapter 20](docs/20-how-transistors-work.md) walks through all 19 devices in text.
+Each animation is recorded from the [Device Atlas](https://normansrule.github.io/transistor-foundry-expedition/devices.html). The left panel is the device's cross-section, with electrons (filled blue) and holes (open orange) moving along the current path; the right panel is the energy band diagram along that path, computed from the same model. [Chapter 20](docs/20-how-transistors-work.md) walks through all 19 devices in text.
 
 ### Planar MOSFET · 1960
 
-<p align="center"><a href="https://normansrule.github.io/transistor-odyssey/devices.html#planar_mosfet"><img src="figures/anim/planar_mosfet.gif" width="100%" alt="Animated planar MOSFET and its band diagram"></a></p>
+<p align="center"><a href="https://normansrule.github.io/transistor-foundry-expedition/devices.html#planar_mosfet"><img src="figures/anim/planar_mosfet.gif" width="100%" alt="Animated planar MOSFET and its band diagram"></a></p>
 
 The gate pulls the conduction band under it down. Below threshold, electrons must climb a barrier between source and channel and the current falls tenfold for every 60 mV of gate voltage; above threshold an inversion layer forms and the barrier is gone.
 
 ### Why the FinFET had to happen
 
-<p align="center"><a href="https://normansrule.github.io/transistor-odyssey/devices.html#compare"><img src="figures/anim/compare.gif" width="100%" alt="Planar MOSFET, FinFET and nanosheet side by side, gate off, drain rising"></a></p>
+<p align="center"><a href="https://normansrule.github.io/transistor-foundry-expedition/devices.html#compare"><img src="figures/anim/compare.gif" width="100%" alt="Planar MOSFET, FinFET and nanosheet side by side, gate off, drain rising"></a></p>
 
-All three silicon devices with the gate off and the drain voltage rising. The drain reaches around a single planar gate and pulls its barrier down by about 120 meV; wrapping the gate around a fin cuts that to about 40 meV, and around stacked nanosheets to about 22 meV. Every 60 meV is a factor of ten in leakage. Try it live in the [comparison](https://normansrule.github.io/transistor-odyssey/devices.html#compare).
+All three silicon devices with the gate off and the drain voltage rising. The drain reaches around a single planar gate and pulls its barrier down by about 120 meV; wrapping the gate around a fin cuts that to about 40 meV, and around stacked nanosheets to about 22 meV. Every 60 meV is a factor of ten in leakage. Try it live in the [comparison](https://normansrule.github.io/transistor-foundry-expedition/devices.html#compare).
 
 ### Gate-all-around nanosheet · 2022–25
 
-<p align="center"><a href="https://normansrule.github.io/transistor-odyssey/devices.html#gaa"><img src="figures/anim/gaa.gif" width="100%" alt="Animated gate-all-around nanosheet transistor and its band diagram"></a></p>
+<p align="center"><a href="https://normansrule.github.io/transistor-foundry-expedition/devices.html#gaa"><img src="figures/anim/gaa.gif" width="100%" alt="Animated gate-all-around nanosheet transistor and its band diagram"></a></p>
 
 The 2 nm generation (Samsung SF3, TSMC N2, Intel 18A): stacked silicon sheets about 5 nm thick, with the gate on all four sides of each.
 
 ### AlGaN/GaN high-electron-mobility transistor · 1993
 
-<p align="center"><a href="https://normansrule.github.io/transistor-odyssey/devices.html#gan_hemt"><img src="figures/anim/gan_hemt.gif" width="100%" alt="Animated GaN HEMT and its band diagram"></a></p>
+<p align="center"><a href="https://normansrule.github.io/transistor-foundry-expedition/devices.html#gan_hemt"><img src="figures/anim/gan_hemt.gif" width="100%" alt="Animated GaN HEMT and its band diagram"></a></p>
 
 Polarization charge at the aluminium gallium nitride / gallium nitride interface creates a sheet of about 10¹³ electrons/cm² with no doping at all. The device is normally on: a negative gate voltage lifts the quantum well above the Fermi level to switch it off.
 
 ### Bipolar junction transistor · 1951
 
-<p align="center"><a href="https://normansrule.github.io/transistor-odyssey/devices.html#bjt"><img src="figures/anim/bjt.gif" width="100%" alt="Animated bipolar junction transistor and its band diagram"></a></p>
+<p align="center"><a href="https://normansrule.github.io/transistor-foundry-expedition/devices.html#bjt"><img src="figures/anim/bjt.gif" width="100%" alt="Animated bipolar junction transistor and its band diagram"></a></p>
 
 No insulated gate: forward bias on the emitter–base junction lowers its built-in barrier, electrons diffuse across a thin base, and fall down the reverse-biased collector junction.
 
@@ -110,25 +111,25 @@ No insulated gate: forward bias on the emitter–base junction lowers its built-
 
 ### Tunnel FET · 2004
 
-<p align="center"><a href="https://normansrule.github.io/transistor-odyssey/devices.html#tfet"><img src="figures/anim/tfet.gif" width="100%" alt="Animated tunnel FET and its band diagram"></a></p>
+<p align="center"><a href="https://normansrule.github.io/transistor-foundry-expedition/devices.html#tfet"><img src="figures/anim/tfet.gif" width="100%" alt="Animated tunnel FET and its band diagram"></a></p>
 
 Electrons tunnel sideways from the source valence band into the channel conduction band once the gate opens an energy window, so the swing can beat 60 mV per decade.
 
 ### Insulated-gate bipolar transistor · 1982
 
-<p align="center"><a href="https://normansrule.github.io/transistor-odyssey/devices.html#igbt"><img src="figures/anim/igbt.gif" width="100%" alt="Animated IGBT and its band diagram"></a></p>
+<p align="center"><a href="https://normansrule.github.io/transistor-foundry-expedition/devices.html#igbt"><img src="figures/anim/igbt.gif" width="100%" alt="Animated IGBT and its band diagram"></a></p>
 
 A MOS channel feeds electrons into a thick drift region; the p⁺ layer at the back injects holes, and the region floods with both carriers, conducting far better than its doping alone allows.
 
 ### Carbon-nanotube FET · 1998
 
-<p align="center"><a href="https://normansrule.github.io/transistor-odyssey/devices.html#cnt_fet"><img src="figures/anim/cnt_fet.gif" width="100%" alt="Animated carbon-nanotube FET and its band diagram"></a></p>
+<p align="center"><a href="https://normansrule.github.io/transistor-foundry-expedition/devices.html#cnt_fet"><img src="figures/anim/cnt_fet.gif" width="100%" alt="Animated carbon-nanotube FET and its band diagram"></a></p>
 
 Metal contacts form Schottky barriers at each end of a 1.5 nm nanotube; the gate thins those barriers until electrons tunnel through.
 
 ### Hydrogen-terminated diamond FET · 1994
 
-<p align="center"><a href="https://normansrule.github.io/transistor-odyssey/devices.html#diamond_fet"><img src="figures/anim/diamond_fet.gif" width="100%" alt="Animated hydrogen-terminated diamond FET and its band diagram"></a></p>
+<p align="center"><a href="https://normansrule.github.io/transistor-foundry-expedition/devices.html#diamond_fet"><img src="figures/anim/diamond_fet.gif" width="100%" alt="Animated hydrogen-terminated diamond FET and its band diagram"></a></p>
 
 Surface transfer doping gives diamond a sheet of holes with no dopant atoms; the device conducts holes, so its bands bend the other way.
 
@@ -148,41 +149,41 @@ Surface transfer doping gives diamond a sheet of holes with no dopant atoms; the
 
 <sub>New in this version: a Poisson solver for any pair of the 21 materials (<code>sim/transistor_sim/physics/hetero.py</code>). Left, a silicon pn junction at 0 V and −2 V; middle, modulation doping, where electrons leave their donors in AlGaAs and collect in GaAs; right, a broken-gap junction between InAs and hydrogen-terminated diamond.</sub>
 
-<p align="center"><a href="https://normansrule.github.io/transistor-odyssey/devices.html#hetero"><img src="figures/anim/pn.gif" width="100%" alt="Silicon pn junction swept from reverse to forward bias"></a></p>
+<p align="center"><a href="https://normansrule.github.io/transistor-foundry-expedition/devices.html#hetero"><img src="figures/anim/pn.gif" width="100%" alt="Silicon pn junction swept from reverse to forward bias"></a></p>
 
-<p align="center"><sub>The same solver, live in the <a href="https://normansrule.github.io/transistor-odyssey/devices.html#hetero">heterojunction builder</a>: a silicon pn junction swept from −2 V to +0.6 V, with the space-charge region (amber) shrinking under forward bias.</sub></p>
+<p align="center"><sub>The same solver, live in the <a href="https://normansrule.github.io/transistor-foundry-expedition/devices.html#hetero">heterojunction builder</a>: a silicon pn junction swept from −2 V to +0.6 V, with the space-charge region (amber) shrinking under forward bias.</sub></p>
 
 ## The interactive site
 
 | Page | What it does |
 |---|---|
-| [**History**](https://normansrule.github.io/transistor-odyssey/) | WebGL fluid hero, scroll-pinned timeline of 20 structures, three.js explorer that explodes seven architectures, compact-model device lab, Moore's-law chart, die photographs beside generated drawings, materials ranking, diamond lab, 14-step fab animation, niche atlas of 31 devices, lithography calculator and searchable bibliography |
-| [**Device Atlas**](https://normansrule.github.io/transistor-odyssey/devices.html) | 19 animated transistors with band diagrams along the current path and through the gate, step-by-step walk-throughs, side-by-side comparison, 21-material band chart, heterojunction builder with doping and bias, and an 8-question self-test |
-| [**Physics Lab**](https://normansrule.github.io/transistor-odyssey/physics.html) | 15 simulations in six parts, from crystal lattices to lithography optics, CMOS logic, ballistic transport and on-chip wires, each with guided experiments and typeset equations |
-| [**Circuit Lab**](https://normansrule.github.io/transistor-odyssey/circuits.html) | A powers-of-ten zoom from a 300 mm wafer to one silicon bond, a switch-level gate builder with logical effort, an event-driven 8-bit adder, a six-transistor SRAM cell with butterfly curves, and a floating-gate flash cell with Fowler–Nordheim programming |
-| [**Process Lab**](https://normansrule.github.io/transistor-odyssey/process.html) | An animated process flow, Deal–Grove oxidation, LSS ion implantation with diffusion anneals, a Monte Carlo wafer map with yield models and the cost per chip by node, and an electromigration stress solver with the Blech length and Black's law |
-| [**Analog & RF Lab**](https://normansrule.github.io/transistor-odyssey/analog.html) | The radio spectrum from audio to 2 THz, a common-source amplifier with live distortion, g_m/I_D and intrinsic gain across six generations, Bode plots with the Miller effect beside record f_T and f_max, and thermal and 1/f noise |
+| [**History**](https://normansrule.github.io/transistor-foundry-expedition/) | WebGL fluid hero, scroll-pinned timeline of 20 structures, three.js explorer that explodes seven architectures, compact-model device lab, Moore's-law chart, die photographs beside generated drawings, materials ranking, diamond lab, 14-step fab animation, niche atlas of 31 devices, lithography calculator and searchable bibliography |
+| [**Device Atlas**](https://normansrule.github.io/transistor-foundry-expedition/devices.html) | 19 animated transistors with band diagrams along the current path and through the gate, step-by-step walk-throughs, side-by-side comparison, 21-material band chart, heterojunction builder with doping and bias, and an 8-question self-test |
+| [**Physics Lab**](https://normansrule.github.io/transistor-foundry-expedition/physics.html) | 15 simulations in six parts, from crystal lattices to lithography optics, CMOS logic, ballistic transport and on-chip wires, each with guided experiments and typeset equations |
+| [**Circuit Lab**](https://normansrule.github.io/transistor-foundry-expedition/circuits.html) | A powers-of-ten zoom from a 300 mm wafer to one silicon bond, a switch-level gate builder with logical effort, an event-driven 8-bit adder, a six-transistor SRAM cell with butterfly curves, and a floating-gate flash cell with Fowler–Nordheim programming |
+| [**Process Lab**](https://normansrule.github.io/transistor-foundry-expedition/process.html) | An animated process flow, Deal–Grove oxidation, LSS ion implantation with diffusion anneals, a Monte Carlo wafer map with yield models and the cost per chip by node, and an electromigration stress solver with the Blech length and Black's law |
+| [**Analog & RF Lab**](https://normansrule.github.io/transistor-foundry-expedition/analog.html) | The radio spectrum from audio to 2 THz, a common-source amplifier with live distortion, g_m/I_D and intrinsic gain across six generations, Bode plots with the Miller effect beside record f_T and f_max, and thermal and 1/f noise |
 
-<p align="center"><a href="https://normansrule.github.io/transistor-odyssey/devices.html#gan_hemt"><img src="figures/screens/atlas.jpg" width="100%" alt="Device Atlas showing the GaN HEMT"></a></p>
+<p align="center"><a href="https://normansrule.github.io/transistor-foundry-expedition/devices.html#gan_hemt"><img src="figures/screens/atlas.jpg" width="100%" alt="Device Atlas showing the GaN HEMT"></a></p>
 <p align="center"><sub>Device Atlas: the GaN HEMT, with the solved quantum well in the lower band diagram.</sub></p>
 
-<p align="center"><a href="https://normansrule.github.io/transistor-odyssey/devices.html#hetero"><img src="figures/screens/heterojunction.jpg" width="100%" alt="Heterojunction builder"></a></p>
+<p align="center"><a href="https://normansrule.github.io/transistor-foundry-expedition/devices.html#hetero"><img src="figures/screens/heterojunction.jpg" width="100%" alt="Heterojunction builder"></a></p>
 <p align="center"><sub>Heterojunction builder: flat-band alignment above, the solved junction below, with carrier densities and the charge collected at the interface.</sub></p>
 
 <table>
 <tr>
-<td width="50%"><a href="https://normansrule.github.io/transistor-odyssey/devices.html#compare"><img src="figures/screens/compare.jpg" alt="Device comparison"></a><br><sub>Side-by-side comparison with guided presets.</sub></td>
-<td width="50%"><a href="https://normansrule.github.io/transistor-odyssey/devices.html#quiz"><img src="figures/screens/quiz.jpg" alt="Band-diagram quiz"></a><br><sub>Self-test: questions are generated from the models each round.</sub></td>
+<td width="50%"><a href="https://normansrule.github.io/transistor-foundry-expedition/devices.html#compare"><img src="figures/screens/compare.jpg" alt="Device comparison"></a><br><sub>Side-by-side comparison with guided presets.</sub></td>
+<td width="50%"><a href="https://normansrule.github.io/transistor-foundry-expedition/devices.html#quiz"><img src="figures/screens/quiz.jpg" alt="Band-diagram quiz"></a><br><sub>Self-test: questions are generated from the models each round.</sub></td>
 </tr>
 <tr>
-<td><a href="https://normansrule.github.io/transistor-odyssey/"><img src="figures/screens/home.jpg" alt="History page"></a><br><sub>The history page.</sub></td>
-<td><a href="https://normansrule.github.io/transistor-odyssey/physics.html#short"><img src="figures/screens/physics_short.jpg" alt="Physics Lab 2D Poisson solver"></a><br><sub>Physics Lab 09: a live 2D Poisson solver.</sub></td>
+<td><a href="https://normansrule.github.io/transistor-foundry-expedition/"><img src="figures/screens/home.jpg" alt="History page"></a><br><sub>The history page.</sub></td>
+<td><a href="https://normansrule.github.io/transistor-foundry-expedition/physics.html#short"><img src="figures/screens/physics_short.jpg" alt="Physics Lab 2D Poisson solver"></a><br><sub>Physics Lab 09: a live 2D Poisson solver.</sub></td>
 </tr>
 </table>
 
 ## The Physics Lab
 
-The [Physics Lab](https://normansrule.github.io/transistor-odyssey/physics.html) turns the semiconductor physics behind the history into fifteen experiments you can run, grouped as materials → junctions and gates → quantum effects → scaling and transport → manufacturing → transistor to circuit. Each lab has sliders, guided "try this" experiments, the equations typeset with KaTeX, and a note on why it matters for transistors. The same models render these figures:
+The [Physics Lab](https://normansrule.github.io/transistor-foundry-expedition/physics.html) turns the semiconductor physics behind the history into fifteen experiments you can run, grouped as materials → junctions and gates → quantum effects → scaling and transport → manufacturing → transistor to circuit. Each lab has sliders, guided "try this" experiments, the equations typeset with KaTeX, and a note on why it matters for transistors. The same models render these figures:
 
 <table>
 <tr>
@@ -218,19 +219,19 @@ The [Physics Lab](https://normansrule.github.io/transistor-odyssey/physics.html)
 
 ## From transistor to computer: the Circuit Lab
 
-The [Circuit Lab](https://normansrule.github.io/transistor-odyssey/circuits.html) follows the switch into the machine. It opens on a zoom through nine powers of ten, from a 300 mm wafer to a silicon–silicon bond, and then builds the circuits in between from the same compact transistor model. [Chapter 21](docs/21-circuit-lab.md) explains each model.
+The [Circuit Lab](https://normansrule.github.io/transistor-foundry-expedition/circuits.html) follows the switch into the machine. It opens on a zoom through nine powers of ten, from a 300 mm wafer to a silicon–silicon bond, and then builds the circuits in between from the same compact transistor model. [Chapter 21](docs/21-circuit-lab.md) explains each model.
 
-<p align="center"><a href="https://normansrule.github.io/transistor-odyssey/circuits.html#zoom"><img src="figures/anim/circuit_zoom.gif" width="100%" alt="Zoom from a 300 mm wafer through a die, a core, standard cells, a NAND gate and a nanosheet transistor down to silicon atoms"></a></p>
+<p align="center"><a href="https://normansrule.github.io/transistor-foundry-expedition/circuits.html#zoom"><img src="figures/anim/circuit_zoom.gif" width="100%" alt="Zoom from a 300 mm wafer through a die, a core, standard cells, a NAND gate and a nanosheet transistor down to silicon atoms"></a></p>
 <p align="center"><sub>Wafer → die → core → standard cells → gates → one NAND2 cell → a nanosheet transistor → atoms → one covalent bond. The dimensions in the captions are real for a 2 nm-class process.</sub></p>
 
 <table>
 <tr>
-<td width="50%"><a href="https://normansrule.github.io/transistor-odyssey/circuits.html#gates"><img src="figures/anim/circuit_gates.gif" alt="Switch-level CMOS NAND gate"></a><br><sub><b>Gate builder.</b> Ten static CMOS gates simulated switch by switch, with truth tables and logical effort derived from the netlists (NAND2 g = 4/3, NOR2 g = 5/3).</sub></td>
-<td width="50%"><a href="https://normansrule.github.io/transistor-odyssey/circuits.html#adder"><img src="figures/anim/circuit_adder.gif" alt="8-bit ripple-carry adder"></a><br><sub><b>8-bit adder.</b> An event-driven simulation in which the carry ripples right to left and sum bits glitch on the way: 14 of the 22 transitions in 255 + 1 are wasted.</sub></td>
+<td width="50%"><a href="https://normansrule.github.io/transistor-foundry-expedition/circuits.html#gates"><img src="figures/anim/circuit_gates.gif" alt="Switch-level CMOS NAND gate"></a><br><sub><b>Gate builder.</b> Ten static CMOS gates simulated switch by switch, with truth tables and logical effort derived from the netlists (NAND2 g = 4/3, NOR2 g = 5/3).</sub></td>
+<td width="50%"><a href="https://normansrule.github.io/transistor-foundry-expedition/circuits.html#adder"><img src="figures/anim/circuit_adder.gif" alt="8-bit ripple-carry adder"></a><br><sub><b>8-bit adder.</b> An event-driven simulation in which the carry ripples right to left and sum bits glitch on the way: 14 of the 22 transitions in 255 + 1 are wasted.</sub></td>
 </tr>
 <tr>
-<td><a href="https://normansrule.github.io/transistor-odyssey/circuits.html#sram"><img src="figures/anim/circuit_sram.gif" alt="SRAM read cycle"></a><br><sub><b>Six-transistor SRAM.</b> A read cycle: the word line opens, the bitline on the 0 side discharges and the stored 0 is lifted by the read disturb.</sub></td>
-<td><a href="https://normansrule.github.io/transistor-odyssey/circuits.html#flash"><img src="figures/anim/circuit_flash.gif" alt="Flash cell programming"></a><br><sub><b>Flash cell.</b> Electrons tunnel through 8 nm of oxide at ~10 MV/cm (Fowler–Nordheim), one stepped pulse at a time; on the right is the triangular barrier they cross.</sub></td>
+<td><a href="https://normansrule.github.io/transistor-foundry-expedition/circuits.html#sram"><img src="figures/anim/circuit_sram.gif" alt="SRAM read cycle"></a><br><sub><b>Six-transistor SRAM.</b> A read cycle: the word line opens, the bitline on the 0 side discharges and the stored 0 is lifted by the read disturb.</sub></td>
+<td><a href="https://normansrule.github.io/transistor-foundry-expedition/circuits.html#flash"><img src="figures/anim/circuit_flash.gif" alt="Flash cell programming"></a><br><sub><b>Flash cell.</b> Electrons tunnel through 8 nm of oxide at ~10 MV/cm (Fowler–Nordheim), one stepped pulse at a time; on the right is the triangular barrier they cross.</sub></td>
 </tr>
 </table>
 
@@ -240,16 +241,16 @@ The [Circuit Lab](https://normansrule.github.io/transistor-odyssey/circuits.html
 
 ## The physics of making chips: the Process Lab
 
-The [Process Lab](https://normansrule.github.io/transistor-odyssey/process.html) covers the factory side: how an oxide grows, where implanted dopants stop, how many dies survive on a wafer, and how copper wires wear out. It opens on an animated cross-section built step by step, from bare wafer to copper wiring. [Chapter 22](docs/22-process-lab.md) explains each model.
+The [Process Lab](https://normansrule.github.io/transistor-foundry-expedition/process.html) covers the factory side: how an oxide grows, where implanted dopants stop, how many dies survive on a wafer, and how copper wires wear out. It opens on an animated cross-section built step by step, from bare wafer to copper wiring. [Chapter 22](docs/22-process-lab.md) explains each model.
 
 <table>
 <tr>
-<td width="50%"><a href="https://normansrule.github.io/transistor-odyssey/process.html#oxide"><img src="figures/anim/process_oxide.gif" alt="Silicon oxidising in steam"></a><br><sub><b>Thermal oxidation.</b> Water molecules diffuse through the growing oxide and react at the interface, which moves down into the silicon (Deal–Grove).</sub></td>
-<td width="50%"><a href="https://normansrule.github.io/transistor-odyssey/process.html#implant"><img src="figures/anim/process_implant.gif" alt="Arsenic implantation"></a><br><sub><b>Ion implantation.</b> Arsenic ions zig-zag through the lattice and stop in a Gaussian around the LSS projected range; an anneal then sets the junction.</sub></td>
+<td width="50%"><a href="https://normansrule.github.io/transistor-foundry-expedition/process.html#oxide"><img src="figures/anim/process_oxide.gif" alt="Silicon oxidising in steam"></a><br><sub><b>Thermal oxidation.</b> Water molecules diffuse through the growing oxide and react at the interface, which moves down into the silicon (Deal–Grove).</sub></td>
+<td width="50%"><a href="https://normansrule.github.io/transistor-foundry-expedition/process.html#implant"><img src="figures/anim/process_implant.gif" alt="Arsenic implantation"></a><br><sub><b>Ion implantation.</b> Arsenic ions zig-zag through the lattice and stop in a Gaussian around the LSS projected range; an anneal then sets the junction.</sub></td>
 </tr>
 <tr>
-<td><a href="https://normansrule.github.io/transistor-odyssey/process.html#yield"><img src="figures/anim/process_yield.gif" alt="Defects landing on a wafer"></a><br><sub><b>Yield.</b> A Monte Carlo wafer with clustered defects: each die hit by a defect turns red. The yield matches the negative-binomial model.</sub></td>
-<td><a href="https://normansrule.github.io/transistor-odyssey/process.html#em"><img src="figures/anim/process_em.gif" alt="Electromigration in a copper line"></a><br><sub><b>Electromigration.</b> The electron wind builds tension at the cathode and compression at the anode until a void opens; lines shorter than the Blech length never fail.</sub></td>
+<td><a href="https://normansrule.github.io/transistor-foundry-expedition/process.html#yield"><img src="figures/anim/process_yield.gif" alt="Defects landing on a wafer"></a><br><sub><b>Yield.</b> A Monte Carlo wafer with clustered defects: each die hit by a defect turns red. The yield matches the negative-binomial model.</sub></td>
+<td><a href="https://normansrule.github.io/transistor-foundry-expedition/process.html#em"><img src="figures/anim/process_em.gif" alt="Electromigration in a copper line"></a><br><sub><b>Electromigration.</b> The electron wind builds tension at the cathode and compression at the anode until a void opens; lines shorter than the Blech length never fail.</sub></td>
 </tr>
 </table>
 
@@ -259,16 +260,16 @@ The [Process Lab](https://normansrule.github.io/transistor-odyssey/process.html)
 
 ## The transistor as an amplifier: the Analog & RF Lab
 
-The [Analog & RF Lab](https://normansrule.github.io/transistor-odyssey/analog.html) treats the transistor as an amplifier rather than a switch. It opens on the radio spectrum from audio to 2 THz, drawn as a chirp, with the bands each generation of transistors made usable and the fastest devices on record. [Chapter 23](docs/23-analog-rf-lab.md) explains each model.
+The [Analog & RF Lab](https://normansrule.github.io/transistor-foundry-expedition/analog.html) treats the transistor as an amplifier rather than a switch. It opens on the radio spectrum from audio to 2 THz, drawn as a chirp, with the bands each generation of transistors made usable and the fastest devices on record. [Chapter 23](docs/23-analog-rf-lab.md) explains each model.
 
 <table>
 <tr>
-<td width="50%"><a href="https://normansrule.github.io/transistor-odyssey/analog.html#amp"><img src="figures/anim/analog_amp.gif" alt="A common-source amplifier driven into clipping"></a><br><sub><b>Common-source amplifier.</b> A 180 nm transistor and a 10 kΩ resistor give a gain of about 10; as the input grows the output clips against the rails and the harmonics rise.</sub></td>
-<td width="50%"><a href="https://normansrule.github.io/transistor-odyssey/analog.html#gain"><img src="figures/anim/analog_gain.gif" alt="Output characteristics across generations"></a><br><sub><b>Intrinsic gain.</b> The tangent to the output curve is g_ds = 1/r_o. Gain g_m·r_o falls from 24 at 180 nm to 8 at 45 nm, then recovers to 22 with FinFETs.</sub></td>
+<td width="50%"><a href="https://normansrule.github.io/transistor-foundry-expedition/analog.html#amp"><img src="figures/anim/analog_amp.gif" alt="A common-source amplifier driven into clipping"></a><br><sub><b>Common-source amplifier.</b> A 180 nm transistor and a 10 kΩ resistor give a gain of about 10; as the input grows the output clips against the rails and the harmonics rise.</sub></td>
+<td width="50%"><a href="https://normansrule.github.io/transistor-foundry-expedition/analog.html#gain"><img src="figures/anim/analog_gain.gif" alt="Output characteristics across generations"></a><br><sub><b>Intrinsic gain.</b> The tangent to the output curve is g_ds = 1/r_o. Gain g_m·r_o falls from 24 at 180 nm to 8 at 45 nm, then recovers to 22 with FinFETs.</sub></td>
 </tr>
 <tr>
-<td><a href="https://normansrule.github.io/transistor-odyssey/analog.html#bode"><img src="figures/anim/analog_bode.gif" alt="Output shrinking and lagging as frequency rises"></a><br><sub><b>Frequency response.</b> Past the bandwidth set by the Miller-multiplied gate–drain capacitance, the output shrinks and lags behind its low-frequency self.</sub></td>
-<td><a href="https://normansrule.github.io/transistor-odyssey/analog.html#noise"><img src="figures/anim/analog_noise.gif" alt="A faint sine emerging from noise"></a><br><sub><b>Noise.</b> A 10 µV signal over the audio band: as the transistor gets wider its 1/f noise falls and the signal emerges.</sub></td>
+<td><a href="https://normansrule.github.io/transistor-foundry-expedition/analog.html#bode"><img src="figures/anim/analog_bode.gif" alt="Output shrinking and lagging as frequency rises"></a><br><sub><b>Frequency response.</b> Past the bandwidth set by the Miller-multiplied gate–drain capacitance, the output shrinks and lags behind its low-frequency self.</sub></td>
+<td><a href="https://normansrule.github.io/transistor-foundry-expedition/analog.html#noise"><img src="figures/anim/analog_noise.gif" alt="A faint sine emerging from noise"></a><br><sub><b>Noise.</b> A 10 µV signal over the audio band: as the transistor gets wider its 1/f noise falls and the signal emerges.</sub></td>
 </tr>
 </table>
 
@@ -420,13 +421,13 @@ The [Analog & RF Lab](https://normansrule.github.io/transistor-odyssey/analog.ht
 On Ubuntu or Windows Subsystem for Linux (WSL2). A browser download from Windows lands in the Windows Downloads folder, which WSL sees as `/mnt/c/Users/<you>/Downloads/`, not `~`:
 
 ```bash
-ZIP=$(ls -t /mnt/c/Users/$USER/Downloads/transistor-odyssey*.zip | head -1) && echo "$ZIP"
+ZIP=$(ls -t /mnt/c/Users/$USER/Downloads/transistor-foundry-expedition*.zip | head -1) && echo "$ZIP"
 mkdir -p ~/projects && cd ~/projects
-[ -d transistor-odyssey ] && mv transistor-odyssey "transistor-odyssey.old.$(date +%s)"
-unzip -q "$ZIP" && cd transistor-odyssey && bash scripts/setup_ubuntu.sh
+[ -d transistor-foundry-expedition ] && mv transistor-foundry-expedition "transistor-foundry-expedition.old.$(date +%s)"
+unzip -q "$ZIP" && cd transistor-foundry-expedition && bash scripts/setup_ubuntu.sh
 ```
 
-`scripts/setup_ubuntu.sh` builds a private `.venv`, regenerates everything, runs the tests, creates `Normansrule/transistor-odyssey`, pushes over the `github-normansrule` SSH alias, enables GitHub Pages and starts the deploy. Override with `OWNER=… REPO=… SSH_HOST=…`, or `SKIP_GITHUB=1` to build locally only. It stops at the first error.
+`scripts/setup_ubuntu.sh` builds a private `.venv`, regenerates everything, runs the tests, creates `Normansrule/transistor-foundry-expedition`, pushes over the `github-normansrule` SSH alias, enables GitHub Pages and starts the deploy. Override with `OWNER=… REPO=… SSH_HOST=…`, or `SKIP_GITHUB=1` to build locally only. It stops at the first error.
 
 Day-to-day:
 
@@ -436,14 +437,19 @@ make figures     # regenerate cross-sections, GDS layouts, charts, site data
 make test        # physics + data checks (+ JS parity if Node.js is installed)
 make serve       # website at http://localhost:8000
 make spice       # optional: needs `sudo apt install ngspice`
+make qa          # browser QA: screenshots at 1440 and 390 px, overflow, nav, click-through (needs Node.js + Playwright)
+make gifs        # re-record the README animations from the live pages, each under 1.5 MB
+make zip         # build transistor-foundry-expedition-vX.Y.zip and check it is under 30 MiB
 ```
+
+Playwright for `make qa` and `make gifs`, once: `sudo apt install nodejs npm && sudo npm i -g playwright && sudo npx playwright install --with-deps chromium`.
 
 Open a generated layout in KLayout: `klayout figures/layout/inverter_22_nm_FinFET.gds`.
 
 ## Repository layout
 
 ```
-transistor-odyssey/
+transistor-foundry-expedition/
 ├── site/                  GitHub Pages website: index.html (history) · devices.html (Device Atlas) · physics.html (Physics Lab) · circuits.html (Circuit Lab) · process.html (Process Lab) · analog.html (Analog & RF Lab), css/, js/, vendor/ (three.js, GSAP, KaTeX, fonts)
 │   ├── js/physics/        browser twins of the Python physics, checked by tests/js_parity.mjs
 │   ├── js/devices/        Device Atlas: band models, scenes, animated renderers, comparison, quiz, junction builder
@@ -458,13 +464,14 @@ transistor-odyssey/
 │   └── make_figures.py    renders everything in figures/
 ├── figures/               generated charts, bands/ (per-device band diagrams), anim/ (GIFs), screens/, cross_sections/, layout/ (SVG + GDS)
 ├── data/                  devices · band_alignment · memory · fab_economics · rf_records · chips · nodes · materials · timeline · niche · diamond · dopants · process · images · references
-├── scripts/               setup_ubuntu.sh · build_data.py (site bundle, REFERENCES.md, CREDITS.md) · fetch_images.py · banner.html + render_banner.py
+├── scripts/               setup_ubuntu.sh · build_data.py (site bundle, REFERENCES.md, CREDITS.md) · build_nav.py (one navigation for every page) · make_zip.py · fetch_images.py · banner.html
+│   └── qa/                qa.mjs (screens, overflow, nav, click-through) · record_gifs.mjs + gifs.json · render_banner.mjs
 ├── tests/                 pytest suite
 ├── REFERENCES.md          316 sources, generated
 └── CREDITS.md             photo attribution, generated
 ```
 
-**What is in it:** 19 devices and 21 band alignments · 33 landmark chips · 25 process nodes · 12 semiconductors · 20 structural eras · 31 niche devices · 16 diamond milestones · 9 dopants · 12 SRAM bitcells · 11 NAND milestones · 11 wafer prices · 7 speed records · 14 process steps · 7 crystal structures ([data/](data)) · 43 labelled cross-sections, 14 process-flow drawings, 6 GDS mask layouts, 39 charts, 19 band-diagram figures and 25 animations ([figures/](figures)) · ngspice netlists ([sim/spice](sim/spice)) · 182 tests ([tests/](tests)).
+**What is in it:** 19 devices and 21 band alignments · 33 landmark chips · 25 process nodes · 12 semiconductors · 20 structural eras · 31 niche devices · 16 diamond milestones · 9 dopants · 12 SRAM bitcells · 11 NAND milestones · 11 wafer prices · 7 speed records · 14 process steps · 7 crystal structures ([data/](data)) · 43 labelled cross-sections, 14 process-flow drawings, 6 GDS mask layouts, 39 charts, 19 band-diagram figures and 25 animations ([figures/](figures)) · ngspice netlists ([sim/spice](sim/spice)) · 13 seed fab steps ([data/fab_steps.json](data/fab_steps.json)) · 220 tests ([tests/](tests)).
 
 ## Accuracy policy
 
@@ -487,10 +494,10 @@ Code: [MIT](LICENSE). Text, data and generated figures: [CC BY 4.0](LICENSE). Ph
 ## Cite
 
 ```bibtex
-@misc{transistor_odyssey_2026,
-  title  = {Transistor Odyssey: an open, simulated history of transistor structure and materials, 1947--2026},
+@misc{transistor_foundry_expedition_2026,
+  title  = {Transistor Foundry Expedition: an open, simulated history of how transistors are made, 1947--2026},
   author = {Norman, Aleksander},
   year   = {2026},
-  url    = {https://github.com/Normansrule/transistor-odyssey}
+  url    = {https://github.com/Normansrule/transistor-foundry-expedition}
 }
 ```

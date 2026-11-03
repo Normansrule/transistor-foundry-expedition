@@ -1,6 +1,6 @@
 # 21 · From transistor to computer: the Circuit Lab
 
-The rest of this repository is about one switch. This chapter is about what billions of them do together. The [Circuit Lab](https://normansrule.github.io/transistor-odyssey/circuits.html) is a separate page with a powers-of-ten zoom and four interactive labs: logic gates, an adder, the SRAM cell and the flash cell. Every lab runs a JavaScript model in the browser. That model is a twin of a Python module in `sim/transistor_sim/physics/` (`logic.py`, `sram.py`, `flash.py`), and the two are checked against each other in CI by `tests/js_parity.mjs` and `tests/test_circuitlab.py`.
+The rest of this repository is about one switch. This chapter is about what billions of them do together. The [Circuit Lab](https://normansrule.github.io/transistor-foundry-expedition/circuits.html) is a separate page with a powers-of-ten zoom and four interactive labs: logic gates, an adder, the SRAM cell and the flash cell. Every lab runs a JavaScript model in the browser. That model is a twin of a Python module in `sim/transistor_sim/physics/` (`logic.py`, `sram.py`, `flash.py`), and the two are checked against each other in CI by `tests/js_parity.mjs` and `tests/test_circuitlab.py`.
 
 <p align="center"><img src="../figures/anim/circuit_zoom.gif" width="100%" alt="Zoom from a 300 mm wafer to a silicon–silicon bond"></p>
 
