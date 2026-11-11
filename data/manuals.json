@@ -1,0 +1,2870 @@
+{
+ "_about": "Step-by-step process manuals (roadmap item 4). scripts/build_manuals.py renders each manual three ways: site/manuals/<id>.html (web, prints to PDF), docs/manuals/<id>.md (GitHub) and the README block between the manuals markers, plus site/manuals.html (the shelf). Never hand-edit those outputs. Builder text is for beginners; 'spec' is the engineer handbook (operation specification) and 'deep' is process-engineer depth. Every number carries [@key] from references.json. Frames describe an isometric picture: 'layers' bottom to top (h in px, optional segs as [from, to] in % of width, new=true highlights what this step adds) and 'props' are drawn on top. Safety tiers as in fab_steps.json: 0 safe, 1 care, 2 equipment or heat, 3 institution-only chemistry (no parameters published).",
+ "schema_version": 1,
+ "manuals": [
+  {
+   "id": "photomask",
+   "code": "4B",
+   "area": "lithography",
+   "area_no": 4,
+   "fab_step": "litho_expose",
+   "title": "Make the photomask",
+   "subtitle": "Mask making: blank, write, develop, etch the chrome, strip, measure, inspect and repair, mount the pellicle",
+   "route": "Every route: each lithography layer needs its own mask",
+   "next": "Manual 4A · Print a pattern with light",
+   "intro": "Before a wafer can be patterned, the pattern has to exist as a mask: a plate of glass with a thin opaque film where light must be blocked. A mask is written once, checked obsessively and then used to print thousands of wafers. A device can need between 5 and 40 or more of them.",
+   "model_after": "The sequence follows public descriptions from two mask makers [@compugraphics_masks] [@elveflow_masks], with mask types and numbers from the Photomask article [@wiki_photomask].",
+   "you_need": [
+    {
+     "m": "quartz",
+     "label": "Mask blank: quartz or glass with chrome and resist"
+    },
+    {
+     "m": "uv",
+     "label": "Laser or electron-beam writer time"
+    },
+    {
+     "m": "chrome",
+     "label": "The layout file for this layer"
+    }
+   ],
+   "steps": [
+    {
+     "n": 1,
+     "id": "blank",
+     "title": "Start with a blank",
+     "tier": 0,
+     "do": "Take a plate of fused silica (quartz) or soda-lime glass coated with chrome, an anti-reflective layer and resist.",
+     "check": "No scratches, pinholes or particles on the blank.",
+     "chips": [
+      {
+       "t": "fused silica (QZ) or soda-lime glass (SL) [@compugraphics_masks]"
+      },
+      {
+       "t": "reticles are typically quartz [@compugraphics_masks]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "quartz",
+        "h": 26
+       },
+       {
+        "m": "chrome",
+        "h": 4
+       },
+       {
+        "m": "ar",
+        "h": 2
+       },
+       {
+        "m": "resist",
+        "h": 8,
+        "new": true,
+        "tag": "Resist on chrome"
+       }
+      ]
+     },
+     "spec": {
+      "tool": "Blank stocker",
+      "purpose": "Supply a defect-free plate",
+      "params": [],
+      "control": "Blank defect map from the supplier",
+      "ooc": "Defect on blank: reject it"
+     },
+     "deep": "Quartz transmits deep-ultraviolet light and barely expands with heat, so it is used for reticles in steppers and scanners; soda-lime glass is cheaper and serves for copy masks and contact printing [@compugraphics_masks]. Chromium is used because it blocks ultraviolet light well [@wiki_photomask]."
+    },
+    {
+     "n": 2,
+     "id": "write",
+     "title": "Write the pattern",
+     "tier": 2,
+     "do": "A laser or electron beam scans the layout into the resist, piece by piece, straight from the design file.",
+     "check": "The writer logs every field as written.",
+     "chips": [
+      {
+       "t": "laser writer with a micromirror array, 0.8 µm pixels [@elveflow_masks]"
+      },
+      {
+       "t": "leading-edge masks: electron-beam writers [@levinson2019]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "quartz",
+        "h": 26
+       },
+       {
+        "m": "chrome",
+        "h": 4
+       },
+       {
+        "m": "ar",
+        "h": 2
+       },
+       {
+        "m": "resist",
+        "h": 8,
+        "segs": [
+         [
+          0,
+          22
+         ],
+         [
+          40,
+          60
+         ],
+         [
+          78,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "latent",
+        "h": 8,
+        "segs": [
+         [
+          22,
+          40
+         ],
+         [
+          60,
+          78
+         ]
+        ],
+        "stack": "resist",
+        "new": true,
+        "tag": "Written"
+       }
+      ],
+      "props": [
+       "beam"
+      ]
+     },
+     "spec": {
+      "tool": "Laser or electron-beam mask writer",
+      "purpose": "Turn the layout into a latent image",
+      "params": [
+       {
+        "name": "Laser-writer pixel (example)",
+        "value": "0.8 µm",
+        "ref": "elveflow_masks"
+       }
+      ],
+      "control": "Writer calibration; stitching marks",
+      "ooc": "Stitching error between fields: rewrite on a new blank"
+     },
+     "deep": "No mask exists yet to copy from, so the pattern is drawn directly. A laser writer flashes frames through a digital micromirror device and stitches them together [@elveflow_masks]. Masks for advanced nodes are written with electron beams [@levinson2019]."
+    },
+    {
+     "n": 3,
+     "id": "develop",
+     "title": "Develop",
+     "tier": 2,
+     "do": "Dissolve the written resist so the chrome shows through where the pattern must become clear.",
+     "check": "Openings are clean down to the chrome.",
+     "chips": [
+      {
+       "t": "developer: institution-only handling"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "quartz",
+        "h": 26
+       },
+       {
+        "m": "chrome",
+        "h": 4
+       },
+       {
+        "m": "ar",
+        "h": 2
+       },
+       {
+        "m": "resist",
+        "h": 8,
+        "segs": [
+         [
+          0,
+          22
+         ],
+         [
+          40,
+          60
+         ],
+         [
+          78,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "open",
+        "h": 8,
+        "segs": [
+         [
+          22,
+          40
+         ],
+         [
+          60,
+          78
+         ]
+        ],
+        "stack": "resist",
+        "new": true
+       }
+      ],
+      "props": [
+       "puddle_dev"
+      ]
+     },
+     "spec": {
+      "tool": "Mask developer",
+      "purpose": "Open the resist",
+      "params": [],
+      "control": "Visual and CD check",
+      "ooc": "Scum: rework or reject"
+     },
+     "deep": "This is the same chemistry as wafer lithography (Manual 4A), on a glass plate instead of silicon [@compugraphics_masks]."
+    },
+    {
+     "n": 4,
+     "id": "chrome",
+     "title": "Etch the chrome",
+     "tier": 3,
+     "do": "Remove the chrome through the resist openings so light can pass there.",
+     "check": "Clear areas are fully transparent.",
+     "chips": [
+      {
+       "t": "a chemical process that removes chrome selectively [@elveflow_masks]"
+      },
+      {
+       "t": "chrome etchant: institution-only"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "quartz",
+        "h": 26
+       },
+       {
+        "m": "chrome_cut",
+        "h": 4,
+        "segs": [
+         [
+          0,
+          22
+         ],
+         [
+          40,
+          60
+         ],
+         [
+          78,
+          100
+         ]
+        ],
+        "new": true,
+        "tag": "Chrome pattern"
+       },
+       {
+        "m": "resist",
+        "h": 8,
+        "segs": [
+         [
+          0,
+          22
+         ],
+         [
+          40,
+          60
+         ],
+         [
+          78,
+          100
+         ]
+        ]
+       }
+      ]
+     },
+     "spec": {
+      "tool": "Mask etch station",
+      "purpose": "Transfer the pattern into the chrome",
+      "params": [],
+      "control": "Clear-area transmission; CD",
+      "ooc": "Chrome left in openings: re-etch or reject"
+     },
+     "deep": "The chrome etchant is hazardous chemistry handled only by trained staff, so this step is conceptual here. Advanced masks are etched in a plasma instead, for the same reason wafers are: straighter edges [@levinson2019]."
+    },
+    {
+     "n": 5,
+     "id": "strip",
+     "title": "Strip the resist",
+     "tier": 2,
+     "do": "Remove the remaining resist. What is left is the chrome pattern on glass.",
+     "check": "No resist residue.",
+     "chips": [
+      {
+       "t": "chrome on quartz or soda-lime, with the anti-reflective coating [@elveflow_masks]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "quartz",
+        "h": 26
+       },
+       {
+        "m": "chrome_cut",
+        "h": 4,
+        "segs": [
+         [
+          0,
+          22
+         ],
+         [
+          40,
+          60
+         ],
+         [
+          78,
+          100
+         ]
+        ],
+        "new": true,
+        "tag": "Finished pattern"
+       }
+      ]
+     },
+     "spec": {
+      "tool": "Resist strip and clean",
+      "purpose": "Leave a clean chrome-on-glass pattern",
+      "params": [],
+      "control": "Particle count after clean",
+      "ooc": "Particles: clean again"
+     },
+     "deep": "The plate now works like a stencil: it blocks light where chrome remains and passes it where chrome was etched."
+    },
+    {
+     "n": 6,
+     "id": "measure",
+     "title": "Measure the critical dimensions",
+     "tier": 0,
+     "do": "Measure line widths at many points and check them against the design.",
+     "check": "Every measured width is inside its tolerance.",
+     "chips": [
+      {
+       "t": "CD measurement [@compugraphics_masks]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "quartz",
+        "h": 26
+       },
+       {
+        "m": "chrome_cut",
+        "h": 4,
+        "segs": [
+         [
+          0,
+          22
+         ],
+         [
+          40,
+          60
+         ],
+         [
+          78,
+          100
+         ]
+        ]
+       }
+      ],
+      "props": [
+       "lens",
+       "cd"
+      ],
+      "lens_label": "CD tool"
+     },
+     "spec": {
+      "tool": "Mask CD metrology",
+      "purpose": "Prove the mask prints the right size",
+      "params": [],
+      "control": "CD mean and uniformity",
+      "ooc": "Out of tolerance: reject the mask"
+     },
+     "deep": "A reticle used at 4× reduction prints features four times smaller than it carries [@wiki_photomask], so a mask error also shrinks by four on the wafer."
+    },
+    {
+     "n": 7,
+     "id": "inspect",
+     "title": "Inspect and repair",
+     "tier": 2,
+     "do": "Compare the whole mask against the design to find any defect, and repair it if possible.",
+     "check": "No printable defect remains.",
+     "chips": [
+      {
+       "t": "inspect, then repair if necessary [@compugraphics_masks]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "quartz",
+        "h": 26
+       },
+       {
+        "m": "chrome_cut",
+        "h": 4,
+        "segs": [
+         [
+          0,
+          22
+         ],
+         [
+          40,
+          60
+         ],
+         [
+          78,
+          100
+         ],
+         [
+          28,
+          31
+         ]
+        ]
+       }
+      ],
+      "props": [
+       "lens"
+      ],
+      "lens_label": "defect inspection"
+     },
+     "spec": {
+      "tool": "Mask inspection and repair tools",
+      "purpose": "Make the mask defect-free",
+      "params": [],
+      "control": "Defect list after inspection",
+      "ooc": "Unrepairable defect: rewrite the mask"
+     },
+     "deep": "One defect on a mask repeats on every die it prints, on every wafer. That is why masks are inspected far more strictly than wafers. A small chrome spot (drawn here between the lines) would be removed or patched by repair tools."
+    },
+    {
+     "n": 8,
+     "id": "pellicle",
+     "title": "Mount the pellicle",
+     "tier": 0,
+     "do": "Glue a frame over the pattern with a thin transparent film stretched across it. Dust now lands on the film, out of focus.",
+     "check": "The pellicle is flat and free of particles.",
+     "chips": [
+      {
+       "t": "a protective pellicle is attached last [@compugraphics_masks]"
+      },
+      {
+       "t": "pellicle film on a frame glued over one side [@wiki_photomask]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "quartz",
+        "h": 26
+       },
+       {
+        "m": "chrome_cut",
+        "h": 4,
+        "segs": [
+         [
+          0,
+          22
+         ],
+         [
+          40,
+          60
+         ],
+         [
+          78,
+          100
+         ]
+        ]
+       }
+      ],
+      "props": [
+       "pellicle",
+       "stamp"
+      ]
+     },
+     "spec": {
+      "tool": "Pellicle mounter",
+      "purpose": "Keep particles out of focus",
+      "params": [],
+      "control": "Particle check through the pellicle",
+      "ooc": "Particle under the pellicle: remove, clean, remount"
+     },
+     "deep": "A particle sitting on the pellicle is millimetres above the pattern, far outside the depth of focus of the projection lens, so it does not print [@wiki_photomask]."
+    }
+   ],
+   "variant": {
+    "eyebrow": "Mask types",
+    "title": "From contact masks to EUV reticles",
+    "lead": "As features shrank, masks changed from simple chrome stencils to precision optical parts.",
+    "facts": [
+     {
+      "t": "Steppers and scanners project the mask pattern shrunk four or five times",
+      "ref": "wiki_photomask"
+     },
+     {
+      "t": "Reduction ratios on offer include 1:1, 2.5:1, 4:1 and 5:1",
+      "ref": "compugraphics_masks"
+     },
+     {
+      "t": "Features of about 150 nm and below generally need phase-shifting masks",
+      "ref": "wiki_photomask"
+     },
+     {
+      "t": "EUV masks reflect light from many alternating molybdenum and silicon layers",
+      "refs": [
+       "wiki_photomask",
+       "kassel_euvml"
+      ]
+     },
+     {
+      "t": "One high-end phase-shift mask could cost up to $100,000 in 2006",
+      "ref": "wiki_photomask"
+     },
+     {
+      "t": "A functioning device can need between 5 and 40+ masks",
+      "ref": "compugraphics_masks"
+     }
+    ],
+    "tables": [
+     {
+      "title": "Which mask for which light",
+      "head": [
+       "Exposure",
+       "Wavelength",
+       "Mask"
+      ],
+      "rows": [
+       [
+        "Mask aligner (contact)",
+        "broadband or near-UV, 300–450 nm [@compugraphics_masks]",
+        "chrome on soda-lime or quartz, 1:1 [@compugraphics_masks]"
+       ],
+       [
+        "i-line to deep-UV stepper or scanner",
+        "365, 248 or 193 nm [@compugraphics_masks]",
+        "chrome on quartz reticle, 4× or 5× [@wiki_photomask]"
+       ],
+       [
+        "EUV scanner",
+        "13.5 nm [@asml_euv]",
+        "reflective Mo/Si multilayer [@wiki_photomask]"
+       ]
+      ]
+     }
+    ]
+   },
+   "photos": [],
+   "leave_out": [
+    "Optical proximity correction and inverse lithography reshape the drawn features on the mask; they are not drawn here.",
+    "Mask writing times, data volumes and write strategies are only mentioned.",
+    "Chrome etch and resist strip chemistry are named but never given as procedures."
+   ],
+   "refs": [
+    "compugraphics_masks",
+    "elveflow_masks",
+    "wiki_photomask",
+    "levinson2019",
+    "kassel_euvml",
+    "asml_euv"
+   ]
+  },
+  {
+   "id": "lithography",
+   "area": "lithography",
+   "fab_step": "litho_expose",
+   "title": "Print a pattern with light",
+   "subtitle": "Photolithography: prime, coat, bake, align, expose, develop, inspect",
+   "route": "Teaching CMOS (i-line or deep-UV stepper), with the EUV variant used at 2 nm-class nodes",
+   "intro": "Every layer of a chip starts as a picture. Lithography copies that picture from a mask into a thin light-sensitive film called photoresist. The film then protects some parts of the wafer while the next step (etch or implant) changes the rest. A modern chip goes through this loop dozens of times.",
+   "model_after": "The step list follows a public baseline traveler, the UC Berkeley Marvell Nanolab cmos150 run card [@nanolab_cmos150], and the run card of a real four-mask NMOS run in a university teaching cleanroom [@cleanroom_run_fab2024].",
+   "you_need": [
+    {
+     "m": "si",
+     "label": "Wafer with a grown oxide",
+     "from": "Area 3 · Oxidation"
+    },
+    {
+     "m": "resist",
+     "label": "Photoresist (positive, chemically amplified)"
+    },
+    {
+     "m": "chrome",
+     "label": "Photomask for this layer"
+    },
+    {
+     "m": "uv",
+     "label": "Stepper or scanner time"
+    }
+   ],
+   "steps": [
+    {
+     "n": 1,
+     "id": "prime",
+     "title": "Prime the surface",
+     "tier": 1,
+     "do": "Expose the wafer to hexamethyldisilazane (HMDS) vapour. It turns the oxide surface water-repellent so the resist sticks.",
+     "check": "Water beads up on a test wafer instead of spreading.",
+     "chips": [
+      {
+       "t": "HMDS prime, program 1 on the coat track [@nanolab_cmos150]"
+      },
+      {
+       "t": "teaching run: 10 min dehydration bake at 110 °C, then 5 min of primer vapour [@cleanroom_run_fab2024]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "oxide",
+        "h": 10
+       },
+       {
+        "m": "prime",
+        "h": 2,
+        "new": true
+       }
+      ],
+      "props": [
+       "vapour"
+      ]
+     },
+     "spec": {
+      "tool": "Coat track, vapour-prime module",
+      "purpose": "Adhesion promotion before coat",
+      "params": [],
+      "control": "Contact angle on a monitor wafer",
+      "ooc": "Resist lifts during develop: re-clean and re-prime"
+     },
+     "deep": "HMDS caps surface hydroxyl groups with methyl groups, so the surface stops attracting water. HMDS itself is a hazardous chemical and is handled only inside the closed prime oven."
+    },
+    {
+     "n": 2,
+     "id": "dispense",
+     "title": "Dispense the resist",
+     "tier": 1,
+     "do": "Drop a few millilitres of liquid resist onto the centre of the wafer.",
+     "check": "One round puddle, no bubbles.",
+     "chips": [
+      {
+       "t": "a few ml per wafer [@microchem_basics]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "oxide",
+        "h": 10
+       },
+       {
+        "m": "puddle",
+        "h": 12,
+        "segs": [
+         [
+          38,
+          62
+         ]
+        ],
+        "new": true
+       }
+      ],
+      "props": [
+       "nozzle"
+      ]
+     },
+     "spec": {
+      "tool": "Coat track, spin-coat cup",
+      "purpose": "Deliver resist",
+      "params": [],
+      "control": "Dispense volume; bubble-free supply",
+      "ooc": "Comets and streaks: filter or degas the resist"
+     },
+     "deep": "Resist can be dispensed onto a still wafer (static) or onto a slowly turning one (dynamic). Air bubbles in the resist take about 20 minutes to escape from thin resists and hours from viscous ones [@microchem_basics]."
+    },
+    {
+     "n": 3,
+     "id": "spin",
+     "title": "Spin it thin",
+     "tier": 1,
+     "do": "Spin the wafer fast. The resist flings outward and thins to an even film as its solvent evaporates.",
+     "check": "An even colour across the wafer. A thicker ring at the edge (the edge bead) is normal and is removed.",
+     "chips": [
+      {
+       "t": "2000–4000 rpm for 20–30 s [@microchem_basics]"
+      },
+      {
+       "t": "Berkeley baseline: 4500 Å of UV-210 [@nanolab_cmos150]"
+      },
+      {
+       "t": "teaching run: 3000 rpm for 30 s [@cleanroom_run_fab2024]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "oxide",
+        "h": 10
+       },
+       {
+        "m": "resist",
+        "h": 12,
+        "new": true
+       }
+      ],
+      "props": [
+       "spin"
+      ]
+     },
+     "spec": {
+      "tool": "Coat track, spin-coat cup",
+      "purpose": "Uniform resist film",
+      "params": [
+       {
+        "name": "Spin speed",
+        "value": "2000–4000 rpm",
+        "ref": "microchem_basics"
+       },
+       {
+        "name": "Spin time",
+        "value": "20–30 s",
+        "ref": "microchem_basics"
+       },
+       {
+        "name": "Ramp rate (smooth wafers)",
+        "value": "above 1000 rpm/s",
+        "ref": "microchem_basics"
+       },
+       {
+        "name": "Thickness (example)",
+        "value": "4500 Å UV-210",
+        "ref": "nanolab_cmos150"
+       },
+       {
+        "name": "Teaching run",
+        "value": "3000 rpm, 30 s",
+        "ref": "cleanroom_run_fab2024"
+       }
+      ],
+      "control": "Film thickness by reflectometry; uniformity map",
+      "ooc": "Too thick: raise spin speed. Doubling the speed thins the film about 1.4×"
+     },
+     "deep": "Thickness falls roughly as one over the square root of spin speed, so t ∝ 1/√ω and doubling the speed thins the film by about 1.4× [@microchem_basics]. Thinning stops once enough solvent has evaporated that the film no longer flows. After spinning, about 10 % (thin resists) to 35 % (thick resists) of the film is still solvent [@microchem_basics].",
+     "eq": "t ∝ 1 / √ω"
+    },
+    {
+     "n": 4,
+     "id": "softbake",
+     "title": "Soft bake",
+     "tier": 2,
+     "do": "Bake the wafer briefly on a hotplate to drive out most of the remaining solvent.",
+     "check": "The film is dry and no longer tacky.",
+     "chips": [
+      {
+       "t": "solvent falls to about 3–5 % [@microchem_basics]"
+      },
+      {
+       "t": "teaching run: 90 °C for 90 s on a hotplate [@cleanroom_run_fab2024]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "oxide",
+        "h": 10
+       },
+       {
+        "m": "resist",
+        "h": 11,
+        "new": true
+       }
+      ],
+      "props": [
+       "hotplate"
+      ]
+     },
+     "spec": {
+      "tool": "Coat track, hotplate",
+      "purpose": "Remove solvent, fix film",
+      "params": [
+       {
+        "name": "Residual solvent after bake",
+        "value": "about 3–5 %",
+        "ref": "microchem_basics"
+       },
+       {
+        "name": "Teaching run",
+        "value": "90 °C, 90 s",
+        "ref": "cleanroom_run_fab2024"
+       }
+      ],
+      "control": "Hotplate temperature log; thickness after bake",
+      "ooc": "Under-baked film smears and dissolves too fast in develop"
+     },
+     "deep": "The soft bake is also called the post-apply bake (PAB) [@willson_flow]. Too little bake leaves solvent that speeds dissolution everywhere; too much starts to destroy the light-sensitive compound."
+    },
+    {
+     "n": 5,
+     "id": "align",
+     "title": "Align the mask",
+     "tier": 0,
+     "do": "Load the photomask, a glass plate with a chrome pattern, and line its marks up with the marks the last layer left on the wafer.",
+     "check": "The alignment marks overlap within the tool’s overlay limit.",
+     "chips": [
+      {
+       "t": "chrome mask, one per layer [@nanolab_cmos150]"
+      },
+      {
+       "t": "pre-alignment on [@nanolab_cmos150]"
+      },
+      {
+       "t": "teaching run, manual aligner: 0.2–1.4 µm overlay error [@cleanroom_run_fab2024]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "oxide",
+        "h": 10
+       },
+       {
+        "m": "resist",
+        "h": 11
+       }
+      ],
+      "props": [
+       "mask"
+      ]
+     },
+     "spec": {
+      "tool": "Stepper or scanner, reticle stage",
+      "purpose": "Register this layer to the last",
+      "params": [],
+      "control": "Overlay error on alignment marks",
+      "ooc": "Overlay out of limit: rework (strip resist and repeat from step 1)"
+     },
+     "deep": "Each layer must land on top of the last. The error between them is called overlay, and it is measured on dedicated marks after develop. A failed layer is reworked: the resist is stripped and the module runs again, because nothing has yet changed the wafer underneath."
+    },
+    {
+     "n": 6,
+     "id": "expose",
+     "title": "Expose",
+     "tier": 1,
+     "do": "Flash ultraviolet light through the mask. Where light lands, the resist changes chemistry and will later wash away.",
+     "check": "The tool reports the planned dose and focus for every field.",
+     "chips": [
+      {
+       "t": "dose 30 mJ/cm² in the Berkeley baseline [@nanolab_cmos150]"
+      },
+      {
+       "t": "smallest pitch λ / (2·NA) [@mack2007]"
+      },
+      {
+       "t": "teaching run: i-line contact exposure, 9 s [@cleanroom_run_fab2024]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "oxide",
+        "h": 10
+       },
+       {
+        "m": "resist",
+        "h": 11,
+        "segs": [
+         [
+          0,
+          22
+         ],
+         [
+          40,
+          60
+         ],
+         [
+          78,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "latent",
+        "h": 11,
+        "segs": [
+         [
+          22,
+          40
+         ],
+         [
+          60,
+          78
+         ]
+        ],
+        "new": true,
+        "stack": "resist"
+       }
+      ],
+      "props": [
+       "mask",
+       "uv"
+      ]
+     },
+     "spec": {
+      "tool": "Stepper or scanner (i-line, KrF, ArF, ArF immersion, EUV)",
+      "purpose": "Write the latent image",
+      "params": [
+       {
+        "name": "Dose (example)",
+        "value": "30 mJ/cm²",
+        "ref": "nanolab_cmos150"
+       },
+       {
+        "name": "Smallest pitch, one exposure",
+        "value": "λ / (2·NA)",
+        "ref": "mack2007"
+       },
+       {
+        "name": "Teaching run",
+        "value": "i-line contact, 9 s",
+        "ref": "cleanroom_run_fab2024"
+       }
+      ],
+      "control": "Dose and focus per field; focus-exposure matrix on monitors",
+      "ooc": "Lines too wide or narrow: adjust dose. Lines fade at the wafer edge: check focus and flatness"
+     },
+     "deep": "The lens can only collect so many of the diffraction orders that a fine pattern sends out. With tilted (off-axis) light the smallest printable pitch is λ / (2·NA), which is k₁ = 0.25 in the Rayleigh form [@mack2007]. The Physics Lab’s aerial-image simulator computes this image live.",
+     "eq": "pitch_min = λ / (2·NA)",
+     "lab": "physics.html#litho"
+    },
+    {
+     "n": 7,
+     "id": "peb",
+     "title": "Post-exposure bake",
+     "tier": 2,
+     "do": "Bake again. In chemically amplified resist the light made a little acid, and the heat lets each acid molecule change many more.",
+     "check": "Bake time and temperature match the resist’s sheet.",
+     "chips": [
+      {
+       "t": "“chemical amplification” [@willson_flow]"
+      },
+      {
+       "t": "post-exposure bake, program 1 [@nanolab_cmos150]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "oxide",
+        "h": 10
+       },
+       {
+        "m": "resist",
+        "h": 11,
+        "segs": [
+         [
+          0,
+          22
+         ],
+         [
+          40,
+          60
+         ],
+         [
+          78,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "latent",
+        "h": 11,
+        "segs": [
+         [
+          22,
+          40
+         ],
+         [
+          60,
+          78
+         ]
+        ],
+        "new": true,
+        "stack": "resist",
+        "glow": true
+       }
+      ],
+      "props": [
+       "hotplate"
+      ]
+     },
+     "spec": {
+      "tool": "Coat track, hotplate",
+      "purpose": "Amplify the latent image",
+      "params": [],
+      "control": "Hotplate uniformity; delay between expose and bake",
+      "ooc": "Line width drifts with bake temperature: requalify the hotplate"
+     },
+     "deep": "One photon makes one acid molecule. During the post-exposure bake (PEB) that acid acts as a catalyst and changes many polymer groups, so the image is ‘amplified’ [@willson_flow]. Acid also diffuses during the bake, which blurs the edge a little: one source of line-edge roughness."
+    },
+    {
+     "n": 8,
+     "id": "develop",
+     "title": "Develop",
+     "tier": 2,
+     "do": "Flood the wafer with developer. The exposed resist dissolves and the oxide shows through the openings.",
+     "check": "Openings are clear down to the oxide, with no scum.",
+     "chips": [
+      {
+       "t": "exposed areas dissolve quickly [@willson_flow]"
+      },
+      {
+       "t": "aqueous alkaline developer: institution-only handling"
+      },
+      {
+       "t": "teaching run: 60 s [@cleanroom_run_fab2024]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "oxide",
+        "h": 10
+       },
+       {
+        "m": "resist",
+        "h": 11,
+        "segs": [
+         [
+          0,
+          22
+         ],
+         [
+          40,
+          60
+         ],
+         [
+          78,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "open",
+        "h": 11,
+        "segs": [
+         [
+          22,
+          40
+         ],
+         [
+          60,
+          78
+         ]
+        ],
+        "new": true,
+        "stack": "resist"
+       }
+      ],
+      "props": [
+       "puddle_dev"
+      ]
+     },
+     "spec": {
+      "tool": "Coat track, develop module",
+      "purpose": "Turn the latent image into openings",
+      "params": [
+       {
+        "name": "Develop time, teaching run",
+        "value": "60 s",
+        "ref": "cleanroom_run_fab2024"
+       }
+      ],
+      "control": "After-develop inspection; CD on test structures",
+      "ooc": "Scum in openings: descum in a short oxygen plasma, or rework"
+     },
+     "deep": "In a positive resist the exposed regions become very soluble and are removed quickly [@willson_flow]. Developer chemistry is handled inside the track by trained staff; this manual describes it only conceptually."
+    },
+    {
+     "n": 9,
+     "id": "inspect",
+     "title": "Inspect and measure",
+     "tier": 0,
+     "do": "Look at the pattern under a microscope, then measure line width and overlay.",
+     "check": "Critical dimension (CD) and overlay are inside their limits. If not, strip and redo the module.",
+     "chips": [
+      {
+       "t": "CD-SEM (critical-dimension scanning electron microscope)"
+      },
+      {
+       "t": "overlay metrology"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "oxide",
+        "h": 10
+       },
+       {
+        "m": "resist",
+        "h": 11,
+        "segs": [
+         [
+          0,
+          22
+         ],
+         [
+          40,
+          60
+         ],
+         [
+          78,
+          100
+         ]
+        ]
+       }
+      ],
+      "props": [
+       "lens",
+       "cd"
+      ]
+     },
+     "spec": {
+      "tool": "Optical microscope, CD-SEM, overlay tool",
+      "purpose": "Decide pass, rework or scrap",
+      "params": [],
+      "control": "CD and overlay against limits",
+      "ooc": "Rework: strip and repeat from step 1"
+     },
+     "deep": "This is the last moment a mistake is cheap. After etch or implant the wafer itself has changed and cannot be reworked."
+    },
+    {
+     "n": 10,
+     "id": "hardbake",
+     "title": "Hard bake",
+     "tier": 2,
+     "do": "Bake the patterned resist in an oven so it is tough enough to survive the etch or implant that comes next.",
+     "check": "Resist edges stay sharp, not rounded.",
+     "chips": [
+      {
+       "t": "more than 30 min at 120 °C in the oven [@nanolab_cmos150]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "oxide",
+        "h": 10
+       },
+       {
+        "m": "resist",
+        "h": 11,
+        "segs": [
+         [
+          0,
+          22
+         ],
+         [
+          40,
+          60
+         ],
+         [
+          78,
+          100
+         ]
+        ],
+        "new": true
+       }
+      ],
+      "props": [
+       "oven",
+       "stamp"
+      ]
+     },
+     "spec": {
+      "tool": "Convection oven",
+      "purpose": "Harden resist for etch or implant",
+      "params": [
+       {
+        "name": "Hard bake",
+        "value": "> 30 min at 120 °C",
+        "ref": "nanolab_cmos150"
+       }
+      ],
+      "control": "Oven temperature log",
+      "ooc": "Resist flows and rounds: bake was too hot"
+     },
+     "deep": "The Berkeley run card also lists a descum step here, skipped when no tool for the wafer size was available [@nanolab_cmos150]. Next the wafer goes to Manual 5, Etch, where the resist protects the oxide under it."
+    }
+   ],
+   "variant": {
+    "title": "Variant: extreme ultraviolet (EUV) at 2 nm-class nodes",
+    "lead": "EUV light is absorbed by glass and even by air, so an EUV scanner works in vacuum and uses mirrors instead of lenses. The mask is a mirror too.",
+    "facts": [
+     {
+      "t": "Wavelength 13.5 nm",
+      "ref": "asml_euv"
+     },
+     {
+      "t": "Light is made when a CO₂ laser hits a falling tin droplet with two pulses, up to 50,000 times a second",
+      "ref": "asml_euv"
+     },
+     {
+      "t": "Multilayer mirrors, typically 40 Mo/Si bilayers, reflect up to 70 %",
+      "ref": "kassel_euvml"
+     },
+     {
+      "t": "The optics shrink the mask pattern 4× onto the wafer",
+      "ref": "asml_euv"
+     },
+     {
+      "t": "NXE: NA 0.33, 13 nm resolution. EXE (High-NA): NA 0.55, 8 nm resolution",
+      "ref": "asml_euv"
+     },
+     {
+      "t": "So few photons land per feature that random ‘stochastic’ defects appear: missing or bridged lines",
+      "ref": "bakshi2018"
+     }
+    ],
+    "safety": "The tin plasma source uses a high-power industrial laser inside a sealed machine. It is described here only to explain how the tool works.",
+    "generations": [
+     {
+      "name": "i-line",
+      "lam": 365,
+      "NA": 0.6
+     },
+     {
+      "name": "KrF",
+      "lam": 248,
+      "NA": 0.8
+     },
+     {
+      "name": "ArF immersion",
+      "lam": 193,
+      "NA": 1.35
+     },
+     {
+      "name": "EUV",
+      "lam": 13.5,
+      "NA": 0.33
+     },
+     {
+      "name": "High-NA EUV",
+      "lam": 13.5,
+      "NA": 0.55
+     }
+    ],
+    "generations_ref": [
+     "levinson2019",
+     "asml_euv"
+    ],
+    "diagram": "euv"
+   },
+   "photos": [
+    "cand_lcn_litho",
+    "cand_cleanroom_litho",
+    "cand_stepper_anim",
+    "cand_euv_tool"
+   ],
+   "leave_out": [
+    "Real recipes depend on the exact resist, film stack and tool. The ranges here are teaching ranges from public sources, not a qualified recipe.",
+    "Reflections from the layers under the resist (standing waves) and anti-reflective coatings are not drawn.",
+    "Optical proximity correction (OPC), source-mask optimisation and multiple patterning are covered in the lithography chapter, not in this module.",
+    "Developer and primer chemistry are named but never given as concentrations or procedures."
+   ],
+   "refs": [
+    "nanolab_cmos150",
+    "cleanroom_run_fab2024",
+    "microchem_basics",
+    "willson_flow",
+    "mack2007",
+    "asml_euv",
+    "kassel_euvml",
+    "bakshi2018",
+    "levinson2019"
+   ],
+   "code": "4A",
+   "area_no": 4,
+   "next": "Manual 5 · Etch"
+  },
+  {
+   "id": "etch",
+   "code": "5",
+   "area": "etch",
+   "area_no": 5,
+   "fab_step": "etch_rie",
+   "title": "Carve the pattern into the film",
+   "subtitle": "Plasma (reactive ion) etch: load, pump down, flow gas, strike plasma, etch, endpoint, over-etch, strip, measure",
+   "route": "Teaching CMOS and modern logic: every layer that lithography patterns is etched next",
+   "next": "Manual 6 · Doping, or Manual 7 · Deposition",
+   "intro": "Lithography only draws the pattern in resist. Etching copies it into the film underneath: oxide, polysilicon, nitride or metal. A wet etch dissolves the film in liquid and eats sideways as fast as down. A plasma etch fires ions straight down, so the walls stay vertical and small features survive.",
+   "model_after": "Tool facts come from public university cleanroom pages [@byu_rie] [@ucsb_rie1]. The wet-versus-dry comparison uses measured widths from a four-mask NMOS run in a university teaching cleanroom [@cleanroom_run_fab2024].",
+   "you_need": [
+    {
+     "m": "resist",
+     "label": "Wafer with patterned, hard-baked resist",
+     "from": "Manual 4A · Lithography"
+    },
+    {
+     "m": "oxide",
+     "label": "The film to etch (here oxide)"
+    },
+    {
+     "m": "chrome",
+     "label": "Reactive ion etcher time"
+    }
+   ],
+   "steps": [
+    {
+     "n": 1,
+     "id": "load",
+     "title": "Load the patterned wafer",
+     "tier": 0,
+     "do": "Place the wafer on the lower electrode of the etcher. The hard-baked resist covers everything that must stay.",
+     "check": "Resist edges are sharp and the openings are clean.",
+     "chips": [
+      {
+       "t": "parallel-plate RIE, 13.56 MHz [@byu_rie]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "oxide",
+        "h": 12
+       },
+       {
+        "m": "resist",
+        "h": 11,
+        "segs": [
+         [
+          0,
+          22
+         ],
+         [
+          40,
+          60
+         ],
+         [
+          78,
+          100
+         ]
+        ],
+        "new": true,
+        "tag": "Resist mask"
+       }
+      ],
+      "props": [
+       "chamber"
+      ]
+     },
+     "spec": {
+      "tool": "Reactive ion etcher, load lock or open chamber",
+      "purpose": "Bring the patterned wafer to the electrode",
+      "params": [],
+      "control": "Wafer seated flat; correct recipe selected",
+      "ooc": "Wafer chipped or off-centre: unload and inspect"
+     },
+     "deep": "In a parallel-plate reactive ion etcher the wafer sits on the powered electrode. The BYU tool is an Anelva DEM-451 with a 14-inch cathode [@byu_rie]."
+    },
+    {
+     "n": 2,
+     "id": "pump",
+     "title": "Pump down",
+     "tier": 2,
+     "do": "Close the chamber and pump the air out until the pressure is very low.",
+     "check": "The gauge reads the base pressure before any gas flows.",
+     "chips": [
+      {
+       "t": "pump to 20 mTorr or less first [@byu_rie]"
+      },
+      {
+       "t": "ultimate pressure mid 10⁻⁷ Torr on a turbo-pumped tool [@ucsb_rie1]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "oxide",
+        "h": 12
+       },
+       {
+        "m": "resist",
+        "h": 11,
+        "segs": [
+         [
+          0,
+          22
+         ],
+         [
+          40,
+          60
+         ],
+         [
+          78,
+          100
+         ]
+        ]
+       }
+      ],
+      "props": [
+       "chamber",
+       "pump"
+      ]
+     },
+     "spec": {
+      "tool": "Vacuum pumps and capacitance gauge",
+      "purpose": "Remove air and water before the process gas",
+      "params": [
+       {
+        "name": "Base pressure before etch",
+        "value": "≤ 20 mTorr",
+        "ref": "byu_rie"
+       }
+      ],
+      "control": "Base pressure and leak-up rate",
+      "ooc": "Will not pump down: check the door seal, then call staff"
+     },
+     "deep": "Air and water vapour would react in the plasma and change the etch. Pumping first also makes the gas mixture repeatable from run to run. The tool’s guide warns never to switch on the RF power while the chamber is at high pressure [@byu_rie]."
+    },
+    {
+     "n": 3,
+     "id": "gas",
+     "title": "Flow the process gas",
+     "tier": 3,
+     "do": "Let a measured flow of etch gas into the chamber. Fluorine-based gases etch silicon, oxide and nitride.",
+     "check": "Flows and pressure settle at the recipe values.",
+     "chips": [
+      {
+       "t": "CF₄ with O₂ for Si, Si₃N₄ and SiO₂ [@byu_rie]"
+      },
+      {
+       "t": "gas supply is institution-only"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "oxide",
+        "h": 12
+       },
+       {
+        "m": "resist",
+        "h": 11,
+        "segs": [
+         [
+          0,
+          22
+         ],
+         [
+          40,
+          60
+         ],
+         [
+          78,
+          100
+         ]
+        ]
+       }
+      ],
+      "props": [
+       "chamber",
+       "gas",
+       "pump"
+      ],
+      "gas_label": "fluorine-based gas"
+     },
+     "spec": {
+      "tool": "Mass-flow controllers, gas cabinet",
+      "purpose": "Supply the reactive species",
+      "params": [],
+      "control": "Flow readings and chamber pressure",
+      "ooc": "Flow will not stabilise: abort the run and call staff"
+     },
+     "deep": "The gas is chosen for the film: fluorine chemistries for silicon and its oxide and nitride [@byu_rie], chlorine for aluminium and compound semiconductors [@ucsb_rie1]. Gas cylinders, cabinets and exhaust scrubbing are run by trained staff, so this manual names the gases but gives no handling procedure."
+    },
+    {
+     "n": 4,
+     "id": "plasma",
+     "title": "Strike the plasma",
+     "tier": 2,
+     "do": "Switch on the radio-frequency power. The gas glows: it has become a plasma of ions and reactive fragments.",
+     "check": "A steady glow, and reflected power stays small.",
+     "chips": [
+      {
+       "t": "13.56 MHz at a few hundred watts [@wiki_rie]"
+      },
+      {
+       "t": "pressure rises 20–40 mTorr when RF turns on [@byu_rie]"
+      },
+      {
+       "t": "reflected power 1–10 W [@byu_rie]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "oxide",
+        "h": 12
+       },
+       {
+        "m": "resist",
+        "h": 11,
+        "segs": [
+         [
+          0,
+          22
+         ],
+         [
+          40,
+          60
+         ],
+         [
+          78,
+          100
+         ]
+        ]
+       }
+      ],
+      "props": [
+       "chamber",
+       "plasma"
+      ]
+     },
+     "spec": {
+      "tool": "RF generator and matching network",
+      "purpose": "Make ions and radicals",
+      "params": [
+       {
+        "name": "RF frequency",
+        "value": "13.56 MHz",
+        "refs": [
+         "byu_rie",
+         "wiki_rie"
+        ]
+       },
+       {
+        "name": "Operating pressure",
+        "value": "a few mTorr to a few hundred mTorr",
+        "ref": "wiki_rie"
+       },
+       {
+        "name": "Reflected power",
+        "value": "1–10 W",
+        "ref": "byu_rie"
+       }
+      ],
+      "control": "Forward and reflected power; glow colour",
+      "ooc": "Reflected power high: retune the match or stop"
+     },
+     "deep": "Electrons pick up energy from the RF field and break gas molecules into ions and radicals. Light electrons charge the wafer electrode negative, a DC self-bias of typically a few hundred volts [@wiki_rie]. The RF supply is high voltage, so the chamber is interlocked."
+    },
+    {
+     "n": 5,
+     "id": "etch",
+     "title": "Etch straight down",
+     "tier": 2,
+     "do": "Ions accelerate across the sheath and strike the wafer head-on. Where the resist is open the film is etched downward, and the walls stay vertical.",
+     "check": "The film thins only in the openings.",
+     "chips": [
+      {
+       "t": "anisotropic unless run in a high-pressure, purely chemical mode [@byu_rie]"
+      },
+      {
+       "t": "example: GaAs at 2 mTorr Cl₂, 350 V bias, about 200 nm/min [@ucsb_rie1]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "oxide",
+        "h": 4
+       },
+       {
+        "m": "oxide",
+        "h": 8,
+        "segs": [
+         [
+          0,
+          22
+         ],
+         [
+          40,
+          60
+         ],
+         [
+          78,
+          100
+         ]
+        ],
+        "new": true,
+        "tag": "Vertical walls"
+       },
+       {
+        "m": "resist",
+        "h": 11,
+        "segs": [
+         [
+          0,
+          22
+         ],
+         [
+          40,
+          60
+         ],
+         [
+          78,
+          100
+         ]
+        ]
+       }
+      ],
+      "props": [
+       "chamber",
+       "ions"
+      ]
+     },
+     "spec": {
+      "tool": "Reactive ion etcher",
+      "purpose": "Transfer the pattern into the film",
+      "params": [
+       {
+        "name": "Example rate (GaAs, Cl₂)",
+        "value": "≈ 200 nm/min at 2 mTorr, 350 V",
+        "ref": "ucsb_rie1"
+       }
+      ],
+      "control": "Etch time against the measured rate on a monitor",
+      "ooc": "Sloped walls: lower the pressure so ions dominate"
+     },
+     "deep": "Ion bombardment speeds the chemical reaction only on surfaces the ions hit, the floor of each opening, so the etch is anisotropic [@wiki_rie]. Narrow openings etch more slowly than wide ones, because fewer reactive molecules find their way down a deep, narrow hole [@coburn1989]. The Fab Journey’s etch theatre simulates this lag.",
+     "eq": "R(AR) = R₀ / (1 + ¾·s·AR)",
+     "lab": "fab.html#proc-etch"
+    },
+    {
+     "n": 6,
+     "id": "endpoint",
+     "title": "Stop at the layer below",
+     "tier": 2,
+     "do": "Watch for the moment the film clears and the layer underneath shows. That is the endpoint.",
+     "check": "Every opening is clear down to the silicon.",
+     "chips": [
+      {
+       "t": "selectivity: film rate ÷ stop-layer rate"
+      },
+      {
+       "t": "CF₄/O₂ rate falls from Si to Si₃N₄ to SiO₂ [@byu_rie]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "oxide",
+        "h": 12,
+        "segs": [
+         [
+          0,
+          22
+         ],
+         [
+          40,
+          60
+         ],
+         [
+          78,
+          100
+         ]
+        ],
+        "new": true,
+        "tag": "Cleared"
+       },
+       {
+        "m": "resist",
+        "h": 11,
+        "segs": [
+         [
+          0,
+          22
+         ],
+         [
+          40,
+          60
+         ],
+         [
+          78,
+          100
+         ]
+        ]
+       }
+      ],
+      "props": [
+       "chamber",
+       "ions"
+      ]
+     },
+     "spec": {
+      "tool": "Reactive ion etcher with endpoint detection",
+      "purpose": "Stop on the underlying layer",
+      "params": [],
+      "control": "Endpoint signal or timed etch from monitor wafers",
+      "ooc": "Etched into the silicon: lower power, or choose a more selective chemistry"
+     },
+     "deep": "Selectivity is the ratio of etch rates of the film and the layer that must survive. In a plain CF₄/O₂ plasma silicon etches faster than nitride, and nitride faster than oxide [@byu_rie], so when oxide is etched down to silicon the silicon is the faster one: keep the over-etch short. Production oxide etches use other fluorocarbon chemistries to protect the silicon."
+    },
+    {
+     "n": 7,
+     "id": "overetch",
+     "title": "Over-etch a little",
+     "tier": 2,
+     "do": "Keep etching for a short extra time so thin spots and slow, narrow openings clear too.",
+     "check": "No film is left in any opening, even small ones.",
+     "chips": [
+      {
+       "t": "strong loading effect: more open area etches slower [@byu_rie]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "oxide",
+        "h": 12,
+        "segs": [
+         [
+          0,
+          22
+         ],
+         [
+          40,
+          60
+         ],
+         [
+          78,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "resist",
+        "h": 9,
+        "segs": [
+         [
+          0,
+          22
+         ],
+         [
+          40,
+          60
+         ],
+         [
+          78,
+          100
+         ]
+        ],
+        "new": true,
+        "tag": "Resist thins"
+       }
+      ],
+      "props": [
+       "chamber",
+       "ions"
+      ]
+     },
+     "spec": {
+      "tool": "Reactive ion etcher",
+      "purpose": "Clear the slowest openings",
+      "params": [],
+      "control": "Over-etch as a percentage of the main etch",
+      "ooc": "Resist eroded through: thicker resist or a hard mask"
+     },
+     "deep": "The etch rate depends on how much of the wafer is open, the loading effect [@byu_rie], and on how narrow each opening is [@coburn1989]. Over-etch covers both. It also erodes the resist, which is why deep etches use a hard mask of oxide or nitride instead."
+    },
+    {
+     "n": 8,
+     "id": "strip",
+     "title": "Strip the resist",
+     "tier": 2,
+     "do": "Burn the leftover resist off in an oxygen plasma, then clean the wafer.",
+     "check": "No resist residue under the microscope.",
+     "chips": [
+      {
+       "t": "oxygen plasma ashing [@plummer2000]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "oxide",
+        "h": 12,
+        "segs": [
+         [
+          0,
+          22
+         ],
+         [
+          40,
+          60
+         ],
+         [
+          78,
+          100
+         ]
+        ],
+        "new": true,
+        "tag": "Patterned oxide"
+       }
+      ],
+      "props": [
+       "plasma"
+      ],
+      "plasma_label": "oxygen plasma"
+     },
+     "spec": {
+      "tool": "Plasma asher",
+      "purpose": "Remove the resist mask",
+      "params": [],
+      "control": "Visual and microscope check",
+      "ooc": "Residue left: ash again"
+     },
+     "deep": "An oxygen plasma turns the organic resist into carbon dioxide and water vapour [@plummer2000]. Wet strippers are also used, but they are institution-only chemistry."
+    },
+    {
+     "n": 9,
+     "id": "measure",
+     "title": "Measure the result",
+     "tier": 0,
+     "do": "Measure the etched lines and compare them with the drawn widths and with the resist before etch.",
+     "check": "Etch bias (etched width minus resist width) is inside its limit.",
+     "chips": [
+      {
+       "t": "teaching run, wet oxide etch: openings grew 2.48 µm on average [@cleanroom_run_fab2024]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "oxide",
+        "h": 12,
+        "segs": [
+         [
+          0,
+          22
+         ],
+         [
+          40,
+          60
+         ],
+         [
+          78,
+          100
+         ]
+        ]
+       }
+      ],
+      "props": [
+       "lens",
+       "cd",
+       "stamp"
+      ],
+      "lens_label": "measure width",
+      "cd_label": "etch bias"
+     },
+     "spec": {
+      "tool": "Optical microscope, CD-SEM, profilometer",
+      "purpose": "Accept, rework or scrap",
+      "params": [
+       {
+        "name": "Wet-etch bias, teaching run (ACTV)",
+        "value": "+2.48 µm mean",
+        "ref": "cleanroom_run_fab2024"
+       }
+      ],
+      "control": "Line width, etch depth, profile",
+      "ooc": "Bias too large: shorten the etch or switch from wet to dry"
+     },
+     "deep": "A wet etch undercuts the resist by about the film thickness on each side, plus any over-etch. In the teaching run the openings in the field oxide came out 2.48 µm wider on average than the resist openings [@cleanroom_run_fab2024]. A plasma etch keeps that bias near zero, which is what makes nanometre features possible.",
+     "lab": "process.html#labrun"
+    }
+   ],
+   "variant": {
+    "eyebrow": "Compare",
+    "title": "Wet etch versus plasma etch",
+    "lead": "Both remove film through the resist openings. The difference is direction: a liquid etches in every direction, a plasma etches mostly down.",
+    "facts": [
+     {
+      "t": "Wet chemical etching gives typically isotropic profiles; RIE gives very anisotropic ones",
+      "ref": "wiki_rie"
+     },
+     {
+      "t": "Teaching run: wet-etched oxide openings came out 2.48 µm wider than the resist on average",
+      "ref": "cleanroom_run_fab2024"
+     },
+     {
+      "t": "Teaching run: polysilicon gates came out 1.34 µm narrower after their wet etch",
+      "ref": "cleanroom_run_fab2024"
+     },
+     {
+      "t": "Inductively coupled plasma (ICP) sources reach very high plasma densities; a separate RF bias on the wafer then sets the ion energy",
+      "ref": "wiki_rie"
+     },
+     {
+      "t": "Deep reactive ion etching (the Bosch process) alternates etch and passivation to cut deep vertical trenches",
+      "ref": "wiki_rie"
+     },
+     {
+      "t": "Narrow openings etch slower than wide ones (aspect-ratio-dependent etching)",
+      "ref": "coburn1989"
+     }
+    ],
+    "safety": "Wet etchants for oxide (hydrofluoric acid and buffered oxide etch) and for polysilicon are among the most dangerous chemicals in a cleanroom. They are named here only to explain the comparison. No concentrations or procedures are given.",
+    "tables": [
+     {
+      "title": "Which etch for which job",
+      "head": [
+       "",
+       "Wet etch",
+       "Plasma (RIE)"
+      ],
+      "rows": [
+       [
+        "Direction",
+        "every direction (isotropic) [@wiki_rie]",
+        "mostly down (anisotropic) [@wiki_rie]"
+       ],
+       [
+        "Width change",
+        "+2.48 µm on oxide openings in a teaching run [@cleanroom_run_fab2024]",
+        "close to zero"
+       ],
+       [
+        "Where used",
+        "teaching labs, cleans, release etches",
+        "every critical layer in modern chips"
+       ]
+      ]
+     }
+    ]
+   },
+   "photos": [],
+   "leave_out": [
+    "Etch rates depend on the exact tool, gas mix, power and loading; the numbers here are examples from public tool pages, not a qualified recipe.",
+    "Polymer build-up on sidewalls, plasma damage and charging are not drawn.",
+    "Atomic layer etching and high-aspect-ratio memory etches are only mentioned.",
+    "Gas handling and wet chemistry are named but never given as procedures."
+   ],
+   "refs": [
+    "byu_rie",
+    "ucsb_rie1",
+    "wiki_rie",
+    "coburn1989",
+    "cleanroom_run_fab2024",
+    "plummer2000"
+   ]
+  },
+  {
+   "id": "planarize",
+   "code": "8",
+   "area": "planarization",
+   "area_no": 8,
+   "fab_step": "cmp",
+   "title": "Make the surface flat again",
+   "subtitle": "Planarization: spin-on glass in older processes, chemical mechanical polishing (CMP) today",
+   "route": "Teaching CMOS (spin-on glass era) and modern logic (CMP after isolation, contacts and every copper layer)",
+   "next": "Manual 4A · Lithography for the next layer",
+   "intro": "Every patterned layer leaves bumps, and each new layer copies them. After a few layers the surface is too uneven for the next lithography step to focus on. Planarization flattens it again: first with liquid spin-on glass, and since the 1990s with chemical mechanical polishing, which grinds the wafer flat with a pad and a slurry.",
+   "model_after": "CMP follows Preston’s law [@preston1927] and the pattern-density model the Fab Journey’s CMP theatre uses [@stine1998]; tool facts come from the CMP article [@wiki_cmp].",
+   "you_need": [
+    {
+     "m": "oxide",
+     "label": "Wafer with a bumpy oxide over lines",
+     "from": "Manual 7 · Deposition"
+    },
+    {
+     "m": "chrome",
+     "label": "Polisher with pad and slurry"
+    }
+   ],
+   "steps": [
+    {
+     "n": 1,
+     "id": "bumps",
+     "title": "See the problem",
+     "tier": 0,
+     "do": "Look at the wafer after deposition. The oxide copies every line underneath, so the top is a row of bumps.",
+     "check": "Measure the step height across the lines.",
+     "chips": [
+      {
+       "t": "lithography needs the surface inside the depth of focus [@wiki_cmp]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "poly",
+        "h": 16,
+        "segs": [
+         [
+          8,
+          30
+         ],
+         [
+          42,
+          64
+         ],
+         [
+          76,
+          96
+         ]
+        ]
+       },
+       {
+        "m": "oxide",
+        "h": 16,
+        "segs": [
+         [
+          0,
+          8
+         ],
+         [
+          30,
+          42
+         ],
+         [
+          64,
+          76
+         ],
+         [
+          96,
+          100
+         ]
+        ],
+        "stack": "poly"
+       },
+       {
+        "m": "oxide",
+        "h": 10
+       },
+       {
+        "m": "oxide",
+        "h": 10,
+        "segs": [
+         [
+          8,
+          30
+         ],
+         [
+          42,
+          64
+         ],
+         [
+          76,
+          96
+         ]
+        ],
+        "new": true,
+        "tag": "Bumps"
+       }
+      ]
+     },
+     "spec": {
+      "tool": "Profilometer",
+      "purpose": "Know the step height before polishing",
+      "params": [],
+      "control": "Step height across the die",
+      "ooc": "Steps too tall for the next layer: planarize"
+     },
+     "deep": "Each new film follows the shape under it. Without planarization the steps add up layer after layer, and a lens with a shallow depth of focus cannot image the top and bottom of a step at once [@wiki_cmp]."
+    },
+    {
+     "n": 2,
+     "id": "sog",
+     "title": "Older fix: spin-on glass",
+     "tier": 2,
+     "do": "Spin a liquid glass onto the wafer like resist. It flows into the low places, then a bake turns it solid.",
+     "check": "Gaps are filled and the film has no cracks.",
+     "chips": [
+      {
+       "t": "spun, then cured in a furnace [@plummer2000]"
+      },
+      {
+       "t": "smooths but does not fully flatten"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "poly",
+        "h": 16,
+        "segs": [
+         [
+          8,
+          30
+         ],
+         [
+          42,
+          64
+         ],
+         [
+          76,
+          96
+         ]
+        ]
+       },
+       {
+        "m": "oxide",
+        "h": 16,
+        "segs": [
+         [
+          0,
+          8
+         ],
+         [
+          30,
+          42
+         ],
+         [
+          64,
+          76
+         ],
+         [
+          96,
+          100
+         ]
+        ],
+        "stack": "poly"
+       },
+       {
+        "m": "oxide",
+        "h": 10
+       },
+       {
+        "m": "oxide",
+        "h": 10,
+        "segs": [
+         [
+          8,
+          30
+         ],
+         [
+          42,
+          64
+         ],
+         [
+          76,
+          96
+         ]
+        ]
+       },
+       {
+        "m": "sog",
+        "h": 10,
+        "segs": [
+         [
+          0,
+          8
+         ],
+         [
+          30,
+          42
+         ],
+         [
+          64,
+          76
+         ],
+         [
+          96,
+          100
+         ]
+        ],
+        "stack": "oxide",
+        "new": true,
+        "tag": "Spin-on glass"
+       }
+      ],
+      "props": [
+       "spin"
+      ]
+     },
+     "spec": {
+      "tool": "Spin coater and cure furnace",
+      "purpose": "Fill gaps and soften steps",
+      "params": [],
+      "control": "Thickness and crack inspection",
+      "ooc": "Cracks: thinner coats or a slower cure"
+     },
+     "deep": "Spin-on glass fills narrow gaps and rounds steps off, but it only smooths the surface locally: wide features still leave a step. It was widely used before chemical mechanical polishing took over [@plummer2000]."
+    },
+    {
+     "n": 3,
+     "id": "mount",
+     "title": "Mount face down on the pad",
+     "tier": 2,
+     "do": "Hold the wafer upside down in a carrier and press it onto a rotating polishing pad wetted with slurry.",
+     "check": "Pad conditioned, slurry flowing, carrier pressure set.",
+     "chips": [
+      {
+       "t": "porous polymer pad, 30–50 µm pores [@wiki_cmp]"
+      },
+      {
+       "t": "abrasive slurry, often cerium dioxide [@wiki_cmp]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "poly",
+        "h": 16,
+        "segs": [
+         [
+          8,
+          30
+         ],
+         [
+          42,
+          64
+         ],
+         [
+          76,
+          96
+         ]
+        ]
+       },
+       {
+        "m": "oxide",
+        "h": 16,
+        "segs": [
+         [
+          0,
+          8
+         ],
+         [
+          30,
+          42
+         ],
+         [
+          64,
+          76
+         ],
+         [
+          96,
+          100
+         ]
+        ],
+        "stack": "poly"
+       },
+       {
+        "m": "oxide",
+        "h": 10
+       },
+       {
+        "m": "oxide",
+        "h": 10,
+        "segs": [
+         [
+          8,
+          30
+         ],
+         [
+          42,
+          64
+         ],
+         [
+          76,
+          96
+         ]
+        ]
+       }
+      ],
+      "props": [
+       "pad"
+      ]
+     },
+     "spec": {
+      "tool": "CMP polisher: platen, pad, carrier, slurry arm, pad conditioner",
+      "purpose": "Set up the polish",
+      "params": [
+       {
+        "name": "Pad pore size",
+        "value": "30–50 µm",
+        "ref": "wiki_cmp"
+       }
+      ],
+      "control": "Pad condition; slurry flow; down-force",
+      "ooc": "Glazed pad, slow removal: recondition the pad"
+     },
+     "deep": "The pad is consumed as it works and is regularly reconditioned [@wiki_cmp]. The slurry is both chemical and mechanical: its chemistry softens the surface and its abrasive particles wipe the softened layer away [@wiki_cmp]."
+    },
+    {
+     "n": 4,
+     "id": "polish",
+     "title": "Polish the high spots first",
+     "tier": 2,
+     "do": "Spin pad and wafer. The pad touches the bumps first, so they wear away fastest.",
+     "check": "Removal rate on a monitor wafer matches the expected value.",
+     "chips": [
+      {
+       "t": "Preston: rate = Kₚ · P · V [@preston1927]"
+      },
+      {
+       "t": "raised areas carry the pressure [@stine1998]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "poly",
+        "h": 16,
+        "segs": [
+         [
+          8,
+          30
+         ],
+         [
+          42,
+          64
+         ],
+         [
+          76,
+          96
+         ]
+        ]
+       },
+       {
+        "m": "oxide",
+        "h": 16,
+        "segs": [
+         [
+          0,
+          8
+         ],
+         [
+          30,
+          42
+         ],
+         [
+          64,
+          76
+         ],
+         [
+          96,
+          100
+         ]
+        ],
+        "stack": "poly"
+       },
+       {
+        "m": "oxide",
+        "h": 10
+       },
+       {
+        "m": "oxide",
+        "h": 4,
+        "segs": [
+         [
+          8,
+          30
+         ],
+         [
+          42,
+          64
+         ],
+         [
+          76,
+          96
+         ]
+        ],
+        "new": true,
+        "tag": "Bumps wear down"
+       }
+      ],
+      "props": [
+       "pad"
+      ]
+     },
+     "spec": {
+      "tool": "CMP polisher",
+      "purpose": "Remove the topography",
+      "params": [],
+      "control": "Removal rate (Preston) and time",
+      "ooc": "Rate drifts: check pad and slurry"
+     },
+     "deep": "Preston’s law says removal rate is proportional to pressure times sliding speed [@preston1927]. Over a pattern the pad rests only on the high areas at first, so their local pressure is higher and they polish faster until the step is gone [@stine1998].",
+     "eq": "rate = Kₚ · P · V",
+     "lab": "fab.html#proc-cmp"
+    },
+    {
+     "n": 5,
+     "id": "flat",
+     "title": "Stop when it is flat",
+     "tier": 2,
+     "do": "Keep polishing until the bumps are gone and the oxide over the lines has the target thickness.",
+     "check": "The surface is flat within what lithography can focus on.",
+     "chips": [
+      {
+       "t": "brings the surface within the depth of field [@wiki_cmp]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "poly",
+        "h": 16,
+        "segs": [
+         [
+          8,
+          30
+         ],
+         [
+          42,
+          64
+         ],
+         [
+          76,
+          96
+         ]
+        ]
+       },
+       {
+        "m": "oxide",
+        "h": 16,
+        "segs": [
+         [
+          0,
+          8
+         ],
+         [
+          30,
+          42
+         ],
+         [
+          64,
+          76
+         ],
+         [
+          96,
+          100
+         ]
+        ],
+        "stack": "poly"
+       },
+       {
+        "m": "oxide",
+        "h": 6,
+        "new": true,
+        "tag": "Flat oxide"
+       }
+      ],
+      "props": [
+       "flat"
+      ]
+     },
+     "spec": {
+      "tool": "CMP polisher with endpoint or timed polish",
+      "purpose": "Reach a flat surface at target thickness",
+      "params": [],
+      "control": "Remaining thickness by reflectometry",
+      "ooc": "Too thin: the lines may be exposed; scrap or add oxide"
+     },
+     "deep": "On metal layers the polish is designed to stop on the interface between copper and oxide [@wiki_cmp], so the metal is left only inside the trenches: the damascene method."
+    },
+    {
+     "n": 6,
+     "id": "density",
+     "title": "Mind the pattern density",
+     "tier": 0,
+     "do": "Check dense and sparse regions. Dense patterns polish more slowly, sparse ones faster, so the die is not perfectly flat.",
+     "check": "Thickness difference between dense and sparse areas is within limit.",
+     "chips": [
+      {
+       "t": "dense regions planarize more slowly [@stine1998]"
+      },
+      {
+       "t": "fix: dummy fill in empty areas"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "poly",
+        "h": 16,
+        "segs": [
+         [
+          4,
+          12
+         ],
+         [
+          16,
+          24
+         ],
+         [
+          28,
+          36
+         ],
+         [
+          70,
+          80
+         ]
+        ]
+       },
+       {
+        "m": "oxide",
+        "h": 16,
+        "segs": [
+         [
+          0,
+          4
+         ],
+         [
+          12,
+          16
+         ],
+         [
+          24,
+          28
+         ],
+         [
+          36,
+          70
+         ],
+         [
+          80,
+          100
+         ]
+        ],
+        "stack": "poly"
+       },
+       {
+        "m": "oxide",
+        "h": 8,
+        "segs": [
+         [
+          0,
+          40
+         ]
+        ]
+       },
+       {
+        "m": "oxide",
+        "h": 4,
+        "segs": [
+         [
+          40,
+          100
+         ]
+        ],
+        "stack": "oxide",
+        "new": true,
+        "tag": "Sparse area thinner"
+       }
+      ],
+      "props": [
+       "lens"
+      ],
+      "lens_label": "thickness map"
+     },
+     "spec": {
+      "tool": "Film-thickness mapping",
+      "purpose": "Catch layout-dependent unevenness",
+      "params": [],
+      "control": "Within-die thickness range",
+      "ooc": "Too uneven: add dummy fill to the layout"
+     },
+     "deep": "Because the pad shares its pressure over the raised area, local removal depends on the layout’s pattern density [@stine1998]. Designers add dummy fill so every region has a similar density. Copper lines can also be dished below the oxide, and dense arrays eroded: both are density effects."
+    },
+    {
+     "n": 7,
+     "id": "clean",
+     "title": "Clean off the slurry",
+     "tier": 2,
+     "do": "Scrub and rinse the wafer so no slurry particles stay behind.",
+     "check": "Particle count after clean is within limit.",
+     "chips": [
+      {
+       "t": "post-CMP clean [@plummer2000]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "poly",
+        "h": 16,
+        "segs": [
+         [
+          8,
+          30
+         ],
+         [
+          42,
+          64
+         ],
+         [
+          76,
+          96
+         ]
+        ]
+       },
+       {
+        "m": "oxide",
+        "h": 16,
+        "segs": [
+         [
+          0,
+          8
+         ],
+         [
+          30,
+          42
+         ],
+         [
+          64,
+          76
+         ],
+         [
+          96,
+          100
+         ]
+        ],
+        "stack": "poly"
+       },
+       {
+        "m": "oxide",
+        "h": 6
+       }
+      ],
+      "props": [
+       "puddle_dev",
+       "stamp"
+      ],
+      "liquid_label": "rinse"
+     },
+     "spec": {
+      "tool": "Post-CMP brush cleaner",
+      "purpose": "Remove slurry and debris",
+      "params": [],
+      "control": "Particle count; scratch inspection",
+      "ooc": "Scratches or particles: check the pad, slurry filter and cleaner"
+     },
+     "deep": "Slurry particles left on the wafer become defects in the next layer. CMP can also cause stress cracking, delamination at weak interfaces and corrosion from the slurry chemicals [@wiki_cmp]."
+    }
+   ],
+   "variant": {
+    "eyebrow": "Where CMP is used",
+    "title": "Three polishes in every modern chip",
+    "lead": "CMP is not one step but a family, each tuned to stop on a different material.",
+    "facts": [
+     {
+      "t": "Shallow trench isolation: the oxide overburden left after trench fill is polished away",
+      "ref": "wiki_cmp"
+     },
+     {
+      "t": "Tungsten contacts and plugs are polished back to the oxide",
+      "ref": "wiki_cmp"
+     },
+     {
+      "t": "Copper damascene: the polish stops at the copper–oxide interface",
+      "ref": "wiki_cmp"
+     },
+     {
+      "t": "Removal rate follows pressure × speed (Preston’s law)",
+      "ref": "preston1927"
+     },
+     {
+      "t": "Pattern density sets how fast each region planarizes",
+      "ref": "stine1998"
+     }
+    ],
+    "tables": [
+     {
+      "title": "Spin-on glass versus CMP",
+      "head": [
+       "",
+       "Spin-on glass",
+       "CMP"
+      ],
+      "rows": [
+       [
+        "How",
+        "liquid glass spun on and cured [@plummer2000]",
+        "pad and abrasive slurry [@wiki_cmp]"
+       ],
+       [
+        "Flatness",
+        "local smoothing only",
+        "flat across the die, within the depth of field [@wiki_cmp]"
+       ],
+       [
+        "Main risk",
+        "cracking",
+        "dishing, erosion, scratches [@stine1998] [@wiki_cmp]"
+       ]
+      ]
+     }
+    ]
+   },
+   "photos": [],
+   "leave_out": [
+    "Removal rates, pad materials and slurries vary widely; the model uses teaching values.",
+    "Pad wear, temperature and slurry chemistry are not modelled.",
+    "Spin-on glass chemistry and cure recipes are not given."
+   ],
+   "refs": [
+    "preston1927",
+    "stine1998",
+    "wiki_cmp",
+    "plummer2000"
+   ]
+  }
+ ],
+ "intro": "Each manual takes one process step by step, like a building-brick instruction book: a picture per step with the new part outlined, a parts list and a check. Switch to Engineer or Process engineer for the operation specification behind each step, cited to public sources.",
+ "routes": [
+  {
+   "name": "Teaching CMOS (4–6 masks)",
+   "order": [
+    "photomask",
+    "lithography",
+    "etch",
+    "planarize"
+   ]
+  },
+  {
+   "name": "Modern 2 nm-class gate-all-around",
+   "order": [
+    "photomask",
+    "lithography",
+    "etch",
+    "planarize"
+   ]
+  },
+  {
+   "name": "Historical planar process",
+   "order": [
+    "photomask",
+    "lithography",
+    "etch"
+   ]
+  }
+ ]
+}

@@ -30,8 +30,10 @@ from transistor_sim.physics import carriers, junction, moscap, tunnel, poisson2d
 from transistor_sim.physics import bandstructure, qwell, chargesheet, thermal, litho, hetero, inverter, ballistic, interconnect  # noqa: E402
 from transistor_sim.physics import logic, sram, flash  # noqa: E402
 from transistor_sim.physics import oxidation, implant, yieldcost, electromigration  # noqa: E402
+from transistor_sim.physics import etch, deposition, cmp, labrun, diffusion, czochralski, anneal, damascene, probe, release, planar, cleaning, vfab  # noqa: E402
 from transistor_sim.physics import analog  # noqa: E402
 from transistor_sim import bandatlas  # noqa: E402
+from transistor_sim import gatecells  # noqa: E402
 
 FIG = ROOT / "figures"
 FIG.mkdir(exist_ok=True)
@@ -527,6 +529,11 @@ HETERO_CASES = [("Si", "Si", -1e17, 1e17, 0.0), ("Si", "Si", -1e17, 1e17, -2.0),
                 ("Si", "SiGe", 1e18, -1e18, 0.3), ("InAs", "C-H", 1e16, 0.0, 0.0), ("Si", "HfO2", -1e17, 0.0, 0.0)]
 
 
+VF_TEACH = ["wafer_start", "rca_clean", "ox_thermal", "litho_expose", "etch_rie", "implant", "diffuse_predep", "anneal", "dep_pvd", "probe_dice_bond"]
+VF_GAA = ["wafer_start", "rca_clean", "litho_expose", "etch_rie", "implant", "anneal", "dep_pvd", "cmp", "gaa_release", "damascene", "probe_dice_bond"]
+VF_PLANAR = ["wafer_start", "rca_clean", "ox_thermal", "litho_expose", "diffuse_predep", "planar_hoerni", "evap_al", "probe_dice_bond"]
+
+
 def export_physics_json():
     crystal.write_json(ROOT / "data" / "crystals.json")
     print("data/crystals.json")
@@ -564,7 +571,10 @@ def export_physics_json():
                   "line": [float(v) for v in interconnect.line_step(458.0, 1.6e-16, 50.0, 2e3, 1e-15, 4e-11, nx=51, nt=200)[2][-1][::10]]},
         "litho": {"conv100": litho.contrast(litho.aerial_image(100, 193, 1.35, sigma=0.9)[1]),
                   "dip80": litho.contrast(litho.aerial_image(80, 193, 1.35, kind="dipole", sigma_c=0.89, sigma_w=0.05)[1]),
-                  "def120": litho.contrast(litho.aerial_image(120, 193, 1.35, sigma=0.7, defocus_nm=80)[1])},
+                  "def120": litho.contrast(litho.aerial_image(120, 193, 1.35, sigma=0.7, defocus_nm=80)[1]),
+                  "hp_euv": litho.half_pitch(13.5, 0.33, 0.3), "dof_hna": litho.depth_of_focus(13.5, 0.55),
+                  "ph_euv30": litho.photons_per_nm2(30, 13.5), "ph_arf30": litho.photons_per_nm2(30, 193),
+                  "sn_euv": litho.shot_noise(30, 13.5, 10)[1]},
         "logic": {"effort": {k: logic.effort(k) for k in logic.GATES},
                   "truth": {k: [y for _, y in logic.truth(k)] for k in logic.GATES},
                   "adder": [{"case": c, **{kk: logic.ripple_add(*c, n=8)[kk] for kk in ("settle", "transitions", "sum")}}
@@ -576,6 +586,47 @@ def export_physics_json():
         "flash": {"B": flash.fn_coeffs()[1], "J1e9": float(flash.fn_current(1e9)), "rate": flash.rate(-2.0, 17.0),
                   "pulse": flash.pulse(-2.0, 18.0, 1e-5)[0], "ispp": [float(v) for v in flash.ispp(3.0, step_v=0.5)["vt"]],
                   "levels": {b: {kk: flash.levels(b, step_v=st)[kk] for kk in ("spacing", "width", "margin")} for b, st in ((1, 0.5), (3, 0.15))}},
+        "etch": [{"case": [s_, a_, m_, o_], **(lambda r: {"t_end": r["t_end"], "lag": r["lag_ratio"], "depths": [o["depth"] for o in r["openings"]],
+                                                          "side": [o["side"][len(o["side"]) // 2][1] for o in r["openings"]], "mask": r["openings"][0]["mask_left"]})(etch.run(s_, a_, m_, o_))}
+                 for s_, a_, m_, o_ in ((0.05, 0.9, 10.0, 0.5), (0.5, 0.3, 4.0, 0.2), (1.0, 1.0, 30.0, 1.0))],
+        "deposition": [{"case": [m_, w_, ar_, t_], **(lambda f: {"coverage": f["coverage"], "floor": f["floor"], "void": f["void"], "mid": f["side"][24]})(deposition.fill(m_, w_, ar_, t_))}
+                       for m_, w_, ar_, t_ in (("pvd", 60, 3, 25), ("pvd", 60, 3, 40), ("cvd", 40, 4, 15), ("ald", 30, 8, 10))],
+        "cmp": [{"case": [P_, V_, t_], **(lambda r: {"K": r["K"], "range": r["range_nm"], "ups": [g["up"] for g in r["regions"]], "downs": [g["down"] for g in r["regions"]]})(cmp.run(P_, V_, t_))}
+                for P_, V_, t_ in ((28, 1.0, 3.0), (14, 1.5, 6.0), (40, 0.5, 1.0))],
+        "diffusion": {"erfc": {f"{x}": diffusion.erfc(x) for x in (-1.0, 0.0, 0.4, 1.7, 3.2)},
+                      "runs": [{"case": list(c), **{k: v for k, v in diffusion.run(*c).items()}} for c in
+                               [("P", 1e21, 1050, 600, 1050, 2220, 1.66e16), ("B", 3e19, 950, 1800, 1100, 3600, 1e15), ("As", 2e20, 1000, 300, 900, 60, 5e17)]]},
+        "damascene": [{"case": list(c), **{q: damascene.run(*c)[q] for q in ("rho_core", "rho_line", "r", "c", "rc", "core_share")}}
+                      for c in [("Cu", 20.0, 2.0, 2.0, 100.0), ("Ru", 10.0, 2.0, None, 30.0), ("W", 50.0, 1.5, None, 500.0), ("Co", 12.0, 2.5, None, 5.0)]],
+        "probe": [{"case": list(c), **{q: probe.run(*c)[q] for q in ("n", "good", "Y", "dl_ppm", "cost")}}
+                  for c in [(10.0, 0.1, 0.99, 18500.0), (20.0, 0.5, 0.9, 18500.0), (7.5, 0.05, 0.999, 9000.0)]],
+        "release": [{"case": list(c), **{q: release.run(*c)[q] for q in ("e", "side", "core", "t_edge", "t_centre", "t_mean", "w_final", "weff")}}
+                    for c in [(30.0, 5.0, 100.0, 0.2, 3), (60.0, 6.0, 20.0, 0.5, 2), (25.0, 5.0, 300.0, -0.2, 4)]],
+        "cleaning": [{"case": list(c), **{q: cleaning.run(*c)[q] for q in ("left", "f_kill", "killers", "D_add", "Y", "Y_dirty", "tau_us", "L_um")}}
+                     for c in [(2000.0, 0.9, 1, 100.0, 1e10), (20000.0, 0.5, 0, 50.0, 1e12), (300.0, 0.98, 2, 400.0, 3e9)]],
+        "vfab": [{"case": [list(r), list(h), c], **vfab.run(list(r), list(h), c)} for r, h, c in [(*x, None) if len(x) == 2 else x for x in [
+            (VF_TEACH, [False] * len(VF_TEACH)), (VF_GAA, [False] * len(VF_GAA)), (VF_PLANAR, [False] * len(VF_PLANAR)),
+            (["wafer_start", "ox_thermal", "litho_expose", "implant", "ox_thermal", "etch_rie", "dep_pvd", "cmp"], [False, True, False, False, False, False, True, False]),
+            (["wafer_start", "rca_clean", "ox_thermal", "ox_thermal", "litho_expose", "etch_rie", "implant", "anneal", "dep_pvd", "cmp", "damascene"], [False] * 11),
+            (VF_TEACH, [False] * len(VF_TEACH), {"ox": {"amb": "wet", "T": 1100.0, "t": 0.5, "orient": "111"}, "imp": {"ion": "As", "E": 60.0, "dose": 3e15},
+                                                  "diff": {"ion": "B"}, "ann": {"T": 1000.0, "hold": 10.0, "rate": 50.0}, "etch": {"sel": 4.0, "oe": 1.0}}),
+            (VF_GAA, [False] * len(VF_GAA), {"imp": {"ion": "B"}, "cmp": {"P": 10.0, "V": 0.5, "t": 1.0}, "dam": {"metal": "Ru", "w": 12.0, "ar": 2.5},
+                                              "rel": {"W": 45.0, "S": 30.0, "over": 0.4, "n": "4"}}),
+            (VF_PLANAR, [False] * len(VF_PLANAR), {"planar": {"NB": 1e16, "T2": 1150.0, "t2": 240.0}, "diff": {"T2": 1100.0, "t2": 3600.0}})]]],
+        "planar": [{"case": list(c), **{q: planar.run(*c)[q] for q in ("xj", "Rs", "bv_pp", "W_um", "ratio", "bv_cyl")}}
+                   for c in [(1e15, 1100.0, 60.0), (1e16, 1050.0, 20.0), (2e14, 1180.0, 300.0)]],
+        "czochralski": [{"case": list(c), **(lambda r: {"f_usable": r["f_usable"], "rho_tail": r["rho_tail"], "N_seed": r["N_seed"], "rho_mid": r["rho"][60]})(czochralski.run(*c))}
+                    for c in [("B", 10.0, 0.2), ("P", 1.0, 0.1), ("Sb", 0.02, 0.3), ("As", 5.0, 0.05)]],
+        "anneal": [{"case": list(c), **(lambda r: {q: r[q] for q in ("Dt", "ramps", "t_eq", "t_total", "xj", "Rs")})(anneal.run(*c))}
+                   for c in [("B", 5.0, 1e15, 1050, 0.001, 250, 1e17), ("B", 5.0, 1e15, 1000, 1800, 0.1, 1e17), ("As", 10.0, 3e15, 1100, 10, 50, 1e18)]],
+        "labrun": {"seq": labrun.oxide_sequence([("dry", 1000, 5), ("wet", 1000, 90), ("dry", 1000, 5)]),
+                   "seq_p": labrun.oxide_sequence([("wet", 1050, 37, 0.1)], x0_um=0.02),
+                   "parab": labrun.parabolic_only("wet", 1000, 90), "peff": labrun.effective_pressure("wet", 1050, 37, 0.0629),
+                   "dop": {f"{r}_{c}": labrun.resistivity_to_doping(r, c) for r in (1e-3, 0.33, 1.0, 15.0) for c in ("n", "p")},
+                   "cpp": labrun.parallel_plate_pf(57600, 114), "lcr": labrun.lcr_reading_pf(17.4, 12000), "rser": labrun.series_r_for_reading(17.4, 5.95),
+                   "vt": {f"{Na:g}_{t}_{g}": labrun.vt_ideal(Na, t, g, 5e11) for Na in (1.7e16, 7e16) for t in (114, 610) for g in ("n+poly", "al")},
+                   "nox": labrun.oxide_charge_from_vt(-1.5, 7e16, 114), "vbi": labrun.builtin_potential(1.66e16, 8.5e19),
+                   "bias": labrun.isotropic_bias_um(0.548, 0.3), "over": labrun.implied_overetch(-1.341, 0.42), "rs": labrun.sheet_from_resistor(203, 199, 9)},
         "oxidation": {f"{a}_{T}_{t}_{o}": float(oxidation.thickness(a, T, t, o)) for a in ("dry", "wet") for T in (900, 1100) for t in (0.1, 3.0) for o in ("100", "111")},
         "implant": {"ranges": {f"{i}_{E}": implant.range_stats(i, E) for i in implant.IONS for E in (5, 30, 200)},
                     "cross": {i: implant.crossover_keV(i) for i in implant.IONS},
@@ -1077,6 +1128,7 @@ def fig_device_bands():
 if __name__ == "__main__":
     crosssection.write_all()
     layout.write_all()
+    gatecells.write_all()
     process.write_all()
     for f in (fig_moore, fig_node_vs_pitch, fig_iv_families, fig_transfer, fig_vtc, fig_hemt,
               fig_bfom, fig_gap_field, fig_litho, fig_dennard, fig_gummel, fig_ionization, fig_steep,

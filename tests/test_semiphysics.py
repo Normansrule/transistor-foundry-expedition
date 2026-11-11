@@ -263,6 +263,23 @@ def test_defocus_degrades_contrast():
     assert b < a
 
 
+def test_rayleigh_half_pitch_and_depth_of_focus():
+    assert abs(litho.half_pitch(193, 1.35) - 193 / (4 * 1.35)) < 1e-9                       # k1 = 0.25 is λ/(4NA)
+    assert abs(litho.half_pitch(13.5, 0.33, 0.25) * 2 - 13.5 / (2 * 0.33)) < 1e-9          # pitch λ/2NA
+    # raising NA from 0.33 to 0.55 shrinks the depth of focus by (0.55/0.33)² ≈ 2.8
+    assert abs(litho.depth_of_focus(13.5, 0.33) / litho.depth_of_focus(13.5, 0.55) - (0.55 / 0.33) ** 2) < 1e-9
+
+
+def test_photon_counting_and_shot_noise():
+    assert abs(litho.HC_EV_NM - 1239.84198) < 1e-4                      # hc from the exact SI constants
+    assert abs(litho.photon_energy_ev(13.5) - 91.84) < 0.01             # EUV photon ≈ 92 eV
+    ratio = litho.photons_per_nm2(30, 193) / litho.photons_per_nm2(30, 13.5)
+    assert abs(ratio - 193 / 13.5) < 1e-9                               # same dose, 14.3× more ArF photons
+    assert 20 < litho.photons_per_nm2(30, 13.5) < 21                    # ≈ 20 photons/nm² at 30 mJ/cm²
+    n, rel = litho.shot_noise(30, 13.5, 10)
+    assert abs(rel - n ** -0.5) < 1e-12 and 0.02 < rel < 0.025
+
+
 # --- device atlas (bands for every transistor) ------------------------------
 from transistor_sim import bandatlas  # noqa: E402
 

@@ -22,6 +22,7 @@ def test_steps_reference_known_things():
     for s in FAB["steps"]:
         assert s["area"] in areas and set(s["tracks"]) <= tracks and s["tracks"], s["id"]
         assert set(s["requires"]) <= set(ids), s["id"]
+        assert set(s.get("requires_any", [])) <= set(ids), s["id"]
         assert set(s["photos"]) <= cands, s["id"]
         assert s["safety_tier"] in (0, 1, 2, 3), s["id"]
         assert set(s["refs"]) <= REFS, (s["id"], set(s["refs"]) - REFS)
@@ -46,7 +47,7 @@ def test_tier3_steps_publish_no_recipe():
 
 
 def test_requires_has_no_cycles():
-    req = {s["id"]: s["requires"] for s in FAB["steps"]}
+    req = {s["id"]: s["requires"] + s.get("requires_any", []) for s in FAB["steps"]}
     state = {}
 
     def visit(n):

@@ -10,6 +10,7 @@
 
 <p align="center">
   <a href="https://normansrule.github.io/transistor-foundry-expedition/"><b>Website</b></a> &nbsp;·&nbsp;
+  <a href="https://normansrule.github.io/transistor-foundry-expedition/fab.html"><b>Fab Journey</b></a> &nbsp;·&nbsp;
   <a href="https://normansrule.github.io/transistor-foundry-expedition/devices.html"><b>Device Atlas</b></a> &nbsp;·&nbsp;
   <a href="https://normansrule.github.io/transistor-foundry-expedition/physics.html"><b>Physics Lab</b></a> &nbsp;·&nbsp;
   <a href="https://normansrule.github.io/transistor-foundry-expedition/circuits.html"><b>Circuit Lab</b></a> &nbsp;·&nbsp;
@@ -22,8 +23,8 @@
 <p align="center">
   <a href="https://normansrule.github.io/transistor-foundry-expedition/"><img alt="Live site" src="https://img.shields.io/badge/live%20site-GitHub%20Pages-f2b84b?style=flat-square&labelColor=10141a"></a>
   <a href=".github/workflows/ci.yml"><img alt="Tests" src="https://img.shields.io/github/actions/workflow/status/Normansrule/transistor-foundry-expedition/ci.yml?style=flat-square&labelColor=10141a&label=tests"></a>
-  <a href="REFERENCES.md"><img alt="316 references" src="https://img.shields.io/badge/references-316-b58fd6?style=flat-square&labelColor=10141a"></a>
-  <a href="docs/README.md"><img alt="23 chapters" src="https://img.shields.io/badge/chapters-23-7fd3d0?style=flat-square&labelColor=10141a"></a>
+  <a href="REFERENCES.md"><img alt="361 references" src="https://img.shields.io/badge/references-361-b58fd6?style=flat-square&labelColor=10141a"></a>
+  <a href="docs/README.md"><img alt="25 chapters" src="https://img.shields.io/badge/chapters-25-7fd3d0?style=flat-square&labelColor=10141a"></a>
   <a href="LICENSE"><img alt="MIT and CC BY 4.0" src="https://img.shields.io/badge/license-MIT%20%2B%20CC%20BY%204.0-d9825b?style=flat-square&labelColor=10141a"></a>
 </p>
 
@@ -39,9 +40,9 @@ Transistor Foundry Expedition (formerly Transistor Odyssey) follows the transist
 
 | | |
 |---|---|
-| **A website** | An animated history, a [Device Atlas](https://normansrule.github.io/transistor-foundry-expedition/devices.html) of 19 transistors with live energy band diagrams, a [Physics Lab](https://normansrule.github.io/transistor-foundry-expedition/physics.html) of 15 simulations, and a [Circuit Lab](https://normansrule.github.io/transistor-foundry-expedition/circuits.html) that zooms from wafer to atom and builds gates, an adder, SRAM and flash, a [Process Lab](https://normansrule.github.io/transistor-foundry-expedition/process.html) on oxidation, implantation, yield and electromigration, and an [Analog & RF Lab](https://normansrule.github.io/transistor-foundry-expedition/analog.html) on gain, bandwidth, distortion and noise. Everything runs in the browser; nothing is pre-rendered. |
-| **A textbook** | [23 chapters](docs/README.md), from the point contact to packaging, memory, manufacturing and amplifiers, with 316 cited sources. Every number traces to a reference. |
-| **A simulation package** | Python models in [`sim/transistor_sim`](sim/transistor_sim) that draw every figure here, each with a browser twin checked against it by 220 tests in continuous integration. |
+| **A website** | An animated history, a [Fab Journey](https://normansrule.github.io/transistor-foundry-expedition/fab.html) that follows one wafer lot through 13 process areas with a computed lithography theatre, logic gates shown in silicon and a Virtual Fab, a [Device Atlas](https://normansrule.github.io/transistor-foundry-expedition/devices.html) of 19 transistors with live energy band diagrams, a [Physics Lab](https://normansrule.github.io/transistor-foundry-expedition/physics.html) of 15 simulations, and a [Circuit Lab](https://normansrule.github.io/transistor-foundry-expedition/circuits.html) that zooms from wafer to atom and builds gates, an adder, SRAM and flash, a [Process Lab](https://normansrule.github.io/transistor-foundry-expedition/process.html) on oxidation, implantation, yield and electromigration, checked against a real university cleanroom run, and an [Analog & RF Lab](https://normansrule.github.io/transistor-foundry-expedition/analog.html) on gain, bandwidth, distortion and noise. Everything runs in the browser; nothing is pre-rendered. |
+| **A textbook** | [25 chapters](docs/README.md), from the point contact to packaging, memory, manufacturing, amplifiers, the fab journey and a real teaching-cleanroom run, with 361 cited sources. Every number traces to a reference. |
+| **A simulation package** | Python models in [`sim/transistor_sim`](sim/transistor_sim) that draw every figure here, each with a browser twin checked against it by 322 tests in continuous integration. |
 
 > [!IMPORTANT]
 > **About "0.42 nm".** No foundry manufactures a 0.42 nm (or 0.7 nm) process. As of September 2026 the most advanced production nodes are 2 nm-class (TSMC N2 and Intel 18A, both in volume since Q4 2025), with TSMC A16 ramping. **0.7 nm** is IBM's *research* node announced on 25 June 2026. **0.42 nm** is the measured thickness of an aluminium-oxide interface layer in a 2026 NYCU + TSMC monolayer-MoS₂ transistor whose channel is ~100 nm long. This repository explains all three and why node names stopped being lengths. See [Chapter 8](docs/08-gaa-and-angstrom-era.md) and [Chapter 9](docs/09-2d-materials.md).
@@ -54,7 +55,7 @@ Transistor Foundry Expedition (formerly Transistor Odyssey) follows the transist
 | **An engineer asking why FinFET and GAA** | [Physics Lab 09: 2D electrostatics](https://normansrule.github.io/transistor-foundry-expedition/physics.html#short) → [the side-by-side comparison](https://normansrule.github.io/transistor-foundry-expedition/devices.html#compare) → [Labs 13–15: inverter, ballistic limit, wires](https://normansrule.github.io/transistor-foundry-expedition/physics.html#part-vi) → [Chapter 6](docs/06-finfet.md), [Chapter 8](docs/08-gaa-and-angstrom-era.md) and [the process flow](docs/16-process-flow.md) |
 | **Working in power or radio frequency** | [Analog & RF Lab: gain, Miller effect and speed records](https://normansrule.github.io/transistor-foundry-expedition/analog.html#bode) → [materials chart](https://normansrule.github.io/transistor-foundry-expedition/devices.html#align) → [GaN HEMT](https://normansrule.github.io/transistor-foundry-expedition/devices.html#gan_hemt) → [heterojunction builder](https://normansrule.github.io/transistor-foundry-expedition/devices.html#hetero) → [self-heating lab](https://normansrule.github.io/transistor-foundry-expedition/physics.html#heat) → [Chapters 10](docs/10-compound-semiconductors.md), [13](docs/13-diamond-electronics.md) and [23](docs/23-analog-rf-lab.md) |
 | **Curious how a computer is built from them** | [The powers-of-ten zoom](https://normansrule.github.io/transistor-foundry-expedition/circuits.html#zoom) → [gate builder](https://normansrule.github.io/transistor-foundry-expedition/circuits.html#gates) → [8-bit adder](https://normansrule.github.io/transistor-foundry-expedition/circuits.html#adder) → [SRAM](https://normansrule.github.io/transistor-foundry-expedition/circuits.html#sram) and [flash](https://normansrule.github.io/transistor-foundry-expedition/circuits.html#flash) cells → [Chapter 21](docs/21-circuit-lab.md) |
-| **Interested in how chips are manufactured** | [Process flow animation](https://normansrule.github.io/transistor-foundry-expedition/process.html) → [oxidation](https://normansrule.github.io/transistor-foundry-expedition/process.html#oxide) → [implant and anneal](https://normansrule.github.io/transistor-foundry-expedition/process.html#implant) → [yield and cost](https://normansrule.github.io/transistor-foundry-expedition/process.html#yield) → [electromigration](https://normansrule.github.io/transistor-foundry-expedition/process.html#em) → [Chapters 16](docs/16-process-flow.md) and [22](docs/22-process-lab.md) |
+| **Interested in how chips are manufactured** | [Process flow animation](https://normansrule.github.io/transistor-foundry-expedition/process.html) → [oxidation](https://normansrule.github.io/transistor-foundry-expedition/process.html#oxide) → [implant and anneal](https://normansrule.github.io/transistor-foundry-expedition/process.html#implant) → [yield and cost](https://normansrule.github.io/transistor-foundry-expedition/process.html#yield) → [electromigration](https://normansrule.github.io/transistor-foundry-expedition/process.html#em) → [a real cleanroom run](https://normansrule.github.io/transistor-foundry-expedition/process.html#labrun) → [Chapters 16](docs/16-process-flow.md), [22](docs/22-process-lab.md) and [25](docs/25-real-cleanroom-run.md) |
 | **Teaching** | Every figure is CC BY 4.0 and regenerated by `python sim/make_figures.py`; the atlas deep-links to any device (`devices.html#finfet`), and the quiz draws new questions each round. |
 
 ## Contents
@@ -153,16 +154,139 @@ Surface transfer doping gives diamond a sheet of holes with no dopant atoms; the
 
 <p align="center"><sub>The same solver, live in the <a href="https://normansrule.github.io/transistor-foundry-expedition/devices.html#hetero">heterojunction builder</a>: a silicon pn junction swept from −2 V to +0.6 V, with the space-charge region (amber) shrinking under forward bias.</sub></p>
 
+<!-- manuals:start · generated by scripts/build_manuals.py, edit data/manuals.json -->
+## Step-by-step process manuals
+
+Illustrated manuals in the style of a building-brick instruction book: one picture per step, the new part outlined, a parts list, and a check at the end of each step. Open any step for the engineer’s operation specification (tool, cited parameter ranges, control and what to do when it goes wrong). Every web manual has a Save as PDF button.
+
+| Manual | Steps | Web | GitHub |
+|---|---|---|---|
+| **4B · Make the photomask** · Mask making: blank, write, develop, etch the chrome, strip, measure, inspect and repair, mount the pellicle | 8 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/photomask.html) | [read](docs/manuals/photomask.md) |
+| **4A · Print a pattern with light** · Photolithography: prime, coat, bake, align, expose, develop, inspect | 10 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/lithography.html) | [read](docs/manuals/lithography.md) |
+| **5 · Carve the pattern into the film** · Plasma (reactive ion) etch: load, pump down, flow gas, strike plasma, etch, endpoint, over-etch, strip, measure | 9 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/etch.html) | [read](docs/manuals/etch.md) |
+| **8 · Make the surface flat again** · Planarization: spin-on glass in older processes, chemical mechanical polishing (CMP) today | 7 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/planarize.html) | [read](docs/manuals/planarize.md) |
+
+<details><summary><b>Manual 4B · Make the photomask</b> in 8 steps</summary>
+
+<table>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/photomask_01.svg" alt="Step 1: Start with a blank"><br><b>1 · Start with a blank</b><br>Take a plate of fused silica (quartz) or soda-lime glass coated with chrome, an anti-reflective layer and resist.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/photomask_02.svg" alt="Step 2: Write the pattern"><br><b>2 · Write the pattern</b><br>A laser or electron beam scans the layout into the resist, piece by piece, straight from the design file.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/photomask_03.svg" alt="Step 3: Develop"><br><b>3 · Develop</b><br>Dissolve the written resist so the chrome shows through where the pattern must become clear.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/photomask_04.svg" alt="Step 4: Etch the chrome"><br><b>4 · Etch the chrome</b><br>Remove the chrome through the resist openings so light can pass there.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/photomask_05.svg" alt="Step 5: Strip the resist"><br><b>5 · Strip the resist</b><br>Remove the remaining resist. What is left is the chrome pattern on glass.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/photomask_06.svg" alt="Step 6: Measure the critical dimensions"><br><b>6 · Measure the critical dimensions</b><br>Measure line widths at many points and check them against the design.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/photomask_07.svg" alt="Step 7: Inspect and repair"><br><b>7 · Inspect and repair</b><br>Compare the whole mask against the design to find any defect, and repair it if possible.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/photomask_08.svg" alt="Step 8: Mount the pellicle"><br><b>8 · Mount the pellicle</b><br>Glue a frame over the pattern with a thin transparent film stretched across it. Dust now lands on the film, out of focus.</td>
+</tr>
+</table>
+
+</details>
+
+<details><summary><b>Manual 4A · Print a pattern with light</b> in 10 steps</summary>
+
+<table>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/lithography_01.svg" alt="Step 1: Prime the surface"><br><b>1 · Prime the surface</b><br>Expose the wafer to hexamethyldisilazane (HMDS) vapour. It turns the oxide surface water-repellent so the resist sticks.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/lithography_02.svg" alt="Step 2: Dispense the resist"><br><b>2 · Dispense the resist</b><br>Drop a few millilitres of liquid resist onto the centre of the wafer.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/lithography_03.svg" alt="Step 3: Spin it thin"><br><b>3 · Spin it thin</b><br>Spin the wafer fast. The resist flings outward and thins to an even film as its solvent evaporates.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/lithography_04.svg" alt="Step 4: Soft bake"><br><b>4 · Soft bake</b><br>Bake the wafer briefly on a hotplate to drive out most of the remaining solvent.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/lithography_05.svg" alt="Step 5: Align the mask"><br><b>5 · Align the mask</b><br>Load the photomask, a glass plate with a chrome pattern, and line its marks up with the marks the last layer left on the wafer.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/lithography_06.svg" alt="Step 6: Expose"><br><b>6 · Expose</b><br>Flash ultraviolet light through the mask. Where light lands, the resist changes chemistry and will later wash away.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/lithography_07.svg" alt="Step 7: Post-exposure bake"><br><b>7 · Post-exposure bake</b><br>Bake again. In chemically amplified resist the light made a little acid, and the heat lets each acid molecule change many more.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/lithography_08.svg" alt="Step 8: Develop"><br><b>8 · Develop</b><br>Flood the wafer with developer. The exposed resist dissolves and the oxide shows through the openings.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/lithography_09.svg" alt="Step 9: Inspect and measure"><br><b>9 · Inspect and measure</b><br>Look at the pattern under a microscope, then measure line width and overlay.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/lithography_10.svg" alt="Step 10: Hard bake"><br><b>10 · Hard bake</b><br>Bake the patterned resist in an oven so it is tough enough to survive the etch or implant that comes next.</td>
+</tr>
+</table>
+
+</details>
+
+<details><summary><b>Manual 5 · Carve the pattern into the film</b> in 9 steps</summary>
+
+<table>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/etch_01.svg" alt="Step 1: Load the patterned wafer"><br><b>1 · Load the patterned wafer</b><br>Place the wafer on the lower electrode of the etcher. The hard-baked resist covers everything that must stay.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/etch_02.svg" alt="Step 2: Pump down"><br><b>2 · Pump down</b><br>Close the chamber and pump the air out until the pressure is very low.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/etch_03.svg" alt="Step 3: Flow the process gas"><br><b>3 · Flow the process gas</b><br>Let a measured flow of etch gas into the chamber. Fluorine-based gases etch silicon, oxide and nitride.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/etch_04.svg" alt="Step 4: Strike the plasma"><br><b>4 · Strike the plasma</b><br>Switch on the radio-frequency power. The gas glows: it has become a plasma of ions and reactive fragments.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/etch_05.svg" alt="Step 5: Etch straight down"><br><b>5 · Etch straight down</b><br>Ions accelerate across the sheath and strike the wafer head-on. Where the resist is open the film is etched downward, and the walls stay vertical.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/etch_06.svg" alt="Step 6: Stop at the layer below"><br><b>6 · Stop at the layer below</b><br>Watch for the moment the film clears and the layer underneath shows. That is the endpoint.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/etch_07.svg" alt="Step 7: Over-etch a little"><br><b>7 · Over-etch a little</b><br>Keep etching for a short extra time so thin spots and slow, narrow openings clear too.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/etch_08.svg" alt="Step 8: Strip the resist"><br><b>8 · Strip the resist</b><br>Burn the leftover resist off in an oxygen plasma, then clean the wafer.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/etch_09.svg" alt="Step 9: Measure the result"><br><b>9 · Measure the result</b><br>Measure the etched lines and compare them with the drawn widths and with the resist before etch.</td>
+</tr>
+</table>
+
+</details>
+
+<details><summary><b>Manual 8 · Make the surface flat again</b> in 7 steps</summary>
+
+<table>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/planarize_01.svg" alt="Step 1: See the problem"><br><b>1 · See the problem</b><br>Look at the wafer after deposition. The oxide copies every line underneath, so the top is a row of bumps.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/planarize_02.svg" alt="Step 2: Older fix: spin-on glass"><br><b>2 · Older fix: spin-on glass</b><br>Spin a liquid glass onto the wafer like resist. It flows into the low places, then a bake turns it solid.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/planarize_03.svg" alt="Step 3: Mount face down on the pad"><br><b>3 · Mount face down on the pad</b><br>Hold the wafer upside down in a carrier and press it onto a rotating polishing pad wetted with slurry.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/planarize_04.svg" alt="Step 4: Polish the high spots first"><br><b>4 · Polish the high spots first</b><br>Spin pad and wafer. The pad touches the bumps first, so they wear away fastest.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/planarize_05.svg" alt="Step 5: Stop when it is flat"><br><b>5 · Stop when it is flat</b><br>Keep polishing until the bumps are gone and the oxide over the lines has the target thickness.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/planarize_06.svg" alt="Step 6: Mind the pattern density"><br><b>6 · Mind the pattern density</b><br>Check dense and sparse regions. Dense patterns polish more slowly, sparse ones faster, so the die is not perfectly flat.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/planarize_07.svg" alt="Step 7: Clean off the slurry"><br><b>7 · Clean off the slurry</b><br>Scrub and rinse the wafer so no slurry particles stay behind.</td>
+</tr>
+</table>
+
+</details>
+
+Manuals explain how a cleanroom works; they are not home procedures. Hazardous chemistry, gases, furnaces and high-power lasers are described conceptually only.
+<!-- manuals:end -->
+
 ## The interactive site
 
 | Page | What it does |
 |---|---|
 | [**History**](https://normansrule.github.io/transistor-foundry-expedition/) | WebGL fluid hero, scroll-pinned timeline of 20 structures, three.js explorer that explodes seven architectures, compact-model device lab, Moore's-law chart, die photographs beside generated drawings, materials ranking, diamond lab, 14-step fab animation, niche atlas of 31 devices, lithography calculator and searchable bibliography |
+| [**Fab Journey**](https://normansrule.github.io/transistor-foundry-expedition/fab.html) | A lens that dives from the planet to the atoms, a stamped map of 13 process areas on three routes, a lithography theatre whose cross-section is computed from Fourier optics and photon shot noise (2D and 3D, seven stages, three depths, four failure modes), thirteen more theatres for Czochralski crystal growth with dopant segregation along the ingot, wafer cleaning (particles, killer size and iron lifetime, with no chemistry), oxidation, implantation, diffusion from a surface source, rapid thermal and spike anneals on a thermal budget, plasma etch with RIE lag, trench filling by PVD, CVD and ALD, CMP over three pattern densities, damascene copper lines with barrier and size-effect resistivity, wafer probe with a live wafer map, cost per good die and test escapes, the release of stacked nanosheets by a selective etch, and the 1959 planar process with the breakdown of its curved junction edge, each computed from its model, a gate-to-silicon view that shows nine logic gates from the inverter to XOR, a 28-transistor full adder and a 6T SRAM cell (also tiled into a 4-bit adder and a 4 × 4 memory array) as symbol, schematic, dimensioned mask layout, an explodable 3D cell and a cross-section in planar, FinFET and nanosheet form, and a Virtual Fab that checks your process order and computes the cross-section your traveler builds from the theatre models, at their defaults or at your own theatre settings |
 | [**Device Atlas**](https://normansrule.github.io/transistor-foundry-expedition/devices.html) | 19 animated transistors with band diagrams along the current path and through the gate, step-by-step walk-throughs, side-by-side comparison, 21-material band chart, heterojunction builder with doping and bias, and an 8-question self-test |
 | [**Physics Lab**](https://normansrule.github.io/transistor-foundry-expedition/physics.html) | 15 simulations in six parts, from crystal lattices to lithography optics, CMOS logic, ballistic transport and on-chip wires, each with guided experiments and typeset equations |
 | [**Circuit Lab**](https://normansrule.github.io/transistor-foundry-expedition/circuits.html) | A powers-of-ten zoom from a 300 mm wafer to one silicon bond, a switch-level gate builder with logical effort, an event-driven 8-bit adder, a six-transistor SRAM cell with butterfly curves, and a floating-gate flash cell with Fowler–Nordheim programming |
-| [**Process Lab**](https://normansrule.github.io/transistor-foundry-expedition/process.html) | An animated process flow, Deal–Grove oxidation, LSS ion implantation with diffusion anneals, a Monte Carlo wafer map with yield models and the cost per chip by node, and an electromigration stress solver with the Blech length and Black's law |
+| [**Process Lab**](https://normansrule.github.io/transistor-foundry-expedition/process.html) | An animated process flow, Deal–Grove oxidation, LSS ion implantation with diffusion anneals, a Monte Carlo wafer map with yield models and the cost per chip by node, an electromigration stress solver with the Blech length and Black's law, and a real teaching-cleanroom run (ten steps, measured oxides, etch bias, thresholds and capacitors) set against the models |
 | [**Analog & RF Lab**](https://normansrule.github.io/transistor-foundry-expedition/analog.html) | The radio spectrum from audio to 2 THz, a common-source amplifier with live distortion, g_m/I_D and intrinsic gain across six generations, Bode plots with the Miller effect beside record f_T and f_max, and thermal and 1/f noise |
+
+<p align="center"><a href="https://normansrule.github.io/transistor-foundry-expedition/fab.html"><img src="figures/screens/fab_journey.jpg" width="100%" alt="Fab Journey hero: a lens zooming from the planet to a gate-all-around transistor"></a></p>
+<p align="center"><sub>Fab Journey (v1.12): follow one lot through the fab, seven scopes from the planet to the atoms.</sub></p>
+
+<p align="center"><a href="https://normansrule.github.io/transistor-foundry-expedition/fab.html#litho"><img src="figures/screens/litho_theatre.jpg" width="100%" alt="Lithography theatre: an isometric patch of EUV resist with rough, broken lines at low dose"></a></p>
+<p align="center"><sub>Lithography theatre: EUV at 15 mJ/cm² delivers about 10 photons per nm², and counting noise breaks and bridges the lines.</sub></p>
+
+<p align="center"><a href="https://normansrule.github.io/transistor-foundry-expedition/fab.html#gates"><img src="figures/screens/gate_silicon.jpg" width="100%" alt="A logic gate as symbol, truth table, transistor schematic, dimensioned mask layout, 3D cell and cross-section"></a></p>
+<p align="center"><sub>Gate to silicon: an AOI22 in a 5 nm FinFET cell, as symbol, schematic, dimensioned layout, exploded 3D view and cross-section. Pick any of nine gates, the full adder or the SRAM cell, in three technologies.</sub></p>
 
 <p align="center"><a href="https://normansrule.github.io/transistor-foundry-expedition/devices.html#gan_hemt"><img src="figures/screens/atlas.jpg" width="100%" alt="Device Atlas showing the GaN HEMT"></a></p>
 <p align="center"><sub>Device Atlas: the GaN HEMT, with the solved quantum well in the lower band diagram.</sub></p>
@@ -388,7 +512,7 @@ The [Analog & RF Lab](https://normansrule.github.io/transistor-foundry-expeditio
 ## Chapters
 
 <details open>
-<summary><b>All 23 chapters</b>. Citations are written <code>[@key]</code>; each key resolves to <a href="REFERENCES.md">REFERENCES.md</a>.</summary>
+<summary><b>All 25 chapters</b>. Citations are written <code>[@key]</code>; each key resolves to <a href="REFERENCES.md">REFERENCES.md</a>.</summary>
 
 1. [Origins: the point contact and the junction](docs/01-origins.md) — 1947–1954
 2. [Oxide, the planar process and the integrated circuit](docs/02-planar-and-ic.md) — 1957–1961
@@ -413,6 +537,8 @@ The [Analog & RF Lab](https://normansrule.github.io/transistor-foundry-expeditio
 21. [From transistor to computer: the Circuit Lab](docs/21-circuit-lab.md) — powers of ten, switch-level gates, logical effort, adders, SRAM noise margins, flash and 3D NAND
 22. [The physics of making chips: the Process Lab](docs/22-process-lab.md) — Deal–Grove oxidation, LSS implantation and diffusion, yield and cost per transistor, electromigration
 23. [The transistor as an amplifier: the Analog & RF Lab](docs/23-analog-rf-lab.md) — common-source gain and distortion, g_m/I_D and intrinsic gain, the Miller effect, f_T and f_max records, thermal and 1/f noise
+24. [The Fab Journey: one lot through the fab](docs/24-fab-journey.md) — the lot traveler, three routes, the lithography theatre with photon shot noise, process theatres for crystal growth, cleaning, oxidation, implant, diffusion, anneal, etch, deposition, CMP, nanosheet release, copper wiring, wafer probe and the 1959 planar process, gate to silicon, and the computed Virtual Fab
+25. [A real cleanroom run, checked against the models](docs/25-real-cleanroom-run.md) — one university teaching-cleanroom NMOS wafer: Deal–Grove against measured oxides, wet-etch bias, threshold voltage and oxide charge, capacitors, resistors and a 25 nm design exercise
 
 </details>
 
@@ -450,13 +576,13 @@ Open a generated layout in KLayout: `klayout figures/layout/inverter_22_nm_FinFE
 
 ```
 transistor-foundry-expedition/
-├── site/                  GitHub Pages website: index.html (history) · devices.html (Device Atlas) · physics.html (Physics Lab) · circuits.html (Circuit Lab) · process.html (Process Lab) · analog.html (Analog & RF Lab), css/, js/, vendor/ (three.js, GSAP, KaTeX, fonts)
+├── site/                  GitHub Pages website: index.html (history) · fab.html (Fab Journey) · devices.html (Device Atlas) · physics.html (Physics Lab) · circuits.html (Circuit Lab) · process.html (Process Lab) · analog.html (Analog & RF Lab), css/, js/, vendor/ (three.js, GSAP, KaTeX, fonts)
 │   ├── js/physics/        browser twins of the Python physics, checked by tests/js_parity.mjs
 │   ├── js/devices/        Device Atlas: band models, scenes, animated renderers, comparison, quiz, junction builder
 │   ├── js/circuitlab/     Circuit Lab: powers-of-ten zoom, gate builder, adder, SRAM and flash labs
 │   ├── js/processlab/     Process Lab: process-flow hero, oxidation, implantation, yield and electromigration labs
 │   └── js/analoglab/      Analog & RF Lab: spectrum hero, amplifier, gain, frequency-response and noise labs
-├── docs/                  23 chapters, citations as [@key]
+├── docs/                  25 chapters, citations as [@key]
 ├── sim/
 │   ├── transistor_sim/    mosfet · hemt · bjt · dopants · steep · process · materials · scaling · crosssection · layout · bandatlas
 │   │   └── physics/       carriers · bandstructure · junction · hetero · moscap · chargesheet · tunnel · qwell · poisson2d · montecarlo · thermal · litho · crystal · inverter · ballistic · interconnect · logic · sram · flash · oxidation · implant · yieldcost · electromigration · analog
@@ -467,11 +593,11 @@ transistor-foundry-expedition/
 ├── scripts/               setup_ubuntu.sh · build_data.py (site bundle, REFERENCES.md, CREDITS.md) · build_nav.py (one navigation for every page) · make_zip.py · fetch_images.py · banner.html
 │   └── qa/                qa.mjs (screens, overflow, nav, click-through) · record_gifs.mjs + gifs.json · render_banner.mjs
 ├── tests/                 pytest suite
-├── REFERENCES.md          316 sources, generated
+├── REFERENCES.md          332 sources, generated
 └── CREDITS.md             photo attribution, generated
 ```
 
-**What is in it:** 19 devices and 21 band alignments · 33 landmark chips · 25 process nodes · 12 semiconductors · 20 structural eras · 31 niche devices · 16 diamond milestones · 9 dopants · 12 SRAM bitcells · 11 NAND milestones · 11 wafer prices · 7 speed records · 14 process steps · 7 crystal structures ([data/](data)) · 43 labelled cross-sections, 14 process-flow drawings, 6 GDS mask layouts, 39 charts, 19 band-diagram figures and 25 animations ([figures/](figures)) · ngspice netlists ([sim/spice](sim/spice)) · 13 seed fab steps ([data/fab_steps.json](data/fab_steps.json)) · 220 tests ([tests/](tests)).
+**What is in it:** 19 devices and 21 band alignments · 33 landmark chips · 25 process nodes · 12 semiconductors · 20 structural eras · 31 niche devices · 16 diamond milestones · 9 dopants · 12 SRAM bitcells · 11 NAND milestones · 11 wafer prices · 7 speed records · 14 process steps · 7 crystal structures ([data/](data)) · 43 labelled cross-sections, 14 process-flow drawings, 12 GDS mask layouts, 39 charts, 19 band-diagram figures and 25 animations ([figures/](figures)) · ngspice netlists ([sim/spice](sim/spice)) · 15 seed fab steps ([data/fab_steps.json](data/fab_steps.json)) · 14 process theatres ([data/theatres.json](data/theatres.json)) · one measured cleanroom run ([data/lab_runs.json](data/lab_runs.json)) · 9 logic gates, a full adder and a 6T SRAM cell in three technologies ([data/gate_cells.json](data/gate_cells.json)) · 322 tests ([tests/](tests)).
 
 ## Accuracy policy
 

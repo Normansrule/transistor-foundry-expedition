@@ -895,7 +895,12 @@
  "litho": {
   "conv100": 0.45348878619678323,
   "dip80": 0.9059711745443908,
-  "def120": 0.2145402323100469
+  "def120": 0.2145402323100469,
+  "hp_euv": 12.272727272727272,
+  "dof_hna": 44.628099173553714,
+  "ph_euv30": 20.388172098547976,
+  "ph_arf30": 291.4753492607229,
+  "sn_euv": 0.02214679341474271
  },
  "logic": {
   "effort": {
@@ -1196,6 +1201,1605 @@
     "margin": 0.36
    }
   }
+ },
+ "etch": [
+  {
+   "case": [
+    0.05,
+    0.9,
+    10.0,
+    0.5
+   ],
+   "t_end": 42.24260128024962,
+   "lag": 0.9846437290695492,
+   "depths": [
+    201.7124040092784,
+    203.34289206034805,
+    204.85826299822062
+   ],
+   "side": [
+    14.299065420560748,
+    17.4331550802139,
+    19.999999999999996
+   ],
+   "mask": 48.375
+  },
+  {
+   "case": [
+    0.5,
+    0.3,
+    4.0,
+    0.2
+   ],
+   "t_end": 62.449295901530206,
+   "lag": 0.5308173412078708,
+   "depths": [
+    107.11860021138764,
+    152.33789384783267,
+    201.7993609018878
+   ],
+   "side": [
+    41.38053097345132,
+    62.06369426751592,
+    104.71999999999998
+   ],
+   "mask": 0.0
+  },
+  {
+   "case": [
+    1.0,
+    1.0,
+    30.0,
+    1.0
+   ],
+   "t_end": 84.92418399580889,
+   "lag": 0.6323721898902975,
+   "depths": [
+    131.39051986524518,
+    195.86480957066914,
+    207.77403239070097
+   ],
+   "side": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "mask": 51.708333333333336
+  }
+ ],
+ "deposition": [
+  {
+   "case": [
+    "pvd",
+    60,
+    3,
+    25
+   ],
+   "coverage": 0.036575201662424825,
+   "floor": 0.9143800415606206,
+   "void": false,
+   "mid": 3.056480601511537
+  },
+  {
+   "case": [
+    "pvd",
+    60,
+    3,
+    40
+   ],
+   "coverage": 0.025214941783598045,
+   "floor": 1.0085976713439218,
+   "void": true,
+   "mid": 3.3851516073141537
+  },
+  {
+   "case": [
+    "cvd",
+    40,
+    4,
+    15
+   ],
+   "coverage": 0.4522985788240971,
+   "floor": 6.784478682361456,
+   "void": false,
+   "mid": 8.41466093009757
+  },
+  {
+   "case": [
+    "ald",
+    30,
+    8,
+    10
+   ],
+   "coverage": 1.0,
+   "floor": 10.0,
+   "void": false,
+   "mid": 10.0
+  }
+ ],
+ "cmp": [
+  {
+   "case": [
+    28,
+    1.0,
+    3.0
+   ],
+   "K": 196.0,
+   "range": 301.1709783600651,
+   "ups": [
+    512.0000000073853,
+    662.0629739253897,
+    813.1709783674504
+   ],
+   "downs": [
+    511.9999999981545,
+    661.9370260746138,
+    807.3160865301717
+   ]
+  },
+  {
+   "case": [
+    14,
+    1.5,
+    6.0
+   ],
+   "K": 147.0,
+   "range": 300.05303603603903,
+   "ups": [
+    217.99999999999983,
+    368.0004390730403,
+    518.0530360360389
+   ],
+   "downs": [
+    217.99999999999972,
+    367.9995609269527,
+    517.787855855862
+   ]
+  },
+  {
+   "case": [
+    40,
+    0.5,
+    1.0
+   ],
+   "K": 140.0,
+   "range": 359.3603082764532,
+   "ups": [
+    965.6396917235468,
+    1220.0000000000045,
+    1325.0
+   ],
+   "downs": [
+    958.5900770691134,
+    1000.0,
+    1000.0
+   ]
+  }
+ ],
+ "diffusion": {
+  "erfc": {
+   "-1.0": 1.8427007877600068,
+   "0.0": 1.0000000300000005,
+   "0.4": 0.5716075971010425,
+   "1.7": 0.016209540258365067,
+   "3.2": 6.025761382066668e-06
+  },
+  "runs": [
+   {
+    "case": [
+     "P",
+     1e+21,
+     1050,
+     600,
+     1050,
+     2220,
+     1.66e+16
+    ],
+    "D1": 9.397704398587783e-14,
+    "D2": 9.397704398587783e-14,
+    "Dt1": 5.63862263915267e-11,
+    "Dt": 2.650152640401755e-10,
+    "dose": 8473085224408006.0,
+    "xj_pre": 457.30619663704414,
+    "Rs_pre": 10.774066688224657,
+    "xj": 1018.2596529311016,
+    "Rs": 10.32058937920308,
+    "Cs_after": 2.9365080382866932e+20,
+    "L_pre": 150.181525350526,
+    "L": 325.58578841231724
+   },
+   {
+    "case": [
+     "B",
+     3e+19,
+     950,
+     1800,
+     1100,
+     3600,
+     1000000000000000.0
+    ],
+    "D1": 6.675719649509015e-15,
+    "D2": 3.0517747601904156e-13,
+    "Dt1": 1.2016295369116228e-11,
+    "Dt": 1.1106552090376659e-09,
+    "dose": 117344195428061.6,
+    "xj_pre": 203.4182312332599,
+    "Rs_pre": 934.0972039869373,
+    "xj": 1836.806366261747,
+    "Rs": 559.8909475353842,
+    "Cs_after": 1.9865387745392207e+18,
+    "L_pre": 69.32905702262575,
+    "L": 666.5298820121018
+   },
+   {
+    "case": [
+     "As",
+     2e+20,
+     1000,
+     300,
+     900,
+     60,
+     5e+17
+    ],
+    "D1": 4.995571473412145e-15,
+    "D2": 3.845300164275733e-16,
+    "Dt1": 1.4986714420236435e-12,
+    "Dt": 1.521743243009298e-12,
+    "dose": 276272890059793.88,
+    "xj_pre": 52.34390047381382,
+    "Rs_pre": 306.3455883973551,
+    "xj": 58.030625444139865,
+    "Rs": 302.143483862194,
+    "Cs_after": 1.2635506149696245e+20,
+    "L_pre": 24.484047394363895,
+    "L": 24.67179152805323
+   }
+  ]
+ },
+ "damascene": [
+  {
+   "case": [
+    "Cu",
+    20.0,
+    2.0,
+    2.0,
+    100.0
+   ],
+   "rho_core": 8.168782090342482,
+   "rho_line": 10.748397487292738,
+   "r": 134.3549685911592,
+   "c": 1.6256288824300802e-16,
+   "rc": 8.299630062711439e-11,
+   "core_share": 0.76
+  },
+  {
+   "case": [
+    "Ru",
+    10.0,
+    2.0,
+    null,
+    30.0
+   ],
+   "rho_core": 15.07863864974957,
+   "rho_line": 16.285385732530045,
+   "r": 814.2692866265022,
+   "c": 1.6256288824300802e-16,
+   "rc": 4.5270528728219655e-11,
+   "core_share": 0.9259000000000001
+  },
+  {
+   "case": [
+    "W",
+    50.0,
+    1.5,
+    null,
+    500.0
+   ],
+   "rho_core": 8.13236628281895,
+   "rho_line": 8.264196749364817,
+   "r": 22.037857998306176,
+   "c": 1.46625350179968e-16,
+   "rc": 3.0697432139071487e-10,
+   "core_share": 0.9840479999999999
+  },
+  {
+   "case": [
+    "Co",
+    12.0,
+    2.5,
+    null,
+    5.0
+   ],
+   "rho_core": 14.580303717516246,
+   "rho_line": 15.502715276465974,
+   "r": 430.6309799018325,
+   "c": 1.8168793391865602e-16,
+   "rc": 7.432843036874373e-13,
+   "core_share": 0.9405
+  }
+ ],
+ "probe": [
+  {
+   "case": [
+    10.0,
+    0.1,
+    0.99,
+    18500.0
+   ],
+   "n": 616,
+   "good": 568,
+   "Y": 0.9063139874458727,
+   "dl_ppm": 983.2110156805518,
+   "cost": 32.570422535211264
+  },
+  {
+   "case": [
+    20.0,
+    0.5,
+    0.9,
+    18500.0
+   ],
+   "n": 148,
+   "good": 38,
+   "Y": 0.21600000000000005,
+   "dl_ppm": 142082.79955590508,
+   "cost": 486.8421052631579
+  },
+  {
+   "case": [
+    7.5,
+    0.05,
+    0.999,
+    9000.0
+   ],
+   "n": 1108,
+   "good": 1082,
+   "Y": 0.9723942183733071,
+   "dl_ppm": 27.993590458796902,
+   "cost": 8.317929759704251
+  }
+ ],
+ "release": [
+  {
+   "case": [
+    30.0,
+    5.0,
+    100.0,
+    0.2,
+    3
+   ],
+   "e": 18.0,
+   "side": 0.18,
+   "core": 0.0,
+   "t_edge": 4.64,
+   "t_centre": 4.94,
+   "t_mean": 4.79,
+   "w_final": 29.64,
+   "weff": 206.57999999999998
+  },
+  {
+   "case": [
+    60.0,
+    6.0,
+    20.0,
+    0.5,
+    2
+   ],
+   "e": 45.0,
+   "side": 2.25,
+   "core": 0.0,
+   "t_edge": 1.5,
+   "t_centre": 4.5,
+   "t_mean": 3.0,
+   "w_final": 55.5,
+   "weff": 234.0
+  },
+  {
+   "case": [
+    25.0,
+    5.0,
+    300.0,
+    -0.2,
+    4
+   ],
+   "e": 10.0,
+   "side": 0.03333333333333333,
+   "core": 5.0,
+   "t_edge": 4.933333333333334,
+   "t_centre": 5.0,
+   "t_mean": 4.973333333333333,
+   "w_final": 24.933333333333334,
+   "weff": 0.0
+  }
+ ],
+ "cleaning": [
+  {
+   "case": [
+    2000.0,
+    0.9,
+    1,
+    100.0,
+    10000000000.0
+   ],
+   "left": 199.99999999999994,
+   "f_kill": 0.25,
+   "killers": 49.999999999999986,
+   "D_add": 0.07073553026306457,
+   "Y": 0.93247355052099,
+   "Y_dirty": 0.5298722008716407,
+   "tau_us": 181.8181818181818,
+   "L_um": 696.3854075048574
+  },
+  {
+   "case": [
+    20000.0,
+    0.5,
+    0,
+    50.0,
+    1000000000000.0
+   ],
+   "left": 20000.0,
+   "f_kill": 1.0,
+   "killers": 20000.0,
+   "D_add": 28.29421210522584,
+   "Y": 0.0008809914604992096,
+   "Y_dirty": 0.0008809914604992096,
+   "tau_us": 1.8181818181818181,
+   "L_um": 69.63854075048573
+  },
+  {
+   "case": [
+    300.0,
+    0.98,
+    2,
+    400.0,
+    3000000000.0
+   ],
+   "left": 0.12000000000000022,
+   "f_kill": 0.015625,
+   "killers": 0.0018750000000000034,
+   "D_add": 2.6525823848649272e-06,
+   "Y": 0.9999973474223057,
+   "Y_dirty": 0.993397753857246,
+   "tau_us": 606.060606060606,
+   "L_um": 1271.419988026126
+  }
+ ],
+ "vfab": [
+  {
+   "case": [
+    [
+     "wafer_start",
+     "rca_clean",
+     "ox_thermal",
+     "litho_expose",
+     "etch_rie",
+     "implant",
+     "diffuse_predep",
+     "anneal",
+     "dep_pvd",
+     "probe_dice_bond"
+    ],
+    [
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false
+    ],
+    null
+   ],
+   "field": {
+    "si_top": -25.55286615858557,
+    "layers": [
+     [
+      "ox",
+      58.0746958149672
+     ],
+     [
+      "metal",
+      500.0
+     ]
+    ],
+    "xj": 0.0,
+    "by": null,
+    "shift": 0.0,
+    "lateral": 0.0
+   },
+   "window": {
+    "si_top": -27.00473355395975,
+    "layers": [
+     [
+      "metal",
+      500.0
+     ]
+    ],
+    "xj": 953.5357337209531,
+    "by": "diffusion",
+    "shift": 0.0,
+    "lateral": 762.8285869767625
+   },
+   "log": [
+    {
+     "id": "wafer_start",
+     "applied": true,
+     "value": null
+    },
+    {
+     "id": "rca_clean",
+     "applied": true,
+     "value": null
+    },
+    {
+     "id": "ox_thermal",
+     "applied": true,
+     "value": 58.0746958149672
+    },
+    {
+     "id": "litho_expose",
+     "applied": true,
+     "value": 1000.0
+    },
+    {
+     "id": "etch_rie",
+     "applied": true,
+     "value": 58.0746958149672
+    },
+    {
+     "id": "implant",
+     "applied": true,
+     "value": 85.36832802082613
+    },
+    {
+     "id": "diffuse_predep",
+     "applied": true,
+     "value": 953.5357337209531
+    },
+    {
+     "id": "anneal",
+     "applied": true,
+     "value": 90.36884667407402
+    },
+    {
+     "id": "dep_pvd",
+     "applied": true,
+     "value": 500.0
+    },
+    {
+     "id": "probe_dice_bond",
+     "applied": true,
+     "value": null
+    }
+   ],
+   "masks": 1,
+   "done": true
+  },
+  {
+   "case": [
+    [
+     "wafer_start",
+     "rca_clean",
+     "litho_expose",
+     "etch_rie",
+     "implant",
+     "anneal",
+     "dep_pvd",
+     "cmp",
+     "gaa_release",
+     "damascene",
+     "probe_dice_bond"
+    ],
+    [
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false
+    ],
+    null
+   ],
+   "field": {
+    "si_top": 0.0,
+    "layers": [
+     [
+      "ild",
+      40.0
+     ]
+    ],
+    "xj": 0.0,
+    "by": null,
+    "shift": 0.0,
+    "lateral": 0.0
+   },
+   "window": {
+    "si_top": 0.0,
+    "layers": [
+     [
+      "cu",
+      40.0
+     ]
+    ],
+    "xj": 90.36884667407402,
+    "by": "implant",
+    "shift": 0.0,
+    "lateral": 48.944771664104714
+   },
+   "log": [
+    {
+     "id": "wafer_start",
+     "applied": true,
+     "value": null
+    },
+    {
+     "id": "rca_clean",
+     "applied": true,
+     "value": null
+    },
+    {
+     "id": "litho_expose",
+     "applied": true,
+     "value": 1000.0
+    },
+    {
+     "id": "etch_rie",
+     "applied": true,
+     "value": 0.0
+    },
+    {
+     "id": "implant",
+     "applied": true,
+     "value": 85.36832802082613
+    },
+    {
+     "id": "anneal",
+     "applied": true,
+     "value": 90.36884667407402
+    },
+    {
+     "id": "dep_pvd",
+     "applied": true,
+     "value": 500.0
+    },
+    {
+     "id": "cmp",
+     "applied": true,
+     "value": 588.0
+    },
+    {
+     "id": "gaa_release",
+     "applied": true,
+     "value": 4.64
+    },
+    {
+     "id": "damascene",
+     "applied": true,
+     "value": 40.0
+    },
+    {
+     "id": "probe_dice_bond",
+     "applied": true,
+     "value": null
+    }
+   ],
+   "masks": 1,
+   "sheets": {
+    "t_edge": 4.64,
+    "t_centre": 4.94,
+    "weff": 206.57999999999998
+   },
+   "cu_r": 134.3549685911592,
+   "done": true
+  },
+  {
+   "case": [
+    [
+     "wafer_start",
+     "rca_clean",
+     "ox_thermal",
+     "litho_expose",
+     "diffuse_predep",
+     "planar_hoerni",
+     "evap_al",
+     "probe_dice_bond"
+    ],
+    [
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false
+    ],
+    null
+   ],
+   "field": {
+    "si_top": -25.55286615858557,
+    "layers": [
+     [
+      "ox",
+      58.0746958149672
+     ],
+     [
+      "metal",
+      500.0
+     ]
+    ],
+    "xj": 0.0,
+    "by": null,
+    "shift": 0.0,
+    "lateral": 0.0
+   },
+   "window": {
+    "si_top": -25.55286615858557,
+    "layers": [
+     [
+      "metal",
+      500.0
+     ]
+    ],
+    "xj": 2047.6443300315607,
+    "by": "planar",
+    "shift": 0.0,
+    "lateral": 1638.1154640252487
+   },
+   "log": [
+    {
+     "id": "wafer_start",
+     "applied": true,
+     "value": null
+    },
+    {
+     "id": "rca_clean",
+     "applied": true,
+     "value": null
+    },
+    {
+     "id": "ox_thermal",
+     "applied": true,
+     "value": 58.0746958149672
+    },
+    {
+     "id": "litho_expose",
+     "applied": true,
+     "value": 1000.0
+    },
+    {
+     "id": "diffuse_predep",
+     "applied": true,
+     "value": 953.5357337209531
+    },
+    {
+     "id": "planar_hoerni",
+     "applied": true,
+     "value": 2047.6443300315607
+    },
+    {
+     "id": "evap_al",
+     "applied": true,
+     "value": 500.0
+    },
+    {
+     "id": "probe_dice_bond",
+     "applied": true,
+     "value": null
+    }
+   ],
+   "masks": 1,
+   "planar": {
+    "xj": 2047.6443300315607,
+    "bv_pp": 346.6484452203992,
+    "bv_cyl": 149.70824084277794
+   },
+   "done": true
+  },
+  {
+   "case": [
+    [
+     "wafer_start",
+     "ox_thermal",
+     "litho_expose",
+     "implant",
+     "ox_thermal",
+     "etch_rie",
+     "dep_pvd",
+     "cmp"
+    ],
+    [
+     false,
+     true,
+     false,
+     false,
+     false,
+     false,
+     true,
+     false
+    ],
+    null
+   ],
+   "field": {
+    "si_top": -25.55286615858557,
+    "layers": [
+     [
+      "ox",
+      58.0746958149672
+     ]
+    ],
+    "xj": 0.0,
+    "by": null,
+    "shift": 0.0,
+    "lateral": 0.0
+   },
+   "window": {
+    "si_top": -25.55286615858557,
+    "layers": [
+     [
+      "ox",
+      58.0746958149672
+     ]
+    ],
+    "xj": 85.36832802082613,
+    "by": "implant",
+    "shift": 0.0,
+    "lateral": 44.62806875333949
+   },
+   "log": [
+    {
+     "id": "wafer_start",
+     "applied": true,
+     "value": null
+    },
+    {
+     "id": "ox_thermal",
+     "applied": false,
+     "value": null
+    },
+    {
+     "id": "litho_expose",
+     "applied": true,
+     "value": 1000.0
+    },
+    {
+     "id": "implant",
+     "applied": true,
+     "value": 85.36832802082613
+    },
+    {
+     "id": "ox_thermal",
+     "applied": true,
+     "value": 58.0746958149672
+    },
+    {
+     "id": "etch_rie",
+     "applied": true,
+     "value": null
+    },
+    {
+     "id": "dep_pvd",
+     "applied": false,
+     "value": null
+    },
+    {
+     "id": "cmp",
+     "applied": true,
+     "value": 588.0
+    }
+   ],
+   "masks": 1
+  },
+  {
+   "case": [
+    [
+     "wafer_start",
+     "rca_clean",
+     "ox_thermal",
+     "ox_thermal",
+     "litho_expose",
+     "etch_rie",
+     "implant",
+     "anneal",
+     "dep_pvd",
+     "cmp",
+     "damascene"
+    ],
+    [
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false
+    ],
+    null
+   ],
+   "field": {
+    "si_top": -37.754865228432934,
+    "layers": [
+     [
+      "ox",
+      85.80651188280213
+     ],
+     [
+      "ild",
+      40.0
+     ]
+    ],
+    "xj": 0.0,
+    "by": null,
+    "shift": 0.0,
+    "lateral": 0.0
+   },
+   "window": {
+    "si_top": -39.900028025502984,
+    "layers": [
+     [
+      "cu",
+      40.0
+     ]
+    ],
+    "xj": 90.36884667407402,
+    "by": "implant",
+    "shift": 0.0,
+    "lateral": 48.944771664104714
+   },
+   "log": [
+    {
+     "id": "wafer_start",
+     "applied": true,
+     "value": null
+    },
+    {
+     "id": "rca_clean",
+     "applied": true,
+     "value": null
+    },
+    {
+     "id": "ox_thermal",
+     "applied": true,
+     "value": 58.0746958149672
+    },
+    {
+     "id": "ox_thermal",
+     "applied": true,
+     "value": 85.80651188280213
+    },
+    {
+     "id": "litho_expose",
+     "applied": true,
+     "value": 1000.0
+    },
+    {
+     "id": "etch_rie",
+     "applied": true,
+     "value": 85.80651188280213
+    },
+    {
+     "id": "implant",
+     "applied": true,
+     "value": 85.36832802082613
+    },
+    {
+     "id": "anneal",
+     "applied": true,
+     "value": 90.36884667407402
+    },
+    {
+     "id": "dep_pvd",
+     "applied": true,
+     "value": 500.0
+    },
+    {
+     "id": "cmp",
+     "applied": true,
+     "value": 588.0
+    },
+    {
+     "id": "damascene",
+     "applied": true,
+     "value": 40.0
+    }
+   ],
+   "masks": 1,
+   "cu_r": 134.3549685911592
+  },
+  {
+   "case": [
+    [
+     "wafer_start",
+     "rca_clean",
+     "ox_thermal",
+     "litho_expose",
+     "etch_rie",
+     "implant",
+     "diffuse_predep",
+     "anneal",
+     "dep_pvd",
+     "probe_dice_bond"
+    ],
+    [
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false
+    ],
+    {
+     "ox": {
+      "amb": "wet",
+      "T": 1100.0,
+      "t": 0.5,
+      "orient": "111"
+     },
+     "imp": {
+      "ion": "As",
+      "E": 60.0,
+      "dose": 3000000000000000.0
+     },
+     "diff": {
+      "ion": "B"
+     },
+     "ann": {
+      "T": 1000.0,
+      "hold": 10.0,
+      "rate": 50.0
+     },
+     "etch": {
+      "sel": 4.0,
+      "oe": 1.0
+     }
+    }
+   ],
+   "field": {
+    "si_top": -203.7584939007926,
+    "layers": [
+     [
+      "ox",
+      463.087486138165
+     ],
+     [
+      "metal",
+      500.0
+     ]
+    ],
+    "xj": 0.0,
+    "by": null,
+    "shift": 0.0,
+    "lateral": 0.0
+   },
+   "window": {
+    "si_top": -226.91286820770082,
+    "layers": [
+     [
+      "metal",
+      500.0
+     ]
+    ],
+    "xj": 116.52204654324167,
+    "by": "implant",
+    "shift": 0.0,
+    "lateral": 60.33004928277737
+   },
+   "log": [
+    {
+     "id": "wafer_start",
+     "applied": true,
+     "value": null
+    },
+    {
+     "id": "rca_clean",
+     "applied": true,
+     "value": null
+    },
+    {
+     "id": "ox_thermal",
+     "applied": true,
+     "value": 463.087486138165
+    },
+    {
+     "id": "litho_expose",
+     "applied": true,
+     "value": 1000.0
+    },
+    {
+     "id": "etch_rie",
+     "applied": true,
+     "value": 463.087486138165
+    },
+    {
+     "id": "implant",
+     "applied": true,
+     "value": 114.75142433550043
+    },
+    {
+     "id": "diffuse_predep",
+     "applied": true,
+     "value": 0.0
+    },
+    {
+     "id": "anneal",
+     "applied": true,
+     "value": 116.52204654324167
+    },
+    {
+     "id": "dep_pvd",
+     "applied": true,
+     "value": 500.0
+    },
+    {
+     "id": "probe_dice_bond",
+     "applied": true,
+     "value": null
+    }
+   ],
+   "masks": 1,
+   "done": true
+  },
+  {
+   "case": [
+    [
+     "wafer_start",
+     "rca_clean",
+     "litho_expose",
+     "etch_rie",
+     "implant",
+     "anneal",
+     "dep_pvd",
+     "cmp",
+     "gaa_release",
+     "damascene",
+     "probe_dice_bond"
+    ],
+    [
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false
+    ],
+    {
+     "imp": {
+      "ion": "B"
+     },
+     "cmp": {
+      "P": 10.0,
+      "V": 0.5,
+      "t": 1.0
+     },
+     "dam": {
+      "metal": "Ru",
+      "w": 12.0,
+      "ar": 2.5
+     },
+     "rel": {
+      "W": 45.0,
+      "S": 30.0,
+      "over": 0.4,
+      "n": "4"
+     }
+    }
+   ],
+   "field": {
+    "si_top": 0.0,
+    "layers": [
+     [
+      "metal",
+      465.0
+     ],
+     [
+      "ild",
+      30.0
+     ]
+    ],
+    "xj": 0.0,
+    "by": null,
+    "shift": 0.0,
+    "lateral": 0.0
+   },
+   "window": {
+    "si_top": 0.0,
+    "layers": [
+     [
+      "metal",
+      465.0
+     ],
+     [
+      "cu",
+      30.0
+     ]
+    ],
+    "xj": 0.0,
+    "by": null,
+    "shift": 0.0,
+    "lateral": 0.0
+   },
+   "log": [
+    {
+     "id": "wafer_start",
+     "applied": true,
+     "value": null
+    },
+    {
+     "id": "rca_clean",
+     "applied": true,
+     "value": null
+    },
+    {
+     "id": "litho_expose",
+     "applied": true,
+     "value": 1000.0
+    },
+    {
+     "id": "etch_rie",
+     "applied": true,
+     "value": 0.0
+    },
+    {
+     "id": "implant",
+     "applied": true,
+     "value": 0.0
+    },
+    {
+     "id": "anneal",
+     "applied": true,
+     "value": 0.0
+    },
+    {
+     "id": "dep_pvd",
+     "applied": true,
+     "value": 500.0
+    },
+    {
+     "id": "cmp",
+     "applied": true,
+     "value": 35.0
+    },
+    {
+     "id": "gaa_release",
+     "applied": true,
+     "value": 2.9000000000000004
+    },
+    {
+     "id": "damascene",
+     "applied": true,
+     "value": 30.0
+    },
+    {
+     "id": "probe_dice_bond",
+     "applied": true,
+     "value": null
+    }
+   ],
+   "masks": 1,
+   "sheets": {
+    "t_edge": 2.9000000000000004,
+    "t_centre": 4.4,
+    "weff": 372.4
+   },
+   "cu_r": 399.48870468762175,
+   "done": true
+  },
+  {
+   "case": [
+    [
+     "wafer_start",
+     "rca_clean",
+     "ox_thermal",
+     "litho_expose",
+     "diffuse_predep",
+     "planar_hoerni",
+     "evap_al",
+     "probe_dice_bond"
+    ],
+    [
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false
+    ],
+    {
+     "planar": {
+      "NB": 1e+16,
+      "T2": 1150.0,
+      "t2": 240.0
+     },
+     "diff": {
+      "T2": 1100.0,
+      "t2": 3600.0
+     }
+    }
+   ],
+   "field": {
+    "si_top": -25.55286615858557,
+    "layers": [
+     [
+      "ox",
+      58.0746958149672
+     ],
+     [
+      "metal",
+      500.0
+     ]
+    ],
+    "xj": 0.0,
+    "by": null,
+    "shift": 0.0,
+    "lateral": 0.0
+   },
+   "window": {
+    "si_top": -25.55286615858557,
+    "layers": [
+     [
+      "metal",
+      500.0
+     ]
+    ],
+    "xj": 5500.449186736667,
+    "by": "planar",
+    "shift": 0.0,
+    "lateral": 4400.359349389334
+   },
+   "log": [
+    {
+     "id": "wafer_start",
+     "applied": true,
+     "value": null
+    },
+    {
+     "id": "rca_clean",
+     "applied": true,
+     "value": null
+    },
+    {
+     "id": "ox_thermal",
+     "applied": true,
+     "value": 58.0746958149672
+    },
+    {
+     "id": "litho_expose",
+     "applied": true,
+     "value": 1000.0
+    },
+    {
+     "id": "diffuse_predep",
+     "applied": true,
+     "value": 1903.3294065217506
+    },
+    {
+     "id": "planar_hoerni",
+     "applied": true,
+     "value": 5500.449186736667
+    },
+    {
+     "id": "evap_al",
+     "applied": true,
+     "value": 500.0
+    },
+    {
+     "id": "probe_dice_bond",
+     "applied": true,
+     "value": null
+    }
+   ],
+   "masks": 1,
+   "planar": {
+    "xj": 5500.449186736667,
+    "bv_pp": 61.64377926574414,
+    "bv_cyl": 46.88854245986795
+   },
+   "done": true
+  }
+ ],
+ "planar": [
+  {
+   "case": [
+    1000000000000000.0,
+    1100.0,
+    60.0
+   ],
+   "xj": 2047.6443300315607,
+   "Rs": 155.77054546072793,
+   "bv_pp": 346.6484452203992,
+   "W_um": 21.17247969831045,
+   "ratio": 0.4318733948095264,
+   "bv_cyl": 149.70824084277794
+  },
+  {
+   "case": [
+    1e+16,
+    1050.0,
+    20.0
+   ],
+   "xj": 679.8472683559081,
+   "Rs": 178.7760888193803,
+   "bv_pp": 61.64377926574414,
+   "W_um": 2.823395544973985,
+   "ratio": 0.5643121270842143,
+   "bv_cyl": 34.786332198961865
+  },
+  {
+   "case": [
+    200000000000000.0,
+    1180.0,
+    300.0
+   ],
+   "xj": 10628.95845952561,
+   "Rs": 104.10763473948693,
+   "bv_pp": 1159.0889348814617,
+   "W_um": 86.57061024227288,
+   "ratio": 0.46579321818964015,
+   "bv_cyl": 539.8957651464383
+  }
+ ],
+ "czochralski": [
+  {
+   "case": [
+    "B",
+    10.0,
+    0.2
+   ],
+   "f_usable": 0.6862272367994532,
+   "rho_tail": 4.7405057620378654,
+   "N_seed": 1321008157079822.2,
+   "rho_mid": 8.768972865920915
+  },
+  {
+   "case": [
+    "P",
+    1.0,
+    0.1
+   ],
+   "f_usable": 0.16221358134312172,
+   "rho_tail": 0.12355195406933847,
+   "N_seed": 5293669231158043.0,
+   "rho_mid": 0.6692732158165573
+  },
+  {
+   "case": [
+    "Sb",
+    0.02,
+    0.3
+   ],
+   "f_usable": 0.4661089459169846,
+   "rho_tail": 0.00120336288666435,
+   "N_seed": 1.5117370777564022e+18,
+   "rho_mid": 0.013559498272569052
+  },
+  {
+   "case": [
+    "As",
+    5.0,
+    0.05
+   ],
+   "f_usable": 0.07252978368038493,
+   "rho_tail": 0.3955812738994657,
+   "N_seed": 974260778213249.1,
+   "rho_mid": 3.1496185461283077
+  }
+ ],
+ "anneal": [
+  {
+   "case": [
+    "B",
+    5.0,
+    1000000000000000.0,
+    1050,
+    0.001,
+    250,
+    1e+17
+   ],
+   "Dt": 2.9102800111153447e-14,
+   "ramps": 2.9008823067167566e-14,
+   "t_eq": 0.30967988432927085,
+   "t_total": 4.401000000000001,
+   "xj": 59.235131601642124,
+   "Rs": 128.59059878155279
+  },
+  {
+   "case": [
+    "B",
+    5.0,
+    1000000000000000.0,
+    1000,
+    1800,
+    0.1,
+    1e+17
+   ],
+   "Dt": 6.637722761599099e-11,
+   "ramps": 1.8889079233713798e-11,
+   "t_eq": 2515.975328138377,
+   "t_total": 11800.0,
+   "xj": 420.6353244736902,
+   "Rs": 199.552371810994
+  },
+  {
+   "case": [
+    "As",
+    10.0,
+    3000000000000000.0,
+    1100,
+    10,
+    50,
+    1e+18
+   ],
+   "Dt": 5.289775668559552e-13,
+   "ramps": 8.225725782079836e-14,
+   "t_eq": 11.841359261199937,
+   "t_total": 34.0,
+   "xj": 55.82789490538716,
+   "Rs": 34.5249429627014
+  }
+ ],
+ "labrun": {
+  "seq": [
+   0.02804603789070871,
+   0.5166857580417517,
+   0.517372557208213
+  ],
+  "seq_p": [
+   0.08689328198302096
+  ],
+  "parab": 0.6878916229907196,
+  "peff": 0.08315709892534662,
+  "dop": {
+   "0.001_n": 8.466996111491457e+19,
+   "0.001_p": 1.2719065168504327e+20,
+   "0.33_n": 1.869292395918989e+16,
+   "0.33_p": 7.310438864024629e+16,
+   "1.0_n": 5293669231158043.0,
+   "1.0_p": 1.6605179720748024e+16,
+   "15.0_n": 318178028984779.3,
+   "15.0_p": 869811058762385.5
+  },
+  "cpp": 17.447410090064842,
+  "lcr": 6.394336663196403,
+  "rser": 12688.641986931769,
+  "vt": {
+   "1.7e+16_114_n+poly": -0.6828268443047003,
+   "1.7e+16_114_al": -0.6328268443047005,
+   "1.7e+16_610_n+poly": -2.847790075328259,
+   "1.7e+16_610_al": -2.7977900753282583,
+   "7e+16_114_n+poly": 1.7712580031883705,
+   "7e+16_114_al": 1.8212580031883703,
+   "7e+16_610_n+poly": 10.124527247286167,
+   "7e+16_610_al": 10.174527247286168
+  },
+  "nox": 1118461814098.6052,
+  "vbi": 0.9691019461025004,
+  "bias": 1.4248,
+  "over": 0.5964285714285715,
+  "rs": 9.180904522613066
  },
  "oxidation": {
   "dry_900_0.1_100": 0.025847235267395102,

@@ -1,0 +1,2231 @@
+{
+  "_about": "Process theatres for the Fab Journey (site/fab.html). One entry per process; v1.12 shipped lithography; v1.13 adds oxidation, implant, etch, deposition and CMP. model names the simulator (physics/<model>.js) each theatre runs. Every number shown on the page comes from a model (litho.py and its twin) or carries refs that exist in references.json. Stages drive the scrubber; each has text at three depths. tools are the simulator presets (same values as the Physics Lab). safety_tier as in data/fab_steps.json.",
+  "schema_version": 1,
+  "theatres": [
+    {
+      "id": "lithography",
+      "step": "litho_expose",
+      "area": "lithography",
+      "title": "Print the pattern with light",
+      "tool": "Stepper or scanner",
+      "safety_tier": 1,
+      "solved": "Every layer of every chip needs a pattern. Lithography copies a drawn mask onto the wafer, millions of features at once, and its resolution has set how small a transistor can be since the planar process.",
+      "refs": [
+        "levinson2019",
+        "mack2007",
+        "hopkins1953",
+        "bakshi2018",
+        "asml_euv"
+      ],
+      "stages": [
+        {
+          "id": "coat",
+          "label": "Coat",
+          "beginner": "A few drops of light-sensitive liquid, the photoresist, are poured on the spinning wafer. Spinning spreads it into a thin, even film.",
+          "engineer": "Spin coating thins the resist until viscous drag balances the spin, so the final thickness is set mostly by spin speed and the resist’s viscosity. An adhesion promoter is applied first so the developer cannot creep under the pattern.",
+          "process": "Thickness and uniformity are measured on monitor wafers. Edge-bead removal clears the rim so the wafer handler and the next tools stay clean. Coat, bake, expose and develop run in a linked track and scanner so the wafer never waits in the open."
+        },
+        {
+          "id": "softbake",
+          "label": "Soft bake",
+          "beginner": "A short bake on a hot plate dries the film so it is firm enough to expose.",
+          "engineer": "The soft bake drives out most of the casting solvent. Too little and the resist stays soft and sticky; too much and the light-sensitive part starts to break down.",
+          "process": "Hot-plate temperature and time are part of the qualified recipe for each resist. They are not published here; the resist maker’s data sheet and the fab’s own qualification set them."
+        },
+        {
+          "id": "expose",
+          "label": "Expose",
+          "beginner": "Light shines through a mask, a glass plate carrying the pattern. A lens shrinks the image onto the resist. Where light lands, the resist changes chemistry.",
+          "engineer": "The mask is a grating that splits the light into diffraction orders. The lens only catches orders within NA/λ, so fine pitches lose their higher orders and the image blurs. The curve above the resist is the aerial image the simulator computes for your settings.",
+          "process": "A scanner exposes one field at a time while mask and wafer move in opposite directions. Alignment marks from the previous layer set the overlay. Off-axis illumination (here, a dipole) tilts the light so two orders still pass at small pitch."
+        },
+        {
+          "id": "peb",
+          "label": "Post-exposure bake",
+          "beginner": "A second bake finishes the chemistry the light started.",
+          "engineer": "In chemically amplified resists, each photon frees an acid molecule. The bake lets each acid catalyse many reactions, which multiplies the sensitivity. The acid also wanders a little, which smooths the image and blurs it.",
+          "process": "Bake temperature uniformity across the plate shows up directly as linewidth variation, so post-exposure bake plates are among the most tightly controlled tools in the track."
+        },
+        {
+          "id": "develop",
+          "label": "Develop",
+          "beginner": "A developer liquid washes away the exposed resist. What is left is a stencil of the mask.",
+          "engineer": "This is a positive resist: exposed regions dissolve. The simulator clears every column whose dose passes the threshold, so the opening width is the printed critical dimension (CD). Defocus and low contrast give sloped, rough walls.",
+          "process": "Industry uses an alkaline developer, typically tetramethylammonium hydroxide (TMAH). It is toxic and is handled only in institutional facilities with the proper controls; no home procedure is given here."
+        },
+        {
+          "id": "etch",
+          "label": "Etch",
+          "beginner": "The stencil protects the film beneath it while a plasma eats away the uncovered parts.",
+          "engineer": "The resist only lives for one step: its job is to hand the pattern to the film below. Directional plasma etch keeps the walls vertical. The Etch theatre covers this step in detail.",
+          "process": "Resist thickness is a trade: thick resist survives the etch but tall, thin lines topple. That is one reason modern layers use hard masks and thinner resists."
+        },
+        {
+          "id": "inspect",
+          "label": "Strip and inspect",
+          "beginner": "The leftover resist is removed and the new pattern is measured. Then the next layer starts.",
+          "engineer": "A critical-dimension scanning electron microscope (CD-SEM) measures line widths; an overlay tool measures how well this layer sits on the last. Wafers that fail can be reworked: the resist is stripped and the step repeated before etch.",
+          "process": "Every lithography step ends in measurement and a decision, which is why the traveler gets a stamp here. Rework is possible only before etch; after etch the pattern is permanent."
+        }
+      ],
+      "tools": [
+        {
+          "id": "iline",
+          "name": "i-line",
+          "lam": 365,
+          "NA": 0.6,
+          "refs": [
+            "levinson2019"
+          ]
+        },
+        {
+          "id": "krf",
+          "name": "KrF",
+          "lam": 248,
+          "NA": 0.8,
+          "refs": [
+            "levinson2019"
+          ]
+        },
+        {
+          "id": "arfi",
+          "name": "ArF immersion",
+          "lam": 193,
+          "NA": 1.35,
+          "refs": [
+            "levinson2019"
+          ]
+        },
+        {
+          "id": "euv",
+          "name": "EUV",
+          "lam": 13.5,
+          "NA": 0.33,
+          "refs": [
+            "bakshi2018",
+            "asml_euv"
+          ]
+        },
+        {
+          "id": "hna",
+          "name": "High-NA EUV",
+          "lam": 13.5,
+          "NA": 0.55,
+          "refs": [
+            "asml_euv"
+          ]
+        }
+      ],
+      "timeline": [
+        {
+          "when": "1970s",
+          "event": "Mercury g-line, 436 nm",
+          "refs": [
+            "levinson2019"
+          ]
+        },
+        {
+          "when": "late 1980s",
+          "event": "Mercury i-line, 365 nm",
+          "refs": [
+            "levinson2019"
+          ]
+        },
+        {
+          "when": "mid 1990s",
+          "event": "KrF excimer laser, 248 nm",
+          "refs": [
+            "levinson2019"
+          ]
+        },
+        {
+          "when": "2000s",
+          "event": "ArF excimer laser, 193 nm",
+          "refs": [
+            "levinson2019"
+          ]
+        },
+        {
+          "when": "2007",
+          "event": "Water immersion lifts NA above 1",
+          "refs": [
+            "levinson2019"
+          ]
+        },
+        {
+          "when": "2017",
+          "event": "Intel 10 nm uses self-aligned quadruple patterning",
+          "refs": [
+            "auth2017"
+          ]
+        },
+        {
+          "when": "2019",
+          "event": "EUV enters production (TSMC N7+, Samsung 7LPP)",
+          "refs": [
+            "bakshi2018",
+            "asml_euv"
+          ]
+        },
+        {
+          "when": "2026",
+          "event": "Intel reports High-NA EUV on part of Panther Lake production",
+          "refs": [
+            "intel_8k_2026"
+          ]
+        }
+      ],
+      "metrology": [
+        {
+          "name": "CD-SEM",
+          "what": "Line and space widths from a top-down electron image."
+        },
+        {
+          "name": "Overlay",
+          "what": "How far this layer sits from the one below, from paired alignment targets."
+        },
+        {
+          "name": "Defect inspection",
+          "what": "Optical or electron scans for missing or bridged features."
+        }
+      ],
+      "failures": [
+        {
+          "id": "defocus",
+          "name": "Defocus",
+          "what": "The wafer sits a full depth of focus away from best focus: contrast collapses and the lines stop printing. Dipole light at its design pitch is very tolerant of focus, so this demo switches to conventional light.",
+          "demo": {
+            "kind": "conventional",
+            "pitchK1": 0.5,
+            "defocusDOF": 1.0
+          }
+        },
+        {
+          "id": "underdose",
+          "name": "Under-dose",
+          "what": "Too few photons to clear the resist: spaces close up and neighbouring lines merge.",
+          "demo": {
+            "dose": 12
+          }
+        },
+        {
+          "id": "stochastic",
+          "name": "Stochastic edges",
+          "what": "With few photons per square nanometre, random counting noise makes edges rough and can break or bridge a line.",
+          "demo": {
+            "tool": "euv",
+            "dose": 15
+          }
+        },
+        {
+          "id": "below_limit",
+          "name": "Below the limit",
+          "what": "The pitch is smaller than λ/2NA: no diffraction order gets through and nothing prints.",
+          "demo": {
+            "pitchK1": 0.22
+          }
+        }
+      ],
+      "photos": {
+        "result": "Zen2_Matisse_Ryzen_7nm_Core_Die_shot.jpg",
+        "tool_candidates": [
+          "cand_euv_tool",
+          "cand_cleanroom_litho",
+          "cand_stepper_anim"
+        ]
+      },
+      "leave_out": [
+        "The aerial image is a one-dimensional, scalar, thin-mask calculation. Real masks have thickness (mask 3D effects), real light has polarisation, and EUV masks are reflective with shadowing.",
+        "The resist is a simple threshold on dose. There is no acid diffusion model, no dissolution kinetics and no standing waves; the post-exposure-bake blur in the animation is drawn, not computed.",
+        "Shot noise counts incident photons. Only a fraction is absorbed, and secondary electrons and acid blur add their own randomness, so real stochastic failures are worse than the counting alone suggests.",
+        "Depth of focus uses the Rayleigh form k₂λ/NA² with k₂ = 1. Real usable focus depends on the feature, the illumination and the allowed CD error.",
+        "Overlay, mask making, optical proximity correction (OPC) and multiple patterning are described but not simulated."
+      ]
+    },
+    {
+      "id": "czochralski",
+      "step": "wafer_start",
+      "area": "materials",
+      "title": "Pull a single crystal from the melt",
+      "tool": "Czochralski puller",
+      "safety_tier": 0,
+      "model": "czochralski",
+      "solved": "Every chip starts as one flawless crystal. A seed is dipped into molten silicon and drawn slowly upward while it turns, and the melt freezes onto it atom by atom in the same orientation. The dopant that sets the wafer's resistivity goes into the melt, but the crystal accepts only part of it, so the doping drifts along the ingot and only part of each ingot meets the customer's specification.",
+      "refs": [
+        "czochralski1918",
+        "teal1950",
+        "scheil1942",
+        "trumbore1960",
+        "bps1953",
+        "plummer2000",
+        "caughey1967",
+        "sze2006",
+        "dash1959"
+      ],
+      "stages": [
+        {
+          "id": "melt",
+          "label": "Melt",
+          "beginner": "Chunks of ultra-pure silicon are melted in a quartz crucible, with a weighed pinch of dopant added to the melt.",
+          "engineer": "The dopant goes into the liquid at C₀. Because the crystal will take in only a fraction k of it, the melt is doped to N_seed / k to hit the target resistivity at the seed end.",
+          "process": "Ultra-pure electronic-grade polysilicon is loaded with a measured dopant charge. The puller is flushed with argon so nothing reacts with the hot silicon."
+        },
+        {
+          "id": "seed",
+          "label": "Dip the seed",
+          "beginner": "A small crystal on a rod is lowered until it just touches the liquid surface.",
+          "engineer": "The seed fixes the orientation of the whole ingot, usually (100) for MOS. A thin neck is pulled first so that dislocations from the thermal shock grow out to the surface and vanish (the Dash neck, 1959).",
+          "process": "Seed rotation and crucible rotation run in opposite directions to stir the melt and keep the temperature at the interface even."
+        },
+        {
+          "id": "shoulder",
+          "label": "Grow the shoulder",
+          "beginner": "Pulling slower lets the crystal widen into a cone until it reaches full size.",
+          "engineer": "Diameter is held by the pull rate and the melt temperature: a slower pull or a cooler melt lets more liquid freeze per second, so the crystal grows wider.",
+          "process": "An optical sensor watches the bright meniscus ring at the crystal edge and feeds the diameter back to the pull-rate controller."
+        },
+        {
+          "id": "body",
+          "label": "Pull the body",
+          "beginner": "The crystal is drawn up at a steady speed for many hours. As the melt runs low, it gets richer in dopant.",
+          "engineer": "The interface rejects a fraction (1 − k) of the dopant back into the shrinking melt, so the solid follows the Scheil equation C_s = kC₀(1 − f)^(k−1). Resistivity falls along the ingot for any k below 1.",
+          "process": "Pulling is the slowest step in wafer making. Oxygen from the quartz crucible also dissolves into the crystal, which later helps getter metal contamination."
+        },
+        {
+          "id": "slice",
+          "label": "Slice and test",
+          "beginner": "The cooled ingot is ground round, cut into thin slices and checked to see which parts meet the order.",
+          "engineer": "Resistivity is measured along the ingot. Only the length whose resistivity stays within the customer's tolerance band becomes prime wafers; the rest is sold to looser specifications or recycled.",
+          "process": "Wire saws slice the ingot; wafers are then lapped, etched and polished to a mirror finish, and checked for flatness and particles."
+        }
+      ],
+      "tools": [
+        {
+          "id": "puller",
+          "name": "Czochralski crystal puller",
+          "refs": [
+            "plummer2000",
+            "teal1950"
+          ]
+        },
+        {
+          "id": "fourpoint_cz",
+          "name": "Four-point probe on the ingot",
+          "refs": [
+            "plummer2000"
+          ]
+        }
+      ],
+      "timeline": [
+        {
+          "when": "1918",
+          "event": "Czochralski measures crystallisation speed by pulling metal crystals from a melt",
+          "refs": [
+            "czochralski1918"
+          ]
+        },
+        {
+          "when": "1942",
+          "event": "Scheil writes down how solute piles up as a melt freezes",
+          "refs": [
+            "scheil1942"
+          ]
+        },
+        {
+          "when": "1950",
+          "event": "Teal and Little pull the first single crystals of germanium at Bell Labs",
+          "refs": [
+            "teal1950"
+          ]
+        },
+        {
+          "when": "1959",
+          "event": "Dash pulls a thin neck to grow dislocation-free silicon",
+          "refs": [
+            "dash1959"
+          ]
+        },
+        {
+          "when": "1953",
+          "event": "Burton, Prim and Slichter explain how pull rate and stirring change the effective k",
+          "refs": [
+            "bps1953"
+          ]
+        },
+        {
+          "when": "1960",
+          "event": "Trumbore tabulates segregation coefficients and solubilities in silicon",
+          "refs": [
+            "trumbore1960"
+          ]
+        }
+      ],
+      "metrology": [
+        {
+          "name": "Four-point probe",
+          "what": "Resistivity measured at points along the ingot to find the length inside specification."
+        },
+        {
+          "name": "Orientation by X-ray",
+          "what": "X-ray diffraction checks the crystal axis before the ingot is ground and notched."
+        },
+        {
+          "name": "Flatness and particles",
+          "what": "Each polished wafer is scanned for thickness variation and surface particles."
+        }
+      ],
+      "failures": [
+        {
+          "id": "phos",
+          "name": "Doped with phosphorus",
+          "what": "Phosphorus has k = 0.35, so it piles up in the melt much faster than boron. At the same ±20 % tolerance only about 30 % of the ingot stays in specification, against about 69 % for boron.",
+          "demo": {
+            "dopant": "P"
+          }
+        },
+        {
+          "id": "tight",
+          "name": "Tolerance too tight",
+          "what": "A ±5 % resistivity band cuts the usable boron-doped length from about 69 % to about 23 %. Every tightening of the specification is paid for in silicon.",
+          "demo": {
+            "tol": 0.05
+          }
+        },
+        {
+          "id": "sb",
+          "name": "Heavily doped with antimony",
+          "what": "Antimony makes the low-resistivity substrates used under epitaxial layers, but with k = 0.023 the tail end ends up about 46 times richer than the seed end, so only about a third of the ingot is usable at ±20 %.",
+          "demo": {
+            "dopant": "Sb",
+            "rho": 0.02
+          }
+        }
+      ],
+      "photos": {
+        "result": "Wafer_2_Zoll_bis_8_Zoll.jpg",
+        "tool_candidates": [
+          "cand_cz_ingot",
+          "cand_si_single_crystal",
+          "cand_cz_diagram",
+          "cand_wafer_mirror"
+        ]
+      },
+      "leave_out": [
+        "The equilibrium segregation coefficient is used throughout. A fast pull or poor stirring raises the effective k towards 1 (Burton, Prim and Slichter), which flattens the profile.",
+        "The melt is assumed perfectly mixed, and the dopant does not evaporate from the melt surface; antimony and arsenic in particular do evaporate.",
+        "Radial variation across each wafer, oxygen and carbon uptake from the crucible, and point defects set by the pull rate are not modelled.",
+        "Resistivity uses Caughey–Thomas mobility at room temperature with every dopant atom ionised."
+      ]
+    },
+    {
+      "id": "cleaning",
+      "step": "rca_clean",
+      "area": "cleaning",
+      "title": "Clean the surface",
+      "tool": "Wet bench and spin rinser-dryer",
+      "safety_tier": 3,
+      "model": "cleaning",
+      "solved": "Every furnace step begins with a clean. A single particle larger than the narrowest line can bridge or break it, and a trace of iron in the silicon shortens the life of every electron that passes. In 1970 Kern and Puotinen published the sequence that became the industry standard; this theatre shows what each part removes and what is left costs, without any of the chemistry, which is institution-only.",
+      "refs": [
+        "kern1970",
+        "kern1990",
+        "stapper1983",
+        "stapper1973",
+        "istratov1999",
+        "macdonald2001",
+        "caughey1967"
+      ],
+      "stages": [
+        {
+          "id": "arrive",
+          "label": "Arrive",
+          "beginner": "The wafer comes in carrying invisible dirt: a film of oils, a thin skin of oxide, dust and specks of metal.",
+          "engineer": "Contamination has four kinds, and each needs its own step: organic films, the native or chemical oxide, particles and metal ions. Particles are counted above an inspection size, here 50 nm; their sizes follow roughly 1/d³, so small ones dominate the count.",
+          "process": "Kern's review splits a clean into these targets and orders the steps so each one does not undo the last. The order and the chemistry are institution-only; only what each step removes is shown."
+        },
+        {
+          "id": "organic",
+          "label": "Organics off",
+          "beginner": "First the oily films are burned away chemically, because they would shield everything else from the later steps.",
+          "engineer": "Organic residues from resist, handling and air hide particles and metals from the later chemistry, so they go first. A strongly oxidising treatment turns them into gases and leaves a thin chemical oxide behind.",
+          "process": "This step is institution-only and is never done outside a cleanroom with trained staff, proper hoods and protective equipment. Nothing about its chemistry is published here."
+        },
+        {
+          "id": "oxide",
+          "label": "Oxide off",
+          "beginner": "Next the thin glassy skin on top is dissolved, which also frees whatever was trapped in it.",
+          "engineer": "Removing the chemical oxide releases metals and particles caught inside it and leaves bare silicon. Bare silicon is reactive, so the next steps follow quickly.",
+          "process": "The etchant used here is among the most dangerous chemicals in a fab: institution-only, and handled only under the lab's own training and supervision. Its result, bare silicon, is all this theatre shows."
+        },
+        {
+          "id": "particle",
+          "label": "Particles off",
+          "beginner": "A gentle chemical bath, often helped by sound waves, lifts dust grains off the surface and keeps them from landing again.",
+          "engineer": "The particle clean removes a fraction η of the particles each pass, so N = N₀(1 − η)ⁿ are left. It works by etching a whisker of the surface from under each grain and by charging grains and wafer alike so they repel.",
+          "process": "Particles larger than a killer size short or open a line. With a 1/d³ size distribution the share above d_k is (d₀/d_k)², so a node that halves its killer size makes four times as many of the same particles deadly (Stapper)."
+        },
+        {
+          "id": "metal",
+          "label": "Metals off",
+          "beginner": "Another bath pulls metal atoms such as iron off the surface before a furnace can drive them in.",
+          "engineer": "Metal ions that survive into a furnace step diffuse into the silicon. Interstitial iron is a recombination centre: the electron lifetime is τ = 1/(σₙ v_th N_Fe), with σₙ = 5 × 10⁻¹⁴ cm² and v_th = 1.1 × 10⁷ cm/s.",
+          "process": "At 10¹⁰ iron atoms per cm³ the lifetime is about 180 µs and an electron diffuses about 0.7 mm before it is lost; at 10¹² it is 1.8 µs. Lifetime-sensitive devices such as image sensors and solar cells notice first."
+        },
+        {
+          "id": "inspect",
+          "label": "Rinse, dry, inspect",
+          "beginner": "The wafer is rinsed in ultrapure water, spun dry and scanned with a laser that counts every remaining speck.",
+          "engineer": "A laser scanner counts light scattered by particles above its threshold, and a lifetime or surface-photovoltage map checks for metals. Killer particles become a defect density D₀ that the yield model turns into lost dies.",
+          "process": "The particle count goes on the traveler. Too many, and the lot is re-cleaned before it may enter a furnace; a dirty wafer in a shared furnace contaminates every other lot that follows it."
+        }
+      ],
+      "tools": [
+        {
+          "id": "bench",
+          "name": "Wet bench with fume extraction",
+          "refs": [
+            "kern1990"
+          ]
+        },
+        {
+          "id": "scanner",
+          "name": "Laser particle scanner",
+          "refs": [
+            "kern1990"
+          ]
+        }
+      ],
+      "timeline": [
+        {
+          "when": "1965",
+          "event": "Kern develops the clean at RCA Laboratories",
+          "refs": [
+            "kern1970",
+            "kern1990"
+          ]
+        },
+        {
+          "when": "1970",
+          "event": "Kern and Puotinen publish the RCA clean",
+          "refs": [
+            "kern1970"
+          ]
+        },
+        {
+          "when": "1983",
+          "event": "Stapper ties defect size to the area where it kills",
+          "refs": [
+            "stapper1983"
+          ]
+        },
+        {
+          "when": "1999",
+          "event": "Istratov, Hieslmair and Weber review iron in silicon",
+          "refs": [
+            "istratov1999"
+          ]
+        }
+      ],
+      "metrology": [
+        {
+          "name": "Laser particle count",
+          "what": "Particles above the scanner's threshold, mapped across the wafer."
+        },
+        {
+          "name": "Minority-carrier lifetime",
+          "what": "Falls in proportion to iron and other metals in the bulk."
+        },
+        {
+          "name": "Surface metals",
+          "what": "Measured on monitor wafers by specialised surface analysis."
+        }
+      ],
+      "failures": [
+        {
+          "id": "weak",
+          "name": "A weak particle clean",
+          "what": "Removing only half the particles per pass leaves 1000 instead of 200; the killers among them cut the die yield from 93 % to 72 %.",
+          "demo": {
+            "eta": 0.5
+          }
+        },
+        {
+          "id": "skip",
+          "name": "Skip the particle clean",
+          "what": "With no particle clean all 2000 particles stay; 500 are killers and the die yield from particles alone falls to 53 %.",
+          "demo": {
+            "passes": "0"
+          }
+        },
+        {
+          "id": "iron",
+          "name": "Iron gets in",
+          "what": "A hundred times more iron, 10¹² per cm³, cuts the electron lifetime from about 180 µs to 1.8 µs and the diffusion length from 0.7 mm to 70 µm.",
+          "demo": {
+            "Nfe": 1000000000000.0
+          }
+        },
+        {
+          "id": "smaller",
+          "name": "Lines half as wide",
+          "what": "If 50 nm particles kill, every counted particle is a killer: four times as many, and the yield falls from 93 % to 76 % with the same clean.",
+          "demo": {
+            "dk": 50
+          }
+        }
+      ],
+      "photos": {
+        "result": "Wafer_2_Zoll_bis_8_Zoll.jpg",
+        "tool_candidates": [
+          "cand_cleanroom_litho",
+          "cand_ucdavis_cleanroom"
+        ]
+      },
+      "leave_out": [
+        "No chemistry is modelled or published: the sequence, chemicals, concentrations and temperatures are institution-only (safety tier 3).",
+        "Removal per pass is one number for every particle size; real cleans remove large particles more easily than small ones.",
+        "The inspection size, 50 nm, is an estimate, and the 1/d³ size law is a fit that real fabs measure for their own lines.",
+        "Only interstitial iron is modelled; iron pairs with boron at room temperature, and copper, nickel and other metals act differently.",
+        "Metals on the surface are drawn, not counted, and their path into the bulk during a furnace step is not simulated."
+      ]
+    },
+    {
+      "id": "oxidation",
+      "step": "ox_thermal",
+      "area": "oxidation",
+      "title": "Grow glass from the silicon itself",
+      "tool": "Oxidation furnace",
+      "safety_tier": 2,
+      "model": "oxidation",
+      "solved": "Silicon makes its own insulator. Heating it in oxygen or steam grows silicon dioxide, the best-behaved interface any semiconductor has, and that one fact made the planar process and the MOSFET possible.",
+      "refs": [
+        "dealgrove1965",
+        "plummer2000",
+        "frosch1957",
+        "atalla1959",
+        "hollauer_dg",
+        "cleanroom_run_fab2024"
+      ],
+      "stages": [
+        {
+          "id": "load",
+          "label": "Load",
+          "beginner": "Clean wafers stand upright in a quartz boat that slides into a long tube furnace.",
+          "engineer": "Wafers go in straight from cleaning so that no native oxide, metal or particle is sealed under the new film. The boat enters slowly so the wafers do not warp or slip from the thermal shock.",
+          "process": "Vertical furnaces load a hundred or more wafers at once, with monitor wafers at both ends and in the middle to check uniformity. The load runs under nitrogen so no uncontrolled oxide starts to grow."
+        },
+        {
+          "id": "ramp",
+          "label": "Ramp",
+          "beginner": "The furnace heats up to oxidation temperature while an inert gas flows.",
+          "engineer": "Ramping under nitrogen avoids growing an oxide during the climb, when the temperature, and so the rate, is still changing. The rate depends exponentially on temperature, so a few degrees of error is a measurable change in thickness.",
+          "process": "Ramp rates and the set point are part of each qualified recipe. Temperature is profiled along the tube with thermocouples, and the end zones are trimmed so every wafer in the load sees the same heat."
+        },
+        {
+          "id": "oxidise",
+          "label": "Oxidise",
+          "beginner": "Oxygen or steam reacts with the silicon surface and turns it into glass. The film grows down into the wafer as well as up.",
+          "engineer": "Oxidant diffuses through the oxide already grown and reacts at the silicon interface. A thin film grows at a constant rate set by the reaction (B/A); a thick one slows to a square-root law set by diffusion (B). The cross-section shows the model: 44% of the film's thickness is silicon consumed from below the original surface.",
+          "process": "Dry oxygen grows the slow, dense oxide used for gates and thin liners. Steam grows much faster and is used for thick isolation and masking layers. A little chlorine-bearing gas is sometimes added to getter metal contamination."
+        },
+        {
+          "id": "anneal",
+          "label": "Anneal",
+          "beginner": "The oxygen is switched off and the wafers soak in inert gas for a while.",
+          "engineer": "An inert anneal after oxidation reduces the fixed charge left in the oxide near the interface, which would otherwise shift the threshold voltage of every transistor built on it.",
+          "process": "Later in the flow a forming-gas anneal ties off dangling bonds at the interface with hydrogen. The sequence and ambient of these anneals are as much a part of a good oxide as the growth itself."
+        },
+        {
+          "id": "unload",
+          "label": "Unload",
+          "beginner": "The furnace ramps down and the boat slides out.",
+          "engineer": "Cooling slowly avoids slip and warp. The wafers now carry oxide on both faces and on the edges, and the back-side film may be stripped later.",
+          "process": "The furnace logs every zone temperature and gas flow against the lot number, so any drift can be traced back to the wafers it touched."
+        },
+        {
+          "id": "measure",
+          "label": "Measure",
+          "beginner": "A beam of light bounced off the wafer measures how thick the oxide grew.",
+          "engineer": "Ellipsometry fits the change in polarisation of reflected light to the oxide thickness and refractive index. A gate oxide is also tested electrically: capacitance against voltage gives its thickness, charge and interface quality.",
+          "process": "Thickness is mapped at dozens of points per monitor wafer. The run passes only if the mean and the spread are inside limits for that recipe."
+        }
+      ],
+      "tools": [
+        {
+          "id": "vertical",
+          "name": "Vertical batch furnace",
+          "refs": [
+            "plummer2000"
+          ]
+        },
+        {
+          "id": "rto",
+          "name": "Rapid thermal oxidation",
+          "refs": [
+            "plummer2000"
+          ]
+        }
+      ],
+      "timeline": [
+        {
+          "when": "1957",
+          "event": "Frosch and Derick show grown oxide masks silicon against dopants",
+          "refs": [
+            "frosch1957"
+          ]
+        },
+        {
+          "when": "1959",
+          "event": "Atalla: thermal oxide passivates the silicon surface",
+          "refs": [
+            "atalla1959"
+          ]
+        },
+        {
+          "when": "1965",
+          "event": "Deal and Grove publish the linear-parabolic growth law",
+          "refs": [
+            "dealgrove1965"
+          ]
+        },
+        {
+          "when": "2024",
+          "event": "A university teaching-cleanroom run lands within 6 % of Deal–Grove for its field and gate oxides",
+          "refs": [
+            "cleanroom_run_fab2024"
+          ]
+        }
+      ],
+      "metrology": [
+        {
+          "name": "Ellipsometry",
+          "what": "Thickness and refractive index from the polarisation of reflected light."
+        },
+        {
+          "name": "C–V test",
+          "what": "Capacitance against voltage: electrical thickness, fixed charge and interface traps."
+        },
+        {
+          "name": "Particle count",
+          "what": "Light-scatter scans of monitor wafers before and after the furnace."
+        }
+      ],
+      "failures": [
+        {
+          "id": "thin",
+          "name": "Too cold",
+          "what": "A hundred degrees colder and the same recipe time grows a fraction of the film: both rate constants are Arrhenius laws.",
+          "demo": {
+            "T": 900,
+            "amb": "dry",
+            "t": 1.0
+          }
+        },
+        {
+          "id": "wet",
+          "name": "Steam instead of oxygen",
+          "what": "Steam dissolves far better in the oxide, so the parabolic constant is about twenty times larger: a gate recipe run in steam overshoots badly.",
+          "demo": {
+            "amb": "wet",
+            "T": 1000,
+            "t": 1.0
+          }
+        }
+      ],
+      "photos": {
+        "result": "MOS_6502_die.jpg",
+        "tool_candidates": []
+      },
+      "leave_out": [
+        "Deal–Grove does not describe the first few tens of nanometres of dry oxidation, which grow faster; the model starts dry growth from an effective 25 nm.",
+        "Real oxidation of patterned silicon is two-dimensional: stress slows growth at corners and the oxide creeps under a nitride mask as a bird's beak.",
+        "Thin-film interference colours, pressure, chlorine and dopant-enhanced oxidation are left out."
+      ]
+    },
+    {
+      "id": "implant",
+      "step": "implant",
+      "area": "doping",
+      "title": "Fire dopant atoms into the crystal",
+      "tool": "Ion implanter",
+      "safety_tier": 2,
+      "model": "implant",
+      "solved": "Transistors need regions of precisely chosen doping at precisely chosen depths. Ion implantation counts every atom as charge on a meter and sets its depth with the accelerating voltage, which diffusion from a surface source never could.",
+      "refs": [
+        "plummer2000",
+        "dennard1974",
+        "tuttle_implant"
+      ],
+      "stages": [
+        {
+          "id": "mask",
+          "label": "Mask",
+          "beginner": "Photoresist covers the parts of the wafer that must stay undoped. Only the open window will receive ions.",
+          "engineer": "The resist must be thick enough to stop the ions completely, which for a high-energy implant means microns of resist. Its edge sets where the doped region starts, give or take the sideways spread of the ions.",
+          "process": "Every implant layer has its own mask and lithography step. Gate electrodes and spacers also act as masks, which is how source and drain line up with the gate by themselves (self-alignment)."
+        },
+        {
+          "id": "implant",
+          "label": "Implant",
+          "beginner": "Ions of boron, phosphorus or arsenic are accelerated and fired at the wafer. They slow down by bumping into silicon atoms and stop at a spread of depths.",
+          "engineer": "Each ion loses energy to the nuclei (elastic collisions) and to the electrons of the crystal. The stopping depths form a near-Gaussian profile with a projected range Rp and a straggle ΔRp that the simulator computes from the energy. The dose is the time integral of the beam current divided by the charge per ion.",
+          "process": "The beam is scanned across the wafer, or the wafer is swept through the beam, to make the dose uniform. Wafers are tilted a few degrees so ions do not channel straight down open crystal directions."
+        },
+        {
+          "id": "damage",
+          "label": "Damage",
+          "beginner": "Every stopping ion knocks silicon atoms out of place. A heavy dose can turn the top of the crystal into glassy, disordered silicon.",
+          "engineer": "Each ion displaces hundreds of lattice atoms. Above a critical dose the damaged layer becomes amorphous. Most implanted atoms sit between lattice sites at first and are not yet electrically active.",
+          "process": "Pre-amorphising implants are sometimes used on purpose so that the crystal regrows cleanly from the undamaged silicon below, which also stops channelling."
+        },
+        {
+          "id": "anneal",
+          "label": "Anneal",
+          "beginner": "A short burst of heat lets the crystal heal and puts the dopant atoms into lattice sites, where they give up their electrons or holes.",
+          "engineer": "Annealing repairs damage and activates the dopant, but the dopant also diffuses and the profile widens by √(2Dt). Modern flows use spike or millisecond anneals so that activation happens with almost no diffusion. The model adds the diffusion to the implanted straggle.",
+          "process": "Rapid thermal and laser anneals heat the wafer for seconds or less. The trade between activation and diffusion is one of the hardest balances in making a short-channel transistor."
+        },
+        {
+          "id": "measure",
+          "label": "Measure",
+          "beginner": "The doped layer's resistance is measured with four needles, and test wafers are sliced into atom by atom to check the depth.",
+          "engineer": "A four-point probe measures sheet resistance, which falls with dose and mobility. Secondary-ion mass spectrometry sputters a crater and counts the dopant atoms that come out, depth by depth, to give the real profile.",
+          "process": "Sheet resistance maps on monitor wafers catch dose and uniformity errors within minutes of the implant; profiles are checked less often against the recipe."
+        }
+      ],
+      "tools": [
+        {
+          "id": "medium",
+          "name": "Medium-current implanter",
+          "refs": [
+            "plummer2000"
+          ]
+        },
+        {
+          "id": "high",
+          "name": "High-current implanter",
+          "refs": [
+            "plummer2000"
+          ]
+        }
+      ],
+      "timeline": [
+        {
+          "when": "1970s",
+          "event": "Implanted channel and source/drain doping replace furnace diffusion in MOS",
+          "refs": [
+            "plummer2000"
+          ]
+        },
+        {
+          "when": "1974",
+          "event": "Dennard designs the scaled MOSFET around ion-implanted doping",
+          "refs": [
+            "dennard1974"
+          ]
+        }
+      ],
+      "metrology": [
+        {
+          "name": "Four-point probe",
+          "what": "Sheet resistance of the doped layer, mapped across monitor wafers."
+        },
+        {
+          "name": "SIMS",
+          "what": "Dopant concentration against depth from a sputtered crater."
+        },
+        {
+          "name": "Thermawave",
+          "what": "Optical measurement of implant damage, used as a fast dose check."
+        }
+      ],
+      "failures": [
+        {
+          "id": "shallow",
+          "name": "Too little energy",
+          "what": "Drop the energy and the ions stop near the surface: the junction is shallow and the sheet resistance rises.",
+          "demo": {
+            "ion": "B",
+            "E": 5
+          }
+        },
+        {
+          "id": "over",
+          "name": "Anneal too long",
+          "what": "Soak the wafer too long and the profile spreads: the junction runs deep, which in a short transistor shorts source to drain.",
+          "demo": {
+            "ion": "B",
+            "E": 20,
+            "anneal": 1100,
+            "t": 60
+          }
+        }
+      ],
+      "photos": {
+        "result": "Intel_80486_DX2_die.JPG",
+        "tool_candidates": []
+      },
+      "leave_out": [
+        "Profiles are Gaussian with a straggle from the energy-loss model. Real profiles are skewed (Pearson IV) and have a channelling tail.",
+        "Lateral straggle under the mask edge is drawn equal to the vertical straggle.",
+        "Transient enhanced diffusion, clustering and incomplete activation are left out, so the anneal stage is optimistic.",
+        "The mask is assumed to stop every ion."
+      ]
+    },
+    {
+      "id": "etch",
+      "step": "etch_rie",
+      "area": "etch",
+      "title": "Carve the pattern into the film",
+      "tool": "Plasma etcher",
+      "safety_tier": 2,
+      "model": "etch",
+      "solved": "Lithography only patterns a resist. Etching transfers that pattern into the layers that matter, and plasma etching does it straight down, so a feature can be deeper than it is wide.",
+      "refs": [
+        "coburn1989",
+        "plummer2000"
+      ],
+      "stages": [
+        {
+          "id": "pattern",
+          "label": "Pattern",
+          "beginner": "The wafer arrives with a hard mask patterned on top of the film: three openings of different widths.",
+          "engineer": "The mask defines where the film will be removed. A hard mask (an inorganic film patterned from the resist) survives the plasma better than resist alone. The three openings are 20, 40 and 120 nm wide.",
+          "process": "The mask stack, its thickness and the order of etch steps are chosen together, because every plasma etches the mask as well as the film."
+        },
+        {
+          "id": "plasma",
+          "label": "Strike the plasma",
+          "beginner": "Gas is let into a vacuum chamber and a radio-frequency field turns it into a glowing plasma of ions and reactive fragments.",
+          "engineer": "The plasma makes two things: neutral radicals that react with the film chemically, and ions accelerated across the sheath straight down onto the wafer. Ions break bonds and clear passivating films on horizontal surfaces, which is what makes the etch directional.",
+          "process": "Etch gases are fluorine, chlorine or bromine compounds chosen for the film, named here only conceptually. Their recipes, pressures and powers are qualified per tool and are not given."
+        },
+        {
+          "id": "etch",
+          "label": "Main etch",
+          "beginner": "The film is eaten away where the mask is open. The narrow openings go more slowly than the wide one.",
+          "engineer": "Radicals must travel down the opening by bouncing off its walls. Coburn and Winters treated that as a molecular-flow conductance: the deeper and narrower the hole, the fewer radicals reach the bottom, so the local rate falls as 1/(1 + ¾ s AR). This aspect-ratio-dependent etching (RIE lag) is what the three openings show; s is the radicals' reaction probability.",
+          "process": "Sidewall passivation, a thin polymer or oxide deposited by the plasma itself, protects the walls. The ion energy and the gas mix set how anisotropic the etch is."
+        },
+        {
+          "id": "endpoint",
+          "label": "Endpoint",
+          "beginner": "A sensor watches the plasma's colour. When the film has gone from the wide opening, the light changes and the tool knows.",
+          "engineer": "Optical emission spectroscopy follows a line from a reaction product. When the open area clears, the product stops and the line drops. Because the wide openings clear first, the endpoint arrives before the narrow ones are finished.",
+          "process": "Endpoint traces are logged for every wafer; a shifted endpoint is often the first sign of a chamber drifting."
+        },
+        {
+          "id": "overetch",
+          "label": "Over-etch",
+          "beginner": "The tool keeps etching for a while so the narrow openings can finish, while the stop layer underneath protects what is below.",
+          "engineer": "Over-etch time is set as a fraction of the endpoint time. The stop layer etches about twenty times more slowly than the film, so the wide opening barely deepens while the narrow ones catch up. Too little over-etch leaves film in the narrow openings; too much undercuts walls and wears the mask.",
+          "process": "Many etches switch to a gentler, more selective chemistry for the over-etch step."
+        },
+        {
+          "id": "strip",
+          "label": "Strip and inspect",
+          "beginner": "The remaining mask is removed and the wafer is cleaned and checked under an electron microscope.",
+          "engineer": "Selectivity to the mask decides how much mask is left at the end; if it runs out, the top of the film is etched as well. Cross-sections show depth, sidewall angle and undercut; the readouts give the model's values.",
+          "process": "Post-etch cleans remove polymer residue. Etch profiles are checked by cross-section SEM on sample wafers and by optical scatterometry in line."
+        }
+      ],
+      "tools": [
+        {
+          "id": "icp",
+          "name": "Inductively coupled plasma etcher",
+          "refs": [
+            "plummer2000"
+          ]
+        },
+        {
+          "id": "wet",
+          "name": "Wet bench (isotropic)",
+          "refs": [
+            "plummer2000"
+          ]
+        }
+      ],
+      "timeline": [
+        {
+          "when": "1970s",
+          "event": "Plasma etching replaces wet etching as features shrink below a few microns",
+          "refs": [
+            "plummer2000"
+          ]
+        },
+        {
+          "when": "1989",
+          "event": "Coburn and Winters explain RIE lag as a conductance limit",
+          "refs": [
+            "coburn1989"
+          ]
+        }
+      ],
+      "metrology": [
+        {
+          "name": "Cross-section SEM",
+          "what": "Depth, sidewall angle and undercut from a cleaved sample."
+        },
+        {
+          "name": "Scatterometry",
+          "what": "Profile shape fitted from the spectrum of light diffracted by a test grating."
+        },
+        {
+          "name": "Optical emission",
+          "what": "The endpoint trace recorded for every wafer."
+        }
+      ],
+      "failures": [
+        {
+          "id": "lag",
+          "name": "RIE lag",
+          "what": "A very reactive etchant (s near 1) is used up on the walls of narrow openings: they lag far behind and never clear in the over-etch.",
+          "demo": {
+            "s": 1.0,
+            "aniso": 0.9,
+            "sel": 10,
+            "oe": 0.3
+          }
+        },
+        {
+          "id": "iso",
+          "name": "Isotropic undercut",
+          "what": "Without ion direction the etch goes sideways as fast as down, undercutting the mask like a wet etch.",
+          "demo": {
+            "s": 0.05,
+            "aniso": 0.0,
+            "sel": 10,
+            "oe": 0.5
+          }
+        },
+        {
+          "id": "mask",
+          "name": "Mask runs out",
+          "what": "With poor selectivity and a long over-etch the hard mask is consumed and the top of the film starts to go.",
+          "demo": {
+            "s": 0.05,
+            "aniso": 0.9,
+            "sel": 2,
+            "oe": 1.0
+          }
+        }
+      ],
+      "photos": {
+        "result": "Intel_80386_DX_die.JPG",
+        "tool_candidates": []
+      },
+      "leave_out": [
+        "The etch front is a single depth per opening: no faceting, bowing, notching or microtrenching, and the bottom stays flat.",
+        "Ion shadowing and charging are left out; only the neutral flux limit of Coburn and Winters sets the lag.",
+        "Rates, selectivities and film thicknesses are teaching values, not a recipe."
+      ]
+    },
+    {
+      "id": "deposition",
+      "step": "dep_pvd",
+      "area": "deposition",
+      "title": "Coat the inside of a trench",
+      "tool": "PVD, CVD and ALD chambers",
+      "safety_tier": 1,
+      "model": "deposition",
+      "solved": "Every layer that is not grown from the silicon has to be deposited, often into trenches and holes far deeper than they are wide. How evenly a method coats the inside of a trench decides where it can be used.",
+      "refs": [
+        "george2010",
+        "plummer2000"
+      ],
+      "stages": [
+        {
+          "id": "load",
+          "label": "Load and pump",
+          "beginner": "The wafer moves into a vacuum chamber and the air is pumped out.",
+          "engineer": "Deposition runs at low pressure so that atoms and molecules travel in straight lines between collisions with the walls of the trench rather than with each other. That is the molecular-flow regime the model assumes inside the trench.",
+          "process": "Cluster tools move wafers between chambers without breaking vacuum, so a barrier and a seed layer can be laid down without the first one oxidising."
+        },
+        {
+          "id": "arrive",
+          "label": "Arrive",
+          "beginner": "Atoms or precursor molecules fly towards the wafer and into the trench.",
+          "engineer": "In sputtering (physical vapour deposition) metal atoms knocked off a target stick wherever they first land, so their sticking probability s is close to 1. In CVD, precursor molecules react on only a small fraction of wall hits and bounce on down the trench. In ALD, one precursor at a time is let in and reacts only until the surface is covered.",
+          "process": "Sputtered liners, CVD tungsten and dielectrics, and ALD high-k gate oxides are all deposited on the same wafer at different points in the flow."
+        },
+        {
+          "id": "grow",
+          "label": "Grow",
+          "beginner": "The film thickens on top, on the walls and on the floor of the trench, at different speeds.",
+          "engineer": "Molecules reaching depth z have survived many wall hits. The model solves the diffusion-reaction balance n″ = (3s / 2w²) n down the trench, so the film thins with depth over a length of about w/√s. As the walls thicken the trench narrows and the balance is solved again at every step.",
+          "process": "Growth rate, temperature and pressure are qualified per film. ALD repeats a two-step cycle hundreds of times; each cycle adds about a tenth of a nanometre."
+        },
+        {
+          "id": "close",
+          "label": "Close up",
+          "beginner": "If the top of the trench closes before the bottom fills, a hollow void is sealed inside.",
+          "engineer": "The mouth always grows fastest, so with a large s it can pinch off over an empty core: a keyhole void. Voids in a wire or plug raise resistance and fail early. Low-s CVD and ALD stay conformal and fill from the walls inward.",
+          "process": "Fill problems are solved by changing the method, tapering the trench, or depositing and etching back in turns."
+        },
+        {
+          "id": "inspect",
+          "label": "Inspect",
+          "beginner": "A slice through test trenches shows how much film reached the floor compared with the top.",
+          "engineer": "Step coverage is the thinnest sidewall or floor thickness divided by the top thickness. The readouts give it from the model, with the floor coverage and whether a void formed.",
+          "process": "Thickness on blanket wafers is measured optically or by X-ray reflectivity; coverage in trenches needs cross-section electron microscopy on sample wafers."
+        }
+      ],
+      "tools": [
+        {
+          "id": "pvd",
+          "name": "Sputter (PVD) chamber",
+          "refs": [
+            "plummer2000"
+          ]
+        },
+        {
+          "id": "cvd",
+          "name": "CVD chamber",
+          "refs": [
+            "plummer2000"
+          ]
+        },
+        {
+          "id": "ald",
+          "name": "ALD chamber",
+          "refs": [
+            "george2010"
+          ]
+        }
+      ],
+      "timeline": [
+        {
+          "when": "1970s",
+          "event": "Atomic layer epitaxy introduced for thin-film displays",
+          "refs": [
+            "george2010"
+          ]
+        },
+        {
+          "when": "2007",
+          "event": "ALD hafnium-based high-k gate dielectrics enter volume CMOS",
+          "refs": [
+            "george2010"
+          ]
+        }
+      ],
+      "metrology": [
+        {
+          "name": "Cross-section TEM",
+          "what": "Film thickness on the top, walls and floor of a trench."
+        },
+        {
+          "name": "X-ray reflectivity",
+          "what": "Thickness and density of thin blanket films."
+        },
+        {
+          "name": "Sheet resistance",
+          "what": "Metal film thickness from a four-point probe."
+        }
+      ],
+      "failures": [
+        {
+          "id": "void",
+          "name": "Keyhole void",
+          "what": "Sputtering into a deep, narrow trench: the mouth closes over an empty core.",
+          "demo": {
+            "method": "pvd",
+            "ar": 3,
+            "target": 40
+          }
+        },
+        {
+          "id": "thinfloor",
+          "name": "Thin floor",
+          "what": "CVD with a reactive precursor in a high aspect ratio: the floor gets a fraction of the top thickness.",
+          "demo": {
+            "method": "cvd",
+            "s": 0.3,
+            "ar": 6,
+            "target": 15
+          }
+        }
+      ],
+      "photos": {
+        "result": "AMD@4nmCCD(6nmIOD)@Zen5@Granite_Ridge@Ryzen_5_9600X@100-000001405_BY_2429SUY_9AEQ579S40073_DSCx14_CCD_poly@5xExt.jpg",
+        "tool_candidates": []
+      },
+      "leave_out": [
+        "Sputtered atoms arrive with an angular distribution and shadow each other at the mouth; the model treats them as a diffusing gas with s = 1, which is only a rough stand-in.",
+        "The trench is a long slit with vertical walls; corners, re-emission angles and surface diffusion are left out.",
+        "ALD saturation is a step function of exposure; real half-reactions saturate gradually and can include some CVD-like growth.",
+        "When the mouth closes over a gap narrower than a tenth of the trench width, the model calls it a seam rather than a void."
+      ]
+    },
+    {
+      "id": "cmp",
+      "step": "cmp",
+      "area": "planarization",
+      "title": "Polish the wafer flat",
+      "tool": "CMP polisher",
+      "safety_tier": 1,
+      "model": "cmp",
+      "solved": "Each layer of wiring leaves bumps, and lithography can only focus on a flat surface. Chemical-mechanical polishing grinds the wafer flat between layers, which made more than two or three metal levels possible.",
+      "refs": [
+        "preston1927",
+        "stine1998",
+        "plummer2000"
+      ],
+      "stages": [
+        {
+          "id": "load",
+          "label": "Load",
+          "beginner": "The wafer is held face down in a carrier above a rotating pad.",
+          "engineer": "Oxide has been deposited over metal lines, so its surface copies the lines' bumps: a step of 500 nm over three regions with lines covering 20%, 50% and 80% of the area.",
+          "process": "Carriers hold the wafer with a flexible membrane in several zones, so the pressure can be tuned from centre to edge."
+        },
+        {
+          "id": "slurry",
+          "label": "Slurry",
+          "beginner": "A milky liquid of tiny abrasive particles flows onto the pad.",
+          "engineer": "The slurry's chemistry softens the oxide surface and the abrasive particles wipe it away: neither alone would polish fast or smoothly. Pad texture carries slurry under the wafer.",
+          "process": "Slurries are matched to the film (oxide, copper, tungsten); their compositions are proprietary and named here only conceptually."
+        },
+        {
+          "id": "polish",
+          "label": "Polish",
+          "beginner": "The wafer is pressed onto the spinning pad. The bumps wear away first because they carry all the pressure.",
+          "engineer": "Removal follows Preston's law, rate = Kp P V. While the step is taller than the contact height, the pad touches only the raised oxide, which then feels P/ρ and polishes faster than the blanket rate, and faster still where lines are sparse.",
+          "process": "Pressure and speed set the rate; pad conditioning with a diamond disc keeps the pad surface rough and the rate stable from wafer to wafer."
+        },
+        {
+          "id": "planar",
+          "label": "Planarise",
+          "beginner": "The bumps flatten. Sparse regions go flat first, dense ones later.",
+          "engineer": "Once the step falls below the contact height the pad reaches the low areas too and the step decays exponentially. Dense regions planarise more slowly, so when the last one is flat the sparse ones have lost more oxide: the die surface is uneven by the range shown in the readouts.",
+          "process": "Layouts are filled with dummy features so that every region has a similar density and polishes alike. The pattern-density model of Stine et al. was built to predict exactly this."
+        },
+        {
+          "id": "endpoint",
+          "label": "Endpoint",
+          "beginner": "The tool stops when enough has been removed, judged by the motor's effort or by light reflected through the pad.",
+          "engineer": "In oxide polishing the target is a remaining thickness over the lines, so the polish time decides the result and dense and sparse regions end at different thicknesses. Over-polish removes oxide everywhere at the blanket rate.",
+          "process": "Motor current, pad temperature and in-situ optical signals are all used as endpoints; feed-forward from thickness measurements sets each wafer's time."
+        },
+        {
+          "id": "clean",
+          "label": "Clean and measure",
+          "beginner": "Brushes and rinses remove the slurry, and the remaining oxide is measured.",
+          "engineer": "Slurry particles left on the wafer become defects, so post-CMP cleaning is as important as the polish. Thickness is mapped across the wafer and within dies; the readouts give the model's thickness over each region.",
+          "process": "Within-die range and wafer-level uniformity are both tracked. Scratches are found by defect inspection."
+        }
+      ],
+      "tools": [
+        {
+          "id": "rotary",
+          "name": "Rotary CMP polisher",
+          "refs": [
+            "plummer2000"
+          ]
+        }
+      ],
+      "timeline": [
+        {
+          "when": "1927",
+          "event": "Preston's law for polishing plate glass",
+          "refs": [
+            "preston1927"
+          ]
+        },
+        {
+          "when": "1990s",
+          "event": "CMP enters the fab for oxide planarisation and then copper damascene",
+          "refs": [
+            "plummer2000"
+          ]
+        },
+        {
+          "when": "1998",
+          "event": "Pattern-density models predict within-die thickness variation",
+          "refs": [
+            "stine1998"
+          ]
+        }
+      ],
+      "metrology": [
+        {
+          "name": "Optical thickness",
+          "what": "Remaining oxide mapped across the wafer and within dies."
+        },
+        {
+          "name": "Profilometry",
+          "what": "Surface topography across dense and sparse regions."
+        },
+        {
+          "name": "Defect inspection",
+          "what": "Scratches and residual slurry particles after cleaning."
+        }
+      ],
+      "failures": [
+        {
+          "id": "under",
+          "name": "Under-polish",
+          "what": "Stop early and the dense region still carries a step that will blur the next lithography layer.",
+          "demo": {
+            "P": 28,
+            "V": 1.0,
+            "t": 1.0
+          }
+        },
+        {
+          "id": "over",
+          "name": "Over-polish",
+          "what": "Polish too long and the sparse region wears through to the lines, while the dense one is still thick.",
+          "demo": {
+            "P": 28,
+            "V": 1.0,
+            "t": 4.5
+          }
+        }
+      ],
+      "photos": {
+        "result": "Zen2_Matisse_Ryzen_7nm_Core_Die_shot.jpg",
+        "tool_candidates": []
+      },
+      "leave_out": [
+        "The pad is perfectly stiff over each region and the regions do not influence each other; real pads bend over a planarisation length of millimetres.",
+        "Only oxide polishing is modelled; copper dishing and erosion, which add a second material, are left out.",
+        "Kp and the contact height are teaching values; real ones depend on the pad, slurry and conditioning."
+      ]
+    },
+    {
+      "id": "diffusion",
+      "step": "diffuse_predep",
+      "area": "doping",
+      "title": "Bake dopants in from the surface",
+      "tool": "Diffusion furnace",
+      "safety_tier": 3,
+      "model": "diffusion",
+      "solved": "Before ion implanters, every junction was made this way, and teaching cleanrooms still do it. A film rich in dopant sits on the bare silicon in a hot furnace, so atoms soak in from the surface; then the source is removed and a second bake drives them deeper. Oxide windows decide where the dopant can enter, which is the heart of the planar process.",
+      "refs": [
+        "plummer2000",
+        "jaeger2002",
+        "uiuc_diffusivity",
+        "caughey1967",
+        "frosch1957",
+        "hoerni1962",
+        "teaching_process_manual2023",
+        "cleanroom_run_char2024"
+      ],
+      "stages": [
+        {
+          "id": "clean",
+          "label": "Open",
+          "beginner": "Windows are opened in the oxide where the dopant should go. Everywhere else the oxide will block it.",
+          "engineer": "Dopants diffuse far more slowly in silicon dioxide than in silicon, so a few hundred nanometres of oxide masks the wafer. In a self-aligned MOS process the polysilicon gate masks the channel, so source and drain land exactly on either side of it.",
+          "process": "The wafer is cleaned and the native oxide removed just before the source goes on. That chemistry is institution-only. Any oxide left in the windows slows the dopant down and makes the junction uneven."
+        },
+        {
+          "id": "coat",
+          "label": "Coat source",
+          "beginner": "A thin glassy film full of dopant atoms is spread over the wafer.",
+          "engineer": "The source can be a spun-on dopant film, a solid source wafer standing next to the device wafers, or a dopant-bearing gas. All of them keep the silicon surface at a high, fixed concentration while the furnace runs.",
+          "process": "Every source chemistry is institution-only, and some are highly toxic. A teaching lab bakes the solvent out of the film before it goes in the furnace. Industry long ago moved to implantation for most layers because it sets the dose far more precisely."
+        },
+        {
+          "id": "predep",
+          "label": "Predeposit",
+          "beginner": "In the furnace, dopant atoms hop from the film into the silicon. Near the surface the silicon fills up first.",
+          "engineer": "With the surface pinned at Cs the profile is a complementary error function, Cs·erfc(x/2√Dt). The dose grows as √t: double the time and you add only 41 % more dopant.",
+          "process": "Predeposition sets the total dose. Its temperature and time are chosen so the surface concentration stays near what the source can supply, and a control wafer goes through with the batch to be measured afterwards."
+        },
+        {
+          "id": "strip",
+          "label": "Strip source",
+          "beginner": "The used-up film is removed so no more dopant can get in.",
+          "engineer": "From now on the dose is fixed. Removing the film is a wet chemical step and stays institution-only; a quick sheet-resistance check on the control wafer confirms the dopant went in.",
+          "process": "A wafer with too high a sheet resistance here can go back in the furnace with a fresh coat, which is why teaching labs run two control wafers."
+        },
+        {
+          "id": "drive",
+          "label": "Drive in",
+          "beginner": "A second bake spreads the same dopant deeper. The junction moves down and the surface gets less concentrated.",
+          "engineer": "With a fixed dose Q the profile relaxes into a half-Gaussian, Q/√(πDt)·exp(−x²/4Dt), with Dt the sum over both bakes. The junction sits where the dopant falls to the background level, and it also creeps sideways under the mask edge by about 80 % of its depth.",
+          "process": "The drive-in often doubles as an oxidation, growing the insulating layer that will carry the metal. In a four-mask teaching process this bake lasts 37 minutes and grows the intermediate oxide."
+        },
+        {
+          "id": "measure",
+          "label": "Measure",
+          "beginner": "Four needles in a row measure how well the doped layer conducts.",
+          "engineer": "A four-point probe pushes current through the outer pins and reads the voltage across the inner two, giving the sheet resistance with no contact error. Rs = 1/∫qμN dx ties it to the profile.",
+          "process": "Junction depth is checked on test structures, or by profiling the dopant directly with secondary-ion mass spectrometry. In a 2024 teaching-cleanroom run a diffused resistor gave about 3.1 Ω per square."
+        }
+      ],
+      "tools": [
+        {
+          "id": "tube",
+          "name": "Horizontal tube furnace",
+          "refs": [
+            "plummer2000",
+            "teaching_process_manual2023"
+          ]
+        },
+        {
+          "id": "fourpoint",
+          "name": "Four-point probe",
+          "refs": [
+            "plummer2000"
+          ]
+        }
+      ],
+      "timeline": [
+        {
+          "when": "1957",
+          "event": "Frosch and Derick: silicon dioxide masks dopant diffusion",
+          "refs": [
+            "frosch1957"
+          ]
+        },
+        {
+          "when": "1959–62",
+          "event": "Hoerni’s planar process: diffusion through oxide windows",
+          "refs": [
+            "hoerni1962"
+          ]
+        },
+        {
+          "when": "1970s",
+          "event": "Ion implantation takes over most doping steps",
+          "refs": [
+            "plummer2000"
+          ]
+        },
+        {
+          "when": "2024",
+          "event": "A university teaching-cleanroom run measures about 3.1 Ω per square on its diffused resistor",
+          "refs": [
+            "cleanroom_run_char2024"
+          ]
+        }
+      ],
+      "metrology": [
+        {
+          "name": "Four-point probe",
+          "what": "Sheet resistance of the doped layer, measured on a control wafer."
+        },
+        {
+          "name": "Diffused resistor",
+          "what": "R × W / L of a test resistor on the chip gives the same sheet resistance electrically."
+        },
+        {
+          "name": "SIMS",
+          "what": "Secondary-ion mass spectrometry sputters the surface away and counts dopant atoms against depth."
+        }
+      ],
+      "failures": [
+        {
+          "id": "bg",
+          "name": "Background too high",
+          "what": "A more heavily doped substrate meets the falling profile sooner, so the junction ends about 100 nm shallower. The sheet resistance hardly moves: almost all the current flows in the heavily doped top of the layer.",
+          "demo": {
+            "Nbg": 1e+17
+          }
+        },
+        {
+          "id": "short",
+          "name": "Predeposition cut short",
+          "what": "Dose grows only as the square root of time, so a two-minute predeposition instead of ten leaves 45 % of the dose and doubles the sheet resistance.",
+          "demo": {
+            "t1": 120
+          }
+        },
+        {
+          "id": "long",
+          "name": "Drive-in left running",
+          "what": "Two hours instead of 37 minutes: the junction goes deeper and sideways, and the surface concentration drops. Lateral spread is what limits how close two diffused regions can sit.",
+          "demo": {
+            "t2": 7200
+          }
+        }
+      ],
+      "photos": {
+        "result": "MOS_6502_die.jpg",
+        "tool_candidates": []
+      },
+      "leave_out": [
+        "Diffusivity is the intrinsic value. Above about 10¹⁹ cm⁻³ phosphorus diffuses much faster than this, which is why real heavy diffusions go deeper and conduct better than the model says.",
+        "Drive-in is modelled as a Gaussian with the predeposition's Dt added on; it is exact only when the drive-in dominates.",
+        "Oxidation during the drive-in pushes extra interstitials into the silicon and speeds diffusion further; dopant also redistributes into the growing oxide.",
+        "Lateral diffusion under the mask edge is drawn as a fixed 80 % of the depth, not solved in two dimensions."
+      ]
+    },
+    {
+      "id": "anneal",
+      "step": "anneal",
+      "area": "doping",
+      "title": "Heal the crystal without moving the dopant",
+      "tool": "Rapid thermal annealer",
+      "safety_tier": 2,
+      "model": "anneal",
+      "solved": "An implant leaves its atoms in the wrong places and the crystal battered. Heat fixes both, but heat also lets the dopant wander, and a junction only a few tens of nanometres deep cannot afford to wander far. The answer has been to anneal hotter and shorter: from furnace hours, to rapid thermal seconds, to spike anneals that do not hold at the peak at all.",
+      "refs": [
+        "plummer2000",
+        "fair1993",
+        "eaglesham1994",
+        "uiuc_diffusivity",
+        "caughey1967"
+      ],
+      "stages": [
+        {
+          "id": "load",
+          "label": "Load",
+          "beginner": "The freshly implanted wafer goes into a chamber lined with powerful lamps.",
+          "engineer": "Rapid thermal processing heats one wafer at a time with tungsten-halogen lamps, so the wafer, not a heavy furnace tube, sets the thermal mass. That is what allows ramps of hundreds of degrees per second.",
+          "process": "The chamber is purged with nitrogen. A pyrometer reads the wafer temperature from its glow, and the reading is calibrated against wafers with known behaviour."
+        },
+        {
+          "id": "ramp",
+          "label": "Ramp up",
+          "beginner": "The lamps blaze and the wafer heats up in seconds.",
+          "engineer": "Diffusivity rises steeply with temperature, so most of a ramp's diffusion happens in the last tens of degrees. Each ramp adds ∫D dT / R to the thermal budget: a slower ramp R costs more.",
+          "process": "Ramp rate is limited by stress across the wafer: heat it too unevenly and it slips, leaving crystal defects visible as lines."
+        },
+        {
+          "id": "hold",
+          "label": "Hold or spike",
+          "beginner": "The wafer stays at its hottest for a moment, or, in a spike anneal, does not stay at all.",
+          "engineer": "At the peak, implanted atoms move onto lattice sites, where they give carriers, and the damage heals. The hold adds D(T_peak)·t to the budget; a spike anneal sets the hold to zero.",
+          "process": "The hold time trades activation against diffusion. Modern flows add millisecond flash or laser anneals that heat only the top of the wafer."
+        },
+        {
+          "id": "cool",
+          "label": "Cool",
+          "beginner": "The lamps switch off and the wafer cools as fast as it heated.",
+          "engineer": "Cooling adds another ramp's worth of budget. The model treats it as the same rate as heating; real cooling is usually slower, so this part is optimistic.",
+          "process": "The wafer is held in nitrogen until it is cool enough to leave the chamber without oxidising."
+        },
+        {
+          "id": "measure",
+          "label": "Measure",
+          "beginner": "Four needles check how well the doped layer now conducts.",
+          "engineer": "Sheet resistance shows how much dopant was activated; the junction depth, measured on test wafers by secondary-ion mass spectrometry, shows how far it moved.",
+          "process": "Both numbers are charted wafer by wafer, so a lamp or pyrometer drift shows up before it spoils a lot."
+        }
+      ],
+      "tools": [
+        {
+          "id": "rtp",
+          "name": "Lamp-heated rapid thermal processor",
+          "refs": [
+            "fair1993",
+            "plummer2000"
+          ]
+        },
+        {
+          "id": "furnace_an",
+          "name": "Horizontal or vertical tube furnace",
+          "refs": [
+            "plummer2000"
+          ]
+        }
+      ],
+      "timeline": [
+        {
+          "when": "1960s",
+          "event": "Furnace anneals of tens of minutes after diffusion and, later, implantation",
+          "refs": [
+            "plummer2000"
+          ]
+        },
+        {
+          "when": "1980s",
+          "event": "Lamp-heated rapid thermal processing cuts anneals to seconds",
+          "refs": [
+            "fair1993"
+          ]
+        },
+        {
+          "when": "1994",
+          "event": "Transient enhanced diffusion traced to interstitials released by implant damage",
+          "refs": [
+            "eaglesham1994"
+          ]
+        },
+        {
+          "when": "2000s",
+          "event": "Spike anneals drop the hold time to zero for ultra-shallow junctions",
+          "refs": [
+            "plummer2000"
+          ]
+        }
+      ],
+      "metrology": [
+        {
+          "name": "Four-point probe",
+          "what": "Sheet resistance after anneal, a direct check on activation."
+        },
+        {
+          "name": "SIMS",
+          "what": "Dopant concentration against depth on monitor wafers, showing how far the junction moved."
+        },
+        {
+          "name": "Thermal-wave and pyrometer logs",
+          "what": "Implant damage and the measured temperature trace, checked for every wafer."
+        }
+      ],
+      "failures": [
+        {
+          "id": "furnace",
+          "name": "Furnace instead of lamps",
+          "what": "Half an hour in a furnace at a slow furnace ramp gives an equivalent of about 2500 s at the peak. The shallow boron junction moves from about 58 nm to about 420 nm, and more than a quarter of that budget comes from the ramps alone.",
+          "demo": {
+            "T": 1000,
+            "hold": 1800,
+            "rate": 0.1
+          }
+        },
+        {
+          "id": "slowramp",
+          "name": "Ramp too slow",
+          "what": "The same one-second hold with a ramp thirty times slower adds about ten times more diffusion, almost all of it during the ramps. The junction goes from about 64 nm to about 100 nm.",
+          "demo": {
+            "rate": 5
+          }
+        },
+        {
+          "id": "long",
+          "name": "Held a minute",
+          "what": "A sixty-second hold instead of one second gives about forty times the budget, and the junction more than doubles in depth to about 156 nm.",
+          "demo": {
+            "hold": 60
+          }
+        }
+      ],
+      "photos": {
+        "result": "MOS_6502_die.jpg",
+        "tool_candidates": [
+          "cand_diffusion_furnace"
+        ]
+      },
+      "leave_out": [
+        "Diffusion uses intrinsic diffusivity. Transient enhanced diffusion, where interstitials from the implant damage speed boron up many times in the first seconds, is left out, so real shallow junctions move further than the model says.",
+        "Activation is not modelled: every implanted atom counts as active, with no solubility limit and no clusters.",
+        "The implant profile ignores the surface, so dopant that diffuses past it is dropped. After long anneals the modelled sheet resistance is too high for that reason.",
+        "Cooling is taken at the same rate as heating, and the wafer is assumed to be at one uniform temperature."
+      ]
+    },
+    {
+      "id": "damascene",
+      "step": "damascene",
+      "area": "interconnect",
+      "title": "Wire the chip in copper",
+      "tool": "Electroplating cell",
+      "safety_tier": 1,
+      "model": "damascene",
+      "solved": "Copper conducts far better than aluminium, but it cannot be etched into lines with a plasma. Damascene turns the problem around: etch the trenches into the insulator, line them with a barrier that keeps copper out of the silicon, fill them with copper and polish the top flat. At today's widths the barrier and the line's own surfaces eat into that advantage, which is why the narrowest lines are turning to other metals.",
+      "refs": [
+        "kaanta1991",
+        "edelstein1997",
+        "sondheimer1952",
+        "mayadas1970",
+        "gall2016",
+        "elmore1948",
+        "plummer2000"
+      ],
+      "stages": [
+        {
+          "id": "trench",
+          "label": "Etch trench",
+          "beginner": "Grooves are cut into the insulating layer exactly where the wires should run.",
+          "engineer": "In dual damascene the via holes and the line trenches are patterned into the low-k dielectric before any metal goes in, so one fill makes both. The trench depth over width is the aspect ratio.",
+          "process": "Low-k dielectrics are porous and easily damaged by the etch and the resist strip, which raises their dielectric constant again; the chemistries are kept gentle for that reason."
+        },
+        {
+          "id": "barrier",
+          "label": "Barrier",
+          "beginner": "A very thin coat lines every groove so the copper can never touch the insulator.",
+          "engineer": "Copper diffuses into silicon dioxide and silicon and ruins transistors, so a barrier and liner, about 2 nm of tantalum nitride and tantalum or cobalt, wrap the line. It conducts poorly, so it is dead area in the cross-section.",
+          "process": "The barrier is sputtered or grown by atomic layer deposition so it reaches the bottom corners of narrow trenches; a gap anywhere lets copper escape."
+        },
+        {
+          "id": "seed",
+          "label": "Seed",
+          "beginner": "A whisper-thin copper film goes on so the plating has something to grow from.",
+          "engineer": "Electroplating needs a conducting surface. The seed must be continuous down the trench walls but thin enough not to close the opening before the fill.",
+          "process": "Seed coverage is checked on test structures; thin spots at the bottom corners show up later as voids in the plated line."
+        },
+        {
+          "id": "plate",
+          "label": "Plate",
+          "beginner": "The wafer is dipped in a copper bath and electricity grows copper until every groove is full.",
+          "engineer": "Additives in the bath slow growth at the trench mouth and speed it at the bottom, so the trench fills from the bottom up without a seam. Plating continues past the top to leave an overburden.",
+          "process": "The bath chemistry and current are institution-level process know-how; plating is followed by a short anneal that grows the copper grains, which lowers resistivity."
+        },
+        {
+          "id": "polish",
+          "label": "Polish",
+          "beginner": "The extra copper on top is polished away until only the copper in the grooves is left.",
+          "engineer": "Chemical-mechanical polishing removes the overburden and the barrier on the field, stopping on the dielectric. Wide lines dish and dense arrays erode, which thins the line and raises its resistance.",
+          "process": "Polish endpoint is detected from the pad friction or optical reflection, and post-polish cleaning removes slurry before the next layer."
+        },
+        {
+          "id": "measure",
+          "label": "Measure",
+          "beginner": "Test lines on the wafer show how well the new wires conduct.",
+          "engineer": "Line resistance per micrometre gives the effective resistivity of the whole trench. Below about 40 nm, surface and grain-boundary scattering push it far above bulk copper.",
+          "process": "Kelvin structures and long serpentines are measured on every wafer, and comb structures check for shorts between neighbouring lines."
+        }
+      ],
+      "tools": [
+        {
+          "id": "plating",
+          "name": "Electroplating cell",
+          "refs": [
+            "edelstein1997",
+            "plummer2000"
+          ]
+        },
+        {
+          "id": "pvd_barrier",
+          "name": "Barrier and seed deposition (PVD or ALD)",
+          "refs": [
+            "plummer2000"
+          ]
+        }
+      ],
+      "timeline": [
+        {
+          "when": "1952",
+          "event": "Sondheimer: thin metal films conduct worse because electrons scatter at their surfaces",
+          "refs": [
+            "sondheimer1952"
+          ]
+        },
+        {
+          "when": "1970",
+          "event": "Mayadas and Shatzkes add scattering at grain boundaries",
+          "refs": [
+            "mayadas1970"
+          ]
+        },
+        {
+          "when": "1991",
+          "event": "Dual damascene: vias and lines filled in one step",
+          "refs": [
+            "kaanta1991"
+          ]
+        },
+        {
+          "when": "1997",
+          "event": "IBM announces full copper wiring in production CMOS",
+          "refs": [
+            "edelstein1997"
+          ]
+        },
+        {
+          "when": "2016",
+          "event": "Mean free paths tabulated for alternatives: ruthenium and cobalt beat copper in the narrowest lines",
+          "refs": [
+            "gall2016"
+          ]
+        }
+      ],
+      "metrology": [
+        {
+          "name": "Line resistance",
+          "what": "Kelvin and serpentine test structures give resistance per micrometre."
+        },
+        {
+          "name": "Comb leakage",
+          "what": "Interleaved combs check that no copper bridges two neighbouring lines."
+        },
+        {
+          "name": "Cross-section imaging",
+          "what": "Electron microscopy of cut lines shows voids, barrier coverage and dishing."
+        }
+      ],
+      "failures": [
+        {
+          "id": "narrow",
+          "name": "Halve the width",
+          "what": "At 10 nm instead of 20 nm the whole-trench resistivity triples, from about 11 to 34 µΩ·cm, because the barrier now fills almost half the trench and electrons scatter off the walls. Resistance per micrometre rises about thirteenfold.",
+          "demo": {
+            "w": 10
+          }
+        },
+        {
+          "id": "barrier",
+          "name": "Barrier too thick",
+          "what": "A 4 nm barrier instead of 2 nm leaves only 54 % of the 20 nm trench conducting, and the line resistance rises by about three quarters.",
+          "demo": {
+            "tb": 4
+          }
+        },
+        {
+          "id": "ruthenium",
+          "name": "Ruthenium at 10 nm",
+          "what": "Ruthenium has a shorter mean free path and needs almost no barrier, so at 10 nm it conducts about twice as well as copper with its barrier, even though bulk ruthenium is four times worse.",
+          "demo": {
+            "metal": "Ru",
+            "w": 10
+          }
+        },
+        {
+          "id": "long",
+          "name": "A millimetre-long line",
+          "what": "RC delay grows with the square of length: ten times longer gives a hundred times the delay, about 8 ns. Long wires are broken up with repeaters or moved to thicker upper layers.",
+          "demo": {
+            "L": 1000
+          }
+        }
+      ],
+      "photos": {
+        "result": "AMD@4nmCCD(6nmIOD)@Zen5@Granite_Ridge@Ryzen_5_9600X@100-000001405_BY_2429SUY_9AEQ579S40073_DSCx14_CCD_poly@5xExt.jpg",
+        "tool_candidates": []
+      },
+      "leave_out": [
+        "Resistivity uses one grain size equal to the smaller line dimension, fully diffuse surfaces and one grain-boundary reflection coefficient for every metal.",
+        "Dishing and erosion from the polish, via resistance and the liner's own small conductance are left out.",
+        "Capacitance is a parallel-plate-plus-fringe estimate with the spacing equal to the width and a fixed dielectric constant of 2.7.",
+        "Electromigration lifetime is covered separately in the Process Lab; this theatre does not check it."
+      ]
+    },
+    {
+      "id": "probe",
+      "step": "probe_dice_bond",
+      "area": "backend",
+      "title": "Find the good dies and package them",
+      "tool": "Wafer prober",
+      "safety_tier": 0,
+      "model": "probe",
+      "solved": "A finished wafer holds hundreds of chips, and some of them are dead. Wafer probe touches every die with a card of fine needles, runs test patterns and marks the failures, so that only good dies are sawn out, packaged and sold. No test catches every possible fault, so the question is never just how many dies are good, but how many bad ones slip through.",
+      "refs": [
+        "murphy1964",
+        "stapper1973",
+        "williams1981",
+        "tsmc_n2_wafer",
+        "tsmc_3dfabric"
+      ],
+      "stages": [
+        {
+          "id": "probe",
+          "label": "Probe",
+          "beginner": "A card full of tiny needles touches each chip in turn and asks it questions.",
+          "engineer": "The prober steps the wafer under the probe card die by die. Test patterns exercise the logic and memory; scan chains let a few pins reach millions of internal flip-flops. Fault coverage is the fraction of modelled faults the patterns would detect.",
+          "process": "Probe cards are cleaned and checked for planarity; test time per die is a cost line of its own, so patterns are ordered to fail bad dies early."
+        },
+        {
+          "id": "map",
+          "label": "Wafer map",
+          "beginner": "The results make a map: green chips work, red ones do not.",
+          "engineer": "Defects cluster, so the map shows patches rather than a uniform scatter. The negative-binomial yield model, Y = (1 + AD₀/α)^(−α), captures that clustering; a big die is more likely to catch a defect.",
+          "process": "Map patterns, such as rings at the edge or scratches, point back to specific tools and are fed to yield engineering."
+        },
+        {
+          "id": "dice",
+          "label": "Dice",
+          "beginner": "A saw or laser cuts the wafer into separate chips along thin lanes between them.",
+          "engineer": "Dies sit on a tape frame while a diamond blade or a laser cuts the scribe lanes. The lanes carry test structures that are destroyed in the cut.",
+          "process": "Saw speed and coolant are set to avoid chipping the die edge, which can crack later in the package."
+        },
+        {
+          "id": "pick",
+          "label": "Pick",
+          "beginner": "Only the chips that passed are picked off the tape.",
+          "engineer": "Pick-and-place reads the wafer map and lifts only passing dies. Cost per good die is the wafer cost divided by the good dies, which is why yield matters so much.",
+          "process": "Dies are inspected optically for cracks and contamination before they are placed in trays or onto a package substrate."
+        },
+        {
+          "id": "bond",
+          "label": "Bond",
+          "beginner": "Each good chip is glued into a package and joined to its pins with fine wires.",
+          "engineer": "Gold or copper wires a few tens of micrometres thick join the die pads to the package leads. Advanced packages replace wires with solder bumps or direct bonding between stacked dies.",
+          "process": "A final test after packaging catches dies damaged in assembly and screens for faults the wafer test could not reach."
+        }
+      ],
+      "tools": [
+        {
+          "id": "prober",
+          "name": "Wafer prober and probe card",
+          "refs": [
+            "williams1981"
+          ]
+        },
+        {
+          "id": "dicing",
+          "name": "Dicing saw or laser",
+          "refs": [
+            "tsmc_3dfabric"
+          ]
+        }
+      ],
+      "timeline": [
+        {
+          "when": "1964",
+          "event": "Murphy relates die size to yield and cost",
+          "refs": [
+            "murphy1964"
+          ]
+        },
+        {
+          "when": "1973",
+          "event": "Stapper models defect clustering with the negative binomial",
+          "refs": [
+            "stapper1973"
+          ]
+        },
+        {
+          "when": "1981",
+          "event": "Williams and Brown link fault coverage to the defect level customers see",
+          "refs": [
+            "williams1981"
+          ]
+        },
+        {
+          "when": "2020s",
+          "event": "Chiplets and 3D stacking make known-good dies essential",
+          "refs": [
+            "tsmc_3dfabric"
+          ]
+        }
+      ],
+      "metrology": [
+        {
+          "name": "Wafer map",
+          "what": "Pass or fail and failure bin for every die, kept with the lot record."
+        },
+        {
+          "name": "Parametric tests",
+          "what": "Transistor and resistor test structures in the scribe lanes, measured before dicing."
+        },
+        {
+          "name": "Final test",
+          "what": "The packaged part is tested again at speed and temperature."
+        }
+      ],
+      "failures": [
+        {
+          "id": "bigdie",
+          "name": "Die twice as wide",
+          "what": "A 20 mm die has four times the area: only 148 fit on the wafer and about 99 are good on this one, so each good die costs about 187 dollars instead of about 33.",
+          "demo": {
+            "side": 20
+          }
+        },
+        {
+          "id": "dirty",
+          "name": "Dirty process",
+          "what": "Five times the defect density drops the modelled yield from 91 % to 63 %. The cost per good die rises by about 45 %.",
+          "demo": {
+            "D0": 0.5
+          }
+        },
+        {
+          "id": "coverage",
+          "name": "Test coverage 90 %",
+          "what": "With 90 % fault coverage instead of 99 %, about ten times as many bad dies reach customers: roughly 9800 parts per million instead of about 1000.",
+          "demo": {
+            "cov": 0.9
+          }
+        }
+      ],
+      "photos": {
+        "result": "Wafer_2_Zoll_bis_8_Zoll.jpg",
+        "tool_candidates": [
+          "cand_wafer_prober",
+          "cand_dicing_tape",
+          "cand_stealth_dicing",
+          "cand_wire_bond",
+          "cand_wedge_bond"
+        ]
+      },
+      "leave_out": [
+        "Every defect is a killer and every die with one fails; real tests bin dies by speed and by which block failed, and some defects are repaired with spare memory rows.",
+        "The defect level uses the Williams–Brown formula, which assumes faults are equally likely and independent.",
+        "Wafer cost is a reported figure for a leading-edge node; probe, assembly and final test costs are not added.",
+        "Dicing, pick and bond are drawn, not simulated."
+      ]
+    },
+    {
+      "id": "release",
+      "step": "gaa_release",
+      "area": "modules",
+      "title": "Free the nanosheets",
+      "tool": "Selective etch chamber",
+      "safety_tier": 1,
+      "model": "release",
+      "solved": "A gate-all-around transistor needs its gate to wrap every side of each silicon sheet, so the sheets have to float free. They are grown stacked with silicon–germanium in between, and once the dummy gate is gone an etch that eats silicon–germanium far faster than silicon hollows out the gaps. Stop too early and a stringer of SiGe bridges the sheets; etch too long, or with too little selectivity, and the sheets themselves thin unevenly.",
+      "refs": [
+        "loubet2017",
+        "plummer2000"
+      ],
+      "stages": [
+        {
+          "id": "open",
+          "label": "Open",
+          "beginner": "The fake gate that held the shape is removed, opening a slot across the stacked sheets.",
+          "engineer": "The dummy polysilicon gate is pulled out after the source and drain are grown, exposing the Si/SiGe stack only inside the gate opening. Inner spacers already sit at both ends of each SiGe layer.",
+          "process": "The opening must be clean of residues; anything left on the SiGe ends slows the etch locally and makes the release uneven along the device."
+        },
+        {
+          "id": "attack",
+          "label": "Etch starts",
+          "beginner": "An etchant starts eating the silicon–germanium layers from both open sides.",
+          "engineer": "The etch is selective: it removes SiGe S times faster than silicon. The fronts move inwards from both edges of each sheet at the same rate.",
+          "process": "The chemistry is a vapour or plasma process tuned to germanium content; its details are proprietary."
+        },
+        {
+          "id": "meet",
+          "label": "Fronts meet",
+          "beginner": "The two etch fronts meet in the middle, and the silicon sheets are hanging free.",
+          "engineer": "Release takes a lateral etch of W/2. Every bit of silicon that was uncovered on the way has been etched at the slower rate, so the edges of each sheet, uncovered first, have lost the most.",
+          "process": "Freed sheets can stick together if a liquid dries between them, which is one reason dry or vapour-phase etches are preferred here."
+        },
+        {
+          "id": "over",
+          "label": "Over-etch",
+          "beginner": "The etch runs a little longer to make sure nothing is left between the sheets.",
+          "engineer": "Over-etch f guards against wide sheets and slow spots, but now only silicon is exposed, and every face thins by (W/2)·f / S.",
+          "process": "Over-etch is set from the widest device on the chip and from the run-to-run spread of the etch rate."
+        },
+        {
+          "id": "inspect",
+          "label": "Inspect",
+          "beginner": "The freed sheets are checked under an electron microscope before the gate goes in.",
+          "engineer": "Sheet thickness and any leftover SiGe are measured on cross-sections. A thinner sheet has a higher threshold voltage and lower drive current, and a stringer leaves the gate unable to wrap the sheet.",
+          "process": "Scatterometry measures the stack non-destructively on every wafer; cross-sections confirm it on samples."
+        }
+      ],
+      "tools": [
+        {
+          "id": "selective",
+          "name": "Selective SiGe etch chamber",
+          "refs": [
+            "loubet2017"
+          ]
+        },
+        {
+          "id": "tem",
+          "name": "Transmission electron microscope",
+          "refs": [
+            "loubet2017"
+          ]
+        }
+      ],
+      "timeline": [
+        {
+          "when": "2017",
+          "event": "Stacked nanosheet gate-all-around transistors shown as the successor to FinFET",
+          "refs": [
+            "loubet2017"
+          ]
+        },
+        {
+          "when": "2025",
+          "event": "Nanosheet transistors enter volume production at the 2 nm class",
+          "refs": [
+            "tsmc_n2"
+          ]
+        }
+      ],
+      "metrology": [
+        {
+          "name": "Cross-section TEM",
+          "what": "Sheet thickness, gap and leftover SiGe on sampled devices."
+        },
+        {
+          "name": "Scatterometry",
+          "what": "Optical measurement of the stack profile on every wafer."
+        }
+      ],
+      "failures": [
+        {
+          "id": "lowsel",
+          "name": "Selectivity only 20 : 1",
+          "what": "With a less selective etch the sheet edges thin from 5 nm to about 3.2 nm while the centre keeps 4.7 nm. The thin edges change the threshold voltage across the sheet.",
+          "demo": {
+            "S": 20
+          }
+        },
+        {
+          "id": "under",
+          "name": "Etch stopped short",
+          "what": "A 20 % under-etch leaves a 6 nm stringer of SiGe bridging the sheets. The gate cannot wrap them, so the device fails.",
+          "demo": {
+            "over": -0.2
+          }
+        },
+        {
+          "id": "wide",
+          "name": "Sheets twice as wide",
+          "what": "A 60 nm sheet needs twice the lateral etch, so its edges are exposed twice as long: they thin to about 4.3 nm instead of 4.6 nm. Wide sheets carry more current but release less evenly.",
+          "demo": {
+            "W": 60
+          }
+        }
+      ],
+      "photos": {
+        "result": "Doublegate_FinFET-en.svg",
+        "tool_candidates": []
+      },
+      "leave_out": [
+        "The etch rates are uniform and constant; real lateral etches slow as the cavity deepens and depend on germanium content and strain.",
+        "Selectivity and sheet dimensions are teaching values, chosen to show the trends.",
+        "Each sheet is etched identically; real stacks differ from top to bottom.",
+        "The inner spacers are drawn as fixed walls; their own formation, a separate recess-and-fill step, is not simulated."
+      ]
+    },
+    {
+      "id": "planar",
+      "step": "planar_hoerni",
+      "area": "history",
+      "title": "Hoerni’s planar junction",
+      "tool": "Diffusion furnace",
+      "safety_tier": 0,
+      "model": "planar",
+      "solved": "Early transistors were mesas: the junction ran out to an exposed, etched edge where every speck of contamination made it leak. In 1959 Jean Hoerni kept the oxide that had masked the diffusion and left it in place, so the junction surfaced under glass. The same step made the integrated circuit possible. Its weak point is the curved edge of the junction, where the field crowds and breakdown comes first.",
+      "refs": [
+        "hoerni1962",
+        "frosch1957",
+        "noyce_patent",
+        "sze_gibbons1966",
+        "sze_gibbons_curv1966",
+        "sze2006",
+        "plummer2000",
+        "riordan1997"
+      ],
+      "stages": [
+        {
+          "id": "oxide",
+          "label": "Grow oxide",
+          "beginner": "The whole wafer is coated with a thin layer of glass grown from its own silicon.",
+          "engineer": "Frosch and Derick found in 1957 that silicon dioxide blocks the common dopants; a thin grown layer is enough to mask a diffusion.",
+          "process": "The oxide is grown thermally, as in the oxidation theatre, so it is dense and its interface with silicon is clean."
+        },
+        {
+          "id": "window",
+          "label": "Open window",
+          "beginner": "A window is etched through the glass where the junction should be.",
+          "engineer": "Photolithography defines the window and an etch removes the oxide only there. The edge of the window sets where the junction reaches the surface.",
+          "process": "The oxide etch chemistry is institution-only; the resist protects the rest of the oxide."
+        },
+        {
+          "id": "predep",
+          "label": "Predeposit",
+          "beginner": "Boron is soaked into the silicon through the window only.",
+          "engineer": "A constant-source predeposition sets the boron dose, as in the diffusion theatre.",
+          "process": "The dopant source is institution-only. Control wafers record the sheet resistance."
+        },
+        {
+          "id": "drive",
+          "label": "Drive in",
+          "beginner": "A second bake pushes the boron deeper and grows fresh glass over the window.",
+          "engineer": "During drive-in the dopant spreads sideways under the oxide edge as well as down, so the junction curves up to the surface with a radius about equal to its depth, and meets the surface already buried under oxide.",
+          "process": "Oxidising during the drive-in reseals the window, which is the essence of the planar idea: the junction never sees air."
+        },
+        {
+          "id": "bias",
+          "label": "Reverse bias",
+          "beginner": "The finished junction is tested by pushing it backwards until current suddenly flows.",
+          "engineer": "A flat junction breaks down at BV_pp, set by the lighter doping. At the curved edge the field crowds, and Sze and Gibbons' formula gives the lower voltage at which the cylindrical edge avalanches. A deeper junction has a gentler curve.",
+          "process": "High-voltage devices add guard rings and field plates around the junction to spread the field at the edge."
+        }
+      ],
+      "tools": [
+        {
+          "id": "furnace_pl",
+          "name": "Diffusion furnace",
+          "refs": [
+            "plummer2000"
+          ]
+        },
+        {
+          "id": "curve_tracer",
+          "name": "Curve tracer for breakdown",
+          "refs": [
+            "sze2006"
+          ]
+        }
+      ],
+      "timeline": [
+        {
+          "when": "1957",
+          "event": "Frosch and Derick: silicon dioxide masks dopant diffusion",
+          "refs": [
+            "frosch1957"
+          ]
+        },
+        {
+          "when": "1959",
+          "event": "Hoerni files the planar process, keeping the oxide over the junction",
+          "refs": [
+            "hoerni1962"
+          ]
+        },
+        {
+          "when": "1959",
+          "event": "Noyce files the planar integrated circuit, with metal running over the oxide",
+          "refs": [
+            "noyce_patent"
+          ]
+        },
+        {
+          "when": "1966",
+          "event": "Sze and Gibbons quantify how junction curvature lowers breakdown",
+          "refs": [
+            "sze_gibbons_curv1966"
+          ]
+        }
+      ],
+      "metrology": [
+        {
+          "name": "Breakdown voltage",
+          "what": "Reverse current traced against voltage until avalanche."
+        },
+        {
+          "name": "Junction depth",
+          "what": "Angle-lap and stain, or a groove, reveals the depth on test wafers."
+        },
+        {
+          "name": "Sheet resistance",
+          "what": "Four-point probe on the diffused layer."
+        }
+      ],
+      "failures": [
+        {
+          "id": "shallow",
+          "name": "Shallow junction",
+          "what": "A ten-minute drive-in gives a 0.93 µm junction. Its sharper edge breaks down at about 114 V, only a third of the 347 V a flat junction on this substrate would hold.",
+          "demo": {
+            "t2": 10
+          }
+        },
+        {
+          "id": "doped",
+          "name": "Heavier substrate",
+          "what": "Ten times the substrate doping cuts the flat-junction breakdown from 347 V to about 62 V, and the edge to about 43 V. Lighter doping is the main lever for high voltage.",
+          "demo": {
+            "NB": 1e+16
+          }
+        },
+        {
+          "id": "deep",
+          "name": "Deep drive-in",
+          "what": "Four hours at a higher drive-in temperature give a 6.5 µm junction. The gentler curve lets the edge hold about 208 V, 60 % of the flat value.",
+          "demo": {
+            "T2": 1150,
+            "t2": 240
+          }
+        }
+      ],
+      "photos": {
+        "result": "Early_Transistor.jpg",
+        "tool_candidates": [
+          "cand_diffusion_furnace"
+        ]
+      },
+      "leave_out": [
+        "The edge is a cylinder of radius equal to the junction depth; real lateral diffusion is about 80 % of the depth, and the corners of a square window are spherical and break down lower still.",
+        "The Sze–Gibbons curvature formula is only valid for edge radii up to about the depletion width, so the plot stops there.",
+        "Breakdown uses the abrupt one-sided junction formulas; a diffused junction is graded, which raises breakdown somewhat.",
+        "Boron segregation into the growing oxide and surface charge in the oxide, both of which shift the edge field, are not modelled.",
+        "The predeposition is fixed; only the drive-in and the substrate change."
+      ]
+    }
+  ]
+}

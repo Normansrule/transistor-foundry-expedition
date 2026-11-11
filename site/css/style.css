@@ -25,7 +25,7 @@
   --r-sm: 6px; --r: 10px; --r-lg: 16px;
   --gutter: clamp(16px, 4vw, 48px);
   --maxw: 1240px;
-  --display: "Oxanium", "Bahnschrift", "DIN Alternate", "Segoe UI", system-ui, sans-serif;
+  --display: "Space Grotesk", "Oxanium", "Bahnschrift", "DIN Alternate", "Segoe UI", system-ui, sans-serif;
   --body: "IBM Plex Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
   --ease: cubic-bezier(.2,.7,.2,1);
@@ -94,7 +94,8 @@ p { margin: 0; }
   .nm-wide { display: none; } .nm-narrow { display: inline; }
   .nm-pages-h { display: block; } .nav-menu-panel .nm-pages { display: grid; }
 }
-@media (max-width: 1280px) and (min-width: 1101px) { .brand-lead { display: none; } }
+@media (max-width: 1520px) and (min-width: 1101px) { .brand-lead { display: none; } }
+@media (max-width: 1280px) and (min-width: 1101px) { .nav-pages a { padding-inline: 8px; } .nav .wrap { gap: 14px; } }
 
 /* ---------- hero ---------- */
 .hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--line); isolation: isolate; }

@@ -25,5 +25,9 @@
 | 21 | [From transistor to computer: the Circuit Lab](21-circuit-lab.md) | 1967–2026 | ![](../figures/sram_cell.png) |
 | 22 | [The physics of making chips: the Process Lab](22-process-lab.md) | 1964–2026 | ![](../figures/process_yield_em.png) |
 | 23 | [The transistor as an amplifier: the Analog & RF Lab](23-analog-rf-lab.md) | 1920–2026 | ![](../figures/analog_gain_ft.png) |
+| 24 | [The Fab Journey: one lot through the fab](24-fab-journey.md) | 1970s–2026 | ![](../figures/lithography.png) |
+| 25 | [A real cleanroom run, checked against the models](25-real-cleanroom-run.md) | 2021–2024 | ![](../figures/process_oxidation.png) |
+
+Step-by-step process manuals (photomask, lithography, etch, planarization) are in [manuals/](manuals/README.md).
 
 Citations are written as an at-sign key in square brackets, e.g. `[@kilby1976]`. Every key resolves to an entry in [REFERENCES.md](../REFERENCES.md) (search the page for the key); `tests/test_data.py` fails if one does not.

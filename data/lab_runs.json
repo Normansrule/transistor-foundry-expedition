@@ -1,0 +1,637 @@
+{
+ "_about": "One real teaching-cleanroom run (2024, Ronan Loberg and Aleksander Norman). Measured values come from the two students' run records; process context and earlier runs of the same recipe from the process manual. Wet-etch chemistry and the dopant source are institution-only (safety tier 3), so their recipes are not published: only what they produced. Used by the Process Lab section 'A real cleanroom run' (site/js/processlab/labrun.js) and checked by tests/test_labrun.py.",
+ "schema_version": 1,
+ "run": {
+  "id": "teaching_nmos_2024",
+  "setting": "university teaching cleanroom",
+  "term": "2024",
+  "people": "Ronan Loberg and Aleksander Norman",
+  "wafer": "3-inch p-type (100) silicon",
+  "process": "4-mask NMOS (ACTV, POLY, CONT, METL) with phosphorus-doped polysilicon gates and aluminium wiring",
+  "refs": [
+   "cleanroom_run_fab2024",
+   "cleanroom_run_char2024",
+   "teaching_process_manual2023"
+  ]
+ },
+ "steps": [
+  {
+   "n": 1,
+   "fab_step": "ox_thermal",
+   "title": "Field oxidation",
+   "tier": 2,
+   "recipe": [
+    {
+     "param": "Furnace temperature",
+     "value": 1000,
+     "unit": "°C"
+    },
+    {
+     "param": "Dry–wet–dry",
+     "value": "5–90–5",
+     "unit": "min"
+    }
+   ],
+   "measured": [
+    {
+     "param": "Field oxide",
+     "value": 548,
+     "unit": "nm"
+    }
+   ],
+   "refs": [
+    "cleanroom_run_fab2024",
+    "teaching_process_manual2023"
+   ],
+   "note": "A thick oxide everywhere first: it will isolate one transistor from the next."
+  },
+  {
+   "n": 2,
+   "fab_step": "litho_expose",
+   "title": "ACTV lithography and oxide etch",
+   "tier": 1,
+   "recipe": [
+    {
+     "param": "Dehydration bake",
+     "value": "110 °C, 10",
+     "unit": "min"
+    },
+    {
+     "param": "Adhesion primer vapour",
+     "value": 5,
+     "unit": "min"
+    },
+    {
+     "param": "Resist spin",
+     "value": "3000 rpm, 30",
+     "unit": "s"
+    },
+    {
+     "param": "Soft bake",
+     "value": "90 °C, 90",
+     "unit": "s"
+    },
+    {
+     "param": "i-line exposure",
+     "value": 9,
+     "unit": "s"
+    },
+    {
+     "param": "Develop",
+     "value": 60,
+     "unit": "s"
+    }
+   ],
+   "measured": [
+    {
+     "param": "Mean width change after litho",
+     "value": -0.09,
+     "unit": "µm"
+    },
+    {
+     "param": "Mean width change after etch",
+     "value": 2.48,
+     "unit": "µm"
+    }
+   ],
+   "refs": [
+    "cleanroom_run_fab2024",
+    "teaching_process_manual2023"
+   ],
+   "conceptual": "The oxide is then dissolved through the resist openings in a wet oxide etch. That chemistry is institution-only, so only its result is shown.",
+   "note": "Opens windows in the field oxide where transistors will sit."
+  },
+  {
+   "n": 3,
+   "fab_step": "ox_thermal",
+   "title": "Gate oxidation",
+   "tier": 2,
+   "recipe": [
+    {
+     "param": "Dry O₂ furnace",
+     "value": "1100 °C, 60",
+     "unit": "min"
+    }
+   ],
+   "measured": [
+    {
+     "param": "Gate oxide",
+     "value": 114,
+     "unit": "nm"
+    }
+   ],
+   "refs": [
+    "cleanroom_run_fab2024"
+   ],
+   "note": "A thin, clean, dry oxide: the insulator under every gate."
+  },
+  {
+   "n": 4,
+   "fab_step": "dep_pvd",
+   "title": "Polysilicon deposition (staff)",
+   "tier": 3,
+   "recipe": [],
+   "measured": [
+    {
+     "param": "Polysilicon",
+     "value": 420,
+     "unit": "nm"
+    }
+   ],
+   "refs": [
+    "cleanroom_run_fab2024",
+    "teaching_process_manual2023"
+   ],
+   "note": "Low-pressure chemical vapour deposition at about 615 °C, run by cleanroom staff. The source gas is institution-only."
+  },
+  {
+   "n": 5,
+   "fab_step": "litho_expose",
+   "title": "POLY lithography and etch",
+   "tier": 1,
+   "recipe": [],
+   "measured": [
+    {
+     "param": "Mean width change after etch",
+     "value": -1.34,
+     "unit": "µm"
+    },
+    {
+     "param": "ACTV–POLY misalignment x, y",
+     "value": "0.5, 0.2",
+     "unit": "µm"
+    }
+   ],
+   "refs": [
+    "cleanroom_run_fab2024"
+   ],
+   "conceptual": "Polysilicon and then gate oxide are etched wet, leaving gates self-aligned for the next step.",
+   "note": "Defines the gates. Lines come out narrower than drawn because a wet etch undercuts the resist."
+  },
+  {
+   "n": 6,
+   "fab_step": "diffuse_predep",
+   "title": "Source and drain doping",
+   "tier": 3,
+   "recipe": [],
+   "measured": [],
+   "refs": [
+    "cleanroom_run_fab2024",
+    "teaching_process_manual2023"
+   ],
+   "note": "Phosphorus diffuses in from a spin-on dopant film in a 1050 °C furnace. Dopant sources are institution-only, so this stays conceptual. The gate masks the channel, so source and drain line up with it by themselves."
+  },
+  {
+   "n": 7,
+   "fab_step": "anneal",
+   "title": "Drive-in and intermediate oxidation",
+   "tier": 2,
+   "recipe": [
+    {
+     "param": "Furnace",
+     "value": "1050 °C, 37",
+     "unit": "min"
+    }
+   ],
+   "measured": [
+    {
+     "param": "Intermediate oxide (bare-silicon control)",
+     "value": 62.9,
+     "unit": "nm"
+    },
+    {
+     "param": "Reading on the device wafer",
+     "value": "608–629",
+     "unit": "nm"
+    }
+   ],
+   "refs": [
+    "cleanroom_run_fab2024",
+    "teaching_process_manual2023"
+   ],
+   "note": "Heat drives the phosphorus deeper and grows an insulating oxide over everything."
+  },
+  {
+   "n": 8,
+   "fab_step": "litho_expose",
+   "title": "CONT lithography and etch",
+   "tier": 1,
+   "recipe": [],
+   "measured": [
+    {
+     "param": "Mean width change after etch",
+     "value": 2.39,
+     "unit": "µm"
+    },
+    {
+     "param": "POLY–CONT misalignment x, y",
+     "value": "−1.4, 0.5",
+     "unit": "µm"
+    }
+   ],
+   "refs": [
+    "cleanroom_run_fab2024"
+   ],
+   "conceptual": "Contact holes are etched wet through the oxide down to silicon and polysilicon.",
+   "note": "Contact holes came out widest of all: agitation in the etch bath sped it up."
+  },
+  {
+   "n": 9,
+   "fab_step": "dep_pvd",
+   "title": "Aluminium evaporation",
+   "tier": 2,
+   "recipe": [],
+   "measured": [
+    {
+     "param": "Aluminium sheet resistance",
+     "value": 0.1229,
+     "unit": "Ω/sq"
+    }
+   ],
+   "refs": [
+    "cleanroom_run_fab2024",
+    "teaching_process_manual2023"
+   ],
+   "note": "Aluminium is evaporated from a heated tungsten boat in vacuum and coats the whole wafer."
+  },
+  {
+   "n": 10,
+   "fab_step": "litho_expose",
+   "title": "METL lithography, etch and sinter",
+   "tier": 1,
+   "recipe": [
+    {
+     "param": "Sinter",
+     "value": "400 °C, 20",
+     "unit": "min"
+    }
+   ],
+   "measured": [
+    {
+     "param": "Mean width change after etch",
+     "value": -0.88,
+     "unit": "µm"
+    }
+   ],
+   "refs": [
+    "cleanroom_run_fab2024"
+   ],
+   "conceptual": "Aluminium is etched wet into wires and pads; a gentle sinter lets it bond to the silicon.",
+   "note": "The finished chip: resistors, diodes, capacitors, MOSFETs, an inverter and ring oscillators."
+  }
+ ],
+ "oxides": [
+  {
+   "id": "field",
+   "label": "Field oxide, 2024 (this run)",
+   "steps": [
+    [
+     "dry",
+     1000,
+     5
+    ],
+    [
+     "wet",
+     1000,
+     90
+    ],
+    [
+     "dry",
+     1000,
+     5
+    ]
+   ],
+   "measured_nm": 548,
+   "refs": [
+    "cleanroom_run_fab2024"
+   ]
+  },
+  {
+   "id": "field2023",
+   "label": "Field oxide, 2023 run",
+   "steps": [
+    [
+     "dry",
+     1000,
+     5
+    ],
+    [
+     "wet",
+     1000,
+     88
+    ],
+    [
+     "dry",
+     1000,
+     5
+    ]
+   ],
+   "measured_nm": 445,
+   "refs": [
+    "teaching_process_manual2023"
+   ]
+  },
+  {
+   "id": "field2021",
+   "label": "Field oxide, 2021 run",
+   "steps": [
+    [
+     "dry",
+     1000,
+     5
+    ],
+    [
+     "wet",
+     1000,
+     125
+    ],
+    [
+     "dry",
+     1000,
+     5
+    ]
+   ],
+   "measured_nm": 522,
+   "refs": [
+    "teaching_process_manual2023"
+   ]
+  },
+  {
+   "id": "gate",
+   "label": "Gate oxide, 2024",
+   "steps": [
+    [
+     "dry",
+     1100,
+     60
+    ]
+   ],
+   "measured_nm": 114,
+   "refs": [
+    "cleanroom_run_fab2024"
+   ]
+  },
+  {
+   "id": "inter",
+   "label": "Intermediate oxide, 2024",
+   "steps": [
+    [
+     "dry",
+     1050,
+     37
+    ]
+   ],
+   "measured_nm": 62.9,
+   "refs": [
+    "cleanroom_run_fab2024"
+   ]
+  }
+ ],
+ "cd_bias": {
+  "features_um": [
+   2,
+   3,
+   4,
+   8
+  ],
+  "refs": [
+   "cleanroom_run_fab2024"
+  ],
+  "masks": [
+   {
+    "mask": "ACTV",
+    "kind": "opening",
+    "film": "field oxide",
+    "t_um": 0.548,
+    "litho": [
+     0.0408,
+     -0.24,
+     -0.1372,
+     -0.03
+    ],
+    "etch": [
+     2.014,
+     1.0712,
+     2.9694,
+     3.86
+    ]
+   },
+   {
+    "mask": "POLY",
+    "kind": "line",
+    "film": "polysilicon",
+    "t_um": 0.42,
+    "litho": [
+     -0.163,
+     0.1082,
+     0.1064,
+     0.5086
+    ],
+    "etch": [
+     -0.3,
+     -1.556,
+     -1.553,
+     -1.955
+    ]
+   },
+   {
+    "mask": "CONT",
+    "kind": "opening",
+    "film": "intermediate oxide over the field (assumed)",
+    "t_um": 0.629,
+    "litho": [
+     0.06,
+     0.7674,
+     0.7088,
+     0.3568
+    ],
+    "etch": [
+     2.089,
+     1.948,
+     2.815,
+     2.6978
+    ]
+   },
+   {
+    "mask": "METL",
+    "kind": "line",
+    "film": "aluminium (thickness not measured)",
+    "t_um": null,
+    "litho": [
+     0.069,
+     -0.192,
+     -0.157,
+     -0.165
+    ],
+    "etch": [
+     -0.9896,
+     -0.9382,
+     -0.86,
+     -0.736
+    ]
+   }
+  ]
+ },
+ "resistors": [
+  {
+   "id": "2a",
+   "label": "Diffused (n⁺ silicon) 4-point resistor",
+   "R_ohm": 57.1,
+   "L_um": 201,
+   "W_um": 11,
+   "Rs_manual": 3,
+   "refs": [
+    "cleanroom_run_char2024",
+    "teaching_char_manual2024"
+   ]
+  },
+  {
+   "id": "2b",
+   "label": "Polysilicon 4-point resistor",
+   "R_ohm": 203,
+   "L_um": 199,
+   "W_um": 9,
+   "Rs_manual": 3,
+   "refs": [
+    "cleanroom_run_char2024",
+    "teaching_char_manual2024"
+   ]
+  }
+ ],
+ "capacitors": [
+  {
+   "id": "3",
+   "label": "Field-oxide capacitor",
+   "area_um2": 40000,
+   "t_nm": 548,
+   "C_pf": 9.5,
+   "refs": [
+    "cleanroom_run_char2024"
+   ]
+  },
+  {
+   "id": "4",
+   "label": "Gate-oxide capacitor",
+   "area_um2": 57600,
+   "t_nm": 114,
+   "C_pf": 5.95,
+   "refs": [
+    "cleanroom_run_char2024"
+   ]
+  },
+  {
+   "id": "5",
+   "label": "Intermediate-oxide capacitor",
+   "area_um2": 40000,
+   "t_nm": 62.9,
+   "C_pf": 35.5,
+   "refs": [
+    "cleanroom_run_char2024"
+   ]
+  }
+ ],
+ "cv_freq_hz": 1000000.0,
+ "mosfets": [
+  {
+   "id": "8a",
+   "group": "gate length",
+   "vt": -2.0,
+   "ion_ua": 192.25,
+   "ioff_ua": 47.3,
+   "works": false
+  },
+  {
+   "id": "8b",
+   "group": "gate length",
+   "vt": -1.0,
+   "ion_ua": 65.4,
+   "ioff_ua": 4.35,
+   "works": true
+  },
+  {
+   "id": "8c",
+   "group": "gate length",
+   "vt": 0.0,
+   "ion_ua": 35.3,
+   "ioff_ua": 1.32,
+   "works": true
+  },
+  {
+   "id": "8d",
+   "group": "gate length",
+   "vt": 0.0,
+   "ion_ua": 28.7,
+   "ioff_ua": 1.39,
+   "works": true
+  },
+  {
+   "id": "9a",
+   "group": "gate width",
+   "vt": -1.5,
+   "ion_ua": 5.18,
+   "ioff_ua": 1.33,
+   "works": true
+  },
+  {
+   "id": "9b",
+   "group": "gate width",
+   "vt": -1.0,
+   "ion_ua": 6.83,
+   "ioff_ua": 1.37,
+   "works": true
+  },
+  {
+   "id": "9c",
+   "group": "gate width",
+   "vt": -1.8,
+   "ion_ua": 9.26,
+   "ioff_ua": 2.27,
+   "works": true
+  },
+  {
+   "id": "10",
+   "group": "other",
+   "vt": -3.0,
+   "ion_ua": 10.1,
+   "ioff_ua": 4.98,
+   "works": true
+  },
+  {
+   "id": "11",
+   "group": "field-oxide MOSFET",
+   "vt": 7.5,
+   "ion_ua": 1.84,
+   "ioff_ua": 0.0027,
+   "works": true,
+   "field": true
+  }
+ ],
+ "mosfet_refs": [
+  "cleanroom_run_char2024"
+ ],
+ "diode": {
+  "turn_on_v": 0.44,
+  "breakdown_v": -16.8,
+  "rho_n": 0.001,
+  "rho_p": 1.0,
+  "refs": [
+   "cleanroom_run_char2024",
+   "teaching_char_manual2024"
+  ]
+ },
+ "inverter": {
+  "vout_at_0": 0.053,
+  "refs": [
+   "cleanroom_run_char2024"
+  ]
+ },
+ "substrate": {
+  "rho_manual_ohm_cm": 1.0,
+  "rs_measured_ohm_sq": 8.74,
+  "wafer_um": 380,
+  "refs": [
+   "cleanroom_run_fab2024",
+   "teaching_char_manual2024"
+  ]
+ }
+}

@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="css/physics.css">
 <link rel="stylesheet" href="css/circuits.css">
 <link rel="stylesheet" href="css/process.css">
+<link rel="stylesheet" href="css/traveler.css">
 <script defer src="vendor/katex/katex.min.js"></script>
 <script>document.documentElement.classList.add('js')</script>
 </head>
@@ -29,10 +30,12 @@
     </a>
     <div class="nav-pages">
       <a href="index.html">History</a>
+      <a href="fab.html">Fab Journey</a>
       <a href="devices.html">Device Atlas</a>
       <a href="physics.html">Physics Lab</a>
       <a href="circuits.html">Circuit Lab</a>
       <a href="process.html" aria-current="page">Process Lab</a>
+      <a href="manuals.html">Manuals</a>
       <a href="analog.html">Analog &amp; RF</a>
     </div>
     <details class="nav-menu">
@@ -41,10 +44,12 @@
         <p class="nm-h nm-pages-h">Pages</p>
         <ul class="nm-pages">
           <li><a href="index.html">History</a></li>
+          <li><a href="fab.html">Fab Journey</a></li>
           <li><a href="devices.html">Device Atlas</a></li>
           <li><a href="physics.html">Physics Lab</a></li>
           <li><a href="circuits.html">Circuit Lab</a></li>
           <li><a href="process.html" aria-current="page">Process Lab</a></li>
+          <li><a href="manuals.html">Manuals</a></li>
           <li><a href="analog.html">Analog &amp; RF</a></li>
         </ul>
         <p class="nm-h">On this page</p>
@@ -99,6 +104,8 @@
       <li><a href="#yield"><span>03</span>Yield &amp; cost</a></li>
       <li class="pl-toc-part">Back end</li>
       <li><a href="#em"><span>04</span>Electromigration</a></li>
+      <li class="pl-toc-part">Model meets measurement</li>
+      <li><a href="#labrun"><span>05</span>A real cleanroom run</a></li>
       <li><a href="#pr-sources"><span>§</span>Sources</a></li>
     </ol>
   </nav>
@@ -251,6 +258,55 @@
     </div>
   </section>
 
+  <div class="pl-part" id="part-lab"><span class="pl-part-n">Part IV</span><h2>Model meets measurement</h2><p>One real wafer from a university teaching cleanroom, measured step by step and checked against the models above.</p></div>
+
+  <section class="lab-sec" id="labrun" aria-labelledby="labrun-h">
+    <header class="lab-head">
+      <span class="lab-num" aria-hidden="true">05</span>
+      <div>
+        <span class="eyebrow">A teaching cleanroom, 2024</span>
+        <h2 id="labrun-h">A real cleanroom run, checked against the models</h2>
+        <p class="lead">In autumn 2024 two students, Ronan Loberg and Aleksander Norman, took a bare 3-inch p-type wafer through a university teaching cleanroom’s four-mask NMOS process, then probed every device they made. Their logbook is a rare thing: a full set of recipes and measurements from one wafer. Here it meets the models on this page. Some predictions land within a few per cent. Others miss by a factor of three, and the misses teach the most.</p>
+      </div>
+    </header>
+    <ol class="lr-trav" aria-label="The ten steps of the four-mask NMOS process, with recipe and measured result"></ol>
+    <div class="lab-grid">
+      <aside class="card panel lab-ctl" aria-label="Controls for comparing the run with the models"></aside>
+      <div class="lab-view">
+        <div class="lab-tiles"></div>
+        <div class="plots">
+          <div class="card plot" data-role="ox"><h4>Oxide thickness: Deal–Grove against the furnace</h4><p class="sub">Filled dots are this run; open dots are the same field-oxide recipe in 2021 and 2023. Hollow circles show √(Bt), the shortcut that ignores the linear term.</p></div>
+          <div class="card plot" data-role="cd"><h4>Lithography is precise; wet etching is not</h4><p class="sub">Width change of 2, 3, 4 and 8 µm test lines after developing and after etching. The dashed line is an isotropic etch through the film at the chosen over-etch.</p></div>
+          <div class="card plot" data-role="vt"><h4>Threshold voltages and the charge in the oxide</h4><p class="sub">Measured threshold of each MOSFET against the ideal long-channel value with no oxide charge. Change the substrate resistivity to see how the gap moves.</p></div>
+          <div class="card plot" data-role="cv"><h4>Oxide capacitors: ideal, modelled meter and measured</h4><p class="sub">Parallel-plate values from the measured oxide thickness and drawn area, against the 1 MHz readings. Add series resistance or stray capacitance to the meter model.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="lab-learn">
+      <div class="card pl-card pl-try"><h3>Try this</h3><div class="lab-exp"></div></div>
+      <div class="card pl-card pl-eqs"><h3>The physics</h3>
+        <div class="eq" data-tex="x_{i}^2 + A\,x_{i} = B\,(t_i+\tau_i)"></div>
+        <div class="eq" data-tex="\tau_i=\frac{x_{i-1}^2+A\,x_{i-1}}{B}"></div>
+        <div class="eq" data-tex="\Delta W = 2\,t_{film}\,(1+f_{over})"></div>
+        <div class="eq" data-tex="V_T = \phi_{ms} - \frac{qN_{ox}}{C_{ox}} + 2\phi_B + \frac{\sqrt{2\varepsilon_{Si}qN_A\,2\phi_B}}{C_{ox}}"></div>
+        <div class="eq" data-tex="C_{read} = C_p + \frac{C}{1+(\omega R C)^2}"></div>
+        <div class="eq" data-tex="R_s = R\,\frac{W}{L}"></div>
+        <p class="small">Each oxidation step restarts Deal–Grove from the thickness the last one left. Wet etching is treated as perfectly isotropic. Doping comes from resistivity through Caughey–Thomas mobility. The gate is n⁺ polysilicon (work function at the conduction band) and the field device’s gate is aluminium (4.1 eV). The meter model is a parallel-mode reading of a capacitor with a series resistance.</p>
+      </div>
+      <div class="card pl-card pl-real"><h3>What the models leave out</h3>
+        <ul class="small">
+          <li>Furnace reality: ramp-up and ramp-down, boat position, gas flow and how much water the bubbler really delivers. The process manual notes this furnace grows less oxide than Deal–Grove.</li>
+          <li>Dopant segregation into the growing oxide, which lowers the surface doping under the field oxide and changes the field device’s threshold.</li>
+          <li>Where the oxide charge sits and what it is (mobile ions, fixed charge, interface traps), and short-channel effects in the smallest MOSFETs.</li>
+          <li>Probe damage and contact resistance: the students note that pads got scratched as the session went on.</li>
+          <li>The intermediate oxide’s second reading (608–629 nm) was most likely taken over the field oxide, where the model gives 558 nm.</li>
+        </ul>
+        <p class="small">Python reference: <a href="https://github.com/Normansrule/transistor-foundry-expedition/blob/main/sim/transistor_sim/physics/labrun.py" rel="noopener"><code>sim/transistor_sim/physics/labrun.py</code></a> · browser twin checked against it in CI. Data: <code>data/lab_runs.json</code>.</p>
+        <div class="refchips" data-refs="cleanroom_run_fab2024 cleanroom_run_char2024 teaching_process_manual2023 teaching_char_manual2024 dealgrove1965 caughey1967 sze2006 hu2010 jaeger2002"></div>
+      </div>
+    </div>
+  </section>
+
   <section class="lab-sec" id="pr-sources" aria-labelledby="src-h">
     <header class="lab-head"><span class="lab-num" aria-hidden="true">§</span><div><span class="eyebrow">Sources</span><h2 id="src-h">Where the numbers come from</h2>
     <p class="lead">Original papers, process textbooks and published wafer-cost data. The full bibliography is in <a href="https://github.com/Normansrule/transistor-foundry-expedition/blob/main/REFERENCES.md">REFERENCES.md</a>; Chapter 22 of the docs walks through each lab.</p></div></header>
@@ -269,5 +325,6 @@
 
 <script type="module" src="js/processlab/main.js"></script>
 <script type="module" src="js/nav.js"></script>
+<script type="module" src="js/traveler.js"></script>
 </body>
 </html>

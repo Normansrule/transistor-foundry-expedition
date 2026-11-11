@@ -94,13 +94,18 @@
    ],
    "requires": [],
    "problem": "Every transistor needs a near-perfect single crystal to sit in.",
-   "physics": "Czochralski growth pulls one crystal from molten silicon; the ingot is sliced, lapped and polished to a mirror finish.",
-   "model": null,
+   "physics": "Czochralski growth pulls one crystal from molten silicon; the crystal takes in only a fraction k of the melt's dopant, so resistivity drifts along the ingot (Scheil). The ingot is sliced, lapped and polished to a mirror finish.",
+   "model": {
+    "py": "sim/transistor_sim/physics/czochralski.py",
+    "js": "site/js/physics/czochralski.js",
+    "lab": "fab.html#proc-czochralski"
+   },
    "recipe": [],
    "needs_source": [
     "Ingot diameter and pull-rate ranges: check Plummer et al. 2000, ch. 3 [@plummer2000]"
    ],
    "metrology": [
+    "resistivity along the ingot",
     "flatness",
     "particle count"
    ],
@@ -112,7 +117,10 @@
    "timeline": [],
    "safety_tier": 0,
    "refs": [
-    "plummer2000"
+    "plummer2000",
+    "trumbore1960",
+    "scheil1942",
+    "czochralski1918"
    ],
    "depth": {
     "beginner": "",
@@ -135,11 +143,13 @@
    ],
    "problem": "A single particle or a trace of metal on the surface can kill a die.",
    "physics": "Wet chemical cleans remove organics, oxide and metal ions; explained conceptually only (institution-only chemistry).",
-   "model": null,
+   "model": {
+    "py": "sim/transistor_sim/physics/cleaning.py",
+    "js": "site/js/physics/cleaning.js",
+    "lab": "fab.html#proc-cleaning"
+   },
    "recipe": [],
-   "needs_source": [
-    "Primary source for the RCA clean (Kern and Puotinen 1970) to be added to references.json"
-   ],
+   "needs_source": [],
    "metrology": [
     "particle count",
     "surface metals"
@@ -153,7 +163,10 @@
    ],
    "timeline": [],
    "safety_tier": 3,
-   "refs": [],
+   "refs": [
+    "kern1970",
+    "kern1990"
+   ],
    "depth": {
     "beginner": "",
     "engineer": "",
@@ -179,7 +192,62 @@
     "js": "site/js/physics/oxidation.js",
     "lab": "process.html#oxide"
    },
-   "recipe": [],
+   "recipe": [
+    {
+     "param": "Field oxidation temperature (dry–wet–dry)",
+     "min": 1000,
+     "max": 1000,
+     "unit": "°C",
+     "track": "teaching_cmos",
+     "refs": [
+      "cleanroom_run_fab2024",
+      "teaching_process_manual2023"
+     ]
+    },
+    {
+     "param": "Field oxidation wet time",
+     "min": 88,
+     "max": 125,
+     "unit": "min",
+     "track": "teaching_cmos",
+     "refs": [
+      "cleanroom_run_fab2024",
+      "teaching_process_manual2023"
+     ]
+    },
+    {
+     "param": "Field oxide thickness",
+     "min": 445,
+     "max": 548,
+     "unit": "nm",
+     "track": "teaching_cmos",
+     "refs": [
+      "cleanroom_run_fab2024",
+      "teaching_process_manual2023"
+     ]
+    },
+    {
+     "param": "Gate oxidation, dry O₂",
+     "min": 1100,
+     "max": 1100,
+     "unit": "°C",
+     "track": "teaching_cmos",
+     "refs": [
+      "cleanroom_run_fab2024"
+     ]
+    },
+    {
+     "param": "Gate oxide thickness",
+     "min": 70,
+     "max": 114,
+     "unit": "nm",
+     "track": "teaching_cmos",
+     "refs": [
+      "cleanroom_run_fab2024",
+      "teaching_process_manual2023"
+     ]
+    }
+   ],
    "needs_source": [
     "Furnace temperature and time ranges for gate and field oxides: Plummer et al. 2000, ch. 6 [@plummer2000]"
    ],
@@ -214,7 +282,9 @@
    "refs": [
     "dealgrove1965",
     "atalla1959",
-    "hollauer_dg"
+    "hollauer_dg",
+    "cleanroom_run_fab2024",
+    "teaching_process_manual2023"
    ],
    "depth": {
     "beginner": "",
@@ -233,7 +303,7 @@
     "historical_planar"
    ],
    "requires": [
-    "ox_thermal"
+    "rca_clean"
    ],
    "problem": "Every layer needs a pattern; resolution sets how small the transistor can be.",
    "physics": "Light through a mask images the pattern into a photosensitive resist; resolution scales as k1·λ/NA (Rayleigh).",
@@ -242,7 +312,49 @@
     "js": "site/js/physics/litho.js",
     "lab": "physics.html#litho"
    },
-   "recipe": [],
+   "recipe": [
+    {
+     "param": "Resist spin speed",
+     "min": 3000,
+     "max": 3000,
+     "unit": "rpm",
+     "track": "teaching_cmos",
+     "refs": [
+      "cleanroom_run_fab2024"
+     ]
+    },
+    {
+     "param": "Soft bake",
+     "min": 90,
+     "max": 90,
+     "unit": "°C",
+     "track": "teaching_cmos",
+     "refs": [
+      "cleanroom_run_fab2024",
+      "teaching_process_manual2023"
+     ]
+    },
+    {
+     "param": "i-line contact exposure",
+     "min": 9,
+     "max": 9,
+     "unit": "s",
+     "track": "teaching_cmos",
+     "refs": [
+      "cleanroom_run_fab2024"
+     ]
+    },
+    {
+     "param": "Overlay error, manual aligner",
+     "min": 0.2,
+     "max": 1.4,
+     "unit": "µm",
+     "track": "teaching_cmos",
+     "refs": [
+      "cleanroom_run_fab2024"
+     ]
+    }
+   ],
    "needs_source": [
     "Wavelength, NA and k1 per generation (g-line to High-NA EUV): Levinson 2019 [@levinson2019] and ASML [@asml_euv]",
     "New model: depth of focus and EUV line-edge roughness (twin + tests)"
@@ -267,7 +379,9 @@
     "levinson2019",
     "mack2007",
     "bakshi2018",
-    "asml_euv"
+    "asml_euv",
+    "cleanroom_run_fab2024",
+    "teaching_process_manual2023"
    ],
    "depth": {
     "beginner": "",
@@ -369,6 +483,68 @@
    "status": "seed"
   },
   {
+   "id": "diffuse_predep",
+   "area": "doping",
+   "title": "Diffuse dopant in from a surface source",
+   "tracks": [
+    "teaching_cmos",
+    "historical_planar"
+   ],
+   "requires": [
+    "ox_thermal",
+    "litho_expose"
+   ],
+   "problem": "Junctions need dopant placed only where the oxide is open, at a controlled dose and depth.",
+   "physics": "A constant-concentration source gives an erfc profile (predeposition); with the source removed, a second bake spreads the fixed dose into a Gaussian (drive-in).",
+   "model": {
+    "py": "sim/transistor_sim/physics/diffusion.py",
+    "js": "site/js/physics/diffusion.js",
+    "lab": "fab.html#proc-diffusion"
+   },
+   "recipe": [],
+   "needs_source": [],
+   "metrology": [
+    "four-point probe sheet resistance",
+    "diffused test resistor"
+   ],
+   "failure_modes": [
+    "shallow junction from high background",
+    "high sheet resistance from short predeposition"
+   ],
+   "photos": [],
+   "timeline": [
+    {
+     "year": 1957,
+     "event": "Oxide masks dopant diffusion",
+     "refs": [
+      "frosch1957"
+     ]
+    },
+    {
+     "year": 1962,
+     "event": "Planar process: diffusion through oxide windows",
+     "refs": [
+      "hoerni1962"
+     ]
+    }
+   ],
+   "safety_tier": 3,
+   "refs": [
+    "plummer2000",
+    "jaeger2002",
+    "uiuc_diffusivity",
+    "frosch1957",
+    "hoerni1962",
+    "teaching_process_manual2023"
+   ],
+   "depth": {
+    "beginner": "",
+    "engineer": "",
+    "process": ""
+   },
+   "status": "seed"
+  },
+  {
    "id": "anneal",
    "area": "doping",
    "title": "Anneal to activate and repair",
@@ -382,11 +558,34 @@
    "problem": "Implanted atoms sit off-lattice and the crystal is damaged.",
    "physics": "Heat moves dopants onto lattice sites and repairs damage, while diffusion spreads the profile (furnace, rapid thermal, laser spike).",
    "model": {
-    "py": "sim/transistor_sim/physics/implant.py",
-    "js": "site/js/physics/implant.js",
-    "lab": "process.html#implant"
+    "py": "sim/transistor_sim/physics/anneal.py",
+    "js": "site/js/physics/anneal.js",
+    "lab": "fab.html#proc-anneal"
    },
-   "recipe": [],
+   "recipe": [
+    {
+     "param": "Drive-in and intermediate oxidation",
+     "min": 1050,
+     "max": 1050,
+     "unit": "°C",
+     "track": "teaching_cmos",
+     "refs": [
+      "cleanroom_run_fab2024",
+      "teaching_process_manual2023"
+     ]
+    },
+    {
+     "param": "Drive-in time",
+     "min": 37,
+     "max": 37,
+     "unit": "min",
+     "track": "teaching_cmos",
+     "refs": [
+      "cleanroom_run_fab2024",
+      "teaching_process_manual2023"
+     ]
+    }
+   ],
    "needs_source": [
     "Anneal regimes (furnace, RTA, spike, laser): Plummer et al. 2000 [@plummer2000]"
    ],
@@ -396,7 +595,11 @@
    "timeline": [],
    "safety_tier": 2,
    "refs": [
-    "plummer2000"
+    "plummer2000",
+    "cleanroom_run_fab2024",
+    "teaching_process_manual2023",
+    "fair1993",
+    "eaglesham1994"
    ],
    "depth": {
     "beginner": "",
@@ -495,7 +698,11 @@
    ],
    "problem": "To put the gate on all four sides of each channel, the sacrificial SiGe between sheets must go.",
    "physics": "A selective etch removes SiGe from a Si/SiGe superlattice; inner spacers protect the source and drain.",
-   "model": null,
+   "model": {
+    "py": "sim/transistor_sim/physics/release.py",
+    "js": "site/js/physics/release.js",
+    "lab": "fab.html#proc-release"
+   },
    "recipe": [],
    "needs_source": [],
    "metrology": [],
@@ -534,9 +741,9 @@
    "problem": "Copper cannot be plasma-etched cleanly, but it conducts far better than aluminium.",
    "physics": "Trenches and vias are etched in the dielectric, lined with a barrier, filled with copper and polished back.",
    "model": {
-    "py": "sim/transistor_sim/physics/electromigration.py",
-    "js": "site/js/physics/electromigration.js",
-    "lab": "process.html#em"
+    "py": "sim/transistor_sim/physics/damascene.py",
+    "js": "site/js/physics/damascene.js",
+    "lab": "fab.html#proc-damascene"
    },
    "recipe": [],
    "needs_source": [],
@@ -554,48 +761,10 @@
    "refs": [
     "black1969",
     "blech1976",
-    "korhonen1993"
-   ],
-   "depth": {
-    "beginner": "",
-    "engineer": "",
-    "process": ""
-   },
-   "status": "seed"
-  },
-  {
-   "id": "probe_dice_bond",
-   "area": "backend",
-   "title": "Probe, dice and bond",
-   "tracks": [
-    "teaching_cmos",
-    "modern_gaa",
-    "historical_planar"
-   ],
-   "requires": [
-    "damascene"
-   ],
-   "problem": "Only working dies are worth packaging.",
-   "physics": "Probe cards test each die on the wafer; the wafer is diced and dies are wire-bonded or flip-chip mounted.",
-   "model": {
-    "py": "sim/transistor_sim/physics/yieldcost.py",
-    "js": "site/js/physics/yieldcost.js",
-    "lab": "process.html#yield"
-   },
-   "recipe": [],
-   "needs_source": [],
-   "metrology": [],
-   "failure_modes": [],
-   "photos": [
-    "cand_wafer_prober",
-    "cand_dicing_tape",
-    "cand_wire_bond"
-   ],
-   "timeline": [],
-   "safety_tier": 0,
-   "refs": [
-    "stapper1973",
-    "tsmc_3dfabric"
+    "korhonen1993",
+    "kaanta1991",
+    "edelstein1997",
+    "gall2016"
    ],
    "depth": {
     "beginner": "",
@@ -612,11 +781,15 @@
     "historical_planar"
    ],
    "requires": [
-    "ox_thermal"
+    "diffuse_predep"
    ],
    "problem": "Mesa transistors had exposed junctions that were fragile and unreliable.",
    "physics": "Oxide is left on the wafer as a mask and a protective layer over the junctions; everything stays flat.",
-   "model": null,
+   "model": {
+    "py": "sim/transistor_sim/physics/planar.py",
+    "js": "site/js/physics/planar.js",
+    "lab": "fab.html#proc-planar"
+   },
    "recipe": [],
    "needs_source": [],
    "metrology": [],
@@ -634,7 +807,9 @@
    "safety_tier": 0,
    "refs": [
     "hoerni1962",
-    "riordan1997"
+    "riordan1997",
+    "frosch1957",
+    "sze_gibbons_curv1966"
    ],
    "depth": {
     "beginner": "",
@@ -642,6 +817,90 @@
     "process": ""
    },
    "status": "seed"
+  },
+  {
+   "id": "evap_al",
+   "area": "deposition",
+   "title": "Evaporate aluminium leads",
+   "tracks": [
+    "historical_planar"
+   ],
+   "requires": [
+    "planar_hoerni"
+   ],
+   "problem": "The planar transistor needs metal leads that reach the junctions through the oxide without shorting them.",
+   "physics": "Aluminium is heated in a vacuum until it evaporates and condenses on the cooler wafer; the oxide insulates the leads from the silicon everywhere except at the contact windows, which is the heart of Noyce's patent.",
+   "model": null,
+   "recipe": [],
+   "needs_source": [],
+   "metrology": [
+    "sheet resistance",
+    "contact resistance"
+   ],
+   "failure_modes": [
+    "shadowing at steep oxide steps",
+    "aluminium spiking through shallow junctions"
+   ],
+   "photos": [
+    "cand_magnetron"
+   ],
+   "timeline": [],
+   "safety_tier": 1,
+   "refs": [
+    "noyce_patent",
+    "hoerni1962"
+   ],
+   "depth": {
+    "beginner": "",
+    "engineer": "",
+    "process": ""
+   },
+   "status": "seed"
+  },
+  {
+   "id": "probe_dice_bond",
+   "area": "backend",
+   "title": "Probe, dice and bond",
+   "tracks": [
+    "teaching_cmos",
+    "modern_gaa",
+    "historical_planar"
+   ],
+   "requires": [],
+   "problem": "Only working dies are worth packaging.",
+   "physics": "Probe cards test each die on the wafer; the wafer is diced and dies are wire-bonded or flip-chip mounted.",
+   "model": {
+    "py": "sim/transistor_sim/physics/probe.py",
+    "js": "site/js/physics/probe.js",
+    "lab": "fab.html#proc-probe"
+   },
+   "recipe": [],
+   "needs_source": [],
+   "metrology": [],
+   "failure_modes": [],
+   "photos": [
+    "cand_wafer_prober",
+    "cand_dicing_tape",
+    "cand_wire_bond"
+   ],
+   "timeline": [],
+   "safety_tier": 0,
+   "refs": [
+    "stapper1973",
+    "tsmc_3dfabric",
+    "murphy1964",
+    "williams1981"
+   ],
+   "depth": {
+    "beginner": "",
+    "engineer": "",
+    "process": ""
+   },
+   "status": "seed",
+   "requires_any": [
+    "dep_pvd",
+    "evap_al"
+   ]
   }
  ]
 }

@@ -75,3 +75,39 @@ def printed_cd(x, I, pitch_nm, threshold=0.3):
 
 def k1(pitch_nm, lam_nm, NA):
     return pitch_nm / 2 * NA / lam_nm
+
+
+# --- Process-theatre helpers (v1.12) ----------------------------------------
+# Rayleigh scaling (Levinson 2019; Mack 2007): half-pitch HP = k1·λ/NA and
+# depth of focus DOF = k2·λ/NA². k1 and k2 are process factors, not constants.
+# Photon counting (De Bisschop 2017): a dose D (mJ/cm²) of photons of energy
+# E = hc/λ delivers N = D/E photons per unit area; Poisson statistics give a
+# relative fluctuation 1/√N in any area. EUV photons carry ~14× the energy of
+# ArF photons, so the same dose brings ~14× fewer of them.
+HC_EV_NM = 6.62607015e-34 * 299792458.0 / 1.602176634e-19 * 1e9   # hc in eV·nm (SI 2019 exact constants; CODATA 2018)
+
+
+def half_pitch(lam_nm, NA, k1=0.25):
+    """Rayleigh half-pitch k1·λ/NA (nm)."""
+    return k1 * lam_nm / NA
+
+
+def depth_of_focus(lam_nm, NA, k2=1.0):
+    """Rayleigh depth of focus k2·λ/NA² (nm)."""
+    return k2 * lam_nm / NA ** 2
+
+
+def photon_energy_ev(lam_nm):
+    return HC_EV_NM / lam_nm
+
+
+def photons_per_nm2(dose_mJ_cm2, lam_nm):
+    """Incident photons per nm² for a dose in mJ/cm² (1 cm² = 1e14 nm²)."""
+    joules_per_nm2 = dose_mJ_cm2 * 1e-3 / 1e14
+    return joules_per_nm2 / (photon_energy_ev(lam_nm) * 1.602176634e-19)
+
+
+def shot_noise(dose_mJ_cm2, lam_nm, side_nm):
+    """Mean photon count and relative 1σ fluctuation in a square side_nm × side_nm."""
+    n = photons_per_nm2(dose_mJ_cm2, lam_nm) * side_nm ** 2
+    return n, 1.0 / math.sqrt(n)

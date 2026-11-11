@@ -1,0 +1,118 @@
+/* Lot Traveler (v1.12): the design layer shared by every page.
+   A fab "lot traveler" is the card that rides with each wafer lot and is stamped as every step
+   finishes. The site borrows it: a lot strip under the nav, numbered steps, perforated sheets and
+   stamps that land as you finish a section. Loaded after each page's own CSS. */
+
+:root {
+  --m-si: #4b596d; --m-sich: #7b8ca5; --m-oxide: #8fcfd4; --m-sti: #6fa9b3; --m-poly: #c95c50; --m-metal: #e2b650;
+  --m-highk: #9a80dc; --m-spacer: #cfd6e0; --m-n: #3f7fe0; --m-p: #e07f3f; --m-cu: #d9825b; --m-sige: #b58fd6;
+  --m-resist: #e07fb0;
+  --perf: radial-gradient(circle at 0 50%, var(--bg) 4px, transparent 4.5px) 0 0 / 12px 18px repeat-y;
+  --stamp-ease: cubic-bezier(.2, 1.6, .4, 1);
+}
+
+/* ---------- type: Space Grotesk wants slightly tighter display tracking ---------- */
+h1, h2 { letter-spacing: -0.025em; }
+h1 { font-weight: 700; }
+
+/* ---------- film grain, very faint, never interactive ---------- */
+body::after {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 1; opacity: .035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+@media print { body::after { display: none; } }
+
+/* ---------- lot strip: a slim traveler bar under the nav ---------- */
+.lot-strip {
+  position: sticky; top: calc(58px + env(safe-area-inset-top, 0px)); z-index: 45;
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px dashed var(--line-2);
+  font: 500 11px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
+}
+.lot-strip .wrap { display: flex; align-items: center; gap: 14px; height: 30px; min-width: 0; }
+.lot-strip .lot-id { color: var(--amber); white-space: nowrap; flex: none; }
+.lot-strip .lot-step { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; flex: 1 1 auto; }
+.lot-strip .lot-step b { color: var(--ink); font-weight: 600; }
+.lot-rail { display: flex; gap: 4px; flex: none; align-items: center; }
+.lot-rail a { display: block; width: 14px; height: 14px; border-radius: 3px; border: 1px solid var(--line-2); position: relative; }
+.lot-rail a:hover { border-color: var(--amber); }
+.lot-rail a.now { border-color: var(--amber); box-shadow: 0 0 0 2px rgba(242,184,75,.18); }
+.lot-rail a.done { background: var(--amber); border-color: var(--amber); }
+.lot-rail a.done::after { content: ""; position: absolute; left: 4px; top: 1px; width: 3px; height: 7px; border: solid var(--amber-ink); border-width: 0 1.5px 1.5px 0; transform: rotate(45deg); }
+@media (max-width: 720px) {
+  .lot-strip .lot-id .lot-long { display: none; }
+  .lot-rail { display: none; }
+}
+/* everything sticky sits below nav + lot strip */
+.pl-toc { top: 100px; }
+.lab-ctl { top: 104px; max-height: calc(100vh - 120px); }
+.lab-sec, .pl-part, .sec, section[id] { scroll-margin-top: 96px; }
+
+/* ---------- stamps ---------- */
+.stamp {
+  display: inline-grid; place-items: center; flex: none;
+  width: 58px; height: 58px; border-radius: 50%;
+  border: 2px solid var(--amber); color: var(--amber);
+  font: 700 10px/1.05 var(--mono); letter-spacing: .06em; text-align: center; text-transform: uppercase;
+  transform: rotate(-12deg); opacity: .92;
+  box-shadow: inset 0 0 0 3px transparent, inset 0 0 0 4px rgba(242,184,75,.35);
+  user-select: none;
+}
+.stamp small { display: block; font: 500 8px var(--mono); letter-spacing: .08em; opacity: .8; }
+.stamp.sm { width: 44px; height: 44px; font-size: 8.5px; }
+.stamp.dim { border-color: var(--line-2); color: var(--muted); opacity: .55; box-shadow: none; }
+.stamp.hold { border-color: var(--m-p); color: var(--m-p); box-shadow: inset 0 0 0 4px rgba(224,127,63,.3); }
+.stamp.good { border-color: #39c47a; color: #5fd896; box-shadow: inset 0 0 0 4px rgba(57,196,122,.3); }
+.stamp.land { animation: stampLand .5s var(--stamp-ease) both; }
+@keyframes stampLand {
+  0% { transform: rotate(-30deg) scale(1.9); opacity: 0; }
+  60% { transform: rotate(-10deg) scale(.94); opacity: 1; }
+  100% { transform: rotate(-12deg) scale(1); opacity: .92; }
+}
+/* section stamps (added by traveler.js to each section head) */
+.sec-stamp { position: absolute; right: 0; top: 0; pointer-events: none; }
+.sec-stamp .stamp { opacity: 0; }
+.sec-stamp.on .stamp { opacity: .92; }
+.sec-stamp.on .stamp.land { animation: stampLand .5s var(--stamp-ease) both; }
+.has-sec-stamp { position: relative; padding-right: 76px; }
+@media (max-width: 600px) { .has-sec-stamp { padding-right: 0; } .sec-stamp { top: -6px; } .sec-stamp .stamp { width: 44px; height: 44px; font-size: 8.5px; } }
+
+/* step numbers on the eyebrow of every section */
+.step-no { font: 600 11px/1 var(--mono); color: var(--amber-ink); background: var(--amber); padding: 3px 6px; border-radius: 3px; letter-spacing: .06em; }
+.eyebrow .step-no { margin-right: 2px; }
+
+/* ---------- traveler sheet ---------- */
+.sheet { background: var(--surface); border: 1px solid var(--line-2); border-radius: 6px; position: relative; }
+.sheet::before { content: ""; position: absolute; left: -1px; top: 18px; bottom: 18px; width: 12px; background: var(--perf); pointer-events: none; }
+.lotno { font: 600 12px var(--mono); letter-spacing: .12em; color: var(--amber); text-transform: uppercase; }
+.trow {
+  display: grid; grid-template-columns: 52px minmax(0, 1.3fr) minmax(0, 1fr) 90px 60px; align-items: center; gap: 14px;
+  padding: 10px 16px 10px 26px; border-bottom: 1px dashed var(--line-2); font-size: 14px;
+}
+.trow:last-child { border-bottom: 0; }
+.trow.head { font: 500 10.5px var(--mono); letter-spacing: .1em; color: var(--muted); text-transform: uppercase; padding-block: 9px; }
+.trow .n { font: 600 13px var(--mono); color: var(--muted); }
+.trow .t { color: var(--ink); font-weight: 500; min-width: 0; }
+.trow .d { color: var(--ink-2); font-size: 13px; min-width: 0; }
+.trow.now { background: linear-gradient(90deg, rgba(242,184,75,.10), transparent 70%); }
+.trow.now .n { color: var(--amber); }
+.trow .stamp { justify-self: end; }
+@media (max-width: 640px) {
+  .trow { grid-template-columns: 40px minmax(0, 1fr) 48px; gap: 10px; padding-left: 22px; }
+  .trow > :nth-child(3), .trow > :nth-child(4) { display: none; }
+}
+
+/* ---------- small shared bits ---------- */
+.cite { font: 11px/1.5 var(--mono); color: var(--muted); }
+.cite a { color: var(--ink-2); }
+.tier { display: inline-flex; align-items: center; gap: 6px; font: 500 11px var(--mono); padding: 4px 9px; border-radius: 999px; border: 1px solid var(--line-2); color: var(--ink-2); white-space: nowrap; }
+.tier[data-t="2"] { border-color: rgba(224,127,63,.55); color: #f0a26b; }
+.tier[data-t="3"] { border-color: rgba(229,83,83,.6); color: #f08a8a; }
+
+/* ---------- footer: end of route ---------- */
+.foot-stamp { grid-column: 1 / -1; display: flex; align-items: center; gap: 14px; margin-bottom: 14px; font: 500 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+
+@media (prefers-reduced-motion: reduce) {
+  .stamp.land, .sec-stamp.on .stamp.land { animation: none; }
+}

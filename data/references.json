@@ -327,6 +327,12 @@
    "cite": "C. Mead, L. Conway, Introduction to VLSI Systems, Addison-Wesley (1980)."
   },
   {
+   "id": "uehara1981",
+   "cat": "Circuits",
+   "cite": "T. Uehara and W. M. vanCleemput, \"Optimal Layout of CMOS Functional Arrays,\" IEEE Transactions on Computers C-30(5), 305–312 (1981).",
+   "doi": "10.1109/TC.1981.1675787"
+  },
+  {
    "id": "weste2010",
    "cat": "Design",
    "cite": "N. H. E. Weste, D. M. Harris, CMOS VLSI Design: A Circuits and Systems Perspective, 4th ed., Addison-Wesley (2010)."
@@ -1755,7 +1761,7 @@
   {
    "id": "tuttle_implant",
    "cat": "Process lab",
-   "cite": "G. Tuttle, \"EE 432/532 Ion implantation examples,\" Iowa State University (B 80 keV: Rp ≈ 0.24 µm; P 100 keV: Rp ≈ 0.12 µm).",
+   "cite": "G. Tuttle, \"Ion implantation examples,\" microfabrication notes, Iowa State University (B 80 keV: Rp ≈ 0.24 µm; P 100 keV: Rp ≈ 0.12 µm).",
    "url": "https://gtuttle.net/fabrication/topics/ion_implantation_examples.pdf"
   },
   {
@@ -1879,6 +1885,247 @@
    "cat": "Analog & RF lab",
    "cite": "Computer History Museum, \"1952: Transistorized Consumer Products Appear,\" The Silicon Engine: the Sonotone hearing aid (1952) and the Regency TR-1 radio (October 1954, four germanium junction transistors).",
    "url": "https://www.computerhistory.org/siliconengine/transistorized-consumer-products-appear/"
+  },
+  {
+   "id": "debisschop2017",
+   "cat": "Lithography",
+   "cite": "P. De Bisschop, \"Stochastic Effects in EUV Lithography: Random, Local CD Variability, and Printing Failures,\" J. Micro/Nanolith. MEMS MOEMS 16(4), 041013 (2017).",
+   "doi": "10.1117/1.JMM.16.4.041013"
+  },
+  {
+   "id": "codata2018",
+   "cat": "Physics lab",
+   "cite": "E. Tiesinga, P. J. Mohr, D. B. Newell, B. N. Taylor, \"CODATA Recommended Values of the Fundamental Physical Constants: 2018,\" Rev. Mod. Phys. 93, 025010 (2021).",
+   "doi": "10.1103/RevModPhys.93.025010"
+  },
+  {
+   "id": "preston1927",
+   "cat": "Process lab",
+   "cite": "F. W. Preston, \"The Theory and Design of Plate Glass Polishing Machines,\" J. Soc. Glass Technol. 11, 214 (1927)."
+  },
+  {
+   "id": "coburn1989",
+   "cat": "Process lab",
+   "cite": "J. W. Coburn, H. F. Winters, \"Conductance Considerations in the Reactive Ion Etching of High Aspect Ratio Features,\" Appl. Phys. Lett. 55, 2730 (1989).",
+   "doi": "10.1063/1.101937"
+  },
+  {
+   "id": "george2010",
+   "cat": "Process lab",
+   "cite": "S. M. George, \"Atomic Layer Deposition: An Overview,\" Chem. Rev. 110, 111 (2010).",
+   "doi": "10.1021/cr900056b"
+  },
+  {
+   "id": "stine1998",
+   "cat": "Process lab",
+   "cite": "B. E. Stine, D. O. Ouma, R. R. Divecha, D. S. Boning, J. E. Chung et al., \"Rapid Characterization and Modeling of Pattern-Dependent Variation in Chemical-Mechanical Polishing,\" IEEE Trans. Semicond. Manuf. 11(1), 129 (1998)."
+  },
+  {
+   "id": "cleanroom_run_fab2024",
+   "cat": "Process lab",
+   "cite": "R. Loberg and A. Norman, \"Four-mask NMOS fabrication run: process record and in-line measurements,\" university teaching cleanroom (2024), unpublished; measured data shared by the authors."
+  },
+  {
+   "id": "cleanroom_run_char2024",
+   "cat": "Process lab",
+   "cite": "R. Loberg and A. Norman, \"Four-mask NMOS fabrication run: electrical characterization,\" university teaching cleanroom (2024), unpublished; measured data shared by the authors."
+  },
+  {
+   "id": "teaching_process_manual2023",
+   "cat": "Process lab",
+   "cite": "Fabrication process manual for a four-mask NMOS teaching process, with records of earlier runs, university teaching cleanroom (2023), unpublished."
+  },
+  {
+   "id": "teaching_char_manual2024",
+   "cat": "Process lab",
+   "cite": "Characterization manual for a four-mask NMOS teaching process: probing conditions for resistors, diodes, capacitors and MOSFETs, university teaching cleanroom (2024), unpublished."
+  },
+  {
+   "id": "norman2024_nmos_design",
+   "cat": "Process lab",
+   "cite": "A. Norman, \"Design of a 25 nm-gate n-type MOSFET by device simulation,\" (2024), unpublished."
+  },
+  {
+   "id": "jaeger2002",
+   "cat": "Process",
+   "cite": "R. C. Jaeger, Introduction to Microelectronic Fabrication, 2nd ed., Modular Series on Solid State Devices Vol. V, Prentice Hall (2002), ISBN 0-201-44494-1."
+  },
+  {
+   "id": "schweiger2023",
+   "cat": "Process",
+   "cite": "S. F. G. Schweiger, Additive Manufacturing on Chip, Dr.-Ing. dissertation, Brandenburg University of Technology Cottbus–Senftenberg (2023).",
+   "doi": "10.26127/BTUOpen-6455"
+  },
+  {
+   "id": "pagliano2022",
+   "cat": "Process",
+   "cite": "S. Pagliano, Additive Manufacturing and Integration of 3D MEMS using Ultrafast Lasers and Magnetic Assembly, doctoral thesis, KTH Royal Institute of Technology, Stockholm (2022)."
+  },
+  {
+   "id": "fraunhofer_2pp",
+   "cat": "Process",
+   "cite": "Fraunhofer Institute for Silicate Research ISC, \"Two-photon polymerization: femtosecond laser pulses as a tool for true 3D micromachining,\" technology sheet (2016).",
+   "url": "https://www.isc.fraunhofer.de/"
+  },
+  {
+   "id": "czochralski1918",
+   "cat": "Process",
+   "cite": "J. Czochralski, \"Ein neues Verfahren zur Messung der Kristallisationsgeschwindigkeit der Metalle,\" Z. Phys. Chem. 92, 219 (1918)."
+  },
+  {
+   "id": "teal1950",
+   "cat": "Process",
+   "cite": "G. K. Teal, J. B. Little, \"Growth of Germanium Single Crystals,\" Phys. Rev. 78, 647 (1950)."
+  },
+  {
+   "id": "scheil1942",
+   "cat": "Process",
+   "cite": "E. Scheil, \"Bemerkungen zur Schichtkristallbildung,\" Z. Metallkd. 34, 70 (1942)."
+  },
+  {
+   "id": "trumbore1960",
+   "cat": "Process",
+   "cite": "F. A. Trumbore, \"Solid Solubilities of Impurity Elements in Germanium and Silicon,\" Bell Syst. Tech. J. 39, 205 (1960)."
+  },
+  {
+   "id": "bps1953",
+   "cat": "Process",
+   "cite": "J. A. Burton, R. C. Prim, W. P. Slichter, \"The Distribution of Solute in Crystals Grown from the Melt. Part I. Theoretical,\" J. Chem. Phys. 21, 1987 (1953)."
+  },
+  {
+   "id": "fair1993",
+   "cat": "Process",
+   "cite": "R. B. Fair (ed.), Rapid Thermal Processing: Science and Technology, Academic Press (1993)."
+  },
+  {
+   "id": "eaglesham1994",
+   "cat": "Process",
+   "cite": "D. J. Eaglesham, P. A. Stolk, H.-J. Gossmann, J. M. Poate, \"Implantation and Transient B Diffusion in Si: The Source of the Interstitials,\" Appl. Phys. Lett. 65, 2305 (1994)."
+  },
+  {
+   "id": "dash1959",
+   "cat": "Process",
+   "cite": "W. C. Dash, \"Growth of Silicon Crystals Free from Dislocations,\" J. Appl. Phys. 30, 459 (1959)."
+  },
+  {
+   "id": "nanolab_cmos150",
+   "cat": "Process",
+   "cite": "UC Berkeley Marvell Nanolab, \"Run Card for cmos150\" (public baseline CMOS process traveler), step 3.0 Well Photo, Mask NWELL (2001).",
+   "url": "https://nanolab.berkeley.edu/public/process/baseline/cmos150/step3.0.htm"
+  },
+  {
+   "id": "microchem_basics",
+   "cat": "Lithography",
+   "cite": "MicroChemicals GmbH, \"Basics of Microstructuring\", chapter 1: Fundamentals of Microstructuring (spin coating and softbake).",
+   "url": "https://cores.research.asu.edu/sites/default/files/2025-01/spin_coating_photoresist.pdf"
+  },
+  {
+   "id": "willson_flow",
+   "cat": "Lithography",
+   "cite": "Willson Research Group, University of Texas at Austin, \"Lithography process flow\" (post-apply bake, exposure, post-exposure bake and chemical amplification, development) (2002).",
+   "url": "https://utw10104.utweb.utexas.edu/Research/Sub_Files/Resist_Modeling/processflow.htm"
+  },
+  {
+   "id": "kassel_euvml",
+   "cat": "Lithography",
+   "cite": "University of Kassel, Institute of Nanostructure Technologies and Analytics, \"Multilayer Structures for the Lithography in Extreme UV (EUVL)\" (typically 40 Mo/Si bilayers, reflectivity up to 70 %).",
+   "url": "https://www.uni-kassel.de/forschung/en/ina/technological-electronics/research/past-projects/multilayer-structures-for-the-lithography-in-extreme-uv-euvl.html"
+  },
+  {
+   "id": "byu_rie",
+   "cat": "Process",
+   "cite": "BYU Integrated Microfabrication Lab, \"RIE\" (Anelva DEM-451 parallel-plate 13.56 MHz reactive ion etcher: CF₄/O₂ for Si, Si₃N₄ and SiO₂; pump to 20 mTorr or less; pressure rises 20–40 mTorr when RF is on).",
+   "url": "https://www.cleanroom.byu.edu/rie"
+  },
+  {
+   "id": "ucsb_rie1",
+   "cat": "Process",
+   "cite": "UCSB Nanofabrication Facility wiki, \"RIE 1 (Custom)\" (chlorine reactive ion etcher at 13.56 MHz; GaAs at 2 mTorr Cl₂, 350 V bias, about 200 nm/min).",
+   "url": "https://wiki.nanofab.ucsb.edu/wiki/RIE_1"
+  },
+  {
+   "id": "wiki_rie",
+   "cat": "Process",
+   "cite": "Wikipedia, \"Reactive-ion etching\" (pressure a few mTorr to a few hundred mTorr; 13.56 MHz at a few hundred watts; DC self-bias of a few hundred volts; ICP sources; deep RIE).",
+   "url": "https://en.wikipedia.org/wiki/Reactive-ion_etching"
+  },
+  {
+   "id": "compugraphics_masks",
+   "cat": "Lithography",
+   "cite": "Compugraphics Photomasks, \"Education centre: what is a photomask?\" (fused-silica or soda-lime substrates with an opaque film; write, develop, etch, measure, inspect, repair, pellicle; 5 to 40+ masks per device).",
+   "url": "https://compugraphics-photomasks.com/education-centre/"
+  },
+  {
+   "id": "elveflow_masks",
+   "cat": "Lithography",
+   "cite": "S. Cargou, \"Fabrication of glass and film photomasks,\" Elveflow microfluidic reviews (2022, updated 2025) (chrome blank with anti-reflective coating and resist; laser writer with micromirror array, 0.8 µm pixels).",
+   "url": "https://elveflow.com/microfluidic-reviews/fabrication-of-glass-and-film-photomasks/"
+  },
+  {
+   "id": "wiki_photomask",
+   "cat": "Lithography",
+   "cite": "Wikipedia, \"Photomask\" (chromium on fused silica; 4× or 5× reduction; phase shifting below about 150 nm; pellicles; reflective Mo/Si EUV masks; mask costs).",
+   "url": "https://en.wikipedia.org/wiki/Photomask"
+  },
+  {
+   "id": "wiki_cmp",
+   "cat": "Process",
+   "cite": "Wikipedia, \"Chemical-mechanical polishing\" (abrasive slurry, porous polymer pads with 30–50 µm pores, use for oxide, tungsten and copper, STI overburden, defects).",
+   "url": "https://en.wikipedia.org/wiki/Chemical-mechanical_polishing"
+  },
+  {
+   "id": "williams1981",
+   "cat": "Process",
+   "cite": "T. W. Williams, N. C. Brown, \"Defect Level as a Function of Fault Coverage,\" IEEE Trans. Computers C-30(12), 987 (1981)."
+  },
+  {
+   "id": "edelstein1997",
+   "cat": "Process",
+   "cite": "D. Edelstein et al., \"Full Copper Wiring in a Sub-0.25 µm CMOS ULSI Technology,\" IEDM Tech. Dig., 773 (1997)."
+  },
+  {
+   "id": "kaanta1991",
+   "cat": "Process",
+   "cite": "C. W. Kaanta et al., \"Dual Damascene: A ULSI Wiring Technology,\" Proc. 8th IEEE VLSI Multilevel Interconnection Conf. (VMIC), 144 (1991)."
+  },
+  {
+   "id": "sze_gibbons1966",
+   "cat": "Device physics",
+   "cite": "S. M. Sze, G. Gibbons, \"Avalanche Breakdown Voltages of Abrupt and Linearly Graded p-n Junctions in Ge, Si, GaAs, and GaP,\" Appl. Phys. Lett. 8, 111 (1966)."
+  },
+  {
+   "id": "sze_gibbons_curv1966",
+   "cat": "Device physics",
+   "cite": "S. M. Sze, G. Gibbons, \"Effect of Junction Curvature on Breakdown Voltage in Semiconductors,\" Solid-State Electron. 9, 831 (1966)."
+  },
+  {
+   "id": "kern1970",
+   "cat": "Process",
+   "cite": "W. Kern, D. A. Puotinen, \"Cleaning Solutions Based on Hydrogen Peroxide for Use in Silicon Semiconductor Technology,\" RCA Review 31, 187 (1970)."
+  },
+  {
+   "id": "kern1990",
+   "cat": "Process",
+   "cite": "W. Kern, \"The Evolution of Silicon Wafer Cleaning Technology,\" J. Electrochem. Soc. 137, 1887 (1990).",
+   "doi": "10.1149/1.2086825"
+  },
+  {
+   "id": "stapper1983",
+   "cat": "Process lab",
+   "cite": "C. H. Stapper, \"Modeling of Integrated Circuit Defect Sensitivities,\" IBM J. Res. Dev. 27, 549 (1983).",
+   "doi": "10.1147/rd.276.0549"
+  },
+  {
+   "id": "istratov1999",
+   "cat": "Device physics",
+   "cite": "A. A. Istratov, H. Hieslmair, E. R. Weber, \"Iron and its Complexes in Silicon,\" Appl. Phys. A 69, 13 (1999).",
+   "doi": "10.1007/s003390050968"
+  },
+  {
+   "id": "macdonald2001",
+   "cat": "Device physics",
+   "cite": "D. Macdonald, A. Cuevas, J. Wong-Leung, \"Capture Cross Sections of the Acceptor Level of Iron–Boron Pairs in p-Type Silicon by Injection-Level Dependent Lifetime Measurements,\" J. Appl. Phys. 89, 7932 (2001).",
+   "doi": "10.1063/1.1372156"
   }
  ]
 }

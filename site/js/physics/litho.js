@@ -29,3 +29,11 @@ export function aerialImage(pitch, { lam = 193, NA = 1.35, duty = 0.5, kind = 'c
 export function contrast(I) { let mx = -Infinity, mn = Infinity; for (const v of I) { mx = Math.max(mx, v); mn = Math.min(mn, v); } return (mx - mn) / (mx + mn + 1e-300); }
 export function printedCD(x, I, pitch, th = 0.3) { let n = 0, a = 0; for (let i = 0; i < x.length; i++) if (x[i] <= pitch) { n++; if (I[i] > th) a++; } return a / n * pitch; }
 export const k1 = (pitch, lam, NA) => pitch / 2 * NA / lam;
+
+// Process-theatre helpers (v1.12) — twins of half_pitch, depth_of_focus, photons_per_nm2, shot_noise in litho.py
+export const HC_EV_NM = 6.62607015e-34 * 299792458.0 / 1.602176634e-19 * 1e9;
+export const halfPitch = (lam, NA, k1v = 0.25) => k1v * lam / NA;
+export const depthOfFocus = (lam, NA, k2 = 1.0) => k2 * lam / NA ** 2;
+export const photonEnergyEV = (lam) => HC_EV_NM / lam;
+export const photonsPerNm2 = (dose, lam) => (dose * 1e-3 / 1e14) / (photonEnergyEV(lam) * 1.602176634e-19);
+export function shotNoise(dose, lam, side) { const n = photonsPerNm2(dose, lam) * side ** 2; return { n, rel: 1 / Math.sqrt(n) }; }

@@ -3,3 +3,24 @@
 .pz-chips { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .pz-chips button { cursor: pointer; }
 .process .cz-desc { min-height: 5.6em; }
+
+/* Lab 05 — a real cleanroom run: the ten-step traveler */
+.lr-trav { list-style: none; margin: 0 0 20px; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: 12px; counter-reset: none; }
+.lr-step { display: grid; grid-template-columns: 44px 1fr; gap: 10px; padding: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); position: relative; min-width: 0; }
+.lr-step::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 3px; border-radius: var(--r) 0 0 var(--r); background: var(--s1); }
+.lr-step.t2::before { background: var(--amber); }
+.lr-step.t3::before { background: var(--s2); }
+.lr-n { font: 600 22px/1 var(--display); color: var(--muted); font-variant-numeric: tabular-nums; }
+.lr-body { min-width: 0; }
+.lr-body h4 { margin: 0 0 4px; font: 600 15px/1.25 var(--display); color: var(--ink); }
+.lr-body p { margin: 0 0 8px; font-size: 13.5px; line-height: 1.5; color: var(--ink-2); }
+.lr-dl { margin: 0 0 8px; display: grid; gap: 3px; font: 12px/1.4 var(--mono); }
+.lr-dl div { display: flex; justify-content: space-between; gap: 10px; border-bottom: 1px dashed var(--line); padding-bottom: 2px; }
+.lr-dl dt { color: var(--muted); min-width: 0; overflow-wrap: anywhere; }
+.lr-dl dd { margin: 0; color: var(--ink); text-align: right; white-space: nowrap; }
+.lr-meas dd { color: var(--amber-2); }
+.lr-concept { font-style: italic; color: var(--muted) !important; }
+.lr-tier { display: inline-block; font: 500 10.5px/1.3 var(--mono); letter-spacing: .04em; color: var(--muted); border: 1px solid var(--line-2); border-radius: 999px; padding: 2px 8px; }
+.lr-step.t3 .lr-tier { color: #f0a383; border-color: color-mix(in srgb, var(--s2) 50%, transparent); }
+#labrun .pl-real ul { padding-left: 18px; margin: 0 0 10px; }
+#labrun .pl-real li { margin-bottom: 4px; }

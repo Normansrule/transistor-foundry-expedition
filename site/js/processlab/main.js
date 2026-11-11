@@ -6,7 +6,7 @@ const $ = (s, r = document) => r.querySelector(s);
 const safe = (fn, name) => { try { return fn(); } catch (e) { console.error(name, e); } };
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const RECORD = new URLSearchParams(location.search).get('record');
-const LABS = { oxide: './oxide.js', implant: './implant.js', yield: './yield.js', em: './em.js' };
+const LABS = { oxide: './oxide.js', implant: './implant.js', yield: './yield.js', em: './em.js', labrun: './labrun.js' };
 const DWELL = 3.2, MOVE = 1.1;                              // seconds per step: hold, then animate to the next
 
 function hero() {

@@ -20,7 +20,22 @@ import * as WR from '../site/js/physics/interconnect.js';
 import * as LG from '../site/js/physics/logic.js';
 import * as SR from '../site/js/physics/sram.js';
 import * as FL from '../site/js/physics/flash.js';
+import * as GA from '../site/js/journey/gatearray.js';
+import * as ET from '../site/js/physics/etch.js';
+import * as DP from '../site/js/physics/deposition.js';
+import * as CM from '../site/js/physics/cmp.js';
+import { GATECELLS } from '../site/js/journey/data.js';
 import * as OX from '../site/js/physics/oxidation.js';
+import * as LR from '../site/js/physics/labrun.js';
+import * as DF from '../site/js/physics/diffusion.js';
+import * as CZ from '../site/js/physics/czochralski.js';
+import * as AL from '../site/js/physics/anneal.js';
+import * as DMS from '../site/js/physics/damascene.js';
+import * as PRB from '../site/js/physics/probe.js';
+import * as RLS from '../site/js/physics/release.js';
+import * as PLN from '../site/js/physics/planar.js';
+import * as CLN from '../site/js/physics/cleaning.js';
+import * as VFB from '../site/js/physics/vfab.js';
 import * as IM from '../site/js/physics/implant.js';
 import * as YC from '../site/js/physics/yieldcost.js';
 import * as EM from '../site/js/physics/electromigration.js';
@@ -62,6 +77,11 @@ check('thermal diamond+TBR', TH.peakRise('Diamond', 5.0, { tbr: 25 }).rise, ref.
 check('litho conventional', LI.contrast(LI.aerialImage(100, { sigma: 0.9 }).I), ref.litho.conv100, 1e-6);
 check('litho dipole', LI.contrast(LI.aerialImage(80, { kind: 'dipole', sigmaC: 0.89, sigmaW: 0.05 }).I), ref.litho.dip80, 1e-6);
 check('litho defocus', LI.contrast(LI.aerialImage(120, { sigma: 0.7, defocus: 80 }).I), ref.litho.def120, 1e-6);
+check('litho half-pitch', LI.halfPitch(13.5, 0.33, 0.3), ref.litho.hp_euv, 1e-9);
+check('litho DOF', LI.depthOfFocus(13.5, 0.55), ref.litho.dof_hna, 1e-9);
+check('photons EUV', LI.photonsPerNm2(30, 13.5), ref.litho.ph_euv30, 1e-9);
+check('photons ArF', LI.photonsPerNm2(30, 193), ref.litho.ph_arf30, 1e-9);
+check('shot noise', LI.shotNoise(30, 13.5, 10).rel, ref.litho.sn_euv, 1e-9);
 const devs = JSON.parse(readFileSync(new URL('../data/devices.json', import.meta.url))).devices;
 for (const d of devs) {
   const r = ref.atlas[d.id], vg = 0.5 * (d.model.vg[0] + d.model.vg[1]), vd = 0.3 * d.model.vd[1];
@@ -124,6 +144,38 @@ for (const [b, L] of Object.entries(ref.flash.levels)) {
   const st = b === '1' ? 0.5 : 0.15, j = FL.levels(+b, { step: st });
   for (const q of ['spacing', 'width', 'margin']) check(`levels ${b} bit ${q}`, j[q], L[q], 1e-12);
 }
+for (const r of ref.etch) { const e = ET.run(...r.case); check(`etch ${r.case} t_end`, e.t_end, r.t_end, 1e-9); check(`etch ${r.case} lag`, e.lag_ratio, r.lag, 1e-9);
+  e.openings.forEach((o, i) => { check(`etch ${r.case} depth ${i}`, o.depth, r.depths[i], 1e-9); check(`etch ${r.case} side ${i}`, o.side[Math.floor(o.side.length / 2)][1], r.side[i], 1e-9); }); check(`etch ${r.case} mask`, e.openings[0].mask_left, r.mask, 1e-9); }
+for (const r of ref.deposition) { const f = DP.fill(...r.case); for (const q of ['coverage', 'floor']) check(`deposition ${r.case} ${q}`, f[q], r[q], 1e-9); check(`deposition ${r.case} mid`, f.side[24], r.mid, 1e-9);
+  if (f.void !== r.void) { fails++; console.log(`FAIL deposition ${r.case} void`); } }
+for (const r of ref.cmp) { const c = CM.run(...r.case); check(`cmp ${r.case} K`, c.K, r.K, 1e-12); check(`cmp ${r.case} range`, c.range_nm, r.range, 1e-9); c.regions.forEach((g, i) => { check(`cmp ${r.case} up ${i}`, g.up, r.ups[i], 1e-9); check(`cmp ${r.case} down ${i}`, g.down, r.downs[i], 1e-9); }); }
+for (const [k, v] of Object.entries(ref.diffusion.erfc)) check(`diffusion erfc ${k}`, DF.erfc(+k), v, 1e-12);
+for (const r of ref.diffusion.runs) { const c = DF.run(...r.case); for (const q of ['dose', 'xj_pre', 'Rs_pre', 'xj', 'Rs', 'Cs_after']) check(`diffusion ${r.case[0]} ${q}`, c[q], r[q], 1e-9); }
+for (const r of ref.czochralski) { const c = CZ.run(...r.case); for (const q of ['f_usable', 'rho_tail', 'N_seed']) check(`czochralski ${r.case[0]} ${q}`, c[q], r[q], 1e-9); check(`czochralski ${r.case[0]} rho_mid`, c.rho[60], r.rho_mid, 1e-9); }
+for (const r of ref.damascene) { const c = DMS.run(...r.case.map((v) => (v === null ? null : v))); for (const q of ['rho_core', 'rho_line', 'r', 'c', 'rc', 'core_share']) check(`damascene ${r.case[0]} ${r.case[1]} ${q}`, c[q], r[q], 1e-9); }
+for (const r of ref.probe) { const c = PRB.run(...r.case); for (const q of ['n', 'good', 'Y', 'dl_ppm', 'cost']) check(`probe ${r.case[0]} ${q}`, c[q], r[q], 1e-9); }
+for (const r of ref.release) { const c = RLS.run(...r.case); for (const q of ['e', 'side', 'core', 't_edge', 't_centre', 't_mean', 'w_final', 'weff']) check(`release ${r.case[0]} ${q}`, c[q], r[q], 1e-9); }
+for (const r of ref.cleaning) { const c = CLN.run(...r.case); for (const q of ['left', 'f_kill', 'killers', 'D_add', 'Y', 'Y_dirty', 'tau_us', 'L_um']) check(`cleaning ${r.case[0]} ${q}`, c[q], r[q], 1e-9); }
+for (const r of ref.vfab) {
+  const c = VFB.run(...r.case), tag = `vfab ${r.case[0].length} steps${r.case[2] ? ' (own settings)' : ''}`;
+  for (const k of ['field', 'window']) {
+    check(`${tag} ${k} si_top`, c[k].si_top, r[k].si_top, 1e-9); check(`${tag} ${k} xj`, c[k].xj, r[k].xj, 1e-9); check(`${tag} ${k} lateral`, c[k].lateral, r[k].lateral, 1e-9);
+    check(`${tag} ${k} layers`, c[k].layers.length, r[k].layers.length, 0);
+    r[k].layers.forEach(([m, t], i) => { check(`${tag} ${k} ${m} ${i}`, c[k].layers[i]?.[1] ?? NaN, t, 1e-9); if (c[k].layers[i]?.[0] !== m) check(`${tag} ${k} material ${i}`, 1, 0, 0); });
+  }
+  r.log.forEach((l, i) => { if (l.value !== null) check(`${tag} log ${l.id}`, c.log[i].value, l.value, 1e-9); else if (c.log[i].value !== null) check(`${tag} log ${l.id} null`, 1, 0, 0); });
+}
+for (const r of ref.planar) { const c = PLN.run(...r.case); for (const q of ['xj', 'Rs', 'bv_pp', 'W_um', 'ratio', 'bv_cyl']) check(`planar ${r.case[0]} ${q}`, c[q], r[q], 1e-9); }
+for (const r of ref.anneal) { const c = AL.run(...r.case); for (const q of ['Dt', 'ramps', 't_eq', 't_total', 'xj', 'Rs']) check(`anneal ${r.case[0]} ${r.case[3]} ${q}`, c[q], r[q], 1e-6); }
+{ const L = ref.labrun;
+  LR.oxideSequence([['dry', 1000, 5], ['wet', 1000, 90], ['dry', 1000, 5]]).forEach((v, i) => check(`labrun seq ${i}`, v, L.seq[i], 1e-12));
+  check('labrun seq p', LR.oxideSequence([['wet', 1050, 37, 0.1]], '100', 0.02)[0], L.seq_p[0], 1e-12);
+  check('labrun parabolic', LR.parabolicOnly('wet', 1000, 90), L.parab, 1e-12); check('labrun p_eff', LR.effectivePressure('wet', 1050, 37, 0.0629), L.peff, 1e-9);
+  for (const [k, v] of Object.entries(L.dop)) { const [r, c] = k.split('_'); check(`labrun doping ${k}`, LR.resistivityToDoping(+r, c), v, 1e-9); }
+  check('labrun Cpp', LR.parallelPlatePf(57600, 114), L.cpp, 1e-12); check('labrun LCR', LR.lcrReadingPf(17.4, 12000), L.lcr, 1e-12); check('labrun R series', LR.seriesRForReading(17.4, 5.95), L.rser, 1e-12);
+  for (const [k, v] of Object.entries(L.vt)) { const [Na, t, g] = k.split('_'); check(`labrun VT ${k}`, LR.vtIdeal(+Na, +t, g, 5e11), v, 1e-9); }
+  check('labrun Nox', LR.oxideChargeFromVt(-1.5, 7e16, 114), L.nox, 1e-9); check('labrun Vbi', LR.builtinPotential(1.66e16, 8.5e19), L.vbi, 1e-9);
+  check('labrun bias', LR.isotropicBiasUm(0.548, 0.3), L.bias, 1e-12); check('labrun over-etch', LR.impliedOveretch(-1.341, 0.42), L.over, 1e-12); check('labrun Rs', LR.sheetFromResistor(203, 199, 9), L.rs, 1e-12); }
 for (const [k, v] of Object.entries(ref.oxidation)) { const [a, T, t, o] = k.split('_'); check(`oxide ${k}`, OX.thickness(a, +T, +t, o), v, 1e-12); }
 for (const [k, v] of Object.entries(ref.implant.ranges)) { const [i, E] = k.split('_'), r = IM.rangeStats(i, +E); for (const q of ['R', 'Rp', 'dRp']) check(`range ${k} ${q}`, r[q], v[q], 1e-9); }
 for (const [i, v] of Object.entries(ref.implant.cross)) check(`crossover ${i}`, IM.crossoverKeV(i), v, 1e-6);
@@ -151,6 +203,13 @@ check('analog vgs for 10 µA/µm', AN.vgsForCurrent(presets['2007_45nm_hkmg'], 1
 check('noise corner', AN.noiseCorner(presets['1999_180nm'], 1e-3, 10), ref.analog.noise.corner, 1e-9);
 check('noise rms', AN.noiseRms(presets['2011_22nm_finfet'], 5e-4, 4, 10, 1e7), ref.analog.noise.rms, 1e-9);
 check('noise psd', AN.noisePsd(presets['2025_2nm_gaa'], 2e-4, 1, 1e3), ref.analog.noise.psd, 1e-9);
+{ // the 4-bit ripple-carry adder on the page, evaluated stage by stage, adds like gateblocks.ripple
+  let bad = 0; const bits = (x) => [0, 1, 2, 3].map((i) => (x >> i) & 1);
+  for (let x = 0; x < 16; x++) for (let y = 0; y < 16; y++) for (const ci of [0, 1]) {
+    const { s, carry } = GA.ripple(GATECELLS.gates.fa, bits(x), bits(y), ci);
+    if (s.reduce((a, b, i) => a + (b << i), 0) + (carry[4] << 4) !== x + y + ci) bad++;
+  }
+  if (bad) fails++; console.log(`${bad ? 'FAIL' : 'ok  '} ripple-carry adder, all 512 cases (${bad} wrong)`); }
 const v = MC.simulate(1e5, { n: 1000, tPs: 3 });
 check('MC v(1e5 V/cm) within 25% of 1.07e7', v, 1.07e7, 0.25);
 if (fails) { console.error(`${fails} parity check(s) failed`); process.exit(1); }
