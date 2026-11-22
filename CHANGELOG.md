@@ -2,6 +2,102 @@
 
 All notable changes to Transistor Foundry Expedition (formerly Transistor Odyssey). Versions follow the `version` field in [CITATION.cff](CITATION.cff); `scripts/setup_ubuntu.sh` uses the newest entry as the commit message.
 
+## v1.30 — Spot the defect
+
+- **Spot the defect on the Fab Journey page (`fab.html#defects`), the last showcase on the list.** Seven challenges, each showing four features made together in one step. One failed, and the step’s own process model decided which:
+  - a 20 nm trench that closes over a void in CVD (deposition model);
+  - a 20 nm opening that does not clear at 15 % over-etch (aspect-ratio-dependent etching);
+  - a 15 % density block polished 160 nm low, beyond the 106 nm depth of focus (CMP and lithography models);
+  - a 70 nm nanosheet stack that keeps a 20 nm SiGe core (release model);
+  - a 60 µm copper line longer than its 19 µm Blech length, voiding in about 3.6 years (electromigration model);
+  - a 129 nm particle bridging a 100 nm space (the cleaning model’s 1/d³ sizes);
+  - a field lifted 90 nm out of focus, contrast 93 % → 18 % (aerial-image model).
+- Pick the feature (click or the buttons) and one of three causes, then check: 2 points each, 14 in all, kept only in your browser. The answer shows why it happened, the engineer’s equation, how a fab finds it, the fix and the model’s own numbers. **Apply the fix** reruns the step with better settings (ALD, more over-etch, dummy fill, a longer release, lower current, wider spaces, a clean chuck) and the defect disappears. `?defect=<id>` opens a challenge.
+- **New model `physics/defects.py` with its twin `js/physics/defects.js`**, built only from the existing process models. The parity test compares the shuffles and every number of all fourteen runs. New data `data/defects.json`, Chapter 29, a README section and screenshot. No new references (372). 13 new tests (441 in total).
+
+## v1.29 — Read the node, and take the site offline
+
+- **A node-reading lab on the Fab Journey page (`fab.html#nodelab`, roadmap item 8).** A drawn top view of a chip at its real pitches, with two measuring marks on sliders (or a click on the picture). Measure the gate pitch, fin pitch, metal pitch and an SRAM bitcell's width and height; the pitch is the distance over N pitches, ± √2·e/N. The lab ranks seven nodes by the root-mean-square log error.
+  - **Mystery chip:** a random node at a random field of view, revealed when you are ready. **Pick a node:** explore any of them.
+  - **A cited pitch table** for Intel 45, 32, 22, 14 and 10 nm and TSMC N7 and N5: gate, metal and fin pitch, SRAM bitcell and CPP × MMP. Only the 45 nm metal pitch is an estimate, and it says so.
+- **New data `data/node_pitches.json` and new model `physics/nodelab.py` with its twin `js/physics/nodelab.js`.** The parity test checks the arithmetic, every bitcell, five rankings and every drawn line.
+- **The site works offline (roadmap item 7, PWA half).** A web app manifest, app icons and a service worker that precaches all 270-odd site files, with a cache name tied to the version and to the files' contents. Photos from Wikimedia Commons are cached as you see them (the last 80). `scripts/build_pwa.py` writes the manifest, the worker and the head tags; `make pwa` and `make icons` rebuild them. The worker is not registered in automated browsers, so QA always sees the live files.
+- **A 14 nm FinFET in the layer builder.** Fins 42 nm tall at 42 nm pitch and a 70 nm gate pitch (Natarajan 2014); fin width, gate length and heights are labelled est. The tour and the compare table now have six builds.
+- Chapter 28 explains the lab. Chapter 27 and the README cover the 14 nm build. 3 new references (372): CDRinfo on Intel's 22, 14 and 10 nm pitches, WikiChip on N7, and Angstronomics on N5. New tests for the lab and the offline app.
+
+## v1.28 — Build a transistor, one layer at a time
+
+- **A 3D layer builder on the Fab Journey page (roadmap item 6).** Five transistors built step by step and drawn to scale in nanometres: a 45 nm planar high-k metal gate device (Mistry 2007), the 22 nm FinFET (fins 8 nm wide, 34 nm tall at 60 nm pitch; Auth 2012), the 10 nm FinFET (7 nm wide, 46 nm tall at 34 nm pitch; Auth 2017), a gate-all-around nanosheet at 44 nm gate pitch and 12 nm gate length (Loubet 2017) and a complementary FET with the pFET stacked on the nFET (Ryckaert 2018, illustrative). Every other dimension is labelled est.
+  - 8 to 14 steps each: wafer, superlattice, fins, trench isolation, dummy gate, spacers, inner spacers, source and drain (implanted, regrown, or grown twice with isolation between for the CFET), dummy-gate removal, sheet release, high-k metal gate and contacts. New material drops into place at each step.
+  - Cut the device open along the channel or through the gate; scrub with the slider, the arrows or the step list.
+  - **Tour:** walks through all five builds, step by step, with the explanation for each.
+  - **Compare mode:** any two finished devices side by side at one scale.
+  - **Computed table:** gate faces, effective width, width per footprint for an n plus p pair (0.6 planar → 5.6 CFET), pair area, the natural length λ of each thin body and gate length ÷ λ (Colinge 2008).
+- **New model `physics/builder.py` with its twin `js/physics/builder.js`.** The geometry is non-overlapping boxes made by rectangle subtraction, each with the step that makes and removes it. The parity test compares all 326 boxes and every metric.
+- Chapter 27 explains the builds, the geometry and what the model leaves out. The README chapter list now includes chapters 26 and 27. No new references (369). 22 new tests (405 in total).
+
+## v1.27 — Experiments you can run
+
+- **A new page, Experiments (`experiments.html`), with fourteen tiered experiments (roadmap item 5).** Each stands in for a real process step and links to its theatre, lab or manual:
+  - Tier 0: sand on a paper wafer (Poisson yield, Murphy 1964), Moore’s law from the site’s real chip list, a foil-and-paper capacitor, and pencil resistors with the transfer length method (Berger 1972).
+  - Tier 1: dye diffusing into gelatin (depth² against time), a CD’s track pitch read with a Class 2 laser pointer (1.6 µm, ECMA-130), a diode’s current–voltage curve (ideality factor), LED colours and Planck’s constant, a MOSFET’s threshold from √I_D, a diode thermometer, printing with sunlight (proximity printing, W ≈ √(λg)), and growing a crystal from a seed.
+  - Tier 2: a four-point probe in a teaching lab (R_s = (π/ln 2)·V/I, Smits 1958). Tier 3: an etch-rate test series, conceptual and with no recipe.
+- **A fitter in every experiment.** Paste, type or upload readings as CSV. Each is turned into a straight line and fitted by least squares, with residuals, standard errors carried through to every result, and the cited value beside it. "Load model data" fills in labelled model data; Moore’s law uses the real chips and gives 2.15 ± 0.05 years, the same as the History chart. A template CSV downloads for each experiment.
+- **New model `physics/fitting.py` with its twin `js/physics/fitting.js`.** A seeded generator makes the same model data in both languages, so the parity test checks every row and every fitted value.
+- Four experiments compare with the 2024 teaching-cleanroom run: diode turn-on, transistor thresholds, the diffused resistor’s sheet resistance and the substrate.
+- **Navigation:** nine pages now. The bar may run wider than the content column and folds into the menu below 1240 px.
+- The site budget is raised from 5.2 to 5.3 MB for the new page.
+- Chapter 26 explains the experiments, the fit and the safety tiers. 6 new references (369): Schroder, Berger, Smits, ECMA-130, ECMA-267 and IEC 60825-1. 38 new tests (383 in total) and 219 new parity checks.
+
+## v1.26 — The last two manuals, and all sixteen as one book
+
+- **Two more process manuals, making sixteen; every roadmap area now has one:**
+  - **12 Other families: a transistor on glass.** An oxide thin-film transistor built upside down on a glass sheet: bottom gate, gate insulator, a sputtered amorphous IGZO channel, source and drain, passivation with a mild bake, and the transfer curve. It shows why display backplanes need no crystal and no furnace (Weimer 1962, Nomura 2004, and the bendable IGZO processor of Ozer 2024).
+  - **13 History: a planar transistor the 1959 way.** Masking oxide, window, a staff-run predeposition, drive-in under the oxide edge, aluminium lead and a breakdown test. Its numbers come from the planar theatre’s model: one hour at 1100 °C on 10¹⁵ cm⁻³ gives a 2.05 µm junction that breaks down near 347 V where it is flat but only about 150 V at its curved edge (Sze and Gibbons). A new test keeps the manual and the model in step.
+  - The historical route now goes through Manual 13.
+- **All sixteen manuals as one printable book.** `scripts/qa/print_manuals.mjs` now also writes `dist/manuals/process-manuals-book.pdf`: a cover with contents, then every manual in route order, each starting a new sheet (125 pages).
+- The site budget is raised from 5.0 to 5.2 MB for the two new manuals. 3 new tests (345 in total). No new references (363).
+
+## v1.25 — The thermal budget, and the first and ninth manuals
+
+- **Thermal budget in the Virtual Fab.** Every hot step after doping now keeps moving the junctions already made. Each doped column keeps a Gaussian equivalent of its profile (same dose, peak and junction depth). A later oxidation, diffusion or anneal adds 2·D(T)·t to its variance, using the intrinsic diffusivity of that column’s dopant (Plummer, Deal and Griffin), and oxidation also moves the surface down into the silicon. Examples:
+  - An hour of dry oxidation at 1000 °C after the phosphorus diffusion pushes the window junction about 120 nm deeper.
+  - The same hour after a 20 keV implant takes it from 90 to 540 nm.
+  - A cold oxidation only eats into the junction.
+  - Each traveler row now says how far its heat moved the earlier junction, and a new readout, "Junction moved by later heat", totals it.
+  - Routes that were already in order barely change: the teaching route's spike anneal nudges its diffused junction by 0.24 nm.
+- **Two more process manuals, making fourteen:**
+  - **1 Wafer:** melt and dope, seed and Dash neck, pull the body with Scheil segregation, grind and notch, slice and polish, sort by resistivity.
+  - **9 Device modules:** trench isolation, high-k metal gate, fins, a silicon–germanium stack, release and gate wrap, measure. Epitaxy and the release etch are institution-only.
+  - Every route now starts at Manual 1, and the modern route goes through Manual 9.
+- 4 new tests (342 in total), 73 new parity checks. The thermal-budget routes and the per-step push are checked against Python.
+
+## v1.24 — Oxidation speeds the drive-in, and other process families
+
+- **Oxidation-enhanced and -retarded diffusion.** A growing oxide injects silicon interstitials into the silicon below it (Hu 1974). Both diffusion models (`diffusion.run` and `run_cd`, with their twins) take an interstitial excess S = C_I/C_I* for the drive-in and scale the diffusivity by f_I·S + (1 − f_I)/S (Plummer, Deal and Griffin, ch. 7), with f_I 0.9 for boron, 0.95 for phosphorus, 0.4 for arsenic and 0.02 for antimony. So boron and phosphorus speed up and antimony slows down. The default, S = 1, changes nothing.
+- **The diffusion theatre** gains a drive-in ambient slider (interstitial excess 1 to 10) and arsenic and antimony as dopants, so retarded diffusion can be seen.
+- **The 2024 run’s recipe** assumes S = 3 while the drive-in grows its oxide; this is an assumption, not a measurement, and is labelled as one. It deepens the computed junction from about 0.9 to 1.3 µm but moves the source and drain sheet resistance only from 13.7 to 13.2 Ω/sq, because the dose was fixed in the predeposition. The four-fold gap to the measured 3.1 Ω/sq therefore comes from the unrecorded predeposition, not the drive-in.
+- **Two more process manuals**, making twelve: 7B Thin-film deposition (CVD and ALD: load, staff-run precursors, CVD step coverage, ALD cycles, a high-k gate stack, measuring coverage) and 10 Damascene copper (insulator, trench, barrier and seed, staff-run plating, polish, measure). Metal becomes 7A, and the modern route lists both new manuals. A step can now link to another manual.
+- **Other process families** (roadmap area 12): a new section on the Fab Journey compares eight families. They are 1959 planar, the 2024 teaching NMOS run, FinFET and gate-all-around, FD-SOI, SiGe BiCMOS, SiC power, GaN HEMT and IGZO thin-film transistors. Each is described by what it starts from, its defining step, its hottest step, its masks and what it makes. Every cell is cited, and a dash marks values with no public source (`data/families.json`).
+- The site budget is raised from 4.8 to 5.0 MB. 1 new reference (Hu 1974, 363 in total), 8 new tests (338 in total), 36 new parity checks.
+
+## v1.23 — Heavy doping diffuses faster
+
+- **Concentration-dependent diffusivity.** A new model, `diffusion.run_cd` with its JavaScript twin, solves the diffusion equation with D rising with doping through charged vacancies, D = D⁰ + D⁻(n/nᵢ) + D⁼(n/nᵢ)² for phosphorus (D⁻ for arsenic and antimony, D⁺ for boron), after Fair and Plummer, Deal and Griffin, by backward Euler on a uniform grid. At 3×10²⁰ cm⁻³ and 1050 °C phosphorus diffuses about 24 times faster at the surface than at low doping.
+- **The diffusion theatre** has a new Diffusivity switch, Intrinsic or Rises with doping. The second plots the solved profile beside the textbook one and adds its dose, junction and sheet resistance to the readouts.
+- **The 2024 run’s recipe in the Virtual Fab now uses it.** The computed source and drain sheet resistance falls from 30.8 to 13.7 Ω/sq against the measured 3.1, so the gap shrinks from ten-fold to about four-fold. The rest hangs on the run’s predeposition time and surface concentration, which were not recorded: 5×10²⁰ cm⁻³ at the surface would give 5.4 Ω/sq. Theatre defaults are unchanged.
+- **Two more process manuals**, so there are ten: 3 Oxidation (load, ramp, dry gate oxide, steam field oxide, anneal, measure, with the run’s recipes and thicknesses) and 6B Implantation (mask, beam, tilted implant, damage, anneal, measure; the ion source is institution-only). Diffusion becomes 6A.
+- 1 new reference (Fair 1981, 362 in total), 4 new tests (330 in total), 36 new parity checks.
+
+## v1.22 — Computed beside measured, and four more manuals
+
+- **The 2024 cleanroom run in the Virtual Fab.** A fourth route button loads the real four-mask NMOS run as a traveler (field oxidation, active-area mask and etch, gate oxidation, gate mask and etch, diffusion with drive-in, contact mask and etch, aluminium, metal mask, probe), and a third setting, "The 2024 run’s recipe", runs it with the run’s own furnace recipes: dry–wet–dry field oxide at 1000 °C, dry gate oxide at 1100 °C, and a 37-minute drive-in at 1050 °C that also grows the intermediate oxide.
+- **Computed here, measured in a real run.** A table under the cross-section puts seven computed numbers beside the run’s measurements and updates with every change to the traveler: field oxide 517 against 548 nm, gate oxide 111 against 114 nm, drive-in oxide 62.0 against 62.9 nm, source and drain sheet resistance 30.8 against 3.1 Ω/sq (the intrinsic-diffusivity model is ten times too resistive), opening growth in the first etch (the Virtual Fab etches straight down; the run’s wet etch grew openings by 2.48 µm), aluminium sheet resistance at the estimated 500 nm film against 0.123 Ω/sq (about 216 nm of aluminium), and masks.
+- **Model changes.** `vfab.py` and its twin take an optional furnace sequence per oxidation (`cfg.ox.seq`) and an oxide grown in the drive-in (`cfg.diff.grow`), record the window oxide and the diffused sheet resistance in the log, strip resist before probing, and gain `run_cfg()` and `compare()`. Defaults are unchanged.
+- **Metal needs an anneal or a diffusion.** The sputtered metal step now requires either the implant anneal or the furnace diffusion (`requires_any`), because a diffusion’s drive-in activates its dopant too. This lets the 2024 run reach its metal without an implant. To undo it, set `dep_pvd` back to `"requires": ["anneal"]`.
+- **Four new process manuals**, so there are eight: 2 Cleaning (conceptual; every bath is institution-only), 6 Diffusion (the dopant source stages are institution-only; drive-in and sheet resistance from the run), 7 Metal (evaporated aluminium, measured, patterned, etched and sintered, with the run’s values) and 11 Probe and package. The shelf follows the area order, and the three routes list them.
+- The site budget is raised from 4.5 to 4.8 MB for the new manual pages. 4 new tests (326 in total); 89 new parity checks cover the run route, the run recipe and the comparison.
+
 ## v1.21 — Every route runs through
 
 - **No more holds on the three routes.** Lithography now needs a clean wafer rather than a thermal oxide, so the modern gate-all-around route no longer stops at its first lithography step. Probing needs either metal step (a new `requires_any` in `data/fab_steps.json`), and Hoerni's planar step follows the predeposition. A test walks all three routes.

@@ -23,8 +23,8 @@
 <p align="center">
   <a href="https://normansrule.github.io/transistor-foundry-expedition/"><img alt="Live site" src="https://img.shields.io/badge/live%20site-GitHub%20Pages-f2b84b?style=flat-square&labelColor=10141a"></a>
   <a href=".github/workflows/ci.yml"><img alt="Tests" src="https://img.shields.io/github/actions/workflow/status/Normansrule/transistor-foundry-expedition/ci.yml?style=flat-square&labelColor=10141a&label=tests"></a>
-  <a href="REFERENCES.md"><img alt="361 references" src="https://img.shields.io/badge/references-361-b58fd6?style=flat-square&labelColor=10141a"></a>
-  <a href="docs/README.md"><img alt="25 chapters" src="https://img.shields.io/badge/chapters-25-7fd3d0?style=flat-square&labelColor=10141a"></a>
+  <a href="REFERENCES.md"><img alt="369 references" src="https://img.shields.io/badge/references-369-b58fd6?style=flat-square&labelColor=10141a"></a>
+  <a href="docs/README.md"><img alt="26 chapters" src="https://img.shields.io/badge/chapters-26-7fd3d0?style=flat-square&labelColor=10141a"></a>
   <a href="LICENSE"><img alt="MIT and CC BY 4.0" src="https://img.shields.io/badge/license-MIT%20%2B%20CC%20BY%204.0-d9825b?style=flat-square&labelColor=10141a"></a>
 </p>
 
@@ -41,8 +41,8 @@ Transistor Foundry Expedition (formerly Transistor Odyssey) follows the transist
 | | |
 |---|---|
 | **A website** | An animated history, a [Fab Journey](https://normansrule.github.io/transistor-foundry-expedition/fab.html) that follows one wafer lot through 13 process areas with a computed lithography theatre, logic gates shown in silicon and a Virtual Fab, a [Device Atlas](https://normansrule.github.io/transistor-foundry-expedition/devices.html) of 19 transistors with live energy band diagrams, a [Physics Lab](https://normansrule.github.io/transistor-foundry-expedition/physics.html) of 15 simulations, and a [Circuit Lab](https://normansrule.github.io/transistor-foundry-expedition/circuits.html) that zooms from wafer to atom and builds gates, an adder, SRAM and flash, a [Process Lab](https://normansrule.github.io/transistor-foundry-expedition/process.html) on oxidation, implantation, yield and electromigration, checked against a real university cleanroom run, and an [Analog & RF Lab](https://normansrule.github.io/transistor-foundry-expedition/analog.html) on gain, bandwidth, distortion and noise. Everything runs in the browser; nothing is pre-rendered. |
-| **A textbook** | [25 chapters](docs/README.md), from the point contact to packaging, memory, manufacturing, amplifiers, the fab journey and a real teaching-cleanroom run, with 361 cited sources. Every number traces to a reference. |
-| **A simulation package** | Python models in [`sim/transistor_sim`](sim/transistor_sim) that draw every figure here, each with a browser twin checked against it by 322 tests in continuous integration. |
+| **A textbook** | [26 chapters](docs/README.md), from the point contact to packaging, memory, manufacturing, amplifiers, the fab journey, a real teaching-cleanroom run and fourteen experiments you can run yourself, with 369 cited sources. Every number traces to a reference. |
+| **A simulation package** | Python models in [`sim/transistor_sim`](sim/transistor_sim) that draw every figure here, each with a browser twin checked against it by 383 tests in continuous integration. |
 
 > [!IMPORTANT]
 > **About "0.42 nm".** No foundry manufactures a 0.42 nm (or 0.7 nm) process. As of September 2026 the most advanced production nodes are 2 nm-class (TSMC N2 and Intel 18A, both in volume since Q4 2025), with TSMC A16 ramping. **0.7 nm** is IBM's *research* node announced on 25 June 2026. **0.42 nm** is the measured thickness of an aluminium-oxide interface layer in a 2026 NYCU + TSMC monolayer-MoS₂ transistor whose channel is ~100 nm long. This repository explains all three and why node names stopped being lengths. See [Chapter 8](docs/08-gaa-and-angstrom-era.md) and [Chapter 9](docs/09-2d-materials.md).
@@ -56,7 +56,7 @@ Transistor Foundry Expedition (formerly Transistor Odyssey) follows the transist
 | **Working in power or radio frequency** | [Analog & RF Lab: gain, Miller effect and speed records](https://normansrule.github.io/transistor-foundry-expedition/analog.html#bode) → [materials chart](https://normansrule.github.io/transistor-foundry-expedition/devices.html#align) → [GaN HEMT](https://normansrule.github.io/transistor-foundry-expedition/devices.html#gan_hemt) → [heterojunction builder](https://normansrule.github.io/transistor-foundry-expedition/devices.html#hetero) → [self-heating lab](https://normansrule.github.io/transistor-foundry-expedition/physics.html#heat) → [Chapters 10](docs/10-compound-semiconductors.md), [13](docs/13-diamond-electronics.md) and [23](docs/23-analog-rf-lab.md) |
 | **Curious how a computer is built from them** | [The powers-of-ten zoom](https://normansrule.github.io/transistor-foundry-expedition/circuits.html#zoom) → [gate builder](https://normansrule.github.io/transistor-foundry-expedition/circuits.html#gates) → [8-bit adder](https://normansrule.github.io/transistor-foundry-expedition/circuits.html#adder) → [SRAM](https://normansrule.github.io/transistor-foundry-expedition/circuits.html#sram) and [flash](https://normansrule.github.io/transistor-foundry-expedition/circuits.html#flash) cells → [Chapter 21](docs/21-circuit-lab.md) |
 | **Interested in how chips are manufactured** | [Process flow animation](https://normansrule.github.io/transistor-foundry-expedition/process.html) → [oxidation](https://normansrule.github.io/transistor-foundry-expedition/process.html#oxide) → [implant and anneal](https://normansrule.github.io/transistor-foundry-expedition/process.html#implant) → [yield and cost](https://normansrule.github.io/transistor-foundry-expedition/process.html#yield) → [electromigration](https://normansrule.github.io/transistor-foundry-expedition/process.html#em) → [a real cleanroom run](https://normansrule.github.io/transistor-foundry-expedition/process.html#labrun) → [Chapters 16](docs/16-process-flow.md), [22](docs/22-process-lab.md) and [25](docs/25-real-cleanroom-run.md) |
-| **Teaching** | Every figure is CC BY 4.0 and regenerated by `python sim/make_figures.py`; the atlas deep-links to any device (`devices.html#finfet`), and the quiz draws new questions each round. |
+| **Teaching** | Every figure is CC BY 4.0 and regenerated by `python sim/make_figures.py`; the atlas deep-links to any device (`devices.html#finfet`), and the quiz draws new questions each round. [Fourteen tiered experiments](https://normansrule.github.io/transistor-foundry-expedition/experiments.html) (eight at tier 1) fit students’ own readings in the browser. |
 
 ## Contents
 
@@ -157,14 +157,83 @@ Surface transfer doping gives diamond a sheet of holes with no dopant atoms; the
 <!-- manuals:start · generated by scripts/build_manuals.py, edit data/manuals.json -->
 ## Step-by-step process manuals
 
-Illustrated manuals in the style of a building-brick instruction book: one picture per step, the new part outlined, a parts list, and a check at the end of each step. Open any step for the engineer’s operation specification (tool, cited parameter ranges, control and what to do when it goes wrong). Every web manual has a Save as PDF button.
+Illustrated manuals in the style of a building-brick instruction book: one picture per step, the new part outlined, a parts list, and a check at the end of each step. Open any step for the engineer’s operation specification (tool, cited parameter ranges, control and what to do when it goes wrong). Every web manual has a Save as PDF button, and `node scripts/qa/print_manuals.mjs` prints them all as one book, `dist/manuals/process-manuals-book.pdf`.
 
 | Manual | Steps | Web | GitHub |
 |---|---|---|---|
+| **1 · Grow the crystal and cut the wafer** · Czochralski growth: melt, seed, neck, body, grind, slice, polish, sort | 6 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/wafer.html) | [read](docs/manuals/wafer.md) |
+| **2 · Clean the wafer before every furnace** · Wafer cleaning, explained conceptually: count, remove films, oxide, particles and metals, rinse and count again | 6 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/cleaning.html) | [read](docs/manuals/cleaning.md) |
+| **3 · Grow glass on the silicon** · Thermal oxidation: load, ramp, oxidise dry or wet, anneal, unload, measure | 6 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/oxidation.html) | [read](docs/manuals/oxidation.md) |
 | **4B · Make the photomask** · Mask making: blank, write, develop, etch the chrome, strip, measure, inspect and repair, mount the pellicle | 8 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/photomask.html) | [read](docs/manuals/photomask.md) |
 | **4A · Print a pattern with light** · Photolithography: prime, coat, bake, align, expose, develop, inspect | 10 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/lithography.html) | [read](docs/manuals/lithography.md) |
 | **5 · Carve the pattern into the film** · Plasma (reactive ion) etch: load, pump down, flow gas, strike plasma, etch, endpoint, over-etch, strip, measure | 9 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/etch.html) | [read](docs/manuals/etch.md) |
+| **6A · Bake the dopant into the silicon** · Furnace diffusion: open windows, predeposit, remove the source, drive in, measure | 6 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/diffusion.html) | [read](docs/manuals/diffusion.md) |
+| **6B · Fire dopant atoms into the silicon** · Ion implantation: mask, tilt, implant, see the damage, anneal, measure | 6 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/implant.html) | [read](docs/manuals/implant.md) |
+| **7A · Wire it up with aluminium** · Metallization in a teaching process: open contacts, evaporate aluminium, measure, pattern, etch, sinter | 7 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/metal.html) | [read](docs/manuals/metal.md) |
+| **7B · Coat every surface evenly** · Thin-film deposition: chemical vapour deposition (CVD) and atomic layer deposition (ALD) | 6 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/deposition.html) | [read](docs/manuals/deposition.md) |
 | **8 · Make the surface flat again** · Planarization: spin-on glass in older processes, chemical mechanical polishing (CMP) today | 7 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/planarize.html) | [read](docs/manuals/planarize.md) |
+| **9 · Build the transistor in three dimensions** · Device modules: isolation, high-k metal gate, fins, a silicon–germanium stack, release and gate wrap | 6 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/modules.html) | [read](docs/manuals/modules.md) |
+| **10 · Wire the chip in copper** · Dual damascene: insulator, trench, barrier, seed, plate, polish, measure | 6 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/damascene.html) | [read](docs/manuals/damascene.md) |
+| **11 · Find the good dies and package them** · Back end: probe test structures, test every die, map, saw, pick, bond and test again | 7 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/probe.html) | [read](docs/manuals/probe.md) |
+| **12 · Make a transistor on glass** · An oxide thin-film transistor (IGZO): another process family, built at low temperature with no crystal at all | 6 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/tft.html) | [read](docs/manuals/tft.md) |
+| **13 · Make a planar transistor the 1959 way** · Hoerni’s planar process: grow oxide, open a window, predeposit, drive in under the oxide, evaporate leads, test breakdown | 6 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/history.html) | [read](docs/manuals/history.md) |
+
+<details><summary><b>Manual 1 · Grow the crystal and cut the wafer</b> in 6 steps</summary>
+
+<table>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/wafer_01.svg" alt="Step 1: Melt the silicon and add the dopant"><br><b>1 · Melt the silicon and add the dopant</b><br>Load polysilicon into a quartz crucible, add the dopant and melt it all under argon. The melt is doped richer than the target, because the crystal will take in only a fraction k of it.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/wafer_02.svg" alt="Step 2: Dip the seed and pull a thin neck"><br><b>2 · Dip the seed and pull a thin neck</b><br>Lower a small seed crystal of the chosen orientation into the melt, let it wet, then pull a thin neck before widening.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/wafer_03.svg" alt="Step 3: Pull the body"><br><b>3 · Pull the body</b><br>Widen to the full diameter, then pull the crystal slowly upward while seed and crucible turn in opposite directions.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/wafer_04.svg" alt="Step 4: Grind and mark the orientation"><br><b>4 · Grind and mark the orientation</b><br>Grind the ingot to an exact diameter and cut a notch or flat along it that marks the crystal orientation.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/wafer_05.svg" alt="Step 5: Slice, flatten and polish"><br><b>5 · Slice, flatten and polish</b><br>Saw the ingot into thin wafers, remove the sawing damage and polish one face to a mirror.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/wafer_06.svg" alt="Step 6: Measure and sort"><br><b>6 · Measure and sort</b><br>Measure resistivity at points along the ingot and on each wafer. Wafers inside the customer’s band are prime; the rest go to looser uses.</td>
+</tr>
+</table>
+
+</details>
+
+<details><summary><b>Manual 2 · Clean the wafer before every furnace</b> in 6 steps</summary>
+
+<table>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/cleaning_01.svg" alt="Step 1: Count what is on the wafer"><br><b>1 · Count what is on the wafer</b><br>Scan the wafer with a laser particle counter before it is cleaned. Every speck that scatters light is logged with its size and place.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/cleaning_02.svg" alt="Step 2: Remove organic films"><br><b>2 · Remove organic films</b><br>The first bath turns oily films from resist, handling and the air into gas. They would otherwise shield everything underneath from the later stages.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/cleaning_03.svg" alt="Step 3: Dissolve the thin oxide"><br><b>3 · Dissolve the thin oxide</b><br>A short dip dissolves the thin skin of oxide on top. Metals and particles trapped inside it come away with it, and bare silicon is left.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/cleaning_04.svg" alt="Step 4: Lift the particles off"><br><b>4 · Lift the particles off</b><br>A gentle bath, often helped by sound waves, undercuts each grain by a whisker of material and charges grains and wafer alike so they push apart.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/cleaning_05.svg" alt="Step 5: Pull out metal traces"><br><b>5 · Pull out metal traces</b><br>A last bath takes metal atoms such as iron off the surface before any furnace can drive them into the silicon.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/cleaning_06.svg" alt="Step 6: Rinse, dry and count again"><br><b>6 · Rinse, dry and count again</b><br>Rinse in ultrapure water, spin dry, and scan the wafer again. Only a wafer that passes may go into a shared furnace.</td>
+</tr>
+</table>
+
+</details>
+
+<details><summary><b>Manual 3 · Grow glass on the silicon</b> in 6 steps</summary>
+
+<table>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/oxidation_01.svg" alt="Step 1: Load the boat"><br><b>1 · Load the boat</b><br>Stand the wafers in a quartz boat with a monitor wafer at each end and push it slowly into the furnace while it idles under nitrogen.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/oxidation_02.svg" alt="Step 2: Ramp up in nitrogen"><br><b>2 · Ramp up in nitrogen</b><br>Raise the furnace to the oxidation temperature under nitrogen, so no oxide grows until the temperature is steady.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/oxidation_03.svg" alt="Step 3: Grow a gate oxide in dry oxygen"><br><b>3 · Grow a gate oxide in dry oxygen</b><br>Switch the gas to dry oxygen. A thin, dense oxide grows slowly and evenly from the surface down.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/oxidation_04.svg" alt="Step 4: Grow a field oxide in steam"><br><b>4 · Grow a field oxide in steam</b><br>For thick isolation, run a short dry step, a long step in steam, and a short dry step again. Steam carries far more oxidant through the oxide, so it grows many times faster.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/oxidation_05.svg" alt="Step 5: Anneal in nitrogen"><br><b>5 · Anneal in nitrogen</b><br>Switch back to nitrogen and hold the temperature for a while. The oxide does not grow, but its charge settles.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/oxidation_06.svg" alt="Step 6: Unload and measure"><br><b>6 · Unload and measure</b><br>Ramp down slowly, pull the boat out, and measure the monitor wafers at several points with an ellipsometer or a reflectometer.</td>
+</tr>
+</table>
+
+</details>
 
 <details><summary><b>Manual 4B · Make the photomask</b> in 8 steps</summary>
 
@@ -242,6 +311,85 @@ Illustrated manuals in the style of a building-brick instruction book: one pictu
 
 </details>
 
+<details><summary><b>Manual 6A · Bake the dopant into the silicon</b> in 6 steps</summary>
+
+<table>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/diffusion_01.svg" alt="Step 1: Check the windows are open"><br><b>1 · Check the windows are open</b><br>Look at the wafer under the microscope. Where the oxide has been etched away, bare silicon shows; everywhere else oxide will block the dopant.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/diffusion_02.svg" alt="Step 2: Coat the dopant source"><br><b>2 · Coat the dopant source</b><br>A thin film rich in dopant is put on the wafer by trained staff. It touches the silicon only where the windows are open.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/diffusion_03.svg" alt="Step 3: Predeposit in the furnace"><br><b>3 · Predeposit in the furnace</b><br>In the hot furnace dopant atoms hop from the film into the open silicon. The silicon near the surface fills up first.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/diffusion_04.svg" alt="Step 4: Remove the source"><br><b>4 · Remove the source</b><br>The spent film is removed, so the amount of dopant in the silicon is now fixed.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/diffusion_05.svg" alt="Step 5: Drive in and grow oxide"><br><b>5 · Drive in and grow oxide</b><br>A second, longer bake without any source spreads the same dopant deeper. The same bake grows an oxide over everything.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/diffusion_06.svg" alt="Step 6: Measure the sheet resistance"><br><b>6 · Measure the sheet resistance</b><br>Touch four needles in a line to a diffused test resistor or the control wafer. Push current through the outer two and read the voltage across the inner two.</td>
+</tr>
+</table>
+
+</details>
+
+<details><summary><b>Manual 6B · Fire dopant atoms into the silicon</b> in 6 steps</summary>
+
+<table>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/implant_01.svg" alt="Step 1: Check the mask is thick enough"><br><b>1 · Check the mask is thick enough</b><br>Measure the resist. It must stop every ion where the silicon should stay undoped, and its edges decide where the doped region starts.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/implant_02.svg" alt="Step 2: Make the ion beam"><br><b>2 · Make the ion beam</b><br>Trained staff run the ion source, which ionises a dopant-bearing feed. A magnet then picks out only the ions of the right mass.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/implant_03.svg" alt="Step 3: Implant at a tilt"><br><b>3 · Implant at a tilt</b><br>Accelerate the ions and scan the beam across the tilted wafer until the meter has counted the full dose.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/implant_04.svg" alt="Step 4: See the damage"><br><b>4 · See the damage</b><br>Look at what the ions left behind: every one displaced many silicon atoms, and a heavy dose leaves the top layer amorphous. Most dopant is not yet active.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/implant_05.svg" alt="Step 5: Strip the resist and anneal"><br><b>5 · Strip the resist and anneal</b><br>Remove the resist, then heat the wafer briefly. The crystal repairs itself and the dopant moves onto lattice sites, where it conducts.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/implant_06.svg" alt="Step 6: Measure the result"><br><b>6 · Measure the result</b><br>Map the sheet resistance across a monitor wafer with a four-point probe. Less often, a lab sputters a crater and counts the dopant depth by depth.</td>
+</tr>
+</table>
+
+</details>
+
+<details><summary><b>Manual 7A · Wire it up with aluminium</b> in 7 steps</summary>
+
+<table>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/metal_01.svg" alt="Step 1: Check the contact holes"><br><b>1 · Check the contact holes</b><br>Under the microscope, look into each contact hole. The oxide must be gone right down to the doped silicon, or the metal will not touch it.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/metal_02.svg" alt="Step 2: Load and pump down"><br><b>2 · Load and pump down</b><br>Mount the wafers face down above the source in the evaporator and pump the chamber to high vacuum.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/metal_03.svg" alt="Step 3: Evaporate the aluminium"><br><b>3 · Evaporate the aluminium</b><br>Heat the source until aluminium evaporates. A thin, even film condenses over the whole wafer and into every contact hole.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/metal_04.svg" alt="Step 4: Measure the film"><br><b>4 · Measure the film</b><br>Put a four-point probe on the blanket aluminium and read its sheet resistance.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/metal_05.svg" alt="Step 5: Pattern the wires"><br><b>5 · Pattern the wires</b><br>Coat, expose and develop resist with the metal mask, exactly as in Manual 4A. Resist now covers the wires and pads you want to keep.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/metal_06.svg" alt="Step 6: Etch the aluminium"><br><b>6 · Etch the aluminium</b><br>Exposed aluminium is etched away by trained staff, leaving wires and pads under the resist. The resist is then removed.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/metal_07.svg" alt="Step 7: Sinter the contacts"><br><b>7 · Sinter the contacts</b><br>Bake the wafer gently so the aluminium and silicon bond at every contact and the contact resistance falls.</td>
+</tr>
+</table>
+
+</details>
+
+<details><summary><b>Manual 7B · Coat every surface evenly</b> in 6 steps</summary>
+
+<table>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/deposition_01.svg" alt="Step 1: Load and pump down"><br><b>1 · Load and pump down</b><br>Place the wafer in the chamber through a load lock and pump it down to low pressure, then bring it to the deposition temperature.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/deposition_02.svg" alt="Step 2: Let in the precursors"><br><b>2 · Let in the precursors</b><br>Trained staff run the gas cabinet. The tool meters a precursor vapour into the chamber, where it meets the hot wafer.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/deposition_03.svg" alt="Step 3: Grow the film by CVD"><br><b>3 · Grow the film by CVD</b><br>Let the precursor react on the hot surfaces. The film grows on the top, the walls and the floor of every trench at once, fastest where the gas arrives first.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/deposition_04.svg" alt="Step 4: Grow it one layer at a time (ALD)"><br><b>4 · Grow it one layer at a time (ALD)</b><br>Pulse the first precursor until it has covered every surface, purge, pulse the second to react with that layer, purge again. Each cycle adds one thin layer everywhere, top to floor.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/deposition_05.svg" alt="Step 5: Build a high-k gate dielectric"><br><b>5 · Build a high-k gate dielectric</b><br>On a gate stack, use ALD to lay down a hafnium-based insulator a few nanometres thick, then cap it with the gate metal.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/deposition_06.svg" alt="Step 6: Measure thickness and coverage"><br><b>6 · Measure thickness and coverage</b><br>Measure the blanket thickness by ellipsometry, then cut a test trench and compare the film on the floor and walls with the top.</td>
+</tr>
+</table>
+
+</details>
+
 <details><summary><b>Manual 8 · Make the surface flat again</b> in 7 steps</summary>
 
 <table>
@@ -264,19 +412,145 @@ Illustrated manuals in the style of a building-brick instruction book: one pictu
 
 </details>
 
+<details><summary><b>Manual 9 · Build the transistor in three dimensions</b> in 6 steps</summary>
+
+<table>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/modules_01.svg" alt="Step 1: Isolate each transistor"><br><b>1 · Isolate each transistor</b><br>Etch shallow trenches around every active area, fill them with oxide and polish flat, so neighbouring transistors cannot talk to each other.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/modules_02.svg" alt="Step 2: Put a high-k metal gate on a flat channel"><br><b>2 · Put a high-k metal gate on a flat channel</b><br>Grow a thin interface oxide, deposit a high-k insulator by ALD and cap it with a metal gate. This was the planar transistor’s last big change.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/modules_03.svg" alt="Step 3: Stand the channel up as a fin"><br><b>3 · Stand the channel up as a fin</b><br>Pattern and etch narrow silicon walls, then recess the isolation oxide so the top of each wall stands free. The gate will wrap three sides.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/modules_04.svg" alt="Step 4: Grow a silicon–germanium stack"><br><b>4 · Grow a silicon–germanium stack</b><br>For nanosheets, grow alternating layers of silicon and silicon–germanium on the wafer, then etch them into fins.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/modules_05.svg" alt="Step 5: Release the sheets and wrap the gate"><br><b>5 · Release the sheets and wrap the gate</b><br>With the source and drain in place, remove the dummy gate, etch the silicon–germanium away selectively and fill the gaps with high-k and gate metal, so the gate surrounds every sheet.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/modules_06.svg" alt="Step 6: Measure the transistors"><br><b>6 · Measure the transistors</b><br>Probe test transistors for drive current, leakage and threshold, and cut cross-sections to check every sheet.</td>
+</tr>
+</table>
+
+</details>
+
+<details><summary><b>Manual 10 · Wire the chip in copper</b> in 6 steps</summary>
+
+<table>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/damascene_01.svg" alt="Step 1: Lay down the insulator"><br><b>1 · Lay down the insulator</b><br>Deposit the insulating layer that the wires will sit in, often a low-k film that lowers the capacitance between neighbouring lines.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/damascene_02.svg" alt="Step 2: Pattern and etch the trenches and vias"><br><b>2 · Pattern and etch the trenches and vias</b><br>Print the via holes and the line trenches with lithography and etch both into the insulator, so one fill later makes the vias and the lines together.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/damascene_03.svg" alt="Step 3: Line it with a barrier and a seed"><br><b>3 · Line it with a barrier and a seed</b><br>Coat every surface with a thin barrier that copper cannot cross, then a thin copper seed for the plating to grow from.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/damascene_04.svg" alt="Step 4: Fill by electroplating"><br><b>4 · Fill by electroplating</b><br>Trained staff run the plating cell. Copper grows from the seed until every trench is full, and a little beyond.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/damascene_05.svg" alt="Step 5: Polish back to the insulator"><br><b>5 · Polish back to the insulator</b><br>Polish away the copper and barrier on top until only the copper in the trenches remains.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/damascene_06.svg" alt="Step 6: Measure the wires"><br><b>6 · Measure the wires</b><br>Probe test structures: long serpentines for resistance, interleaved combs for shorts.</td>
+</tr>
+</table>
+
+</details>
+
+<details><summary><b>Manual 11 · Find the good dies and package them</b> in 7 steps</summary>
+
+<table>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/probe_01.svg" alt="Step 1: Probe the test structures"><br><b>1 · Probe the test structures</b><br>Lower needles onto the test resistors, capacitors and transistors beside the dies and measure them first. They tell you whether the process worked before any chip is tested.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/probe_02.svg" alt="Step 2: Test every die"><br><b>2 · Test every die</b><br>Step the wafer under the probe card die by die and run the test patterns. Each die passes or is put in a failure bin.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/probe_03.svg" alt="Step 3: Make the wafer map"><br><b>3 · Make the wafer map</b><br>Colour each die by its result. The pattern of failures says as much as their number.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/probe_04.svg" alt="Step 4: Saw the wafer apart"><br><b>4 · Saw the wafer apart</b><br>Mount the wafer on tape in a frame and cut along the scribe lanes with a diamond blade. The dies stay on the tape.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/probe_05.svg" alt="Step 5: Pick the good dies"><br><b>5 · Pick the good dies</b><br>The picker reads the wafer map and lifts only the dies that passed. Each is inspected before it goes into a tray or onto a package.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/probe_06.svg" alt="Step 6: Bond wires to the pads"><br><b>6 · Bond wires to the pads</b><br>Glue the die into its package, then join each pad to a package lead with a fine wire.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/probe_07.svg" alt="Step 7: Test again, packaged"><br><b>7 · Test again, packaged</b><br>Test the packaged part at speed and temperature. Assembly can damage a die, and some faults are only reachable through the package.</td>
+</tr>
+</table>
+
+</details>
+
+<details><summary><b>Manual 12 · Make a transistor on glass</b> in 6 steps</summary>
+
+<table>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/tft_01.svg" alt="Step 1: Pattern a metal gate on the glass"><br><b>1 · Pattern a metal gate on the glass</b><br>Deposit a metal film on the glass and pattern it into gate lines. The gate sits at the bottom of this transistor.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/tft_02.svg" alt="Step 2: Deposit the gate insulator"><br><b>2 · Deposit the gate insulator</b><br>Cover everything with a thin insulating film by CVD or sputtering.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/tft_03.svg" alt="Step 3: Sputter the oxide semiconductor"><br><b>3 · Sputter the oxide semiconductor</b><br>Sputter a thin amorphous IGZO film over the gate and pattern it into islands. It works without being crystallised, and it can be made at room temperature.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/tft_04.svg" alt="Step 4: Add source and drain"><br><b>4 · Add source and drain</b><br>Deposit and pattern metal over the ends of each island, leaving a gap over the gate: that gap is the channel length.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/tft_05.svg" alt="Step 5: Seal and anneal"><br><b>5 · Seal and anneal</b><br>Cover the transistor with a protective film and give it a mild bake, which steadies the oxide semiconductor.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/tft_06.svg" alt="Step 6: Measure and compare"><br><b>6 · Measure and compare</b><br>Probe the transfer curve: drain current against gate voltage. Compare its on–off ratio and threshold with the silicon transistors in the other manuals.</td>
+</tr>
+</table>
+
+</details>
+
+<details><summary><b>Manual 13 · Make a planar transistor the 1959 way</b> in 6 steps</summary>
+
+<table>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/history_01.svg" alt="Step 1: Grow the masking oxide"><br><b>1 · Grow the masking oxide</b><br>Oxidise the whole wafer in a furnace. The glass will block the dopant everywhere except where a window is opened.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/history_02.svg" alt="Step 2: Open a window"><br><b>2 · Open a window</b><br>Print a window with photoresist and etch the oxide away inside it. Its edge sets where the junction will meet the surface.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/history_03.svg" alt="Step 3: Predeposit the dopant"><br><b>3 · Predeposit the dopant</b><br>Trained staff run the dopant source in a furnace. A thin, heavily doped skin forms in the window only.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/history_04.svg" alt="Step 4: Drive in under the oxide edge"><br><b>4 · Drive in under the oxide edge</b><br>Heat again with the source removed. The dopant spreads down and sideways, so the junction curves up and meets the surface under the oxide, not in the open.</td>
+</tr>
+<tr>
+<td width="50%" valign="top"><img src="docs/manuals/img/history_05.svg" alt="Step 5: Evaporate aluminium leads over the oxide"><br><b>5 · Evaporate aluminium leads over the oxide</b><br>Open contact holes, evaporate aluminium over the whole wafer and pattern it, so the leads run across the oxide to the junctions.</td>
+<td width="50%" valign="top"><img src="docs/manuals/img/history_06.svg" alt="Step 6: Test the breakdown"><br><b>6 · Test the breakdown</b><br>Reverse-bias the junction on a curve tracer and find the voltage where current suddenly rises. The curved edge breaks down before the flat floor.</td>
+</tr>
+</table>
+
+</details>
+
 Manuals explain how a cleanroom works; they are not home procedures. Hazardous chemistry, gases, furnaces and high-power lasers are described conceptually only.
 <!-- manuals:end -->
+
+## Build a transistor, one layer at a time
+
+The [layer builder](https://normansrule.github.io/transistor-foundry-expedition/fab.html#builder) on the Fab Journey page builds six transistors step by step and draws them to scale in nanometres: a 45 nm planar high-k metal gate device, the 22, 14 and 10 nm FinFETs, a gate-all-around nanosheet and a complementary FET with the pFET stacked on the nFET. Scrub through 8 to 14 steps (dummy gate, spacers, inner spacers, source and drain epitaxy, sheet release, high-k metal gate), cut the device open along the channel or through the gate, take a guided tour through all six, or set two side by side at the same scale. A table computes effective width, width per footprint, pair area and the natural length of each thin body from the drawing. The geometry comes from [`builder.py`](sim/transistor_sim/physics/builder.py) and its JavaScript twin, with cited fin and gate dimensions from Intel's 45, 22, 14 and 10 nm papers and IBM's first stacked nanosheets. See [Chapter 27](docs/27-layer-builder.md).
+
+<p align="center"><a href="https://normansrule.github.io/transistor-foundry-expedition/fab.html#builder"><img src="figures/screens/layer_builder.jpg" width="100%" alt="A gate-all-around nanosheet transistor cut open along its channel, with the build steps and cited dimensions beside it"></a></p>
+
+## Read the node from the top of a chip
+
+The [node-reading lab](https://normansrule.github.io/transistor-foundry-expedition/fab.html#nodelab) draws the top of a chip at its real pitches and hands you two measuring marks. Measure the gate pitch, the fin pitch, the tightest metal pitch and an SRAM bitcell on a mystery chip, and the lab ranks seven nodes (Intel 45 nm to TSMC N5) by how well they fit. Every pitch in its table is cited. The model is [`nodelab.py`](sim/transistor_sim/physics/nodelab.py) with its JavaScript twin. See [Chapter 28](docs/28-node-reading-lab.md).
+
+<p align="center"><a href="https://normansrule.github.io/transistor-foundry-expedition/fab.html#nodelab"><img src="figures/screens/node_lab.jpg" width="100%" alt="The node-reading lab: a top view of a 22 nm FinFET chip with two measuring marks across the gates, the measured pitch and the cited pitch table"></a></p>
+
+## Spot the defect
+
+[Spot the defect](https://normansrule.github.io/transistor-foundry-expedition/fab.html#defects) shows four features made in one step: four trenches filled together, four openings etched together, four blocks polished together. One of them failed, and the step’s own process model decided which: the narrow trench that closed over a void, the narrow opening that never cleared, the sparse block polished out of focus, the wide nanosheet stack that kept its SiGe, the copper line longer than its Blech length, the particle wider than the space, the field lifted out of focus. Find it, name the cause, then apply the fix and watch it go. The model is [`defects.py`](sim/transistor_sim/physics/defects.py) with its JavaScript twin. See [Chapter 29](docs/29-spot-the-defect.md).
+
+<p align="center"><a href="https://normansrule.github.io/transistor-foundry-expedition/fab.html#defects"><img src="figures/screens/spot_defect.jpg" width="100%" alt="Spot the defect: four blocks polished together, the sparse one marked as the defect below the depth-of-focus band, with the explanation and the fix"></a></p>
+
+## Use it offline
+
+The site is an installable progressive web app (PWA). Open it once in Chrome, Edge or Safari and choose "Install" (or "Add to Home Screen"): every page, lab and manual then works with no network. Photos hotlinked from Wikimedia Commons are kept for offline use once you have seen them. `scripts/build_pwa.py` writes the manifest and the service worker's file list; `make pwa` reruns it after any change to the site.
+<p align="center"><sub>The layer builder: a nanosheet transistor cut along its channel after its last step, drawn to scale, with the twelve build steps and the cited dimensions.</sub></p>
+
+## Experiments you can run
+
+The [Experiments page](https://normansrule.github.io/transistor-foundry-expedition/experiments.html) has fourteen experiments that stand in for real process steps: yield (sand on a paper wafer), diffusion (dye in gelatin), lithography (a CD’s tracks with a Class 2 laser pointer, and printing with sunlight), the gate capacitor (foil and paper), junctions (a diode, LEDs and a diode thermometer), the MOSFET threshold, contact resistance (pencil lines), crystal growth, the four-point probe and an etch-rate series. Four are tier 0, eight tier 1, one tier 2 (a teaching lab) and one tier 3 (institution-only, no recipe). Each turns its readings into a straight line and fits it in the browser by least squares, with the same code in Python ([`fitting.py`](sim/transistor_sim/physics/fitting.py)) checked by the parity tests. See [Chapter 26](docs/26-experiments.md).
 
 ## The interactive site
 
 | Page | What it does |
 |---|---|
 | [**History**](https://normansrule.github.io/transistor-foundry-expedition/) | WebGL fluid hero, scroll-pinned timeline of 20 structures, three.js explorer that explodes seven architectures, compact-model device lab, Moore's-law chart, die photographs beside generated drawings, materials ranking, diamond lab, 14-step fab animation, niche atlas of 31 devices, lithography calculator and searchable bibliography |
-| [**Fab Journey**](https://normansrule.github.io/transistor-foundry-expedition/fab.html) | A lens that dives from the planet to the atoms, a stamped map of 13 process areas on three routes, a lithography theatre whose cross-section is computed from Fourier optics and photon shot noise (2D and 3D, seven stages, three depths, four failure modes), thirteen more theatres for Czochralski crystal growth with dopant segregation along the ingot, wafer cleaning (particles, killer size and iron lifetime, with no chemistry), oxidation, implantation, diffusion from a surface source, rapid thermal and spike anneals on a thermal budget, plasma etch with RIE lag, trench filling by PVD, CVD and ALD, CMP over three pattern densities, damascene copper lines with barrier and size-effect resistivity, wafer probe with a live wafer map, cost per good die and test escapes, the release of stacked nanosheets by a selective etch, and the 1959 planar process with the breakdown of its curved junction edge, each computed from its model, a gate-to-silicon view that shows nine logic gates from the inverter to XOR, a 28-transistor full adder and a 6T SRAM cell (also tiled into a 4-bit adder and a 4 × 4 memory array) as symbol, schematic, dimensioned mask layout, an explodable 3D cell and a cross-section in planar, FinFET and nanosheet form, and a Virtual Fab that checks your process order and computes the cross-section your traveler builds from the theatre models, at their defaults or at your own theatre settings |
+| [**Fab Journey**](https://normansrule.github.io/transistor-foundry-expedition/fab.html) | A lens that dives from the planet to the atoms, a stamped map of 13 process areas on three routes, a lithography theatre whose cross-section is computed from Fourier optics and photon shot noise (2D and 3D, seven stages, three depths, four failure modes), thirteen more theatres for Czochralski crystal growth with dopant segregation along the ingot, wafer cleaning (particles, killer size and iron lifetime, with no chemistry), oxidation, implantation, diffusion from a surface source, rapid thermal and spike anneals on a thermal budget, plasma etch with RIE lag, trench filling by PVD, CVD and ALD, CMP over three pattern densities, damascene copper lines with barrier and size-effect resistivity, wafer probe with a live wafer map, cost per good die and test escapes, the release of stacked nanosheets by a selective etch, and the 1959 planar process with the breakdown of its curved junction edge, each computed from its model, a gate-to-silicon view that shows nine logic gates from the inverter to XOR, a 28-transistor full adder and a 6T SRAM cell (also tiled into a 4-bit adder and a 4 × 4 memory array) as symbol, schematic, dimensioned mask layout, an explodable 3D cell and a cross-section in planar, FinFET and nanosheet form, a layer builder that builds five transistors from planar to CFET step by step to scale with cutaways, a tour and a same-scale comparison, and a Virtual Fab that checks your process order and computes the cross-section your traveler builds from the theatre models, at their defaults or at your own theatre settings |
 | [**Device Atlas**](https://normansrule.github.io/transistor-foundry-expedition/devices.html) | 19 animated transistors with band diagrams along the current path and through the gate, step-by-step walk-throughs, side-by-side comparison, 21-material band chart, heterojunction builder with doping and bias, and an 8-question self-test |
 | [**Physics Lab**](https://normansrule.github.io/transistor-foundry-expedition/physics.html) | 15 simulations in six parts, from crystal lattices to lithography optics, CMOS logic, ballistic transport and on-chip wires, each with guided experiments and typeset equations |
 | [**Circuit Lab**](https://normansrule.github.io/transistor-foundry-expedition/circuits.html) | A powers-of-ten zoom from a 300 mm wafer to one silicon bond, a switch-level gate builder with logical effort, an event-driven 8-bit adder, a six-transistor SRAM cell with butterfly curves, and a floating-gate flash cell with Fowler–Nordheim programming |
 | [**Process Lab**](https://normansrule.github.io/transistor-foundry-expedition/process.html) | An animated process flow, Deal–Grove oxidation, LSS ion implantation with diffusion anneals, a Monte Carlo wafer map with yield models and the cost per chip by node, an electromigration stress solver with the Blech length and Black's law, and a real teaching-cleanroom run (ten steps, measured oxides, etch bias, thresholds and capacitors) set against the models |
+| [**Experiments**](https://normansrule.github.io/transistor-foundry-expedition/experiments.html) | Fourteen experiments in four safety tiers, from sand on a paper wafer to a diode thermometer and a CD read with a laser pointer. Paste or upload readings as CSV and each one is fitted to a straight line in the browser, with residuals, standard errors and the cited value beside it ([Chapter 26](docs/26-experiments.md)). |
 | [**Analog & RF Lab**](https://normansrule.github.io/transistor-foundry-expedition/analog.html) | The radio spectrum from audio to 2 THz, a common-source amplifier with live distortion, g_m/I_D and intrinsic gain across six generations, Bode plots with the Miller effect beside record f_T and f_max, and thermal and 1/f noise |
 
 <p align="center"><a href="https://normansrule.github.io/transistor-foundry-expedition/fab.html"><img src="figures/screens/fab_journey.jpg" width="100%" alt="Fab Journey hero: a lens zooming from the planet to a gate-all-around transistor"></a></p>
@@ -512,7 +786,7 @@ The [Analog & RF Lab](https://normansrule.github.io/transistor-foundry-expeditio
 ## Chapters
 
 <details open>
-<summary><b>All 25 chapters</b>. Citations are written <code>[@key]</code>; each key resolves to <a href="REFERENCES.md">REFERENCES.md</a>.</summary>
+<summary><b>All 29 chapters</b>. Citations are written <code>[@key]</code>; each key resolves to <a href="REFERENCES.md">REFERENCES.md</a>.</summary>
 
 1. [Origins: the point contact and the junction](docs/01-origins.md) — 1947–1954
 2. [Oxide, the planar process and the integrated circuit](docs/02-planar-and-ic.md) — 1957–1961
@@ -539,6 +813,10 @@ The [Analog & RF Lab](https://normansrule.github.io/transistor-foundry-expeditio
 23. [The transistor as an amplifier: the Analog & RF Lab](docs/23-analog-rf-lab.md) — common-source gain and distortion, g_m/I_D and intrinsic gain, the Miller effect, f_T and f_max records, thermal and 1/f noise
 24. [The Fab Journey: one lot through the fab](docs/24-fab-journey.md) — the lot traveler, three routes, the lithography theatre with photon shot noise, process theatres for crystal growth, cleaning, oxidation, implant, diffusion, anneal, etch, deposition, CMP, nanosheet release, copper wiring, wafer probe and the 1959 planar process, gate to silicon, and the computed Virtual Fab
 25. [A real cleanroom run, checked against the models](docs/25-real-cleanroom-run.md) — one university teaching-cleanroom NMOS wafer: Deal–Grove against measured oxides, wet-etch bias, threshold voltage and oxide charge, capacitors, resistors and a 25 nm design exercise
+26. [Experiments you can run](docs/26-experiments.md) — fourteen tiered experiments fitted in the browser by least squares
+27. [The layer builder: planar to FinFET to nanosheet to CFET](docs/27-layer-builder.md) — six transistors built step by step to scale, effective width, footprint and natural length
+28. [Reading the node from the top of a chip](docs/28-node-reading-lab.md) — gate, fin and metal pitch and the SRAM bitcell, measured and matched to seven cited nodes
+29. [Spot the defect](docs/29-spot-the-defect.md) — seven process defects placed by the process models: find each one, name its cause and apply the fix
 
 </details>
 
@@ -597,7 +875,7 @@ transistor-foundry-expedition/
 └── CREDITS.md             photo attribution, generated
 ```
 
-**What is in it:** 19 devices and 21 band alignments · 33 landmark chips · 25 process nodes · 12 semiconductors · 20 structural eras · 31 niche devices · 16 diamond milestones · 9 dopants · 12 SRAM bitcells · 11 NAND milestones · 11 wafer prices · 7 speed records · 14 process steps · 7 crystal structures ([data/](data)) · 43 labelled cross-sections, 14 process-flow drawings, 12 GDS mask layouts, 39 charts, 19 band-diagram figures and 25 animations ([figures/](figures)) · ngspice netlists ([sim/spice](sim/spice)) · 15 seed fab steps ([data/fab_steps.json](data/fab_steps.json)) · 14 process theatres ([data/theatres.json](data/theatres.json)) · one measured cleanroom run ([data/lab_runs.json](data/lab_runs.json)) · 9 logic gates, a full adder and a 6T SRAM cell in three technologies ([data/gate_cells.json](data/gate_cells.json)) · 322 tests ([tests/](tests)).
+**What is in it:** 19 devices and 21 band alignments · 33 landmark chips · 25 process nodes · 12 semiconductors · 20 structural eras · 31 niche devices · 16 diamond milestones · 9 dopants · 12 SRAM bitcells · 11 NAND milestones · 11 wafer prices · 7 speed records · 14 process steps · 7 crystal structures ([data/](data)) · 43 labelled cross-sections, 14 process-flow drawings, 12 GDS mask layouts, 39 charts, 19 band-diagram figures and 25 animations ([figures/](figures)) · ngspice netlists ([sim/spice](sim/spice)) · 15 seed fab steps ([data/fab_steps.json](data/fab_steps.json)) · 14 process theatres ([data/theatres.json](data/theatres.json)) · one measured cleanroom run ([data/lab_runs.json](data/lab_runs.json)) · 9 logic gates, a full adder and a 6T SRAM cell in three technologies ([data/gate_cells.json](data/gate_cells.json)) · 345 tests ([tests/](tests)).
 
 ## Accuracy policy
 

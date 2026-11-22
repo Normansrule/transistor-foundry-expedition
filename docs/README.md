@@ -27,6 +27,8 @@
 | 23 | [The transistor as an amplifier: the Analog & RF Lab](23-analog-rf-lab.md) | 1920–2026 | ![](../figures/analog_gain_ft.png) |
 | 24 | [The Fab Journey: one lot through the fab](24-fab-journey.md) | 1970s–2026 | ![](../figures/lithography.png) |
 | 25 | [A real cleanroom run, checked against the models](25-real-cleanroom-run.md) | 2021–2024 | ![](../figures/process_oxidation.png) |
+| 26 | [Experiments you can run](26-experiments.md) | 1949–2026 | ![](../figures/process_yield_em.png) |
+| 27 | [The layer builder: planar to FinFET to nanosheet to CFET](27-layer-builder.md) | 2007–2026 | ![](../figures/lithography.png) |
 
 Step-by-step process manuals (photomask, lithography, etch, planarization) are in [manuals/](manuals/README.md).
 

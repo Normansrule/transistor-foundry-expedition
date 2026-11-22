@@ -3,6 +3,997 @@
  "schema_version": 1,
  "manuals": [
   {
+   "id": "wafer",
+   "code": "1",
+   "area": "materials",
+   "area_no": 1,
+   "fab_step": "wafer_start",
+   "title": "Grow the crystal and cut the wafer",
+   "subtitle": "Czochralski growth: melt, seed, neck, body, grind, slice, polish, sort",
+   "route": "Every silicon route starts here",
+   "next": "Manual 2 · Cleaning",
+   "intro": "Every chip starts as one perfect crystal. Ultra-pure silicon is melted with a pinch of dopant, a seed crystal is dipped in and slowly pulled up, and the melt freezes onto it atom by atom in the seed’s own arrangement. The ingot is then ground, sliced into wafers and polished to a mirror. The dopant does not freeze in evenly, which is why resistivity changes along the ingot.",
+   "model_after": "Dopant along the ingot follows the Scheil equation [@scheil1942] with segregation coefficients from Trumbore [@trumbore1960] and the effective-k theory of Burton, Prim and Slichter [@bps1953], as in the Fab Journey’s crystal theatre; crystal pulling follows Czochralski [@czochralski1918], Teal and Little [@teal1950] and Dash [@dash1959]; wafer practice follows Plummer, Deal and Griffin [@plummer2000].",
+   "you_need": [
+    {
+     "m": "si",
+     "label": "Electronic-grade polysilicon chunks"
+    },
+    {
+     "m": "chrome",
+     "label": "Crystal puller with quartz crucible (staff-run)"
+    },
+    {
+     "m": "chrome",
+     "label": "Grinder, wire saw, polisher, four-point probe"
+    }
+   ],
+   "steps": [
+    {
+     "n": 1,
+     "id": "melt",
+     "title": "Melt the silicon and add the dopant",
+     "tier": 2,
+     "do": "Load polysilicon into a quartz crucible, add the dopant and melt it all under argon. The melt is doped richer than the target, because the crystal will take in only a fraction k of it.",
+     "check": "Melt temperature steady; dopant weight logged.",
+     "chips": [
+      {
+       "t": "the crystal takes in only a fraction k of the dopant [@bps1953]"
+      },
+      {
+       "t": "boron k ≈ 0.8, phosphorus k ≈ 0.35 [@trumbore1960]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "melt",
+        "h": 22,
+        "new": true,
+        "tag": "Doped melt"
+       }
+      ],
+      "props": [
+       "oven"
+      ],
+      "oven_label": "crystal puller, argon"
+     },
+     "spec": {
+      "tool": "Czochralski crystal puller",
+      "purpose": "Make a melt that freezes to the target resistivity",
+      "params": [
+       {
+        "name": "Segregation coefficient, boron",
+        "value": "≈ 0.8",
+        "ref": "trumbore1960"
+       },
+       {
+        "name": "Segregation coefficient, phosphorus",
+        "value": "≈ 0.35",
+        "ref": "trumbore1960"
+       }
+      ],
+      "control": "Charge weight, dopant weight, melt temperature",
+      "ooc": "Wrong dopant weight: the ingot misses its resistivity and is sold to a looser spec"
+     },
+     "deep": "The melt is doped to N_seed / k so that the first part of the crystal hits the target. Silicon melts at about 1414 °C, so the puller is a staff-run, water-cooled furnace [@plummer2000].",
+     "lab": "fab.html#proc-czochralski"
+    },
+    {
+     "n": 2,
+     "id": "seed",
+     "title": "Dip the seed and pull a thin neck",
+     "tier": 2,
+     "do": "Lower a small seed crystal of the chosen orientation into the melt, let it wet, then pull a thin neck before widening.",
+     "check": "The neck is thin and even; the meniscus is stable.",
+     "chips": [
+      {
+       "t": "a thin neck lets dislocations grow out: dislocation-free silicon [@dash1959]"
+      },
+      {
+       "t": "the seed sets the orientation of the whole ingot, (100) for MOS [@plummer2000]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "melt",
+        "h": 22
+       },
+       {
+        "m": "si",
+        "h": 12,
+        "segs": [
+         [
+          45,
+          55
+         ]
+        ],
+        "new": true,
+        "tag": "Seed and neck"
+       }
+      ],
+      "props": [
+       "oven"
+      ],
+      "oven_label": "crystal puller, argon"
+     },
+     "spec": {
+      "tool": "Crystal puller",
+      "purpose": "Start one perfect crystal",
+      "params": [],
+      "control": "Seed rotation, pull speed, neck diameter",
+      "ooc": "Dislocations in the neck: melt back and dip again"
+     },
+     "deep": "The thermal shock of dipping makes dislocations in the seed. Pulling a thin, fast neck lets them run out to the surface and vanish, so the ingot above it grows free of them, as Dash showed in 1959 [@dash1959]."
+    },
+    {
+     "n": 3,
+     "id": "body",
+     "title": "Pull the body",
+     "tier": 2,
+     "do": "Widen to the full diameter, then pull the crystal slowly upward while seed and crucible turn in opposite directions.",
+     "check": "Diameter on target along the whole body.",
+     "chips": [
+      {
+       "t": "a slower pull or a cooler melt makes the crystal wider [@plummer2000]"
+      },
+      {
+       "t": "the dopant piles up in the melt, so resistivity falls along the ingot [@scheil1942]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "melt",
+        "h": 12
+       },
+       {
+        "m": "si",
+        "h": 26,
+        "segs": [
+         [
+          22,
+          78
+         ]
+        ],
+        "new": true,
+        "tag": "Ingot body"
+       }
+      ],
+      "props": [
+       "oven"
+      ],
+      "oven_label": "crystal puller, argon"
+     },
+     "spec": {
+      "tool": "Crystal puller with diameter control",
+      "purpose": "Grow the full-diameter crystal",
+      "params": [],
+      "control": "Pull rate, rotation, melt temperature, diameter camera",
+      "ooc": "Diameter swing: the controller adjusts pull rate and heater power"
+     },
+     "deep": "As the crystal grows, the interface rejects a fraction 1 − k of the dopant back into the shrinking melt, so the melt and the next slice of crystal get richer. The solid follows C_s = kC₀(1 − f)^(k−1), where f is the fraction already frozen [@scheil1942]. Stirring and pull rate shift the effective k [@bps1953].",
+     "eq": "C_s(f) = k·C₀·(1 − f)^(k−1)",
+     "lab": "fab.html#proc-czochralski"
+    },
+    {
+     "n": 4,
+     "id": "grind",
+     "title": "Grind and mark the orientation",
+     "tier": 1,
+     "do": "Grind the ingot to an exact diameter and cut a notch or flat along it that marks the crystal orientation.",
+     "check": "Diameter and notch position within tolerance.",
+     "chips": [
+      {
+       "t": "the notch tells every later tool which way the crystal faces [@plummer2000]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 30,
+        "new": true,
+        "tag": "Ground ingot"
+       }
+      ]
+     },
+     "spec": {
+      "tool": "Cylindrical grinder; X-ray orientation",
+      "purpose": "Make every wafer the same size and orientation",
+      "params": [],
+      "control": "Diameter; notch angle by X-ray",
+      "ooc": "Notch misplaced: regrind or downgrade"
+     },
+     "deep": "Lithography and etching depend on the crystal planes, so every wafer carries its orientation with it. X-ray diffraction finds the planes before the notch is ground [@plummer2000]."
+    },
+    {
+     "n": 5,
+     "id": "slice",
+     "title": "Slice, flatten and polish",
+     "tier": 2,
+     "do": "Saw the ingot into thin wafers, remove the sawing damage and polish one face to a mirror.",
+     "check": "Thickness, flatness and surface meet the spec.",
+     "chips": [
+      {
+       "t": "the damage-removal etch is institution-only chemistry"
+      },
+      {
+       "t": "the final polish is chemical-mechanical, like planarization [@plummer2000]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 7,
+        "new": true,
+        "tag": "Polished wafer"
+       }
+      ],
+      "props": [
+       "pad"
+      ]
+     },
+     "spec": {
+      "tool": "Wire saw, lapper, polisher",
+      "purpose": "Turn the ingot into flat, mirror-smooth wafers",
+      "params": [],
+      "control": "Thickness, total thickness variation, roughness",
+      "ooc": "Scratches or haze: repolish; warp: reject"
+     },
+     "deep": "Sawing leaves a damaged layer that would crack and trap impurities, so it is lapped and chemically etched away before the polish. The etch chemistry stays with the wafer maker [@plummer2000].",
+     "lab": "manuals/planarize.html"
+    },
+    {
+     "n": 6,
+     "id": "sort",
+     "title": "Measure and sort",
+     "tier": 1,
+     "do": "Measure resistivity at points along the ingot and on each wafer. Wafers inside the customer’s band are prime; the rest go to looser uses.",
+     "check": "Resistivity within the band; no dislocations or particles.",
+     "chips": [
+      {
+       "t": "resistivity falls from seed to tail for any k below 1 [@scheil1942]"
+      },
+      {
+       "t": "resistivity comes from doping through the mobility [@caughey1967]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 7
+       }
+      ],
+      "props": [
+       "probe",
+       "stamp"
+      ],
+      "probe_label": "four-point probe"
+     },
+     "spec": {
+      "tool": "Four-point probe; particle scanner",
+      "purpose": "Keep only wafers that meet the spec",
+      "params": [],
+      "control": "Resistivity map; particle count",
+      "ooc": "Out of band: sold to a looser spec or recycled"
+     },
+     "deep": "Only part of each ingot stays inside a tight resistivity band; the crystal theatre shows how much for each dopant and tolerance. Resistivity follows ρ = 1/(qμN) with the mobility falling as doping rises [@caughey1967].",
+     "eq": "ρ = 1 / (q·μ(N)·N)",
+     "lab": "fab.html#proc-czochralski"
+    }
+   ],
+   "variant": {
+    "eyebrow": "Where it came from",
+    "title": "From a metals experiment to 300 mm wafers",
+    "lead": "A method for measuring how fast metals crystallise became the start of every chip.",
+    "facts": [
+     {
+      "t": "Czochralski pulled metal crystals from a melt in 1918 to measure crystallisation speed",
+      "ref": "czochralski1918"
+     },
+     {
+      "t": "Teal and Little pulled single crystals of germanium at Bell Labs in 1950",
+      "ref": "teal1950"
+     },
+     {
+      "t": "Dash’s thin neck gave dislocation-free silicon in 1959",
+      "ref": "dash1959"
+     },
+     {
+      "t": "Boron’s segregation coefficient is about 0.8, phosphorus’s about 0.35",
+      "ref": "trumbore1960"
+     }
+    ],
+    "safety": "Crystal pullers hold molten silicon above 1400 °C under argon and are run only by trained staff; the damage-removal etch uses institution-only chemistry."
+   },
+   "photos": [],
+   "leave_out": [
+    "Dopant follows the Scheil equation with one effective k; real pulls vary it with pull rate and stirring.",
+    "Oxygen from the quartz crucible, which every Czochralski wafer contains, is described, not modelled.",
+    "Float-zone growth and silicon-on-insulator wafers are left out.",
+    "No etch chemistry or furnace setting is given: the puller and the etch are staff-run."
+   ],
+   "refs": [
+    "czochralski1918",
+    "teal1950",
+    "dash1959",
+    "scheil1942",
+    "bps1953",
+    "trumbore1960",
+    "caughey1967",
+    "plummer2000"
+   ]
+  },
+  {
+   "id": "cleaning",
+   "code": "2",
+   "area": "cleaning",
+   "area_no": 2,
+   "fab_step": "rca_clean",
+   "title": "Clean the wafer before every furnace",
+   "subtitle": "Wafer cleaning, explained conceptually: count, remove films, oxide, particles and metals, rinse and count again",
+   "route": "Every route: before each oxidation, diffusion and deposition",
+   "next": "Manual 4B · Photomask, or straight into a furnace step",
+   "intro": "A wafer that looks spotless still carries oily films, a thin skin of oxide, dust and single metal atoms. Any of them can ruin a transistor: a particle bridges two lines, a trace of iron kills the electrons that should carry current. Fabs clean before every hot step. The chemistry is institution-only, so this manual shows what each stage removes and why, never how to mix or handle anything.",
+   "model_after": "The stages follow Kern’s cleaning sequence and his review of how it evolved [@kern1970] [@kern1990]; particle sizes and killer defects follow Stapper [@stapper1983]; iron in silicon follows Istratov and co-workers [@istratov1999]. The cleaning theatre computes what is left after each stage.",
+   "you_need": [
+    {
+     "m": "si",
+     "label": "Wafer arriving from the last step",
+     "from": "Any manual"
+    },
+    {
+     "m": "chrome",
+     "label": "Wet bench run by trained staff"
+    },
+    {
+     "m": "chrome",
+     "label": "Laser particle scanner"
+    }
+   ],
+   "steps": [
+    {
+     "n": 1,
+     "id": "count",
+     "title": "Count what is on the wafer",
+     "tier": 0,
+     "do": "Scan the wafer with a laser particle counter before it is cleaned. Every speck that scatters light is logged with its size and place.",
+     "check": "The count and the map go on the traveler.",
+     "chips": [
+      {
+       "t": "small particles far outnumber large ones [@stapper1983]"
+      },
+      {
+       "t": "a map shows where they came from"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "oxide",
+        "h": 4
+       }
+      ],
+      "props": [
+       "particles"
+      ]
+     },
+     "spec": {
+      "tool": "Laser particle scanner",
+      "purpose": "Know the starting contamination",
+      "params": [],
+      "control": "Particles per wafer above the inspection size",
+      "ooc": "Count far above normal: look for the tool that added them"
+     },
+     "deep": "Particle sizes follow roughly an inverse cube law, so most of the count is small particles. What matters is how many are larger than the narrowest line, the killer size, because those can short or break a wire [@stapper1983]."
+    },
+    {
+     "n": 2,
+     "id": "organic",
+     "title": "Remove organic films",
+     "tier": 3,
+     "do": "The first bath turns oily films from resist, handling and the air into gas. They would otherwise shield everything underneath from the later stages.",
+     "check": "The surface wets evenly: no beading.",
+     "chips": [
+      {
+       "t": "organics go first because they hide the rest"
+      },
+      {
+       "t": "institution-only chemistry"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "oxide",
+        "h": 4
+       },
+       {
+        "m": "organic",
+        "h": 6,
+        "new": true,
+        "tag": "Organic film"
+       }
+      ]
+     },
+     "spec": {
+      "tool": "Wet bench with fume extraction",
+      "purpose": "Strip organic contamination",
+      "params": [],
+      "control": "Bath age and temperature, set by the lab",
+      "ooc": "Beading or stains: the wafer is re-cleaned"
+     },
+     "deep": "A strongly oxidising treatment turns organic residues into gases and leaves a thin chemical oxide behind [@kern1990]. Nothing about the mixture is published here: it is handled only by trained staff under the lab’s own rules."
+    },
+    {
+     "n": 3,
+     "id": "oxide",
+     "title": "Dissolve the thin oxide",
+     "tier": 3,
+     "do": "A short dip dissolves the thin skin of oxide on top. Metals and particles trapped inside it come away with it, and bare silicon is left.",
+     "check": "The surface sheds water: bare silicon is hydrophobic.",
+     "chips": [
+      {
+       "t": "frees what the oxide had trapped"
+      },
+      {
+       "t": "institution-only chemistry"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "oxide",
+        "h": 4,
+        "new": true,
+        "tag": "Oxide skin removed"
+       }
+      ]
+     },
+     "spec": {
+      "tool": "Wet bench with fume extraction",
+      "purpose": "Remove native and chemical oxide",
+      "params": [],
+      "control": "Dip time and bath condition, set by the lab",
+      "ooc": "Water still sheets on the wafer: oxide left behind"
+     },
+     "deep": "The etchant for this stage is among the most dangerous chemicals in a fab. It is institution-only, handled only under supervision, and this manual shows only its result: clean, bare silicon that must move on quickly before it reoxidises."
+    },
+    {
+     "n": 4,
+     "id": "particles",
+     "title": "Lift the particles off",
+     "tier": 3,
+     "do": "A gentle bath, often helped by sound waves, undercuts each grain by a whisker of material and charges grains and wafer alike so they push apart.",
+     "check": "A test wafer shows the particle count fell by the expected share.",
+     "chips": [
+      {
+       "t": "each pass removes a fixed share of what is left"
+      },
+      {
+       "t": "institution-only chemistry"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "oxide",
+        "h": 3
+       }
+      ],
+      "props": [
+       "particles"
+      ],
+      "particles_label": "particles lift away"
+     },
+     "spec": {
+      "tool": "Wet bench, often with megasonic agitation",
+      "purpose": "Remove particles",
+      "params": [],
+      "control": "Removal efficiency on monitor wafers",
+      "ooc": "Particles return: the bath or rinse water is dirty"
+     },
+     "deep": "If one pass removes a fraction η, the count after n passes is N₀(1 − η)ⁿ, so a second pass helps far less than the first. The cleaning theatre lets you try it.",
+     "eq": "N = N₀ (1 − η)ⁿ",
+     "lab": "fab.html#proc-cleaning"
+    },
+    {
+     "n": 5,
+     "id": "metals",
+     "title": "Pull out metal traces",
+     "tier": 3,
+     "do": "A last bath takes metal atoms such as iron off the surface before any furnace can drive them into the silicon.",
+     "check": "Lifetime or surface-photovoltage maps on a monitor wafer stay clean.",
+     "chips": [
+      {
+       "t": "iron shortens the life of every electron"
+      },
+      {
+       "t": "institution-only chemistry"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "oxide",
+        "h": 3,
+        "new": true,
+        "tag": "Metals removed"
+       }
+      ]
+     },
+     "spec": {
+      "tool": "Wet bench with fume extraction",
+      "purpose": "Remove metal ions",
+      "params": [],
+      "control": "Metal levels on monitor wafers",
+      "ooc": "Short lifetimes on monitors: stop the furnace queue"
+     },
+     "deep": "Interstitial iron is a recombination centre. The electron lifetime falls as τ = 1/(σₙ v_th N_Fe): at 10¹⁰ iron atoms per cm³ it is about 180 µs, at 10¹² about 1.8 µs [@istratov1999] [@macdonald2001]. Image sensors and solar cells notice first.",
+     "eq": "τ = 1 / (σₙ v_th N_Fe)"
+    },
+    {
+     "n": 6,
+     "id": "rinse",
+     "title": "Rinse, dry and count again",
+     "tier": 1,
+     "do": "Rinse in ultrapure water, spin dry, and scan the wafer again. Only a wafer that passes may go into a shared furnace.",
+     "check": "Particle count below the lab’s limit, and the wafer goes straight to the furnace.",
+     "chips": [
+      {
+       "t": "ultrapure water between and after every bath [@kern1990]"
+      },
+      {
+       "t": "a dirty wafer contaminates every lot after it"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "oxide",
+        "h": 3
+       }
+      ],
+      "props": [
+       "rinse",
+       "stamp"
+      ]
+     },
+     "spec": {
+      "tool": "Spin rinser-dryer and laser particle scanner",
+      "purpose": "Leave a dry, clean, counted wafer",
+      "params": [],
+      "control": "Particle count; time from clean to furnace",
+      "ooc": "Too many particles: clean again before the furnace"
+     },
+     "deep": "Killer particles become the defect density D₀ that the yield model turns into lost dies [@stapper1983]. Kern’s review traces how cleaning methods evolved as the particles that mattered grew smaller [@kern1990]."
+    }
+   ],
+   "variant": {
+    "eyebrow": "Why it matters",
+    "title": "Four kinds of dirt, four kinds of damage",
+    "lead": "Each stage targets one kind of contamination, and each kind breaks a chip in its own way.",
+    "facts": [
+     {
+      "t": "The sequence was developed at RCA Laboratories in 1965 and published in 1970",
+      "refs": [
+       "kern1970",
+       "kern1990"
+      ]
+     },
+     {
+      "t": "With an inverse-cube size distribution, halving the killer size makes four times as many particles deadly",
+      "ref": "stapper1983"
+     },
+     {
+      "t": "Iron in silicon is one of the most harmful metal contaminants for carrier lifetime",
+      "ref": "istratov1999"
+     },
+     {
+      "t": "At 10¹² iron atoms per cm³ the electron lifetime drops to about 1.8 µs",
+      "refs": [
+       "istratov1999",
+       "macdonald2001"
+      ]
+     }
+    ],
+    "safety": "Every cleaning bath in this manual uses chemistry that is handled only inside a cleanroom, by trained people, with the lab’s own procedures and protective equipment. None of it is described here, and none of it should ever be tried elsewhere."
+   },
+   "photos": [],
+   "leave_out": [
+    "No chemistry, concentrations, temperatures or times are given for any bath: they are institution-only.",
+    "Particle removal is modelled as a fixed fraction per pass; real removal depends on particle size, material and how long it has been stuck.",
+    "Only iron is followed as a metal; copper, nickel and others behave differently.",
+    "Drying marks, surface roughening and re-deposition from the rinse are not drawn."
+   ],
+   "refs": [
+    "kern1970",
+    "kern1990",
+    "stapper1983",
+    "istratov1999",
+    "macdonald2001"
+   ]
+  },
+  {
+   "id": "oxidation",
+   "code": "3",
+   "area": "oxidation",
+   "area_no": 3,
+   "fab_step": "ox_thermal",
+   "title": "Grow glass on the silicon",
+   "subtitle": "Thermal oxidation: load, ramp, oxidise dry or wet, anneal, unload, measure",
+   "route": "Every route that starts with silicon: field oxide, gate oxide, masking and screen oxides",
+   "next": "Manual 4B · Photomask, then Manual 4A · Lithography",
+   "intro": "Silicon makes its own insulator. Heat it in oxygen or steam and a layer of silicon dioxide grows from the surface down, part of it made of silicon taken from the wafer itself. That glass is the best-behaved interface any semiconductor has, and it made the planar process and the MOSFET possible.",
+   "model_after": "Growth follows the Deal–Grove law [@dealgrove1965] with the rate constants used across the site [@hollauer_dg]; furnace practice follows Plummer, Deal and Griffin [@plummer2000]; the recipes and thicknesses come from a four-mask NMOS run in a university teaching cleanroom [@cleanroom_run_fab2024].",
+   "you_need": [
+    {
+     "m": "si",
+     "label": "Freshly cleaned wafer",
+     "from": "Manual 2 · Cleaning"
+    },
+    {
+     "m": "chrome",
+     "label": "Oxidation furnace"
+    },
+    {
+     "m": "chrome",
+     "label": "Ellipsometer or reflectometer"
+    }
+   ],
+   "steps": [
+    {
+     "n": 1,
+     "id": "load",
+     "title": "Load the boat",
+     "tier": 2,
+     "do": "Stand the wafers in a quartz boat with a monitor wafer at each end and push it slowly into the furnace while it idles under nitrogen.",
+     "check": "Every slot logged; monitors in place.",
+     "chips": [
+      {
+       "t": "load straight from cleaning [@plummer2000]"
+      },
+      {
+       "t": "slow push avoids warp and slip"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       }
+      ],
+      "props": [
+       "oven"
+      ],
+      "oven_label": "oxidation furnace"
+     },
+     "spec": {
+      "tool": "Horizontal or vertical tube furnace",
+      "purpose": "Get clean wafers into the heat",
+      "params": [],
+      "control": "Load map and push speed",
+      "ooc": "Wafers waited too long after cleaning: clean again"
+     },
+     "deep": "A wafer that waits after cleaning collects a native oxide and particles that would be sealed under the new film. Monitor wafers at both ends of the load show whether every position saw the same heat [@plummer2000]."
+    },
+    {
+     "n": 2,
+     "id": "ramp",
+     "title": "Ramp up in nitrogen",
+     "tier": 2,
+     "do": "Raise the furnace to the oxidation temperature under nitrogen, so no oxide grows until the temperature is steady.",
+     "check": "All zones read the set point.",
+     "chips": [
+      {
+       "t": "the rate depends exponentially on temperature [@dealgrove1965]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       }
+      ],
+      "props": [
+       "oven"
+      ],
+      "oven_label": "ramping in nitrogen"
+     },
+     "spec": {
+      "tool": "Tube furnace with profiled zones",
+      "purpose": "Reach a stable temperature first",
+      "params": [],
+      "control": "Zone temperatures",
+      "ooc": "A zone off its set point: stop and recalibrate"
+     },
+     "deep": "Both Deal–Grove rate constants follow Arrhenius laws, so a few degrees of error changes the thickness measurably [@dealgrove1965] [@hollauer_dg]. Ramp rates and set points are part of every qualified recipe."
+    },
+    {
+     "n": 3,
+     "id": "dry",
+     "title": "Grow a gate oxide in dry oxygen",
+     "tier": 2,
+     "do": "Switch the gas to dry oxygen. A thin, dense oxide grows slowly and evenly from the surface down.",
+     "check": "The monitor wafer will tell; nothing to see yet.",
+     "chips": [
+      {
+       "t": "teaching run: 1100 °C for 60 minutes gave 114 nm [@cleanroom_run_fab2024]"
+      },
+      {
+       "t": "Deal–Grove predicts 111 nm [@dealgrove1965] [@hollauer_dg]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 30
+       },
+       {
+        "m": "oxide",
+        "h": 6,
+        "new": true,
+        "tag": "Gate oxide"
+       }
+      ],
+      "props": [
+       "oven",
+       "gas"
+      ],
+      "oven_label": "dry oxygen",
+      "gas_label": "O₂ in"
+     },
+     "spec": {
+      "tool": "Tube furnace",
+      "purpose": "Grow the insulator under the gate",
+      "params": [
+       {
+        "name": "Temperature",
+        "value": "1100 °C",
+        "ref": "cleanroom_run_fab2024"
+       },
+       {
+        "name": "Time",
+        "value": "60 min",
+        "ref": "cleanroom_run_fab2024"
+       },
+       {
+        "name": "Measured thickness",
+        "value": "114 nm",
+        "ref": "cleanroom_run_fab2024"
+       }
+      ],
+      "control": "Time at temperature and gas flow",
+      "ooc": "Thin or thick on the monitor: check temperature profile and flow"
+     },
+     "deep": "Oxygen diffuses through the oxide already grown and reacts at the silicon below. A thin film grows linearly, at B/A; a thick one slows to x² = Bt [@dealgrove1965]. For every nanometre of oxide, 0.44 nm of silicon is consumed [@plummer2000].",
+     "eq": "x² + A x = B (t + τ)",
+     "lab": "fab.html#proc-oxidation"
+    },
+    {
+     "n": 4,
+     "id": "wet",
+     "title": "Grow a field oxide in steam",
+     "tier": 2,
+     "do": "For thick isolation, run a short dry step, a long step in steam, and a short dry step again. Steam carries far more oxidant through the oxide, so it grows many times faster.",
+     "check": "The colour of the monitor wafer has changed through several orders of interference.",
+     "chips": [
+      {
+       "t": "teaching run: dry–wet–dry, 5–90–5 minutes at 1000 °C [@cleanroom_run_fab2024]"
+      },
+      {
+       "t": "teaching run: 548 nm measured, 517 nm by Deal–Grove [@cleanroom_run_fab2024]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 24
+       },
+       {
+        "m": "oxide",
+        "h": 20,
+        "new": true,
+        "tag": "Field oxide"
+       }
+      ],
+      "props": [
+       "oven",
+       "gas"
+      ],
+      "oven_label": "steam",
+      "gas_label": "H₂O in"
+     },
+     "spec": {
+      "tool": "Tube furnace with a steam source",
+      "purpose": "Grow a thick isolating oxide",
+      "params": [
+       {
+        "name": "Temperature",
+        "value": "1000 °C",
+        "ref": "cleanroom_run_fab2024"
+       },
+       {
+        "name": "Dry–wet–dry",
+        "value": "5–90–5 min",
+        "ref": "cleanroom_run_fab2024"
+       },
+       {
+        "name": "Measured thickness",
+        "value": "548 nm",
+        "ref": "cleanroom_run_fab2024"
+       }
+      ],
+      "control": "Steam flow and time",
+      "ooc": "Thin oxide: the steam source may be running weak"
+     },
+     "deep": "The dry steps give a clean interface underneath and a dense skin on top; the wet step does the bulk of the growth. Earlier runs of the same recipe gave 445 and 522 nm [@teaching_process_manual2023], so run-to-run spread is part of the lesson.",
+     "lab": "fab.html#vfab"
+    },
+    {
+     "n": 5,
+     "id": "anneal",
+     "title": "Anneal in nitrogen",
+     "tier": 2,
+     "do": "Switch back to nitrogen and hold the temperature for a while. The oxide does not grow, but its charge settles.",
+     "check": "Gas switched; hold time logged.",
+     "chips": [
+      {
+       "t": "lowers the fixed charge near the interface [@plummer2000]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 30
+       },
+       {
+        "m": "oxide",
+        "h": 6
+       }
+      ],
+      "props": [
+       "oven"
+      ],
+      "oven_label": "nitrogen anneal"
+     },
+     "spec": {
+      "tool": "Tube furnace",
+      "purpose": "Reduce fixed oxide charge",
+      "params": [],
+      "control": "Anneal time and ambient",
+      "ooc": "High fixed charge on C–V tests: lengthen the anneal"
+     },
+     "deep": "Charge left in the oxide near the interface shifts the threshold voltage of every transistor built on it. In the teaching run that charge pulled the thresholds negative, which the Process Lab works out from the measured values [@cleanroom_run_char2024]."
+    },
+    {
+     "n": 6,
+     "id": "measure",
+     "title": "Unload and measure",
+     "tier": 1,
+     "do": "Ramp down slowly, pull the boat out, and measure the monitor wafers at several points with an ellipsometer or a reflectometer.",
+     "check": "Mean and spread inside the limits for the recipe.",
+     "chips": [
+      {
+       "t": "a colour chart gives a quick first estimate"
+      },
+      {
+       "t": "silicon consumed: 0.44 nm per nm of oxide [@plummer2000]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 30
+       },
+       {
+        "m": "oxide",
+        "h": 6
+       }
+      ],
+      "props": [
+       "lens",
+       "stamp"
+      ],
+      "lens_label": "ellipsometer"
+     },
+     "spec": {
+      "tool": "Ellipsometer or spectral reflectometer",
+      "purpose": "Confirm the thickness",
+      "params": [
+       {
+        "name": "Gate oxide, teaching run",
+        "value": "114 nm",
+        "ref": "cleanroom_run_fab2024"
+       },
+       {
+        "name": "Field oxide, teaching run",
+        "value": "548 nm",
+        "ref": "cleanroom_run_fab2024"
+       }
+      ],
+      "control": "Thickness map on monitors",
+      "ooc": "Out of limits: the lot is held and the furnace checked"
+     },
+     "deep": "Ellipsometry fits the change in polarisation of reflected light to thickness and refractive index. A gate oxide is also tested electrically: capacitance against voltage gives its thickness, charge and interface quality [@plummer2000]."
+    }
+   ],
+   "variant": {
+    "eyebrow": "Compare",
+    "title": "Dry oxygen versus steam",
+    "lead": "Dry oxide is slow and dense, for gates. Steam is fast, for thick isolation and masks.",
+    "facts": [
+     {
+      "t": "Grown oxide masks silicon against dopants",
+      "ref": "frosch1957"
+     },
+     {
+      "t": "Thermal oxide passivates the silicon surface",
+      "ref": "atalla1959"
+     },
+     {
+      "t": "Deal and Grove’s linear-parabolic law covers both dry and wet growth",
+      "ref": "dealgrove1965"
+     },
+     {
+      "t": "Teaching run: the model lands within 6 % of the measured gate and field oxides",
+      "ref": "cleanroom_run_fab2024"
+     }
+    ]
+   },
+   "photos": [],
+   "leave_out": [
+    "Deal–Grove underestimates very thin dry oxides, which grow faster at the start than the law predicts.",
+    "The steam source is treated as one atmosphere of water vapour; a weak source gives less.",
+    "Stress, orientation effects at edges and dopant-enhanced oxidation are not drawn.",
+    "Furnace times and temperatures here are one teaching run’s values, not a qualified recipe for any tool."
+   ],
+   "refs": [
+    "dealgrove1965",
+    "hollauer_dg",
+    "plummer2000",
+    "frosch1957",
+    "atalla1959",
+    "cleanroom_run_fab2024",
+    "cleanroom_run_char2024",
+    "teaching_process_manual2023"
+   ]
+  },
+  {
    "id": "photomask",
    "code": "4B",
    "area": "lithography",
@@ -1356,7 +2347,7 @@
    "title": "Carve the pattern into the film",
    "subtitle": "Plasma (reactive ion) etch: load, pump down, flow gas, strike plasma, etch, endpoint, over-etch, strip, measure",
    "route": "Teaching CMOS and modern logic: every layer that lithography patterns is etched next",
-   "next": "Manual 6 · Doping, or Manual 7 · Deposition",
+   "next": "Manual 6A · Diffusion, Manual 6B · Implantation, Manual 7A · Metal or Manual 7B · Deposition",
    "intro": "Lithography only draws the pattern in resist. Etching copies it into the film underneath: oxide, polysilicon, nitride or metal. A wet etch dissolves the film in liquid and eats sideways as fast as down. A plasma etch fires ions straight down, so the walls stay vertical and small features survive.",
    "model_after": "Tool facts come from public university cleanroom pages [@byu_rie] [@ucsb_rie1]. The wet-versus-dry comparison uses measured widths from a four-mask NMOS run in a university teaching cleanroom [@cleanroom_run_fab2024].",
    "you_need": [
@@ -2057,6 +3048,2242 @@
    ]
   },
   {
+   "id": "diffusion",
+   "code": "6A",
+   "area": "doping",
+   "area_no": 6,
+   "fab_step": "diffuse_predep",
+   "title": "Bake the dopant into the silicon",
+   "subtitle": "Furnace diffusion: open windows, predeposit, remove the source, drive in, measure",
+   "route": "Teaching CMOS (source and drain) and the historical planar process",
+   "next": "Manual 7A · Metal",
+   "intro": "Before ion implanters, every junction was made in a furnace, and teaching cleanrooms still make them that way. A dopant-rich source sits on bare silicon, atoms soak in from the surface, the source is removed and a second bake drives them deeper. Oxide decides where the dopant can go. The dopant sources are institution-only, so those stages stay conceptual.",
+   "model_after": "Profiles follow the textbook predeposition and drive-in solutions [@plummer2000] with intrinsic diffusivities [@uiuc_diffusivity]; oxide masking follows Frosch and Derick [@frosch1957]; run values come from a four-mask NMOS run in a university teaching cleanroom [@cleanroom_run_fab2024] [@cleanroom_run_char2024].",
+   "you_need": [
+    {
+     "m": "oxide",
+     "label": "Wafer with windows opened in the oxide",
+     "from": "Manual 5 · Etch"
+    },
+    {
+     "m": "chrome",
+     "label": "Diffusion furnace (staff-run)"
+    },
+    {
+     "m": "chrome",
+     "label": "Four-point probe"
+    }
+   ],
+   "steps": [
+    {
+     "n": 1,
+     "id": "windows",
+     "title": "Check the windows are open",
+     "tier": 1,
+     "do": "Look at the wafer under the microscope. Where the oxide has been etched away, bare silicon shows; everywhere else oxide will block the dopant.",
+     "check": "Windows are clean and fully open; no oxide film left in them.",
+     "chips": [
+      {
+       "t": "oxide masks dopant diffusion [@frosch1957]"
+      },
+      {
+       "t": "in MOS the gate masks the channel"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "oxide",
+        "h": 14,
+        "segs": [
+         [
+          0,
+          34
+         ],
+         [
+          66,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "open",
+        "h": 14,
+        "segs": [
+         [
+          34,
+          66
+         ]
+        ],
+        "stack": "oxide",
+        "new": true,
+        "tag": "Window"
+       }
+      ],
+      "props": [
+       "lens"
+      ]
+     },
+     "spec": {
+      "tool": "Inspection microscope",
+      "purpose": "Confirm the openings",
+      "params": [],
+      "control": "Window size and cleanliness",
+      "ooc": "Film left in the window: the junction comes out uneven"
+     },
+     "deep": "Dopants diffuse far more slowly in silicon dioxide than in silicon, so an oxide layer masks the silicon beneath it [@frosch1957]. Hoerni’s planar process made every junction this way, through windows in the oxide [@hoerni1962]."
+    },
+    {
+     "n": 2,
+     "id": "source",
+     "title": "Coat the dopant source",
+     "tier": 3,
+     "do": "A thin film rich in dopant is put on the wafer by trained staff. It touches the silicon only where the windows are open.",
+     "check": "The film covers the wafer evenly.",
+     "chips": [
+      {
+       "t": "the source keeps the surface concentration fixed"
+      },
+      {
+       "t": "dopant sources are institution-only"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "oxide",
+        "h": 14,
+        "segs": [
+         [
+          0,
+          34
+         ],
+         [
+          66,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "dopant_film",
+        "h": 6,
+        "new": true,
+        "tag": "Dopant source"
+       }
+      ]
+     },
+     "spec": {
+      "tool": "Coater or source boat, staff only",
+      "purpose": "Supply dopant at the surface",
+      "params": [],
+      "control": "Set by the lab",
+      "ooc": "Uneven film: the lab strips and recoats"
+     },
+     "deep": "The source can be a spun-on film, a solid source wafer or a dopant gas; all hold the silicon surface at a high, fixed concentration while the furnace runs [@plummer2000]. Every source chemistry is institution-only, and some are highly toxic."
+    },
+    {
+     "n": 3,
+     "id": "predep",
+     "title": "Predeposit in the furnace",
+     "tier": 3,
+     "do": "In the hot furnace dopant atoms hop from the film into the open silicon. The silicon near the surface fills up first.",
+     "check": "A control wafer travels with the batch.",
+     "chips": [
+      {
+       "t": "the surface stays pinned at the source’s concentration"
+      },
+      {
+       "t": "the dose grows only as the square root of time"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "n_diff",
+        "h": 6,
+        "segs": [
+         [
+          34,
+          66
+         ]
+        ],
+        "new": true,
+        "tag": "Shallow n⁺"
+       },
+       {
+        "m": "si",
+        "h": 6,
+        "segs": [
+         [
+          0,
+          34
+         ],
+         [
+          66,
+          100
+         ]
+        ],
+        "stack": "n_diff"
+       },
+       {
+        "m": "oxide",
+        "h": 14,
+        "segs": [
+         [
+          0,
+          34
+         ],
+         [
+          66,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "dopant_film",
+        "h": 6
+       }
+      ],
+      "props": [
+       "oven"
+      ],
+      "oven_label": "diffusion furnace"
+     },
+     "spec": {
+      "tool": "Horizontal tube furnace with the source, staff only",
+      "purpose": "Set the dopant dose",
+      "params": [],
+      "control": "Set by the lab; control wafer measured afterwards",
+      "ooc": "Control wafer out of range: the lab decides on a rerun"
+     },
+     "deep": "With the surface pinned at Cs the profile is a complementary error function, and the dose grows as √t: double the time and only 41 % more dopant goes in [@plummer2000]. The furnace step with a dopant source is institution-only.",
+     "eq": "C(x) = Cs · erfc(x / 2√(Dt))",
+     "lab": "fab.html#proc-diffusion"
+    },
+    {
+     "n": 4,
+     "id": "strip",
+     "title": "Remove the source",
+     "tier": 3,
+     "do": "The spent film is removed, so the amount of dopant in the silicon is now fixed.",
+     "check": "The control wafer’s sheet resistance confirms dopant went in.",
+     "chips": [
+      {
+       "t": "from here the dose cannot change"
+      },
+      {
+       "t": "institution-only chemistry"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "n_diff",
+        "h": 6,
+        "segs": [
+         [
+          34,
+          66
+         ]
+        ]
+       },
+       {
+        "m": "si",
+        "h": 6,
+        "segs": [
+         [
+          0,
+          34
+         ],
+         [
+          66,
+          100
+         ]
+        ],
+        "stack": "n_diff"
+       },
+       {
+        "m": "oxide",
+        "h": 14,
+        "segs": [
+         [
+          0,
+          34
+         ],
+         [
+          66,
+          100
+         ]
+        ],
+        "new": true,
+        "tag": "Source gone"
+       }
+      ]
+     },
+     "spec": {
+      "tool": "Wet bench, staff only",
+      "purpose": "Fix the dose",
+      "params": [],
+      "control": "Set by the lab",
+      "ooc": "Residue left: re-clean before the drive-in"
+     },
+     "deep": "Removing the film is a wet chemical step and stays institution-only [@plummer2000]. Teaching labs keep a second control wafer so a weak predeposition can be repeated."
+    },
+    {
+     "n": 5,
+     "id": "drive",
+     "title": "Drive in and grow oxide",
+     "tier": 2,
+     "do": "A second, longer bake without any source spreads the same dopant deeper. The same bake grows an oxide over everything.",
+     "check": "Oxide on the bare control wafer has the target thickness.",
+     "chips": [
+      {
+       "t": "teaching run: 1050 °C for 37 minutes [@cleanroom_run_fab2024]"
+      },
+      {
+       "t": "teaching run: 62.9 nm of oxide on the control [@cleanroom_run_fab2024]"
+      },
+      {
+       "t": "junction creeps sideways about 80 % of its depth [@plummer2000]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 28
+       },
+       {
+        "m": "n_diff",
+        "h": 12,
+        "segs": [
+         [
+          34,
+          66
+         ]
+        ],
+        "new": true,
+        "tag": "Deeper junction"
+       },
+       {
+        "m": "si",
+        "h": 12,
+        "segs": [
+         [
+          0,
+          34
+         ],
+         [
+          66,
+          100
+         ]
+        ],
+        "stack": "n_diff"
+       },
+       {
+        "m": "oxide",
+        "h": 8
+       }
+      ],
+      "props": [
+       "oven"
+      ],
+      "oven_label": "furnace"
+     },
+     "spec": {
+      "tool": "Horizontal tube furnace",
+      "purpose": "Push the junction deeper and insulate the top",
+      "params": [
+       {
+        "name": "Temperature",
+        "value": "1050 °C",
+        "ref": "cleanroom_run_fab2024"
+       },
+       {
+        "name": "Time",
+        "value": "37 min",
+        "ref": "cleanroom_run_fab2024"
+       },
+       {
+        "name": "Oxide on bare control",
+        "value": "62.9 nm",
+        "ref": "cleanroom_run_fab2024"
+       }
+      ],
+      "control": "Furnace profile; control-wafer oxide",
+      "ooc": "Oxide off target: check the furnace profile and the clean before it"
+     },
+     "deep": "With a fixed dose the profile relaxes into a half-Gaussian, and Dt adds up over both bakes [@plummer2000]. The Virtual Fab follows this run’s drive-in and puts its computed oxide, 62.0 nm, beside the measured 62.9 nm.",
+     "eq": "C(x) = Q / √(πDt) · exp(−x² / 4Dt)",
+     "lab": "fab.html#vfab"
+    },
+    {
+     "n": 6,
+     "id": "measure",
+     "title": "Measure the sheet resistance",
+     "tier": 1,
+     "do": "Touch four needles in a line to a diffused test resistor or the control wafer. Push current through the outer two and read the voltage across the inner two.",
+     "check": "The sheet resistance is in the expected range.",
+     "chips": [
+      {
+       "t": "teaching run: 57.1 Ω across a 201 µm × 11 µm resistor [@cleanroom_run_char2024]"
+      },
+      {
+       "t": "that is about 3.1 Ω per square [@cleanroom_run_char2024]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 28
+       },
+       {
+        "m": "n_diff",
+        "h": 12,
+        "segs": [
+         [
+          34,
+          66
+         ]
+        ]
+       },
+       {
+        "m": "si",
+        "h": 12,
+        "segs": [
+         [
+          0,
+          34
+         ],
+         [
+          66,
+          100
+         ]
+        ],
+        "stack": "n_diff"
+       },
+       {
+        "m": "oxide",
+        "h": 8
+       }
+      ],
+      "props": [
+       "probe"
+      ],
+      "probe_label": "four-point probe"
+     },
+     "spec": {
+      "tool": "Four-point probe",
+      "purpose": "Check the doped layer conducts as designed",
+      "params": [
+       {
+        "name": "Resistor",
+        "value": "57.1 Ω, L 201 µm, W 11 µm",
+        "ref": "cleanroom_run_char2024"
+       },
+       {
+        "name": "Sheet resistance",
+        "value": "≈ 3.1 Ω/sq",
+        "ref": "cleanroom_run_char2024"
+       }
+      ],
+      "control": "Sheet resistance on control wafers and test resistors",
+      "ooc": "Too high: too little dose or too shallow; check the predeposition"
+     },
+     "deep": "R_s = R·W/L. The four-point probe needs no correction for contact resistance because the voltage pins carry no current [@plummer2000]. The site’s intrinsic-diffusivity model gives about ten times this value: heavy phosphorus diffuses faster than the intrinsic rate [@uiuc_diffusivity].",
+     "eq": "R_s = R · W / L",
+     "lab": "fab.html#vfab"
+    }
+   ],
+   "variant": {
+    "eyebrow": "Compare",
+    "title": "Furnace diffusion versus ion implantation",
+    "lead": "Both put dopant into the silicon. A furnace soaks it in from the surface; an implanter fires a counted dose to a chosen depth.",
+    "facts": [
+     {
+      "t": "Oxide masks dopant diffusion, the discovery that made planar windows possible",
+      "ref": "frosch1957"
+     },
+     {
+      "t": "Hoerni’s planar process formed junctions by diffusion through oxide windows",
+      "ref": "hoerni1962"
+     },
+     {
+      "t": "Ion implantation took over most doping steps from the 1970s",
+      "ref": "plummer2000"
+     },
+     {
+      "t": "Teaching run: a diffused resistor measured about 3.1 Ω per square",
+      "ref": "cleanroom_run_char2024"
+     }
+    ],
+    "safety": "Dopant sources, whether spun-on films, solid sources or gases, are institution-only. So is stripping the source. This manual gives only what each stage does and what was measured afterwards."
+   },
+   "photos": [],
+   "leave_out": [
+    "Diffusivity is the intrinsic value; heavy doping, oxidation and point defects speed real diffusion up, so real junctions are deeper.",
+    "The predeposition time and surface concentration of the teaching run were not recorded.",
+    "Dopant segregation into the growing oxide is ignored.",
+    "No source chemistry or furnace procedure is given: those stages are institution-only."
+   ],
+   "refs": [
+    "plummer2000",
+    "uiuc_diffusivity",
+    "frosch1957",
+    "hoerni1962",
+    "cleanroom_run_fab2024",
+    "cleanroom_run_char2024"
+   ]
+  },
+  {
+   "id": "implant",
+   "code": "6B",
+   "area": "doping",
+   "area_no": 6,
+   "fab_step": "implant",
+   "title": "Fire dopant atoms into the silicon",
+   "subtitle": "Ion implantation: mask, tilt, implant, see the damage, anneal, measure",
+   "route": "Modern logic and most teaching CMOS flows: wells, thresholds, sources and drains",
+   "next": "Manual 7A · Metal (after the anneal)",
+   "intro": "An implanter turns dopant atoms into ions, speeds them up through a voltage and fires them into the wafer. The voltage sets how deep they go and a meter counts every one, so the dose and depth are far more precise than any furnace diffusion. The ion source uses institution-only gases, so that part stays conceptual.",
+   "model_after": "Ranges follow the stopping-power model of the site’s implant simulator, checked against published examples [@tuttle_implant]; implanter practice and annealing follow Plummer, Deal and Griffin [@plummer2000]; Dennard’s scaled MOSFET shows why implantation took over [@dennard1974].",
+   "you_need": [
+    {
+     "m": "resist",
+     "label": "Wafer with thick patterned resist",
+     "from": "Manual 4A · Lithography"
+    },
+    {
+     "m": "chrome",
+     "label": "Ion implanter (staff-run source)"
+    },
+    {
+     "m": "chrome",
+     "label": "Anneal furnace or rapid thermal processor"
+    }
+   ],
+   "steps": [
+    {
+     "n": 1,
+     "id": "mask",
+     "title": "Check the mask is thick enough",
+     "tier": 1,
+     "do": "Measure the resist. It must stop every ion where the silicon should stay undoped, and its edges decide where the doped region starts.",
+     "check": "Resist thickness is well above the ion range for the planned energy.",
+     "chips": [
+      {
+       "t": "gates and spacers mask too: self-alignment [@plummer2000]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "resist",
+        "h": 16,
+        "segs": [
+         [
+          0,
+          34
+         ],
+         [
+          66,
+          100
+         ]
+        ],
+        "new": true,
+        "tag": "Implant mask"
+       }
+      ]
+     },
+     "spec": {
+      "tool": "Thickness gauge",
+      "purpose": "Make sure the mask will stop the ions",
+      "params": [],
+      "control": "Resist thickness against ion range",
+      "ooc": "Resist too thin: ions punch through; recoat"
+     },
+     "deep": "High-energy implants need microns of resist. In a self-aligned MOS process the polysilicon gate itself masks the channel, so source and drain land exactly beside it [@plummer2000]."
+    },
+    {
+     "n": 2,
+     "id": "source",
+     "title": "Make the ion beam",
+     "tier": 3,
+     "do": "Trained staff run the ion source, which ionises a dopant-bearing feed. A magnet then picks out only the ions of the right mass.",
+     "check": "The beam current is steady on the right mass.",
+     "chips": [
+      {
+       "t": "feed gases are institution-only"
+      },
+      {
+       "t": "the analysing magnet sorts ions by mass"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "resist",
+        "h": 16,
+        "segs": [
+         [
+          0,
+          34
+         ],
+         [
+          66,
+          100
+         ]
+        ]
+       }
+      ],
+      "props": [
+       "chamber",
+       "pump"
+      ]
+     },
+     "spec": {
+      "tool": "Ion source and analysing magnet, staff only",
+      "purpose": "Make a pure beam of one dopant",
+      "params": [],
+      "control": "Set by the lab",
+      "ooc": "Wrong mass peak: the lab retunes the magnet"
+     },
+     "deep": "Many dopant feed gases are highly toxic and are handled only inside the tool by trained staff [@plummer2000]. Nothing about them is given here."
+    },
+    {
+     "n": 3,
+     "id": "implant",
+     "title": "Implant at a tilt",
+     "tier": 2,
+     "do": "Accelerate the ions and scan the beam across the tilted wafer until the meter has counted the full dose.",
+     "check": "The integrated dose matches the recipe.",
+     "chips": [
+      {
+       "t": "energy sets depth: phosphorus at 100 keV stops near 0.12 µm [@tuttle_implant]"
+      },
+      {
+       "t": "boron at 80 keV stops near 0.24 µm [@tuttle_implant]"
+      },
+      {
+       "t": "a few degrees of tilt stops channelling [@plummer2000]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "resist",
+        "h": 16,
+        "segs": [
+         [
+          0,
+          34
+         ],
+         [
+          66,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "n_diff",
+        "h": 4,
+        "segs": [
+         [
+          34,
+          66
+         ]
+        ],
+        "stack": "resist",
+        "new": true,
+        "tag": "Implanted ions"
+       }
+      ],
+      "props": [
+       "ions"
+      ]
+     },
+     "spec": {
+      "tool": "Ion implanter",
+      "purpose": "Put a counted dose at a chosen depth",
+      "params": [
+       {
+        "name": "P at 100 keV, projected range",
+        "value": "≈ 0.12 µm",
+        "ref": "tuttle_implant"
+       },
+       {
+        "name": "B at 80 keV, projected range",
+        "value": "≈ 0.24 µm",
+        "ref": "tuttle_implant"
+       }
+      ],
+      "control": "Beam current integrated over time; scan uniformity",
+      "ooc": "Dose off: the run is held and the Faraday cup checked"
+     },
+     "deep": "Each ion loses energy to nuclei and to electrons until it stops. The stopping depths form a near-Gaussian with projected range Rp and straggle ΔRp; the dose is the beam charge divided by the ion charge and the area [@plummer2000].",
+     "eq": "N(x) = Q / (√(2π) ΔRp) · exp(−(x − Rp)² / 2ΔRp²)",
+     "lab": "fab.html#proc-implant"
+    },
+    {
+     "n": 4,
+     "id": "damage",
+     "title": "See the damage",
+     "tier": 1,
+     "do": "Look at what the ions left behind: every one displaced many silicon atoms, and a heavy dose leaves the top layer amorphous. Most dopant is not yet active.",
+     "check": "A damage or sheet-resistance check on a monitor wafer.",
+     "chips": [
+      {
+       "t": "one ion displaces hundreds of atoms [@plummer2000]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 30
+       },
+       {
+        "m": "n_diff",
+        "h": 6,
+        "segs": [
+         [
+          34,
+          66
+         ]
+        ],
+        "new": true,
+        "tag": "Damaged layer"
+       },
+       {
+        "m": "si",
+        "h": 6,
+        "segs": [
+         [
+          0,
+          34
+         ],
+         [
+          66,
+          100
+         ]
+        ],
+        "stack": "n_diff"
+       },
+       {
+        "m": "resist",
+        "h": 16,
+        "segs": [
+         [
+          0,
+          34
+         ],
+         [
+          66,
+          100
+         ]
+        ]
+       }
+      ]
+     },
+     "spec": {
+      "tool": "Optical damage monitor",
+      "purpose": "Know the state before the anneal",
+      "params": [],
+      "control": "Damage signal against dose",
+      "ooc": "Unexpected damage level: check dose and beam heating"
+     },
+     "deep": "Implanted atoms sit mostly between lattice sites at first. Pre-amorphising implants are sometimes used on purpose so the crystal regrows cleanly from the undamaged silicon below [@plummer2000]."
+    },
+    {
+     "n": 5,
+     "id": "anneal",
+     "title": "Strip the resist and anneal",
+     "tier": 2,
+     "do": "Remove the resist, then heat the wafer briefly. The crystal repairs itself and the dopant moves onto lattice sites, where it conducts.",
+     "check": "Sheet resistance falls to its target.",
+     "chips": [
+      {
+       "t": "spike and millisecond anneals activate with little diffusion [@plummer2000]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 30
+       },
+       {
+        "m": "n_diff",
+        "h": 8,
+        "segs": [
+         [
+          34,
+          66
+         ]
+        ],
+        "new": true,
+        "tag": "Active n⁺"
+       },
+       {
+        "m": "si",
+        "h": 8,
+        "segs": [
+         [
+          0,
+          34
+         ],
+         [
+          66,
+          100
+         ]
+        ],
+        "stack": "n_diff"
+       }
+      ],
+      "props": [
+       "oven"
+      ],
+      "oven_label": "rapid thermal anneal"
+     },
+     "spec": {
+      "tool": "Rapid thermal processor",
+      "purpose": "Activate the dopant and heal the crystal",
+      "params": [],
+      "control": "Peak temperature and time",
+      "ooc": "Sheet resistance high: too little activation; junction deep: too much heat"
+     },
+     "deep": "Annealing also lets the dopant diffuse, widening the profile by about √(2Dt). Keeping junctions shallow while activating fully is one of the hardest trade-offs in a short-channel transistor [@plummer2000].",
+     "lab": "fab.html#proc-anneal"
+    },
+    {
+     "n": 6,
+     "id": "measure",
+     "title": "Measure the result",
+     "tier": 1,
+     "do": "Map the sheet resistance across a monitor wafer with a four-point probe. Less often, a lab sputters a crater and counts the dopant depth by depth.",
+     "check": "Sheet resistance mean and spread within limits.",
+     "chips": [
+      {
+       "t": "sheet resistance catches dose errors within minutes [@plummer2000]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 30
+       },
+       {
+        "m": "n_diff",
+        "h": 8,
+        "segs": [
+         [
+          34,
+          66
+         ]
+        ]
+       },
+       {
+        "m": "si",
+        "h": 8,
+        "segs": [
+         [
+          0,
+          34
+         ],
+         [
+          66,
+          100
+         ]
+        ],
+        "stack": "n_diff"
+       }
+      ],
+      "props": [
+       "probe",
+       "stamp"
+      ],
+      "probe_label": "four-point probe"
+     },
+     "spec": {
+      "tool": "Four-point probe; SIMS for profiles",
+      "purpose": "Confirm dose and activation",
+      "params": [],
+      "control": "Sheet resistance map",
+      "ooc": "Non-uniform map: check the beam scan"
+     },
+     "deep": "Secondary-ion mass spectrometry gives the real profile, including the channelling tail and the diffusion during the anneal, against which the simulator’s Gaussian can be checked [@plummer2000]."
+    }
+   ],
+   "variant": {
+    "eyebrow": "Why it won",
+    "title": "From furnace diffusion to ion implantation",
+    "lead": "Implantation sets dose and depth separately and precisely, which scaled transistors needed.",
+    "facts": [
+     {
+      "t": "Dennard’s 1974 scaled MOSFET was designed around ion-implanted doping",
+      "ref": "dennard1974"
+     },
+     {
+      "t": "Implanted channel and source/drain doping replaced furnace diffusion in MOS during the 1970s",
+      "ref": "plummer2000"
+     },
+     {
+      "t": "Phosphorus at 100 keV stops near 0.12 µm in silicon",
+      "ref": "tuttle_implant"
+     },
+     {
+      "t": "Boron at 80 keV stops near 0.24 µm",
+      "ref": "tuttle_implant"
+     }
+    ],
+    "safety": "Implanter ion sources use dopant feed gases that are institution-only, and implanters work at high voltage. Only trained staff run them."
+   },
+   "photos": [],
+   "leave_out": [
+    "The profile is a Gaussian; real profiles are skewed and have a channelling tail.",
+    "Damage, amorphisation and transient enhanced diffusion during the anneal are described, not modelled here.",
+    "No feed gas, source setting or implanter procedure is given: those are institution-only.",
+    "Lateral straggle under the mask edge is taken equal to the vertical straggle."
+   ],
+   "refs": [
+    "plummer2000",
+    "tuttle_implant",
+    "dennard1974"
+   ]
+  },
+  {
+   "id": "metal",
+   "code": "7A",
+   "area": "deposition",
+   "area_no": 7,
+   "fab_step": "dep_pvd",
+   "title": "Wire it up with aluminium",
+   "subtitle": "Metallization in a teaching process: open contacts, evaporate aluminium, measure, pattern, etch, sinter",
+   "route": "Teaching CMOS and the historical planar process (modern chips use copper: see the damascene theatre)",
+   "next": "Manual 11 · Probe and package",
+   "intro": "Transistors are useless until they are wired together. In the planar era and in teaching cleanrooms today, a film of aluminium covers the whole wafer, touches the silicon through contact holes and is then etched into wires and pads. A low-temperature bake makes each contact conduct well.",
+   "model_after": "The sequence and measurements follow a four-mask NMOS run in a university teaching cleanroom [@cleanroom_run_fab2024] and its process manual [@teaching_process_manual2023]; deposition basics follow Plummer, Deal and Griffin [@plummer2000]; the film thickness uses the bulk resistivity of aluminium [@gall2016].",
+   "you_need": [
+    {
+     "m": "oxide",
+     "label": "Wafer with contact holes etched",
+     "from": "Manual 5 · Etch"
+    },
+    {
+     "m": "al",
+     "label": "Aluminium charge"
+    },
+    {
+     "m": "chrome",
+     "label": "Thermal evaporator"
+    }
+   ],
+   "steps": [
+    {
+     "n": 1,
+     "id": "contacts",
+     "title": "Check the contact holes",
+     "tier": 1,
+     "do": "Under the microscope, look into each contact hole. The oxide must be gone right down to the doped silicon, or the metal will not touch it.",
+     "check": "Every hole is open to silicon; widths are recorded.",
+     "chips": [
+      {
+       "t": "teaching run: contact holes came out 2.39 µm wider than drawn [@cleanroom_run_fab2024]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 28
+       },
+       {
+        "m": "n_diff",
+        "h": 12,
+        "segs": [
+         [
+          34,
+          66
+         ]
+        ]
+       },
+       {
+        "m": "si",
+        "h": 12,
+        "segs": [
+         [
+          0,
+          34
+         ],
+         [
+          66,
+          100
+         ]
+        ],
+        "stack": "n_diff"
+       },
+       {
+        "m": "oxide",
+        "h": 18,
+        "segs": [
+         [
+          0,
+          34
+         ],
+         [
+          66,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "open",
+        "h": 18,
+        "segs": [
+         [
+          34,
+          66
+         ]
+        ],
+        "stack": "oxide",
+        "new": true,
+        "tag": "Contact hole"
+       }
+      ],
+      "props": [
+       "lens"
+      ]
+     },
+     "spec": {
+      "tool": "Inspection microscope",
+      "purpose": "Confirm the contacts are open",
+      "params": [
+       {
+        "name": "Width change after etch",
+        "value": "+2.39 µm",
+        "ref": "cleanroom_run_fab2024"
+       }
+      ],
+      "control": "Hole width; colour of the hole floor",
+      "ooc": "Oxide left in a hole: an open contact, so etch again"
+     },
+     "deep": "The wet contact etch undercuts the resist, so holes grow; in the teaching run agitation in the bath made the contacts the widest features of all [@cleanroom_run_fab2024]."
+    },
+    {
+     "n": 2,
+     "id": "pump",
+     "title": "Load and pump down",
+     "tier": 2,
+     "do": "Mount the wafers face down above the source in the evaporator and pump the chamber to high vacuum.",
+     "check": "The pressure gauge reaches the lab’s base pressure.",
+     "chips": [
+      {
+       "t": "vacuum lets atoms fly straight to the wafer [@plummer2000]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 28
+       },
+       {
+        "m": "n_diff",
+        "h": 12,
+        "segs": [
+         [
+          34,
+          66
+         ]
+        ]
+       },
+       {
+        "m": "si",
+        "h": 12,
+        "segs": [
+         [
+          0,
+          34
+         ],
+         [
+          66,
+          100
+         ]
+        ],
+        "stack": "n_diff"
+       },
+       {
+        "m": "oxide",
+        "h": 18,
+        "segs": [
+         [
+          0,
+          34
+         ],
+         [
+          66,
+          100
+         ]
+        ]
+       }
+      ],
+      "props": [
+       "chamber",
+       "pump"
+      ]
+     },
+     "spec": {
+      "tool": "Thermal evaporator",
+      "purpose": "Clear the path for the metal atoms",
+      "params": [],
+      "control": "Base pressure",
+      "ooc": "Pressure will not fall: look for a leak or a dirty chamber"
+     },
+     "deep": "At high vacuum an evaporated atom travels further than the chamber is wide before it hits a gas molecule, so it lands in a straight line from the source [@plummer2000]. That is also why evaporation covers steep steps poorly."
+    },
+    {
+     "n": 3,
+     "id": "evaporate",
+     "title": "Evaporate the aluminium",
+     "tier": 2,
+     "do": "Heat the source until aluminium evaporates. A thin, even film condenses over the whole wafer and into every contact hole.",
+     "check": "The thickness monitor reaches its target; the film is mirror-bright.",
+     "chips": [
+      {
+       "t": "aluminium heated in a tungsten boat in vacuum [@cleanroom_run_fab2024]"
+      },
+      {
+       "t": "the film covers the whole wafer [@teaching_process_manual2023]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 28
+       },
+       {
+        "m": "n_diff",
+        "h": 12,
+        "segs": [
+         [
+          34,
+          66
+         ]
+        ]
+       },
+       {
+        "m": "si",
+        "h": 12,
+        "segs": [
+         [
+          0,
+          34
+         ],
+         [
+          66,
+          100
+         ]
+        ],
+        "stack": "n_diff"
+       },
+       {
+        "m": "oxide",
+        "h": 18,
+        "segs": [
+         [
+          0,
+          34
+         ],
+         [
+          66,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "al",
+        "h": 18,
+        "segs": [
+         [
+          34,
+          66
+         ]
+        ],
+        "stack": "oxide"
+       },
+       {
+        "m": "al",
+        "h": 10,
+        "new": true,
+        "tag": "Aluminium"
+       }
+      ],
+      "props": [
+       "chamber",
+       "vapour"
+      ],
+      "vapour_label": "aluminium vapour"
+     },
+     "spec": {
+      "tool": "Thermal evaporator with a resistance-heated boat",
+      "purpose": "Coat the wafer with metal",
+      "params": [],
+      "control": "Deposition rate and thickness monitor",
+      "ooc": "Hazy film: the vacuum or the source was dirty"
+     },
+     "deep": "Evaporation is the oldest way to lay down metal; sputtering, which knocks atoms off a target with ions, replaced it in industry because it covers steps better and handles alloys [@plummer2000]. Noyce’s 1959 patent already ran evaporated aluminium leads over the oxide [@noyce_patent]."
+    },
+    {
+     "n": 4,
+     "id": "rs",
+     "title": "Measure the film",
+     "tier": 1,
+     "do": "Put a four-point probe on the blanket aluminium and read its sheet resistance.",
+     "check": "Sheet resistance in the expected range.",
+     "chips": [
+      {
+       "t": "teaching run: 0.1229 Ω per square [@cleanroom_run_fab2024]"
+      },
+      {
+       "t": "bulk aluminium: 2.65 µΩ·cm [@gall2016]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 28
+       },
+       {
+        "m": "n_diff",
+        "h": 12,
+        "segs": [
+         [
+          34,
+          66
+         ]
+        ]
+       },
+       {
+        "m": "si",
+        "h": 12,
+        "segs": [
+         [
+          0,
+          34
+         ],
+         [
+          66,
+          100
+         ]
+        ],
+        "stack": "n_diff"
+       },
+       {
+        "m": "oxide",
+        "h": 18,
+        "segs": [
+         [
+          0,
+          34
+         ],
+         [
+          66,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "al",
+        "h": 18,
+        "segs": [
+         [
+          34,
+          66
+         ]
+        ],
+        "stack": "oxide"
+       },
+       {
+        "m": "al",
+        "h": 10
+       }
+      ],
+      "props": [
+       "probe"
+      ],
+      "probe_label": "four-point probe"
+     },
+     "spec": {
+      "tool": "Four-point probe",
+      "purpose": "Check the film thickness electrically",
+      "params": [
+       {
+        "name": "Sheet resistance",
+        "value": "0.1229 Ω/sq",
+        "ref": "cleanroom_run_fab2024"
+       },
+       {
+        "name": "Bulk resistivity",
+        "value": "2.65 µΩ·cm",
+        "ref": "gall2016"
+       }
+      ],
+      "control": "Sheet resistance",
+      "ooc": "Too high: a thin film; check the source charge and the monitor"
+     },
+     "deep": "Thickness follows from t = ρ/R_s. With the bulk value of 2.65 µΩ·cm [@gall2016] the run’s 0.1229 Ω/sq [@cleanroom_run_fab2024] means about 216 nm of aluminium; thin films conduct a little worse than bulk, so the real film is probably slightly thicker.",
+     "eq": "t = ρ / R_s",
+     "lab": "fab.html#vfab"
+    },
+    {
+     "n": 5,
+     "id": "pattern",
+     "title": "Pattern the wires",
+     "tier": 1,
+     "do": "Coat, expose and develop resist with the metal mask, exactly as in Manual 4A. Resist now covers the wires and pads you want to keep.",
+     "check": "Resist lines line up with the contacts underneath.",
+     "chips": [
+      {
+       "t": "the fourth and last mask of the teaching process [@cleanroom_run_fab2024]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 28
+       },
+       {
+        "m": "n_diff",
+        "h": 12,
+        "segs": [
+         [
+          34,
+          66
+         ]
+        ]
+       },
+       {
+        "m": "si",
+        "h": 12,
+        "segs": [
+         [
+          0,
+          34
+         ],
+         [
+          66,
+          100
+         ]
+        ],
+        "stack": "n_diff"
+       },
+       {
+        "m": "oxide",
+        "h": 18,
+        "segs": [
+         [
+          0,
+          34
+         ],
+         [
+          66,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "al",
+        "h": 18,
+        "segs": [
+         [
+          34,
+          66
+         ]
+        ],
+        "stack": "oxide"
+       },
+       {
+        "m": "al",
+        "h": 10
+       },
+       {
+        "m": "resist",
+        "h": 10,
+        "segs": [
+         [
+          24,
+          76
+         ]
+        ],
+        "new": true,
+        "tag": "Patterned resist"
+       }
+      ]
+     },
+     "spec": {
+      "tool": "Mask aligner and resist track",
+      "purpose": "Define the wiring",
+      "params": [],
+      "control": "Overlay to the contact layer",
+      "ooc": "Misaligned: strip the resist and repeat"
+     },
+     "deep": "Overlay matters more here than anywhere: a wire shifted off its contact leaves a transistor unconnected. The teaching run measured its earlier layer-to-layer shifts at up to 1.4 µm [@cleanroom_run_fab2024]."
+    },
+    {
+     "n": 6,
+     "id": "etch",
+     "title": "Etch the aluminium",
+     "tier": 3,
+     "do": "Exposed aluminium is etched away by trained staff, leaving wires and pads under the resist. The resist is then removed.",
+     "check": "Wires are separate: no metal bridges between neighbours.",
+     "chips": [
+      {
+       "t": "lines come out a little narrower than drawn"
+      },
+      {
+       "t": "institution-only chemistry"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 28
+       },
+       {
+        "m": "n_diff",
+        "h": 12,
+        "segs": [
+         [
+          34,
+          66
+         ]
+        ]
+       },
+       {
+        "m": "si",
+        "h": 12,
+        "segs": [
+         [
+          0,
+          34
+         ],
+         [
+          66,
+          100
+         ]
+        ],
+        "stack": "n_diff"
+       },
+       {
+        "m": "oxide",
+        "h": 18,
+        "segs": [
+         [
+          0,
+          34
+         ],
+         [
+          66,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "al",
+        "h": 18,
+        "segs": [
+         [
+          34,
+          66
+         ]
+        ],
+        "stack": "oxide"
+       },
+       {
+        "m": "al",
+        "h": 10,
+        "segs": [
+         [
+          24,
+          76
+         ]
+        ],
+        "new": true,
+        "tag": "Wires"
+       }
+      ]
+     },
+     "spec": {
+      "tool": "Wet bench, staff only",
+      "purpose": "Turn the film into wiring",
+      "params": [],
+      "control": "Line width after etch",
+      "ooc": "Bridges between lines: more etch; missing lines: less"
+     },
+     "deep": "A wet aluminium etch undercuts the resist like every wet etch. In the teaching run the metal lines came out 0.88 µm narrower than drawn on average [@cleanroom_run_fab2024]. Industry etches aluminium in a plasma instead, so the walls stay vertical [@plummer2000]."
+    },
+    {
+     "n": 7,
+     "id": "sinter",
+     "title": "Sinter the contacts",
+     "tier": 2,
+     "do": "Bake the wafer gently so the aluminium and silicon bond at every contact and the contact resistance falls.",
+     "check": "Contacts behave like resistors, not diodes, on a test structure.",
+     "chips": [
+      {
+       "t": "teaching run: 400 °C for 20 minutes [@cleanroom_run_fab2024]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 28
+       },
+       {
+        "m": "n_diff",
+        "h": 12,
+        "segs": [
+         [
+          34,
+          66
+         ]
+        ]
+       },
+       {
+        "m": "si",
+        "h": 12,
+        "segs": [
+         [
+          0,
+          34
+         ],
+         [
+          66,
+          100
+         ]
+        ],
+        "stack": "n_diff"
+       },
+       {
+        "m": "oxide",
+        "h": 18,
+        "segs": [
+         [
+          0,
+          34
+         ],
+         [
+          66,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "al",
+        "h": 18,
+        "segs": [
+         [
+          34,
+          66
+         ]
+        ],
+        "stack": "oxide"
+       },
+       {
+        "m": "al",
+        "h": 10,
+        "segs": [
+         [
+          24,
+          76
+         ]
+        ]
+       }
+      ],
+      "props": [
+       "oven",
+       "stamp"
+      ],
+      "oven_label": "sinter furnace"
+     },
+     "spec": {
+      "tool": "Tube furnace",
+      "purpose": "Make good ohmic contacts",
+      "params": [
+       {
+        "name": "Temperature",
+        "value": "400 °C",
+        "ref": "cleanroom_run_fab2024"
+       },
+       {
+        "name": "Time",
+        "value": "20 min",
+        "ref": "cleanroom_run_fab2024"
+       }
+      ],
+      "control": "Contact resistance on test structures",
+      "ooc": "Contacts rectify: sinter longer; junctions short: the sinter ran too hot"
+     },
+     "deep": "Aluminium and silicon dissolve into each other a little at the interface, breaking through any thin oxide left in the hole [@plummer2000]. Too much and the aluminium spikes down through a shallow junction, which is why later processes added barrier layers."
+    }
+   ],
+   "variant": {
+    "eyebrow": "Then and now",
+    "title": "From evaporated aluminium to copper damascene",
+    "lead": "Aluminium wired chips for almost forty years. Copper conducts better but cannot be etched easily, so it is laid into trenches instead.",
+    "facts": [
+     {
+      "t": "Noyce’s patent, filed in 1959, ran aluminium leads over the oxide to the junctions",
+      "ref": "noyce_patent"
+     },
+     {
+      "t": "Teaching run: evaporated aluminium measured 0.1229 Ω per square",
+      "ref": "cleanroom_run_fab2024"
+     },
+     {
+      "t": "IBM announced full copper wiring in production CMOS in 1997",
+      "ref": "edelstein1997"
+     },
+     {
+      "t": "Bulk copper resists less than bulk aluminium: 1.68 against 2.65 µΩ·cm",
+      "ref": "gall2016"
+     }
+    ],
+    "safety": "The aluminium etch is a wet chemical step and is institution-only. Evaporators use high voltage and high vacuum and are run only by trained users."
+   },
+   "photos": [],
+   "leave_out": [
+    "Step coverage over the contact edges is drawn as perfect; evaporation from a small source thins the film on steep walls.",
+    "Thin-film resistivity is taken as the bulk value, so the film thickness is a slight underestimate.",
+    "Junction spiking, hillocks and electromigration are mentioned but not modelled here.",
+    "No etch chemistry is given: it is institution-only."
+   ],
+   "refs": [
+    "cleanroom_run_fab2024",
+    "teaching_process_manual2023",
+    "plummer2000",
+    "gall2016",
+    "noyce_patent",
+    "edelstein1997"
+   ]
+  },
+  {
+   "id": "deposition",
+   "code": "7B",
+   "area": "deposition",
+   "area_no": 7,
+   "fab_step": "dep_pvd",
+   "title": "Coat every surface evenly",
+   "subtitle": "Thin-film deposition: chemical vapour deposition (CVD) and atomic layer deposition (ALD)",
+   "route": "Modern logic: liners, spacers, gate dielectrics and the insulators between wiring layers",
+   "next": "Manual 8 · Planarization, or Manual 10 · Damascene copper",
+   "intro": "Not every film can be grown from the silicon itself. Chemical vapour deposition (CVD) lets gas molecules react on the hot wafer and leave a solid film behind. Atomic layer deposition (ALD) does the same one molecular layer at a time, so the film covers the floor and walls of a deep trench almost as thickly as the top. The precursor gases are institution-only, so those parts stay conceptual.",
+   "model_after": "Step coverage follows the trench model in the Fab Journey’s deposition theatre, built on the CVD treatment in Plummer, Deal and Griffin [@plummer2000]; ALD growth per cycle and self-limiting chemistry follow George’s review [@george2010]; the high-k gate dielectric follows Intel’s 45 nm process [@mistry2007].",
+   "you_need": [
+    {
+     "m": "oxide",
+     "label": "Wafer with etched trenches",
+     "from": "Manual 5 · Etch"
+    },
+    {
+     "m": "chrome",
+     "label": "CVD or ALD chamber (staff-run gas supply)"
+    },
+    {
+     "m": "chrome",
+     "label": "Ellipsometer; cross-section microscope for coverage"
+    }
+   ],
+   "steps": [
+    {
+     "n": 1,
+     "id": "load",
+     "title": "Load and pump down",
+     "tier": 2,
+     "do": "Place the wafer in the chamber through a load lock and pump it down to low pressure, then bring it to the deposition temperature.",
+     "check": "Base pressure and wafer temperature are at the recipe values.",
+     "chips": [
+      {
+       "t": "cluster tools pass wafers between chambers without air [@plummer2000]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 30
+       },
+       {
+        "m": "oxide",
+        "h": 2,
+        "segs": [
+         [
+          0,
+          40
+         ],
+         [
+          60,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "oxide",
+        "h": 18,
+        "segs": [
+         [
+          0,
+          40
+         ],
+         [
+          60,
+          100
+         ]
+        ]
+       }
+      ],
+      "props": [
+       "chamber",
+       "pump"
+      ]
+     },
+     "spec": {
+      "tool": "CVD or ALD chamber with load lock",
+      "purpose": "Start from a clean, heated, evacuated wafer",
+      "params": [],
+      "control": "Base pressure, leak-up rate, wafer temperature",
+      "ooc": "Leak-up too fast: the chamber is checked before any wafer runs"
+     },
+     "deep": "At low pressure molecules travel in straight lines between wall hits rather than colliding with each other. That is what lets them reach the bottom of a trench, and it is the regime the deposition theatre assumes [@plummer2000]."
+    },
+    {
+     "n": 2,
+     "id": "precursor",
+     "title": "Let in the precursors",
+     "tier": 3,
+     "do": "Trained staff run the gas cabinet. The tool meters a precursor vapour into the chamber, where it meets the hot wafer.",
+     "check": "Flows are steady at the recipe values set by the lab.",
+     "chips": [
+      {
+       "t": "precursor gases are institution-only"
+      },
+      {
+       "t": "the tool, not the user, handles every gas line"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 30
+       },
+       {
+        "m": "oxide",
+        "h": 2,
+        "segs": [
+         [
+          0,
+          40
+         ],
+         [
+          60,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "oxide",
+        "h": 18,
+        "segs": [
+         [
+          0,
+          40
+         ],
+         [
+          60,
+          100
+         ]
+        ]
+       }
+      ],
+      "props": [
+       "chamber",
+       "gas",
+       "pump"
+      ],
+      "gas_label": "precursor in (staff-run)"
+     },
+     "spec": {
+      "tool": "Gas cabinet and mass-flow controllers, staff only",
+      "purpose": "Bring the reacting molecules to the wafer",
+      "params": [],
+      "control": "Set by the lab",
+      "ooc": "Flow alarm: the tool stops and staff check the line"
+     },
+     "deep": "Many CVD and ALD precursors are toxic, flammable or ignite in air, so they are stored in ventilated cabinets with leak detection and handled only by trained staff [@plummer2000]. Nothing about their chemistry or settings is given here."
+    },
+    {
+     "n": 3,
+     "id": "cvd",
+     "title": "Grow the film by CVD",
+     "tier": 2,
+     "do": "Let the precursor react on the hot surfaces. The film grows on the top, the walls and the floor of every trench at once, fastest where the gas arrives first.",
+     "check": "Thickness on a monitor wafer matches the target.",
+     "chips": [
+      {
+       "t": "a molecule that reacts on its first hit coats only the mouth [@plummer2000]"
+      },
+      {
+       "t": "a low sticking probability lets molecules bounce down to the floor [@plummer2000]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 30
+       },
+       {
+        "m": "oxide",
+        "h": 3,
+        "segs": [
+         [
+          0,
+          40
+         ],
+         [
+          60,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "film",
+        "h": 3,
+        "segs": [
+         [
+          40,
+          60
+         ]
+        ],
+        "stack": "oxide",
+        "new": true,
+        "tag": "CVD film"
+       },
+       {
+        "m": "oxide",
+        "h": 18,
+        "segs": [
+         [
+          0,
+          37
+         ],
+         [
+          63,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "film",
+        "h": 18,
+        "segs": [
+         [
+          37,
+          40
+         ],
+         [
+          60,
+          63
+         ]
+        ],
+        "stack": "oxide"
+       },
+       {
+        "m": "film",
+        "h": 3,
+        "segs": [
+         [
+          0,
+          37
+         ],
+         [
+          63,
+          100
+         ]
+        ]
+       }
+      ],
+      "props": [
+       "chamber",
+       "gas"
+      ],
+      "gas_label": "precursor in"
+     },
+     "spec": {
+      "tool": "CVD chamber (low-pressure or plasma-enhanced)",
+      "purpose": "Cover the wafer with an insulator or liner",
+      "params": [],
+      "control": "Deposition time against rate on monitors; temperature and pressure",
+      "ooc": "Floor too thin: lower the sticking probability or use ALD"
+     },
+     "deep": "Inside a trench of width w, the gas concentration n falls with depth because every wall hit can consume it. The balance n″ = (3s/2w²)·n makes the film thin out over a depth of about w/√s, where s is the sticking probability. The Fab Journey’s deposition theatre solves that balance as the trench narrows.",
+     "eq": "n″(z) = (3s / 2w²) · n(z)",
+     "lab": "fab.html#proc-deposition"
+    },
+    {
+     "n": 4,
+     "id": "ald",
+     "title": "Grow it one layer at a time (ALD)",
+     "tier": 2,
+     "do": "Pulse the first precursor until it has covered every surface, purge, pulse the second to react with that layer, purge again. Each cycle adds one thin layer everywhere, top to floor.",
+     "check": "Growth per cycle on a monitor wafer is at its expected value.",
+     "chips": [
+      {
+       "t": "each half-reaction stops by itself once the surface is covered [@george2010]"
+      },
+      {
+       "t": "aluminium oxide grows about 0.1 nm per cycle [@george2010]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 30
+       },
+       {
+        "m": "oxide",
+        "h": 2,
+        "segs": [
+         [
+          0,
+          40
+         ],
+         [
+          60,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "film",
+        "h": 2,
+        "segs": [
+         [
+          40,
+          60
+         ]
+        ],
+        "stack": "oxide",
+        "new": true,
+        "tag": "ALD layer"
+       },
+       {
+        "m": "oxide",
+        "h": 18,
+        "segs": [
+         [
+          0,
+          38
+         ],
+         [
+          62,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "film",
+        "h": 18,
+        "segs": [
+         [
+          38,
+          40
+         ],
+         [
+          60,
+          62
+         ]
+        ],
+        "stack": "oxide"
+       },
+       {
+        "m": "film",
+        "h": 2,
+        "segs": [
+         [
+          0,
+          38
+         ],
+         [
+          62,
+          100
+         ]
+        ]
+       }
+      ],
+      "props": [
+       "chamber",
+       "gas",
+       "pump"
+      ],
+      "gas_label": "pulse · purge · pulse · purge"
+     },
+     "spec": {
+      "tool": "ALD chamber",
+      "purpose": "Make a film of exact thickness that follows every surface",
+      "params": [
+       {
+        "name": "Growth per cycle, aluminium oxide",
+        "value": "≈ 0.1 nm",
+        "ref": "george2010"
+       }
+      ],
+      "control": "Cycle count; pulse and purge times long enough to saturate",
+      "ooc": "Growth per cycle too high: purges too short, so the gases met and did CVD"
+     },
+     "deep": "Because each half-cycle saturates, ALD does not depend on how much gas reaches each spot, only on whether enough does. That self-limiting step makes it conformal in deep trenches and precise to a fraction of a nanometre, at the price of being slow [@george2010].",
+     "eq": "thickness = cycles × growth per cycle"
+    },
+    {
+     "n": 5,
+     "id": "highk",
+     "title": "Build a high-k gate dielectric",
+     "tier": 2,
+     "do": "On a gate stack, use ALD to lay down a hafnium-based insulator a few nanometres thick, then cap it with the gate metal.",
+     "check": "Thickness and capacitance on monitors are on target.",
+     "chips": [
+      {
+       "t": "high-k metal gates entered volume production at 45 nm in 2007 [@mistry2007]"
+      },
+      {
+       "t": "high-k gate dielectrics were the first big ALD product [@george2010]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 30
+       },
+       {
+        "m": "oxide",
+        "h": 2
+       },
+       {
+        "m": "film",
+        "h": 4,
+        "new": true,
+        "tag": "High-k (ALD)"
+       },
+       {
+        "m": "gate_metal",
+        "h": 10,
+        "segs": [
+         [
+          25,
+          75
+         ]
+        ]
+       }
+      ],
+      "props": [
+       "chamber"
+      ]
+     },
+     "spec": {
+      "tool": "ALD chamber in a gate-stack cluster",
+      "purpose": "Thin the equivalent oxide without the leakage",
+      "params": [
+       {
+        "name": "First volume high-k metal gate node",
+        "value": "45 nm (2007)",
+        "ref": "mistry2007"
+       }
+      ],
+      "control": "Physical thickness, capacitance-equivalent thickness, leakage",
+      "ooc": "Leakage high: the film is too thin or has pinholes"
+     },
+     "deep": "A hafnium-based insulator has a much higher dielectric constant than silicon dioxide, so it can be physically thicker for the same capacitance, which cuts tunnelling leakage [@mistry2007]. Only ALD could make it thin and even enough [@george2010]."
+    },
+    {
+     "n": 6,
+     "id": "measure",
+     "title": "Measure thickness and coverage",
+     "tier": 1,
+     "do": "Measure the blanket thickness by ellipsometry, then cut a test trench and compare the film on the floor and walls with the top.",
+     "check": "Step coverage meets the spec for this layer.",
+     "chips": [
+      {
+       "t": "step coverage = thinnest wall or floor ÷ top thickness [@plummer2000]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 30
+       },
+       {
+        "m": "oxide",
+        "h": 2,
+        "segs": [
+         [
+          0,
+          40
+         ],
+         [
+          60,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "film",
+        "h": 2,
+        "segs": [
+         [
+          40,
+          60
+         ]
+        ],
+        "stack": "oxide"
+       },
+       {
+        "m": "oxide",
+        "h": 18,
+        "segs": [
+         [
+          0,
+          38
+         ],
+         [
+          62,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "film",
+        "h": 18,
+        "segs": [
+         [
+          38,
+          40
+         ],
+         [
+          60,
+          62
+         ]
+        ],
+        "stack": "oxide"
+       },
+       {
+        "m": "film",
+        "h": 2,
+        "segs": [
+         [
+          0,
+          38
+         ],
+         [
+          62,
+          100
+         ]
+        ]
+       }
+      ],
+      "props": [
+       "probe",
+       "stamp"
+      ],
+      "probe_label": "ellipsometer"
+     },
+     "spec": {
+      "tool": "Ellipsometer; cross-section electron microscope",
+      "purpose": "Confirm the film is thick enough everywhere",
+      "params": [],
+      "control": "Blanket thickness map; step coverage on test trenches",
+      "ooc": "Keyhole void or thin floor: change method, taper the trench or etch back and redeposit"
+     },
+     "deep": "If the mouth closes before the floor fills, a void is sealed inside: a keyhole. Voids raise resistance and fail early. Low-sticking CVD and ALD fill from the walls inward and stay seamless [@plummer2000].",
+     "lab": "fab.html#proc-deposition"
+    }
+   ],
+   "variant": {
+    "eyebrow": "Why it changed",
+    "title": "From sputtering to CVD to ALD",
+    "lead": "Each step down in trench width needed a method whose molecules reach further before they stick.",
+    "facts": [
+     {
+      "t": "Atomic layer epitaxy began in the 1970s for thin-film displays",
+      "ref": "george2010"
+     },
+     {
+      "t": "ALD aluminium oxide grows about 0.1 nm per cycle",
+      "ref": "george2010"
+     },
+     {
+      "t": "Hafnium-based high-k gate dielectrics entered volume CMOS at 45 nm in 2007",
+      "ref": "mistry2007"
+     },
+     {
+      "t": "A low sticking probability gives better step coverage in CVD",
+      "ref": "plummer2000"
+     }
+    ],
+    "safety": "CVD and ALD precursors are toxic, flammable or ignite in air, and the tools run hot and under vacuum. Only trained staff handle the gases."
+   },
+   "photos": [],
+   "leave_out": [
+    "Sticking probability is one number per process; real precursors change it with temperature and surface.",
+    "The trench model works in molecular flow, ignoring gas-phase reactions and the boundary layer above the wafer.",
+    "No precursor, temperature or flow is given: those are institution-only.",
+    "Film stress, density, impurities and the interface layer under a high-k film are described, not modelled."
+   ],
+   "refs": [
+    "plummer2000",
+    "george2010",
+    "mistry2007"
+   ]
+  },
+  {
    "id": "planarize",
    "code": "8",
    "area": "planarization",
@@ -2065,14 +5292,14 @@
    "title": "Make the surface flat again",
    "subtitle": "Planarization: spin-on glass in older processes, chemical mechanical polishing (CMP) today",
    "route": "Teaching CMOS (spin-on glass era) and modern logic (CMP after isolation, contacts and every copper layer)",
-   "next": "Manual 4A · Lithography for the next layer",
+   "next": "Manual 9 · Device modules, Manual 10 · Damascene copper, or Manual 4A · Lithography for the next layer",
    "intro": "Every patterned layer leaves bumps, and each new layer copies them. After a few layers the surface is too uneven for the next lithography step to focus on. Planarization flattens it again: first with liquid spin-on glass, and since the 1990s with chemical mechanical polishing, which grinds the wafer flat with a pad and a slurry.",
    "model_after": "CMP follows Preston’s law [@preston1927] and the pattern-density model the Fab Journey’s CMP theatre uses [@stine1998]; tool facts come from the CMP article [@wiki_cmp].",
    "you_need": [
     {
      "m": "oxide",
      "label": "Wafer with a bumpy oxide over lines",
-     "from": "Manual 7 · Deposition"
+     "from": "Manual 7B · Deposition"
     },
     {
      "m": "chrome",
@@ -2836,6 +6063,2680 @@
     "wiki_cmp",
     "plummer2000"
    ]
+  },
+  {
+   "id": "modules",
+   "code": "9",
+   "area": "modules",
+   "area_no": 9,
+   "fab_step": "gaa_release",
+   "title": "Build the transistor in three dimensions",
+   "subtitle": "Device modules: isolation, high-k metal gate, fins, a silicon–germanium stack, release and gate wrap",
+   "route": "Modern logic: planar to FinFET to gate-all-around nanosheets",
+   "next": "Manual 10 · Damascene copper",
+   "intro": "A modern transistor is not a flat strip any more. To keep the gate in control of a channel only a few nanometres long, the channel was stood on edge as a fin and then split into stacked sheets that the gate wraps on every side. This manual walks through the modules that build it, each made of the operations in the earlier manuals.",
+   "model_after": "The module sequence follows the multigate review by Ferain, Colinge and Colinge [@ferain2011], the DELTA fin [@hisamoto1989], Intel’s 45 nm high-k metal gate [@mistry2007] and 14 nm FinFET [@natarajan2014], and IBM’s stacked nanosheets [@loubet2017]; the sheet release follows the Fab Journey’s release theatre.",
+   "you_need": [
+    {
+     "m": "si",
+     "label": "Cleaned wafer",
+     "from": "Manual 2 · Cleaning"
+    },
+    {
+     "m": "chrome",
+     "label": "Lithography, etch, deposition, epitaxy and polish tools"
+    },
+    {
+     "m": "chrome",
+     "label": "Cross-section microscope; parametric tester"
+    }
+   ],
+   "steps": [
+    {
+     "n": 1,
+     "id": "sti",
+     "title": "Isolate each transistor",
+     "tier": 2,
+     "do": "Etch shallow trenches around every active area, fill them with oxide and polish flat, so neighbouring transistors cannot talk to each other.",
+     "check": "Trenches filled with no voids; the surface is flat.",
+     "chips": [
+      {
+       "t": "shallow trench isolation replaced the older grown LOCOS oxide [@plummer2000]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 22
+       },
+       {
+        "m": "si",
+        "h": 12,
+        "segs": [
+         [
+          0,
+          30
+         ],
+         [
+          42,
+          58
+         ],
+         [
+          70,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "oxide",
+        "h": 12,
+        "segs": [
+         [
+          30,
+          42
+         ],
+         [
+          58,
+          70
+         ]
+        ],
+        "stack": "si",
+        "new": true,
+        "tag": "Trench oxide"
+       }
+      ]
+     },
+     "spec": {
+      "tool": "Etcher, CVD, polisher",
+      "purpose": "Separate the transistors",
+      "params": [],
+      "control": "Trench depth; fill voids; step height after polish",
+      "ooc": "Void in the fill or dishing: rework the deposition or the polish"
+     },
+     "deep": "The trench is etched, lined, filled by deposition and polished back to the silicon, combining Manuals 5, 7B and 8 [@plummer2000].",
+     "lab": "manuals/planarize.html"
+    },
+    {
+     "n": 2,
+     "id": "hkmg",
+     "title": "Put a high-k metal gate on a flat channel",
+     "tier": 2,
+     "do": "Grow a thin interface oxide, deposit a high-k insulator by ALD and cap it with a metal gate. This was the planar transistor’s last big change.",
+     "check": "Gate capacitance up, leakage down, threshold on target.",
+     "chips": [
+      {
+       "t": "high-k metal gates entered volume production at 45 nm in 2007 [@mistry2007]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 30
+       },
+       {
+        "m": "oxide",
+        "h": 2,
+        "segs": [
+         [
+          35,
+          65
+         ]
+        ]
+       },
+       {
+        "m": "film",
+        "h": 3,
+        "segs": [
+         [
+          35,
+          65
+         ]
+        ]
+       },
+       {
+        "m": "gate_metal",
+        "h": 12,
+        "segs": [
+         [
+          35,
+          65
+         ]
+        ],
+        "new": true,
+        "tag": "Metal gate"
+       }
+      ]
+     },
+     "spec": {
+      "tool": "ALD and metal deposition",
+      "purpose": "Thin the gate insulator electrically without the leakage",
+      "params": [
+       {
+        "name": "First volume high-k metal gate node",
+        "value": "45 nm (2007)",
+        "ref": "mistry2007"
+       }
+      ],
+      "control": "Equivalent oxide thickness, gate leakage, threshold voltage",
+      "ooc": "Threshold off: the gate-metal work function is wrong; leakage high: the high-k film is thin"
+     },
+     "deep": "A higher dielectric constant gives the same capacitance from a thicker film, so electrons can no longer tunnel straight through it. Polysilicon gates were replaced by metals because they did not work with the new insulator [@mistry2007].",
+     "lab": "manuals/deposition.html"
+    },
+    {
+     "n": 3,
+     "id": "fin",
+     "title": "Stand the channel up as a fin",
+     "tier": 2,
+     "do": "Pattern and etch narrow silicon walls, then recess the isolation oxide so the top of each wall stands free. The gate will wrap three sides.",
+     "check": "Fin width and height on target; fins straight.",
+     "chips": [
+      {
+       "t": "the DELTA fin transistor was shown in 1989 [@hisamoto1989]"
+      },
+      {
+       "t": "14 nm FinFETs needed self-aligned double patterning [@natarajan2014]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 24
+       },
+       {
+        "m": "si",
+        "h": 6,
+        "segs": [
+         [
+          44,
+          56
+         ]
+        ]
+       },
+       {
+        "m": "oxide",
+        "h": 6,
+        "segs": [
+         [
+          0,
+          44
+         ],
+         [
+          56,
+          100
+         ]
+        ],
+        "stack": "si"
+       },
+       {
+        "m": "si",
+        "h": 14,
+        "segs": [
+         [
+          44,
+          56
+         ]
+        ],
+        "new": true,
+        "tag": "Fin"
+       }
+      ]
+     },
+     "spec": {
+      "tool": "Scanner with multiple patterning; etcher",
+      "purpose": "Give the gate control from three sides",
+      "params": [],
+      "control": "Fin width, height and pitch; fin bending",
+      "ooc": "Bent or thinned fins: tune the etch and the oxide recess"
+     },
+     "deep": "A gate on three sides holds the channel off far better than a gate on one, so leakage stays low at short lengths [@ferain2011]. Fins narrower than the lithography can print are made by spacer patterning [@natarajan2014].",
+     "lab": "manuals/etch.html"
+    },
+    {
+     "n": 4,
+     "id": "stack",
+     "title": "Grow a silicon–germanium stack",
+     "tier": 3,
+     "do": "For nanosheets, grow alternating layers of silicon and silicon–germanium on the wafer, then etch them into fins.",
+     "check": "Layer thicknesses and germanium content on target, with no defects.",
+     "chips": [
+      {
+       "t": "epitaxy gases are institution-only"
+      },
+      {
+       "t": "the silicon layers become the channels; the silicon–germanium is sacrificial"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 24
+       },
+       {
+        "m": "sige",
+        "h": 4,
+        "segs": [
+         [
+          35,
+          65
+         ]
+        ]
+       },
+       {
+        "m": "si",
+        "h": 4,
+        "segs": [
+         [
+          35,
+          65
+         ]
+        ]
+       },
+       {
+        "m": "sige",
+        "h": 4,
+        "segs": [
+         [
+          35,
+          65
+         ]
+        ]
+       },
+       {
+        "m": "si",
+        "h": 4,
+        "segs": [
+         [
+          35,
+          65
+         ]
+        ]
+       },
+       {
+        "m": "sige",
+        "h": 4,
+        "segs": [
+         [
+          35,
+          65
+         ]
+        ]
+       },
+       {
+        "m": "si",
+        "h": 4,
+        "segs": [
+         [
+          35,
+          65
+         ]
+        ],
+        "new": true,
+        "tag": "Si/SiGe stack"
+       }
+      ]
+     },
+     "spec": {
+      "tool": "Epitaxy reactor, staff only",
+      "purpose": "Build the layers that become the stacked channels",
+      "params": [],
+      "control": "Set by the lab",
+      "ooc": "Defects in the stack: the lab requalifies the reactor"
+     },
+     "deep": "Each layer grows in the crystal arrangement of the one below. The silicon–germanium is there only to hold the silicon sheets apart until the gate goes in [@loubet2017]. The reactor gases are institution-only."
+    },
+    {
+     "n": 5,
+     "id": "release",
+     "title": "Release the sheets and wrap the gate",
+     "tier": 3,
+     "do": "With the source and drain in place, remove the dummy gate, etch the silicon–germanium away selectively and fill the gaps with high-k and gate metal, so the gate surrounds every sheet.",
+     "check": "No silicon–germanium left; every sheet fully wrapped.",
+     "chips": [
+      {
+       "t": "the release etch chemistry is institution-only"
+      },
+      {
+       "t": "inner spacers protect the source and drain while the sheets are freed"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 24
+       },
+       {
+        "m": "gate_metal",
+        "h": 3,
+        "segs": [
+         [
+          35,
+          65
+         ]
+        ]
+       },
+       {
+        "m": "si",
+        "h": 4,
+        "segs": [
+         [
+          38,
+          62
+         ]
+        ]
+       },
+       {
+        "m": "gate_metal",
+        "h": 4,
+        "segs": [
+         [
+          35,
+          38
+         ],
+         [
+          62,
+          65
+         ]
+        ],
+        "stack": "si"
+       },
+       {
+        "m": "gate_metal",
+        "h": 3,
+        "segs": [
+         [
+          35,
+          65
+         ]
+        ]
+       },
+       {
+        "m": "si",
+        "h": 4,
+        "segs": [
+         [
+          38,
+          62
+         ]
+        ]
+       },
+       {
+        "m": "gate_metal",
+        "h": 4,
+        "segs": [
+         [
+          35,
+          38
+         ],
+         [
+          62,
+          65
+         ]
+        ],
+        "stack": "si"
+       },
+       {
+        "m": "gate_metal",
+        "h": 5,
+        "segs": [
+         [
+          35,
+          65
+         ]
+        ],
+        "new": true,
+        "tag": "Gate on all sides"
+       }
+      ]
+     },
+     "spec": {
+      "tool": "Selective etch and replacement-gate tools, staff only",
+      "purpose": "Let the gate grip each channel from every side",
+      "params": [],
+      "control": "Set by the lab",
+      "ooc": "Leftover silicon–germanium or thinned sheets: the lab adjusts the etch"
+     },
+     "deep": "The release etch removes silicon–germanium far faster than silicon, but not infinitely faster, so the sheet edges thin while the middle is still being freed. The Fab Journey’s release theatre computes that trade-off without giving any chemistry [@loubet2017].",
+     "lab": "fab.html#proc-release"
+    },
+    {
+     "n": 6,
+     "id": "measure",
+     "title": "Measure the transistors",
+     "tier": 1,
+     "do": "Probe test transistors for drive current, leakage and threshold, and cut cross-sections to check every sheet.",
+     "check": "Drive current and leakage on target across the wafer.",
+     "chips": [
+      {
+       "t": "nanosheet transistors entered volume production at the 2 nm class in 2025 [@tsmc_n2]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 24
+       },
+       {
+        "m": "gate_metal",
+        "h": 3,
+        "segs": [
+         [
+          35,
+          65
+         ]
+        ]
+       },
+       {
+        "m": "si",
+        "h": 4,
+        "segs": [
+         [
+          38,
+          62
+         ]
+        ]
+       },
+       {
+        "m": "gate_metal",
+        "h": 4,
+        "segs": [
+         [
+          35,
+          38
+         ],
+         [
+          62,
+          65
+         ]
+        ],
+        "stack": "si"
+       },
+       {
+        "m": "gate_metal",
+        "h": 3,
+        "segs": [
+         [
+          35,
+          65
+         ]
+        ]
+       },
+       {
+        "m": "si",
+        "h": 4,
+        "segs": [
+         [
+          38,
+          62
+         ]
+        ]
+       },
+       {
+        "m": "gate_metal",
+        "h": 4,
+        "segs": [
+         [
+          35,
+          38
+         ],
+         [
+          62,
+          65
+         ]
+        ],
+        "stack": "si"
+       },
+       {
+        "m": "gate_metal",
+        "h": 5,
+        "segs": [
+         [
+          35,
+          65
+         ]
+        ]
+       }
+      ],
+      "props": [
+       "probe",
+       "stamp"
+      ],
+      "probe_label": "parametric probe"
+     },
+     "spec": {
+      "tool": "Parametric tester; cross-section microscope",
+      "purpose": "Confirm the transistors switch as designed",
+      "params": [],
+      "control": "On-current, off-current, threshold voltage, sheet thickness",
+      "ooc": "Threshold shifted: sheets thinned in the release; leakage: incomplete wrap"
+     },
+     "deep": "Thinner sheets raise the threshold voltage and cut the drive current, so sheet thickness measured in cross-section is tied back to the electrical results [@loubet2017].",
+     "lab": "fab.html#vfab"
+    }
+   ],
+   "variant": {
+    "eyebrow": "Why it changed",
+    "title": "From a flat gate to a gate on every side",
+    "lead": "Each generation gave the gate more grip on the channel so the transistor could keep shrinking.",
+    "facts": [
+     {
+      "t": "High-k metal gates replaced oxide and polysilicon at 45 nm in 2007",
+      "ref": "mistry2007"
+     },
+     {
+      "t": "The DELTA fin transistor was shown in 1989",
+      "ref": "hisamoto1989"
+     },
+     {
+      "t": "Stacked nanosheets were shown as FinFET’s successor in 2017",
+      "ref": "loubet2017"
+     },
+     {
+      "t": "Nanosheet transistors entered volume production at the 2 nm class in 2025",
+      "ref": "tsmc_n2"
+     }
+    ],
+    "safety": "Epitaxy gases and the selective release etch are institution-only; every module runs in staff-operated tools."
+   },
+   "photos": [],
+   "leave_out": [
+    "The pictures are schematic: real fins and sheets are a few nanometres thick and drawn far larger here.",
+    "Source and drain epitaxy, inner spacers and the replacement-gate sequence are named, not drawn step by step.",
+    "No epitaxy gas, etch chemistry or recipe is given: those are institution-only.",
+    "Strain, work-function tuning and backside power delivery are left out."
+   ],
+   "refs": [
+    "ferain2011",
+    "hisamoto1989",
+    "mistry2007",
+    "natarajan2014",
+    "loubet2017",
+    "tsmc_n2",
+    "plummer2000"
+   ]
+  },
+  {
+   "id": "damascene",
+   "code": "10",
+   "area": "interconnect",
+   "area_no": 10,
+   "fab_step": "damascene",
+   "title": "Wire the chip in copper",
+   "subtitle": "Dual damascene: insulator, trench, barrier, seed, plate, polish, measure",
+   "route": "Modern logic: every wiring layer above the transistors",
+   "next": "Manual 11 · Probe and package (after the last layer)",
+   "intro": "Copper cannot be etched cleanly like aluminium, so it is wired the other way round. Grooves are cut into the insulator first, lined, filled with copper and polished flat, leaving copper only in the grooves, like an inlaid damascene sword. A modern chip repeats this for a dozen or more layers.",
+   "model_after": "The wiring follows the dual-damascene scheme [@kaanta1991] and the first full copper process [@edelstein1997]; line resistivity follows the size-effect models used by the Fab Journey’s copper theatre [@mayadas1970] with mean free paths from Gall [@gall2016]; polishing follows the pattern-density model [@stine1998].",
+   "you_need": [
+    {
+     "m": "si",
+     "label": "Wafer with transistors and contacts",
+     "from": "Manual 8 · Planarization"
+    },
+    {
+     "m": "chrome",
+     "label": "Dielectric deposition, etch and lithography tools"
+    },
+    {
+     "m": "chrome",
+     "label": "Barrier and seed chamber, plating cell (staff-run), polisher"
+    }
+   ],
+   "steps": [
+    {
+     "n": 1,
+     "id": "dielectric",
+     "title": "Lay down the insulator",
+     "tier": 2,
+     "do": "Deposit the insulating layer that the wires will sit in, often a low-k film that lowers the capacitance between neighbouring lines.",
+     "check": "Thickness and dielectric constant on monitors are on target.",
+     "chips": [
+      {
+       "t": "a lower dielectric constant cuts the RC delay of every wire [@plummer2000]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 30
+       },
+       {
+        "m": "oxide",
+        "h": 20,
+        "new": true,
+        "tag": "Insulator"
+       }
+      ],
+      "props": [
+       "chamber"
+      ]
+     },
+     "spec": {
+      "tool": "CVD or spin-on dielectric tool",
+      "purpose": "Make the layer the wires are inlaid into",
+      "params": [],
+      "control": "Thickness map; dielectric constant",
+      "ooc": "Dielectric constant high: the porous film was damaged; requalify"
+     },
+     "deep": "Porous low-k films are fragile, and etching or stripping resist can raise their dielectric constant again, so the later steps are kept gentle [@plummer2000].",
+     "lab": "manuals/deposition.html"
+    },
+    {
+     "n": 2,
+     "id": "trench",
+     "title": "Pattern and etch the trenches and vias",
+     "tier": 2,
+     "do": "Print the via holes and the line trenches with lithography and etch both into the insulator, so one fill later makes the vias and the lines together.",
+     "check": "Trench width and depth are on target.",
+     "chips": [
+      {
+       "t": "vias and lines filled in one step: dual damascene [@kaanta1991]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 30
+       },
+       {
+        "m": "oxide",
+        "h": 2,
+        "segs": [
+         [
+          0,
+          40
+         ],
+         [
+          60,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "oxide",
+        "h": 18,
+        "segs": [
+         [
+          0,
+          40
+         ],
+         [
+          60,
+          100
+         ]
+        ],
+        "new": true,
+        "tag": "Trench"
+       }
+      ]
+     },
+     "spec": {
+      "tool": "Scanner and plasma etcher",
+      "purpose": "Cut the shape of the wiring into the insulator",
+      "params": [],
+      "control": "Trench width (CD) and depth",
+      "ooc": "Trench too wide or too deep: rework before any metal goes in"
+     },
+     "deep": "The ratio of depth to width, the aspect ratio, decides how hard the next steps are: the barrier and seed must reach the bottom corners, and the plating must fill without a seam [@kaanta1991].",
+     "lab": "manuals/lithography.html"
+    },
+    {
+     "n": 3,
+     "id": "barrier",
+     "title": "Line it with a barrier and a seed",
+     "tier": 2,
+     "do": "Coat every surface with a thin barrier that copper cannot cross, then a thin copper seed for the plating to grow from.",
+     "check": "The barrier and seed are continuous down to the trench floor.",
+     "chips": [
+      {
+       "t": "copper must never touch silicon or oxide: the liner keeps it in [@edelstein1997]"
+      },
+      {
+       "t": "the barrier conducts poorly, so it is dead area in a narrow line [@gall2016]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 30
+       },
+       {
+        "m": "oxide",
+        "h": 2,
+        "segs": [
+         [
+          0,
+          40
+         ],
+         [
+          60,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "barrier",
+        "h": 2,
+        "segs": [
+         [
+          40,
+          60
+         ]
+        ],
+        "stack": "oxide",
+        "new": true,
+        "tag": "Barrier + seed"
+       },
+       {
+        "m": "oxide",
+        "h": 18,
+        "segs": [
+         [
+          0,
+          38
+         ],
+         [
+          62,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "barrier",
+        "h": 18,
+        "segs": [
+         [
+          38,
+          40
+         ],
+         [
+          60,
+          62
+         ]
+        ],
+        "stack": "oxide"
+       },
+       {
+        "m": "barrier",
+        "h": 2,
+        "segs": [
+         [
+          0,
+          38
+         ],
+         [
+          62,
+          100
+         ]
+        ]
+       }
+      ],
+      "props": [
+       "chamber",
+       "pump"
+      ]
+     },
+     "spec": {
+      "tool": "PVD or ALD barrier and seed chamber",
+      "purpose": "Seal the copper in and give plating a start",
+      "params": [],
+      "control": "Sheet resistance of the seed; coverage on test trenches",
+      "ooc": "Gaps at the bottom corners: voids later in the plated line"
+     },
+     "deep": "Copper diffuses quickly into silicon dioxide and silicon, where it ruins transistors, so the barrier wraps every line. The barrier must be thin, because in a 20 nm line every nanometre of it takes conductor away [@edelstein1997; @gall2016].",
+     "lab": "fab.html#proc-damascene"
+    },
+    {
+     "n": 4,
+     "id": "plate",
+     "title": "Fill by electroplating",
+     "tier": 3,
+     "do": "Trained staff run the plating cell. Copper grows from the seed until every trench is full, and a little beyond.",
+     "check": "Every trench is filled with no seam; the overburden covers the wafer.",
+     "chips": [
+      {
+       "t": "the plating bath is institution-only"
+      },
+      {
+       "t": "additives make the trench fill from the bottom up"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 30
+       },
+       {
+        "m": "oxide",
+        "h": 2,
+        "segs": [
+         [
+          0,
+          40
+         ],
+         [
+          60,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "barrier",
+        "h": 2,
+        "segs": [
+         [
+          40,
+          60
+         ]
+        ],
+        "stack": "oxide"
+       },
+       {
+        "m": "oxide",
+        "h": 18,
+        "segs": [
+         [
+          0,
+          38
+         ],
+         [
+          62,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "barrier",
+        "h": 18,
+        "segs": [
+         [
+          38,
+          40
+         ],
+         [
+          60,
+          62
+         ]
+        ],
+        "stack": "oxide"
+       },
+       {
+        "m": "cu",
+        "h": 18,
+        "segs": [
+         [
+          40,
+          60
+         ]
+        ],
+        "stack": "oxide"
+       },
+       {
+        "m": "barrier",
+        "h": 2,
+        "segs": [
+         [
+          0,
+          40
+         ],
+         [
+          60,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "cu",
+        "h": 2,
+        "segs": [
+         [
+          40,
+          60
+         ]
+        ],
+        "stack": "barrier"
+       },
+       {
+        "m": "cu",
+        "h": 4,
+        "segs": [
+         [
+          0,
+          100
+         ]
+        ],
+        "new": true,
+        "tag": "Plated copper"
+       }
+      ]
+     },
+     "spec": {
+      "tool": "Electroplating cell, staff only",
+      "purpose": "Fill the trenches with copper",
+      "params": [],
+      "control": "Set by the lab",
+      "ooc": "Seam or void in the fill: the lab adjusts the bath"
+     },
+     "deep": "Additives in the bath slow growth at the trench mouth and speed it at the floor, so the trench fills from the bottom up without a seam [@edelstein1997]. The bath chemistry is process know-how and stays with the lab; nothing about it is given here."
+    },
+    {
+     "n": 5,
+     "id": "polish",
+     "title": "Polish back to the insulator",
+     "tier": 2,
+     "do": "Polish away the copper and barrier on top until only the copper in the trenches remains.",
+     "check": "The field is clear of metal and no lines are shorted.",
+     "chips": [
+      {
+       "t": "removal rate rises with pressure and speed: Preston’s law [@preston1927]"
+      },
+      {
+       "t": "wide lines dish and dense arrays erode [@stine1998]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 30
+       },
+       {
+        "m": "oxide",
+        "h": 2,
+        "segs": [
+         [
+          0,
+          40
+         ],
+         [
+          60,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "barrier",
+        "h": 2,
+        "segs": [
+         [
+          40,
+          60
+         ]
+        ],
+        "stack": "oxide"
+       },
+       {
+        "m": "oxide",
+        "h": 18,
+        "segs": [
+         [
+          0,
+          38
+         ],
+         [
+          62,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "barrier",
+        "h": 18,
+        "segs": [
+         [
+          38,
+          40
+         ],
+         [
+          60,
+          62
+         ]
+        ],
+        "stack": "oxide"
+       },
+       {
+        "m": "cu",
+        "h": 18,
+        "segs": [
+         [
+          40,
+          60
+         ]
+        ],
+        "stack": "oxide",
+        "new": true,
+        "tag": "Copper line"
+       }
+      ],
+      "props": [
+       "pad"
+      ]
+     },
+     "spec": {
+      "tool": "Chemical-mechanical polisher",
+      "purpose": "Leave copper only where the wiring belongs",
+      "params": [],
+      "control": "Endpoint from friction or reflected light; dishing and erosion on test structures",
+      "ooc": "Residual copper between lines: polish more; dished lines: tune the pad and slurry"
+     },
+     "deep": "Copper is softer than the insulator, so wide lines are polished below the surface (dishing) and dense regions lose insulator too (erosion). Both thin the line and raise its resistance [@stine1998].",
+     "lab": "manuals/planarize.html"
+    },
+    {
+     "n": 6,
+     "id": "measure",
+     "title": "Measure the wires",
+     "tier": 1,
+     "do": "Probe test structures: long serpentines for resistance, interleaved combs for shorts.",
+     "check": "Line resistance and comb leakage within limits.",
+     "chips": [
+      {
+       "t": "a 10 nm copper line conducts about three times worse than bulk would suggest: surfaces and grain boundaries scatter electrons [@mayadas1970]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 30
+       },
+       {
+        "m": "oxide",
+        "h": 2,
+        "segs": [
+         [
+          0,
+          40
+         ],
+         [
+          60,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "barrier",
+        "h": 2,
+        "segs": [
+         [
+          40,
+          60
+         ]
+        ],
+        "stack": "oxide"
+       },
+       {
+        "m": "oxide",
+        "h": 18,
+        "segs": [
+         [
+          0,
+          38
+         ],
+         [
+          62,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "barrier",
+        "h": 18,
+        "segs": [
+         [
+          38,
+          40
+         ],
+         [
+          60,
+          62
+         ]
+        ],
+        "stack": "oxide"
+       },
+       {
+        "m": "cu",
+        "h": 18,
+        "segs": [
+         [
+          40,
+          60
+         ]
+        ],
+        "stack": "oxide"
+       }
+      ],
+      "props": [
+       "probe",
+       "stamp"
+      ],
+      "probe_label": "Kelvin probe"
+     },
+     "spec": {
+      "tool": "Parametric tester",
+      "purpose": "Confirm the wiring conducts and is isolated",
+      "params": [],
+      "control": "Resistance per micrometre; comb leakage",
+      "ooc": "Resistance high: thin line, dishing or voids; leakage: copper residue"
+     },
+     "deep": "Narrow lines scatter electrons at their surfaces and grain boundaries, so resistivity rises well above the bulk value just as the cross-section shrinks. That is why ruthenium and other metals with short mean free paths are being considered for the tightest layers [@gall2016].",
+     "lab": "fab.html#proc-damascene"
+    }
+   ],
+   "variant": {
+    "eyebrow": "Why it changed",
+    "title": "From aluminium to copper",
+    "lead": "Copper conducts better and resists electromigration, but it needed a whole new way of patterning.",
+    "facts": [
+     {
+      "t": "Bulk copper resistivity is about 1.7 µΩ·cm, aluminium about 2.65",
+      "ref": "gall2016"
+     },
+     {
+      "t": "Dual damascene fills vias and lines in one step",
+      "ref": "kaanta1991"
+     },
+     {
+      "t": "IBM announced full copper wiring in production CMOS in 1997",
+      "ref": "edelstein1997"
+     },
+     {
+      "t": "Thin films conduct worse because electrons scatter at grain boundaries and surfaces",
+      "ref": "mayadas1970"
+     }
+    ],
+    "safety": "Plating baths, the acids around them and polishing slurries are handled only by trained staff, and copper must be kept out of every tool that touches bare silicon."
+   },
+   "photos": [],
+   "leave_out": [
+    "The cross-section shows one trench; dual damascene cuts a via and a line in one opening.",
+    "Resistivity follows the site’s size-effect model; real lines also depend on grain size after the anneal and on the barrier material.",
+    "No plating chemistry, current or polishing slurry is given: those are institution-only.",
+    "Electromigration and stress voiding are covered by the electromigration simulator, not this manual."
+   ],
+   "refs": [
+    "kaanta1991",
+    "edelstein1997",
+    "mayadas1970",
+    "gall2016",
+    "stine1998",
+    "preston1927",
+    "plummer2000"
+   ]
+  },
+  {
+   "id": "probe",
+   "code": "11",
+   "area": "backend",
+   "area_no": 11,
+   "fab_step": "probe_dice_bond",
+   "title": "Find the good dies and package them",
+   "subtitle": "Back end: probe test structures, test every die, map, saw, pick, bond and test again",
+   "route": "Every route: the last steps before a chip leaves the fab",
+   "next": "The finished chip: back to the Fab Journey",
+   "intro": "A finished wafer holds anything from a handful to hundreds of chips, and some are dead. Probing finds them, a saw cuts the wafer apart, and only the good dies are packaged and wired to the outside world. No test catches every fault, so the last question is how many bad chips slip through.",
+   "model_after": "Yield follows Stapper’s negative-binomial model [@stapper1973] and Murphy’s cost argument [@murphy1964]; escaped defects follow Williams and Brown [@williams1981]; the teaching-run results come from its electrical characterization [@cleanroom_run_char2024]. The probe theatre computes all of it.",
+   "you_need": [
+    {
+     "m": "al",
+     "label": "Finished, sintered wafer",
+     "from": "Manual 7A · Metal"
+    },
+    {
+     "m": "chrome",
+     "label": "Wafer prober and probe card"
+    },
+    {
+     "m": "chrome",
+     "label": "Dicing saw, die picker, wire bonder"
+    }
+   ],
+   "steps": [
+    {
+     "n": 1,
+     "id": "parametric",
+     "title": "Probe the test structures",
+     "tier": 0,
+     "do": "Lower needles onto the test resistors, capacitors and transistors beside the dies and measure them first. They tell you whether the process worked before any chip is tested.",
+     "check": "Threshold voltages and sheet resistances are inside their limits.",
+     "chips": [
+      {
+       "t": "teaching run: 8 of 9 test MOSFETs switched [@cleanroom_run_char2024]"
+      },
+      {
+       "t": "test structures sit in the scribe lanes"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "al",
+        "h": 8,
+        "segs": [
+         [
+          0,
+          30
+         ],
+         [
+          36,
+          64
+         ],
+         [
+          70,
+          100
+         ]
+        ]
+       }
+      ],
+      "props": [
+       "probe"
+      ]
+     },
+     "spec": {
+      "tool": "Wafer prober with a parametric analyser",
+      "purpose": "Check the process before the product",
+      "params": [
+       {
+        "name": "Working MOSFETs, teaching run",
+        "value": "8 of 9",
+        "ref": "cleanroom_run_char2024"
+       }
+      ],
+      "control": "Device parameters against limits",
+      "ooc": "Parameters out of range: hold the lot and tell process engineering"
+     },
+     "deep": "Parametric tests measure the process, not the design. In the teaching run they showed thresholds pulled negative by charge in the oxide, and one short-channel device that never turned off [@cleanroom_run_char2024]."
+    },
+    {
+     "n": 2,
+     "id": "test",
+     "title": "Test every die",
+     "tier": 0,
+     "do": "Step the wafer under the probe card die by die and run the test patterns. Each die passes or is put in a failure bin.",
+     "check": "Every die has a result.",
+     "chips": [
+      {
+       "t": "fault coverage: the share of modelled faults the patterns catch [@williams1981]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "al",
+        "h": 8,
+        "segs": [
+         [
+          0,
+          30
+         ],
+         [
+          36,
+          64
+         ],
+         [
+          70,
+          100
+         ]
+        ],
+        "new": true,
+        "tag": "Die under test"
+       }
+      ],
+      "props": [
+       "probe"
+      ]
+     },
+     "spec": {
+      "tool": "Wafer prober and automatic tester",
+      "purpose": "Sort good dies from bad",
+      "params": [],
+      "control": "Fault coverage and test time per die",
+      "ooc": "A whole region fails: look for a tool problem, not random defects"
+     },
+     "deep": "Scan chains let a few pins reach millions of internal flip-flops, so patterns can be generated automatically for a fault model. Test time costs money, so patterns that fail bad dies early run first [@williams1981]."
+    },
+    {
+     "n": 3,
+     "id": "map",
+     "title": "Make the wafer map",
+     "tier": 0,
+     "do": "Colour each die by its result. The pattern of failures says as much as their number.",
+     "check": "The map is saved with the lot record.",
+     "chips": [
+      {
+       "t": "Y = (1 + A·D₀/α)^(−α) [@stapper1973]"
+      },
+      {
+       "t": "big dies catch more defects [@murphy1964]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "al",
+        "h": 8,
+        "segs": [
+         [
+          0,
+          30
+         ],
+         [
+          36,
+          64
+         ],
+         [
+          70,
+          100
+         ]
+        ]
+       }
+      ],
+      "props": [
+       "stamp"
+      ]
+     },
+     "spec": {
+      "tool": "Wafer map software",
+      "purpose": "Record yield and failure patterns",
+      "params": [],
+      "control": "Yield per wafer and per lot",
+      "ooc": "Rings, scratches or clusters: trace them to a tool"
+     },
+     "deep": "Defects cluster, so the negative-binomial model with a clustering parameter α fits real wafers better than a random scatter [@stapper1973]. Murphy showed in 1964 that yield and die size together set the cost of a chip [@murphy1964].",
+     "eq": "Y = (1 + A D₀ / α)^(−α)",
+     "lab": "fab.html#proc-probe"
+    },
+    {
+     "n": 4,
+     "id": "dice",
+     "title": "Saw the wafer apart",
+     "tier": 2,
+     "do": "Mount the wafer on tape in a frame and cut along the scribe lanes with a diamond blade. The dies stay on the tape.",
+     "check": "Clean cuts; no chipped die edges.",
+     "chips": [
+      {
+       "t": "the cut destroys the test structures in the lanes"
+      },
+      {
+       "t": "some wafers are cut by laser instead"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "al",
+        "h": 8,
+        "segs": [
+         [
+          0,
+          30
+         ],
+         [
+          36,
+          64
+         ],
+         [
+          70,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "scribe",
+        "h": 8,
+        "segs": [
+         [
+          30,
+          36
+         ],
+         [
+          64,
+          70
+         ]
+        ],
+        "stack": "al",
+        "new": true,
+        "tag": "Scribe lane"
+       }
+      ],
+      "props": [
+       "saw"
+      ]
+     },
+     "spec": {
+      "tool": "Dicing saw with water cooling",
+      "purpose": "Separate the dies",
+      "params": [],
+      "control": "Kerf width and edge chipping",
+      "ooc": "Chipped edges: slow the feed or change the blade"
+     },
+     "deep": "Cooling water carries heat and debris away. An edge chip that looks harmless can grow into a crack once the die is stressed in its package."
+    },
+    {
+     "n": 5,
+     "id": "pick",
+     "title": "Pick the good dies",
+     "tier": 0,
+     "do": "The picker reads the wafer map and lifts only the dies that passed. Each is inspected before it goes into a tray or onto a package.",
+     "check": "Only passing dies leave the tape.",
+     "chips": [
+      {
+       "t": "cost per good die is wafer cost divided by good dies [@murphy1964]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "al",
+        "h": 8,
+        "segs": [
+         [
+          36,
+          64
+         ]
+        ],
+        "new": true,
+        "tag": "Good die"
+       }
+      ]
+     },
+     "spec": {
+      "tool": "Die picker with vision",
+      "purpose": "Keep only known-good dies",
+      "params": [],
+      "control": "Map-to-die matching",
+      "ooc": "Picker and map disagree: stop and re-align"
+     },
+     "deep": "Chiplets and 3D stacks join several dies in one package, so a single bad die wastes all the good ones beside it: every die must be known good before it is assembled [@tsmc_3dfabric]."
+    },
+    {
+     "n": 6,
+     "id": "bond",
+     "title": "Bond wires to the pads",
+     "tier": 2,
+     "do": "Glue the die into its package, then join each pad to a package lead with a fine wire.",
+     "check": "Every wire passes a pull test on samples.",
+     "chips": [
+      {
+       "t": "gold or copper wire, welded by heat and ultrasound"
+      },
+      {
+       "t": "advanced packages use bumps instead [@tsmc_3dfabric]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "al",
+        "h": 8,
+        "segs": [
+         [
+          20,
+          80
+         ]
+        ]
+       }
+      ],
+      "props": [
+       "wire"
+      ]
+     },
+     "spec": {
+      "tool": "Wire bonder",
+      "purpose": "Connect the die to the outside",
+      "params": [],
+      "control": "Bond pull and shear strength",
+      "ooc": "Weak bonds: clean the pads and recheck the bond settings"
+     },
+     "deep": "Wire bonds have joined chips to packages since the planar era. Modern high-performance packages replace them with solder bumps or direct copper-to-copper bonding between stacked dies [@tsmc_3dfabric]."
+    },
+    {
+     "n": 7,
+     "id": "final",
+     "title": "Test again, packaged",
+     "tier": 0,
+     "do": "Test the packaged part at speed and temperature. Assembly can damage a die, and some faults are only reachable through the package.",
+     "check": "The part passes, and is marked and shipped.",
+     "chips": [
+      {
+       "t": "defect level DL = 1 − Y^(1 − T) [@williams1981]"
+      },
+      {
+       "t": "90 % coverage lets about ten times more bad parts through than 99 % [@williams1981]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 34
+       },
+       {
+        "m": "al",
+        "h": 8,
+        "segs": [
+         [
+          20,
+          80
+         ]
+        ]
+       }
+      ],
+      "props": [
+       "wire",
+       "stamp"
+      ]
+     },
+     "spec": {
+      "tool": "Final tester and burn-in ovens",
+      "purpose": "Ship only good parts",
+      "params": [],
+      "control": "Defect level in parts per million",
+      "ooc": "Escapes at the customer: raise test coverage"
+     },
+     "deep": "Williams and Brown showed that the share of bad parts that pass the test depends on both yield and fault coverage, DL = 1 − Y^(1 − T) [@williams1981]. The probe theatre lets you change both.",
+     "eq": "DL = 1 − Y^(1 − T)",
+     "lab": "fab.html#proc-probe"
+    }
+   ],
+   "variant": {
+    "eyebrow": "The numbers",
+    "title": "How many bad chips slip through",
+    "lead": "Yield says how many dies are good. Test coverage says how many of the bad ones you catch.",
+    "facts": [
+     {
+      "t": "Murphy related die size to yield and cost in 1964",
+      "ref": "murphy1964"
+     },
+     {
+      "t": "Stapper modelled defect clustering with the negative binomial in 1973",
+      "ref": "stapper1973"
+     },
+     {
+      "t": "Williams and Brown linked fault coverage to the defect level customers see in 1981",
+      "ref": "williams1981"
+     },
+     {
+      "t": "Teaching run: 8 of 9 test MOSFETs switched; the shortest never turned off",
+      "ref": "cleanroom_run_char2024"
+     }
+    ]
+   },
+   "photos": [],
+   "leave_out": [
+    "Every defect is treated as a killer; real tests bin dies by speed and repair memory with spare rows.",
+    "The defect-level formula assumes faults are equally likely and independent.",
+    "Saw, pick and bond are drawn, not modelled; their own yield losses are left out.",
+    "Burn-in, reliability screens and packaging stress are only mentioned."
+   ],
+   "refs": [
+    "stapper1973",
+    "murphy1964",
+    "williams1981",
+    "tsmc_3dfabric",
+    "cleanroom_run_char2024"
+   ]
+  },
+  {
+   "id": "tft",
+   "code": "12",
+   "area": "families",
+   "area_no": 12,
+   "fab_step": "dep_pvd",
+   "title": "Make a transistor on glass",
+   "subtitle": "An oxide thin-film transistor (IGZO): another process family, built at low temperature with no crystal at all",
+   "route": "Displays and flexible electronics; compare the Fab Journey’s process-family table",
+   "next": "Manual 11 · Probe and package",
+   "intro": "Not every transistor starts from a silicon crystal. The screen you are reading is driven by thin-film transistors built on glass, layer by deposited layer. Amorphous oxide semiconductors such as indium–gallium–zinc oxide (IGZO) can even be made at room temperature on plastic. This manual builds a bottom-gate oxide transistor with the operations from the earlier manuals.",
+   "model_after": "The device follows the thin-film transistor of Weimer [@weimer1962] and the room-temperature amorphous-oxide transistor of Nomura et al. [@nomura2004]; the flexible processor example is Ozer et al. [@ozer2024]; deposition and patterning follow Manuals 4A, 5 and 7B and Plummer, Deal and Griffin [@plummer2000].",
+   "you_need": [
+    {
+     "m": "quartz",
+     "label": "Clean glass (or plastic) sheet"
+    },
+    {
+     "m": "chrome",
+     "label": "Sputter and deposition tools"
+    },
+    {
+     "m": "chrome",
+     "label": "Lithography and etch; probe station"
+    }
+   ],
+   "steps": [
+    {
+     "n": 1,
+     "id": "gate",
+     "title": "Pattern a metal gate on the glass",
+     "tier": 2,
+     "do": "Deposit a metal film on the glass and pattern it into gate lines. The gate sits at the bottom of this transistor.",
+     "check": "Gate lines continuous; edges smooth.",
+     "chips": [
+      {
+       "t": "the first thin-film transistor was shown in 1962 [@weimer1962]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "quartz",
+        "h": 26
+       },
+       {
+        "m": "gate_metal",
+        "h": 5,
+        "segs": [
+         [
+          35,
+          65
+         ]
+        ],
+        "new": true,
+        "tag": "Bottom gate"
+       }
+      ],
+      "props": [
+       "chamber"
+      ]
+     },
+     "spec": {
+      "tool": "Sputter, aligner, etch",
+      "purpose": "Make the gate first, on an insulating sheet",
+      "params": [],
+      "control": "Line width; sheet resistance",
+      "ooc": "Rough edges: they will thin the insulator above them"
+     },
+     "deep": "With no crystal to build on, every layer is deposited. Putting the gate first lets the semiconductor go on last, over a smooth insulator [@weimer1962].",
+     "lab": "manuals/metal.html"
+    },
+    {
+     "n": 2,
+     "id": "insulator",
+     "title": "Deposit the gate insulator",
+     "tier": 2,
+     "do": "Cover everything with a thin insulating film by CVD or sputtering.",
+     "check": "Thickness and leakage on target.",
+     "chips": [
+      {
+       "t": "deposited, not grown: there is no silicon to oxidise [@plummer2000]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "quartz",
+        "h": 26
+       },
+       {
+        "m": "gate_metal",
+        "h": 5,
+        "segs": [
+         [
+          35,
+          65
+         ]
+        ]
+       },
+       {
+        "m": "quartz",
+        "h": 5,
+        "segs": [
+         [
+          0,
+          35
+         ],
+         [
+          65,
+          100
+         ]
+        ],
+        "stack": "gate_metal"
+       },
+       {
+        "m": "film",
+        "h": 5,
+        "new": true,
+        "tag": "Gate insulator"
+       }
+      ],
+      "props": [
+       "chamber"
+      ]
+     },
+     "spec": {
+      "tool": "CVD or sputter chamber",
+      "purpose": "Separate the gate from the channel",
+      "params": [],
+      "control": "Thickness; breakdown on capacitors",
+      "ooc": "Leaky capacitors: pinholes; deposit thicker or cleaner"
+     },
+     "deep": "On silicon the best insulator is grown from the wafer itself. On glass it has to be deposited, so its quality sets much of the transistor’s behaviour [@plummer2000].",
+     "lab": "manuals/deposition.html"
+    },
+    {
+     "n": 3,
+     "id": "channel",
+     "title": "Sputter the oxide semiconductor",
+     "tier": 2,
+     "do": "Sputter a thin amorphous IGZO film over the gate and pattern it into islands. It works without being crystallised, and it can be made at room temperature.",
+     "check": "Island thickness and resistance on monitors on target.",
+     "chips": [
+      {
+       "t": "amorphous oxide transistors made at room temperature on plastic [@nomura2004]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "quartz",
+        "h": 26
+       },
+       {
+        "m": "gate_metal",
+        "h": 5,
+        "segs": [
+         [
+          35,
+          65
+         ]
+        ]
+       },
+       {
+        "m": "quartz",
+        "h": 5,
+        "segs": [
+         [
+          0,
+          35
+         ],
+         [
+          65,
+          100
+         ]
+        ],
+        "stack": "gate_metal"
+       },
+       {
+        "m": "film",
+        "h": 5
+       },
+       {
+        "m": "organic",
+        "h": 4,
+        "segs": [
+         [
+          28,
+          72
+         ]
+        ],
+        "new": true,
+        "tag": "IGZO channel"
+       }
+      ],
+      "props": [
+       "chamber"
+      ]
+     },
+     "spec": {
+      "tool": "Sputter chamber",
+      "purpose": "Lay the channel over the gate",
+      "params": [],
+      "control": "Film thickness; oxygen content set by the lab",
+      "ooc": "Channel too conductive: the transistor will not switch off"
+     },
+     "deep": "Electrons in these oxides travel through overlapping metal orbitals, which work even when the atoms are disordered, so the film needs no crystal and no high temperature [@nomura2004].",
+     "lab": "manuals/deposition.html"
+    },
+    {
+     "n": 4,
+     "id": "contacts",
+     "title": "Add source and drain",
+     "tier": 2,
+     "do": "Deposit and pattern metal over the ends of each island, leaving a gap over the gate: that gap is the channel length.",
+     "check": "Gap length on target; contacts ohmic.",
+     "chips": [
+      {
+       "t": "the gap between source and drain is the channel length [@weimer1962]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "quartz",
+        "h": 26
+       },
+       {
+        "m": "gate_metal",
+        "h": 5,
+        "segs": [
+         [
+          35,
+          65
+         ]
+        ]
+       },
+       {
+        "m": "quartz",
+        "h": 5,
+        "segs": [
+         [
+          0,
+          35
+         ],
+         [
+          65,
+          100
+         ]
+        ],
+        "stack": "gate_metal"
+       },
+       {
+        "m": "film",
+        "h": 5
+       },
+       {
+        "m": "organic",
+        "h": 4,
+        "segs": [
+         [
+          28,
+          72
+         ]
+        ]
+       },
+       {
+        "m": "al",
+        "h": 5,
+        "segs": [
+         [
+          22,
+          44
+         ],
+         [
+          56,
+          78
+         ]
+        ],
+        "new": true,
+        "tag": "Source and drain"
+       }
+      ],
+      "props": [
+       "chamber"
+      ]
+     },
+     "spec": {
+      "tool": "Sputter, aligner, etch",
+      "purpose": "Connect the channel",
+      "params": [],
+      "control": "Gap length; contact resistance",
+      "ooc": "Gap bridged: short; rework the etch"
+     },
+     "deep": "The etch that separates source from drain must not eat the thin semiconductor below it, so the chemistries are chosen for selectivity, as in Manual 5 [@plummer2000].",
+     "lab": "manuals/etch.html"
+    },
+    {
+     "n": 5,
+     "id": "passivate",
+     "title": "Seal and anneal",
+     "tier": 2,
+     "do": "Cover the transistor with a protective film and give it a mild bake, which steadies the oxide semiconductor.",
+     "check": "Threshold stable under bias stress.",
+     "chips": [
+      {
+       "t": "sealing keeps moisture and oxygen from shifting the threshold [@nomura2004]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "quartz",
+        "h": 26
+       },
+       {
+        "m": "gate_metal",
+        "h": 5,
+        "segs": [
+         [
+          35,
+          65
+         ]
+        ]
+       },
+       {
+        "m": "quartz",
+        "h": 5,
+        "segs": [
+         [
+          0,
+          35
+         ],
+         [
+          65,
+          100
+         ]
+        ],
+        "stack": "gate_metal"
+       },
+       {
+        "m": "film",
+        "h": 5
+       },
+       {
+        "m": "organic",
+        "h": 4,
+        "segs": [
+         [
+          28,
+          72
+         ]
+        ]
+       },
+       {
+        "m": "al",
+        "h": 5,
+        "segs": [
+         [
+          22,
+          44
+         ],
+         [
+          56,
+          78
+         ]
+        ]
+       },
+       {
+        "m": "oxide",
+        "h": 4,
+        "new": true,
+        "tag": "Passivation"
+       }
+      ],
+      "props": [
+       "oven"
+      ],
+      "oven_label": "low-temperature bake"
+     },
+     "spec": {
+      "tool": "CVD chamber; oven",
+      "purpose": "Protect and stabilise the transistor",
+      "params": [],
+      "control": "Threshold shift under bias",
+      "ooc": "Threshold drifts: improve the seal or the bake"
+     },
+     "deep": "Oxide semiconductors respond to the gases around them, so an unsealed transistor drifts. The bake stays far below what a silicon furnace uses, which is why plastic sheets survive it [@nomura2004]."
+    },
+    {
+     "n": 6,
+     "id": "measure",
+     "title": "Measure and compare",
+     "tier": 1,
+     "do": "Probe the transfer curve: drain current against gate voltage. Compare its on–off ratio and threshold with the silicon transistors in the other manuals.",
+     "check": "On–off ratio and threshold within spec across the sheet.",
+     "chips": [
+      {
+       "t": "a bendable RISC-V processor was built from 0.6 µm IGZO transistors [@ozer2024]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "quartz",
+        "h": 26
+       },
+       {
+        "m": "gate_metal",
+        "h": 5,
+        "segs": [
+         [
+          35,
+          65
+         ]
+        ]
+       },
+       {
+        "m": "quartz",
+        "h": 5,
+        "segs": [
+         [
+          0,
+          35
+         ],
+         [
+          65,
+          100
+         ]
+        ],
+        "stack": "gate_metal"
+       },
+       {
+        "m": "film",
+        "h": 5
+       },
+       {
+        "m": "organic",
+        "h": 4,
+        "segs": [
+         [
+          28,
+          72
+         ]
+        ]
+       },
+       {
+        "m": "al",
+        "h": 5,
+        "segs": [
+         [
+          22,
+          44
+         ],
+         [
+          56,
+          78
+         ]
+        ]
+       },
+       {
+        "m": "oxide",
+        "h": 4
+       }
+      ],
+      "props": [
+       "probe",
+       "stamp"
+      ],
+      "probe_label": "probe station"
+     },
+     "spec": {
+      "tool": "Probe station",
+      "purpose": "Confirm the transistors switch",
+      "params": [
+       {
+        "name": "Flexible IGZO processor, transistor length",
+        "value": "0.6 µm",
+        "ref": "ozer2024"
+       }
+      ],
+      "control": "Transfer curve: threshold, on–off ratio, subthreshold slope",
+      "ooc": "Low on-current: thick insulator or poor contacts"
+     },
+     "deep": "Oxide transistors are far slower than crystalline silicon but cheap, transparent and buildable on anything flat, which is why they drive displays and are starting to carry simple processors on plastic [@ozer2024].",
+     "lab": "fab.html#families"
+    }
+   ],
+   "variant": {
+    "eyebrow": "Another family",
+    "title": "No crystal, no furnace",
+    "lead": "Thin-film transistors trade speed for building on glass and plastic.",
+    "facts": [
+     {
+      "t": "Weimer showed the thin-film transistor in 1962",
+      "ref": "weimer1962"
+     },
+     {
+      "t": "Amorphous oxide transistors were made at room temperature on plastic in 2004",
+      "ref": "nomura2004"
+     },
+     {
+      "t": "A bendable RISC-V processor used 0.6 µm IGZO transistors in 2024",
+      "ref": "ozer2024"
+     },
+     {
+      "t": "Every layer is deposited, because there is no silicon to grow oxide from",
+      "ref": "plummer2000"
+     }
+    ],
+    "safety": "Sputter and CVD tools run under vacuum and some CVD gases are institution-only; the etches are staff-run."
+   },
+   "photos": [],
+   "leave_out": [
+    "The cross-section is schematic; real films are tens of nanometres thick.",
+    "No sputter target composition, gas mix or etch is given: those are set by the lab.",
+    "Bias-stress drift, light sensitivity and contact resistance are described, not modelled.",
+    "Top-gate and self-aligned oxide transistors, and low-temperature polysilicon, are left out."
+   ],
+   "refs": [
+    "weimer1962",
+    "nomura2004",
+    "ozer2024",
+    "plummer2000"
+   ]
+  },
+  {
+   "id": "history",
+   "code": "13",
+   "area": "history",
+   "area_no": 13,
+   "fab_step": "planar_hoerni",
+   "title": "Make a planar transistor the 1959 way",
+   "subtitle": "Hoerni’s planar process: grow oxide, open a window, predeposit, drive in under the oxide, evaporate leads, test breakdown",
+   "route": "Historical planar process, the ancestor of every integrated circuit",
+   "next": "Manual 11 · Probe and package",
+   "intro": "Before 1959 transistors were mesas: bumps etched out of the silicon with their junctions exposed at the sides, where dirt and moisture spoiled them. Jean Hoerni kept the oxide on. Dopant went in through a window, spread sideways under the oxide edge and ended under protecting glass, and the wafer stayed flat. Robert Noyce then ran aluminium leads over that oxide, which made the integrated circuit possible.",
+   "model_after": "The sequence follows Hoerni’s patent [@hoerni1962] and Noyce’s lead structure [@noyce_patent], with oxide masking from Frosch and Derick [@frosch1957]; breakdown of the flat junction and its curved edge follows Sze and Gibbons [@sze_gibbons1966; @sze_gibbons_curv1966], as computed by the Fab Journey’s planar theatre; the history follows Riordan and Hoddeson [@riordan1997].",
+   "you_need": [
+    {
+     "m": "si",
+     "label": "Lightly doped n-type silicon wafer",
+     "from": "Manual 1 · Wafer"
+    },
+    {
+     "m": "chrome",
+     "label": "Oxidation and diffusion furnaces (staff-run source)"
+    },
+    {
+     "m": "chrome",
+     "label": "Mask aligner, evaporator, curve tracer"
+    }
+   ],
+   "steps": [
+    {
+     "n": 1,
+     "id": "oxide",
+     "title": "Grow the masking oxide",
+     "tier": 2,
+     "do": "Oxidise the whole wafer in a furnace. The glass will block the dopant everywhere except where a window is opened.",
+     "check": "Oxide thickness even across the wafer.",
+     "chips": [
+      {
+       "t": "silicon dioxide masks the common dopants [@frosch1957]"
+      },
+      {
+       "t": "a grown oxide also quiets the silicon surface [@atalla1959]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 30
+       },
+       {
+        "m": "oxide",
+        "h": 10,
+        "new": true,
+        "tag": "Masking oxide"
+       }
+      ],
+      "props": [
+       "oven"
+      ],
+      "oven_label": "oxidation furnace"
+     },
+     "spec": {
+      "tool": "Oxidation furnace",
+      "purpose": "Cover the wafer in a dopant mask",
+      "params": [],
+      "control": "Oxide thickness by colour or ellipsometry",
+      "ooc": "Pinholes in the oxide: dopant leaks through; regrow"
+     },
+     "deep": "Frosch and Derick found in 1957 that a grown oxide blocks boron and phosphorus, and Atalla showed that it also stabilises the silicon surface [@frosch1957; @atalla1959]. Hoerni put both to work.",
+     "lab": "manuals/oxidation.html"
+    },
+    {
+     "n": 2,
+     "id": "window",
+     "title": "Open a window",
+     "tier": 2,
+     "do": "Print a window with photoresist and etch the oxide away inside it. Its edge sets where the junction will meet the surface.",
+     "check": "Window clean to the silicon, edges sharp.",
+     "chips": [
+      {
+       "t": "the window edge decides where the junction surfaces [@hoerni1962]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 30
+       },
+       {
+        "m": "oxide",
+        "h": 10,
+        "segs": [
+         [
+          0,
+          38
+         ],
+         [
+          62,
+          100
+         ]
+        ],
+        "new": true,
+        "tag": "Window"
+       }
+      ]
+     },
+     "spec": {
+      "tool": "Mask aligner and oxide etch",
+      "purpose": "Let dopant in only where it belongs",
+      "params": [],
+      "control": "Window size; no oxide left in it",
+      "ooc": "Oxide left in the window: etch again"
+     },
+     "deep": "Pattern and etch follow Manuals 4A and 5. The etch chemistry for oxide is institution-only.",
+     "lab": "manuals/lithography.html"
+    },
+    {
+     "n": 3,
+     "id": "predep",
+     "title": "Predeposit the dopant",
+     "tier": 3,
+     "do": "Trained staff run the dopant source in a furnace. A thin, heavily doped skin forms in the window only.",
+     "check": "Sheet resistance of a monitor wafer on target.",
+     "chips": [
+      {
+       "t": "the dopant source is institution-only"
+      },
+      {
+       "t": "the oxide stops it everywhere else"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 30
+       },
+       {
+        "m": "n_diff",
+        "h": 3,
+        "segs": [
+         [
+          34,
+          66
+         ]
+        ],
+        "new": true,
+        "tag": "Doped skin"
+       },
+       {
+        "m": "si",
+        "h": 3,
+        "segs": [
+         [
+          0,
+          38
+         ],
+         [
+          62,
+          100
+         ]
+        ],
+        "stack": "n_diff"
+       },
+       {
+        "m": "oxide",
+        "h": 10,
+        "segs": [
+         [
+          0,
+          38
+         ],
+         [
+          62,
+          100
+         ]
+        ]
+       }
+      ],
+      "props": [
+       "oven"
+      ],
+      "oven_label": "diffusion furnace (staff-run source)"
+     },
+     "spec": {
+      "tool": "Diffusion furnace, staff only",
+      "purpose": "Set the dose of dopant in the window",
+      "params": [],
+      "control": "Set by the lab",
+      "ooc": "Monitor out of range: the lab adjusts the source"
+     },
+     "deep": "A constant-source predeposition fixes the dose, as in Manual 6A. The source chemistry stays with the lab; nothing about it is given here."
+    },
+    {
+     "n": 4,
+     "id": "drive",
+     "title": "Drive in under the oxide edge",
+     "tier": 2,
+     "do": "Heat again with the source removed. The dopant spreads down and sideways, so the junction curves up and meets the surface under the oxide, not in the open.",
+     "check": "Junction depth on a bevelled monitor on target.",
+     "chips": [
+      {
+       "t": "the junction ends under protecting oxide [@hoerni1962]"
+      },
+      {
+       "t": "sideways spread is about 0.8 of the depth [@plummer2000]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 30
+       },
+       {
+        "m": "n_diff",
+        "h": 8,
+        "segs": [
+         [
+          30,
+          70
+         ]
+        ],
+        "new": true,
+        "tag": "Junction under oxide"
+       },
+       {
+        "m": "si",
+        "h": 8,
+        "segs": [
+         [
+          0,
+          30
+         ],
+         [
+          70,
+          100
+         ]
+        ],
+        "stack": "n_diff"
+       },
+       {
+        "m": "oxide",
+        "h": 10,
+        "segs": [
+         [
+          0,
+          38
+         ],
+         [
+          62,
+          100
+         ]
+        ]
+       }
+      ],
+      "props": [
+       "oven"
+      ],
+      "oven_label": "drive-in furnace"
+     },
+     "spec": {
+      "tool": "Diffusion furnace",
+      "purpose": "Bury the junction edge under glass",
+      "params": [
+       {
+        "name": "Drive-in, 1 h at 1100 °C on 10¹⁵ cm⁻³ (model)",
+        "value": "xⱼ ≈ 2.05 µm",
+        "ref": "plummer2000"
+       }
+      ],
+      "control": "Drive-in temperature and time",
+      "ooc": "Junction too shallow: the edge curves sharply and breaks down early"
+     },
+     "deep": "Because the dopant moves sideways about as far as down, the junction reaches the surface beneath the oxide edge. That is the whole trick: the edge, where mesa transistors failed, is sealed from the start [@hoerni1962; @riordan1997].",
+     "lab": "fab.html#proc-planar"
+    },
+    {
+     "n": 5,
+     "id": "leads",
+     "title": "Evaporate aluminium leads over the oxide",
+     "tier": 2,
+     "do": "Open contact holes, evaporate aluminium over the whole wafer and pattern it, so the leads run across the oxide to the junctions.",
+     "check": "Leads continuous; contacts ohmic.",
+     "chips": [
+      {
+       "t": "leads over the oxide connected devices on one chip [@noyce_patent]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 30
+       },
+       {
+        "m": "n_diff",
+        "h": 8,
+        "segs": [
+         [
+          30,
+          70
+         ]
+        ]
+       },
+       {
+        "m": "si",
+        "h": 8,
+        "segs": [
+         [
+          0,
+          30
+         ],
+         [
+          70,
+          100
+         ]
+        ],
+        "stack": "n_diff"
+       },
+       {
+        "m": "oxide",
+        "h": 10,
+        "segs": [
+         [
+          0,
+          38
+         ],
+         [
+          62,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "al",
+        "h": 6,
+        "segs": [
+         [
+          40,
+          100
+         ]
+        ],
+        "new": true,
+        "tag": "Aluminium lead"
+       }
+      ]
+     },
+     "spec": {
+      "tool": "Vacuum evaporator, aligner, aluminium etch",
+      "purpose": "Wire the device without touching bare silicon",
+      "params": [],
+      "control": "Lead continuity; contact resistance",
+      "ooc": "Open lead over the oxide step: thicker metal or a gentler step"
+     },
+     "deep": "Because the planar wafer is flat and covered in glass, a metal film can run over it from one device to the next. Noyce’s 1959 patent did exactly that, and the integrated circuit followed [@noyce_patent].",
+     "lab": "manuals/metal.html"
+    },
+    {
+     "n": 6,
+     "id": "test",
+     "title": "Test the breakdown",
+     "tier": 1,
+     "do": "Reverse-bias the junction on a curve tracer and find the voltage where current suddenly rises. The curved edge breaks down before the flat floor.",
+     "check": "Breakdown above the specification.",
+     "chips": [
+      {
+       "t": "the curved edge breaks down first [@sze_gibbons_curv1966]"
+      },
+      {
+       "t": "1 h at 1100 °C: flat 347 V, edge 150 V in the model [@sze_gibbons1966]"
+      }
+     ],
+     "frame": {
+      "layers": [
+       {
+        "m": "si",
+        "h": 30
+       },
+       {
+        "m": "n_diff",
+        "h": 8,
+        "segs": [
+         [
+          30,
+          70
+         ]
+        ]
+       },
+       {
+        "m": "si",
+        "h": 8,
+        "segs": [
+         [
+          0,
+          30
+         ],
+         [
+          70,
+          100
+         ]
+        ],
+        "stack": "n_diff"
+       },
+       {
+        "m": "oxide",
+        "h": 10,
+        "segs": [
+         [
+          0,
+          38
+         ],
+         [
+          62,
+          100
+         ]
+        ]
+       },
+       {
+        "m": "al",
+        "h": 6,
+        "segs": [
+         [
+          40,
+          100
+         ]
+        ]
+       }
+      ],
+      "props": [
+       "probe",
+       "stamp"
+      ],
+      "probe_label": "curve tracer"
+     },
+     "spec": {
+      "tool": "Curve tracer",
+      "purpose": "Confirm the junction holds its voltage",
+      "params": [
+       {
+        "name": "Flat junction on 10¹⁵ cm⁻³ (model)",
+        "value": "≈ 347 V",
+        "ref": "sze_gibbons1966"
+       },
+       {
+        "name": "Curved edge, 2.05 µm deep (model)",
+        "value": "≈ 150 V",
+        "ref": "sze_gibbons_curv1966"
+       }
+      ],
+      "control": "Breakdown voltage; leakage before breakdown",
+      "ooc": "Early breakdown: shallow junction or a damaged edge"
+     },
+     "deep": "The field crowds at the curved edge, whose radius is about the junction depth, so it avalanches before the flat floor. A deeper drive-in gives a gentler curve: four hours at 1150 °C raise the edge from 43 to 60 % of the flat value in the planar theatre [@sze_gibbons_curv1966].",
+     "lab": "fab.html#proc-planar"
+    }
+   ],
+   "variant": {
+    "eyebrow": "Why it mattered",
+    "title": "From mesa to planar to the integrated circuit",
+    "lead": "Keeping the oxide on made transistors reliable, flat and wireable on one chip.",
+    "facts": [
+     {
+      "t": "Frosch and Derick found in 1957 that silicon dioxide masks dopant diffusion",
+      "ref": "frosch1957"
+     },
+     {
+      "t": "Hoerni filed the planar process in 1959",
+      "ref": "hoerni1962"
+     },
+     {
+      "t": "Noyce filed aluminium leads over the oxide in 1959",
+      "ref": "noyce_patent"
+     },
+     {
+      "t": "A grown oxide stabilises the silicon surface",
+      "ref": "atalla1959"
+     }
+    ],
+    "safety": "Diffusion sources are institution-only and furnaces run near 1100 °C; every step here runs in a staff-operated lab."
+   },
+   "photos": [],
+   "leave_out": [
+    "The junction edge is a cylinder of radius equal to the depth; real edges also have corners, which break down even earlier.",
+    "Breakdown uses Sze and Gibbons’ formulas for a one-sided abrupt junction; a diffused junction is graded.",
+    "No dopant source or furnace setting beyond the model example is given: the source is institution-only.",
+    "Surface charge in the oxide, which troubled early planar devices, is described, not modelled."
+   ],
+   "refs": [
+    "hoerni1962",
+    "noyce_patent",
+    "frosch1957",
+    "atalla1959",
+    "sze_gibbons1966",
+    "sze_gibbons_curv1966",
+    "riordan1997",
+    "plummer2000"
+   ]
   }
  ],
  "intro": "Each manual takes one process step by step, like a building-brick instruction book: a picture per step with the new part outlined, a parts list and a check. Switch to Engineer or Process engineer for the operation specification behind each step, cited to public sources.",
@@ -2843,27 +8744,47 @@
   {
    "name": "Teaching CMOS (4–6 masks)",
    "order": [
+    "wafer",
+    "cleaning",
+    "oxidation",
     "photomask",
     "lithography",
     "etch",
-    "planarize"
+    "diffusion",
+    "metal",
+    "planarize",
+    "probe"
    ]
   },
   {
    "name": "Modern 2 nm-class gate-all-around",
    "order": [
+    "wafer",
+    "cleaning",
     "photomask",
     "lithography",
     "etch",
-    "planarize"
+    "implant",
+    "deposition",
+    "planarize",
+    "modules",
+    "damascene",
+    "probe"
    ]
   },
   {
    "name": "Historical planar process",
    "order": [
+    "wafer",
+    "cleaning",
+    "oxidation",
     "photomask",
     "lithography",
-    "etch"
+    "etch",
+    "diffusion",
+    "metal",
+    "history",
+    "probe"
    ]
   }
  ]

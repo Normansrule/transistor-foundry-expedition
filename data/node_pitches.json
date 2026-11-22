@@ -1,0 +1,26 @@
+{
+ "_about": "Node-reading lab (roadmap item 8, node pitches): the pitches you can measure from the top of a chip. cpp is the contacted gate pitch, mmp the tightest metal pitch, fin the fin pitch (FinFETs only), all in nanometres; sram is the high-density six-transistor SRAM bitcell area in square micrometres. Each value is [number, reference]; a null reference marks an estimate, labelled est. on the page. The lab draws each node’s layers at these pitches; the shapes between the pitches (line widths, the bitcell’s aspect) are drawing choices. Model: sim/transistor_sim/physics/nodelab.py and its twin site/js/physics/nodelab.js.",
+ "nodes": [
+  {"id": "intel45", "label": "45 nm", "maker": "Intel", "year": 2007, "style": "planar",
+   "cpp": [160, "mistry2007"], "mmp": [160, null], "fin": null, "sram": [0.346, "rwt_intel45"],
+   "note": "The first high-k metal gate. Gate and first metal share one pitch."},
+  {"id": "intel32", "label": "32 nm", "maker": "Intel", "year": 2009, "style": "planar",
+   "cpp": [112.5, "natarajan2008"], "mmp": [112.5, "natarajan2008"], "fin": null, "sram": [0.171, "natarajan2008"],
+   "note": "Immersion lithography prints the 112.5 nm gate pitch."},
+  {"id": "intel22", "label": "22 nm", "maker": "Intel", "year": 2011, "style": "finfet",
+   "cpp": [90, "cdrinfo_intel_density2017"], "mmp": [80, "cdrinfo_intel_density2017"], "fin": [60, "auth2012"], "sram": [0.092, "intel22_pres"],
+   "note": "The first FinFET: fins appear under the gates."},
+  {"id": "intel14", "label": "14 nm", "maker": "Intel", "year": 2014, "style": "finfet",
+   "cpp": [70, "natarajan2014"], "mmp": [52, "cdrinfo_intel_density2017"], "fin": [42, "natarajan2014"], "sram": [0.0588, "natarajan2014"],
+   "note": "Self-aligned double patterning for the fins and the tightest metal."},
+  {"id": "intel10", "label": "10 nm (Intel 7)", "maker": "Intel", "year": 2018, "style": "finfet",
+   "cpp": [54, "auth2017"], "mmp": [36, "cdrinfo_intel_density2017"], "fin": [34, "auth2017"], "sram": [0.0312, "intel10_iedm2017"],
+   "note": "Self-aligned quadruple patterning reaches a 36 nm metal pitch without EUV."},
+  {"id": "tsmc_n7", "label": "N7", "maker": "TSMC", "year": 2018, "style": "finfet",
+   "cpp": [57, "wikichip_n7"], "mmp": [40, "wikichip_n7"], "fin": [30, "wikichip_n7"], "sram": [0.027, "wu2016_n7"],
+   "note": "Different makers’ names stop matching their pitches: N7 and Intel 10 nm are close."},
+  {"id": "tsmc_n5", "label": "N5", "maker": "TSMC", "year": 2020, "style": "finfet",
+   "cpp": [51, "angstronomics_n5"], "mmp": [28, "angstronomics_n5"], "fin": [28, "angstronomics_n5"], "sram": [0.021, "wikichip_sram2022"],
+   "note": "EUV prints the critical layers. The metal pitch is 30 % below N7’s 40 nm; other write-ups give 36 nm for some layers."}
+ ]
+}

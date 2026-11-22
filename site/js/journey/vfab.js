@@ -1,6 +1,6 @@
 // Virtual Fab: build a traveler from the seed steps, check each step against the steps it requires, compute a
 // two-column cross-section by running each step's theatre model (physics/vfab.js) and estimate yield (yieldcost.js).
-import { FAB } from './data.js';
+import { FAB, LABRUN } from './data.js';
 import { diesPerWafer, yieldModel, mulberry32 } from '../physics/yieldcost.js';
 import { esc, store, routeSteps } from './util.js';
 import * as VF from '../physics/vfab.js';
@@ -9,11 +9,14 @@ const $ = (s) => document.querySelector(s);
 const BY = Object.fromEntries(FAB.steps.map((s) => [s.id, s]));
 const AREA_COLOUR = { materials: '#4b596d', cleaning: '#7fd3d0', oxidation: '#8fcfd4', lithography: '#e07fb0', etch: '#8a94a3', doping: '#3f7fe0',
   deposition: '#e2b650', planarization: '#cfd6e0', modules: '#9a80dc', interconnect: '#d9825b', backend: '#199e70', families: '#b58fd6', history: '#c98500' };
-let route = store.get('vfab', null), useMine = store.get('vfabMine', false) === true, mine = {};
+let route = store.get('vfab', null), mode = store.get('vfabMode', store.get('vfabMine', false) === true ? 'mine' : 'def'), mine = {};
+if (!['def', 'mine', 'run'].includes(mode)) mode = 'def';
+const RUN_CFG = VF.runCfg(LABRUN);
+const MODE_SAID = { def: 'Using the theatre defaults.', mine: 'Using your theatre settings.', run: 'Using the 2024 run’s recipe.' };
 /** The visitor's theatre settings, in the Virtual Fab model's terms. Only theatres they have opened are included. */
 function cfgFrom(set) {
   const pick = (o, ks) => (o ? Object.fromEntries(ks.filter((k) => o[k] !== undefined).map((k) => [k, o[k]])) : undefined);
-  return { ox: pick(set.oxidation, ['amb', 'T', 't', 'orient']), imp: pick(set.implant, ['ion', 'E', 'dose']), diff: pick(set.diffusion, ['ion', 'Cs', 'T1', 't1', 'T2', 't2']),
+  return { ox: pick(set.oxidation, ['amb', 'T', 't', 'orient']), imp: pick(set.implant, ['ion', 'E', 'dose']), diff: pick(set.diffusion, ['ion', 'Cs', 'T1', 't1', 'T2', 't2', 'model', 'S']),
     ann: pick(set.anneal, ['T', 'hold', 'rate']), etch: pick(set.etch, ['sel', 'oe']), cmp: pick(set.cmp, ['P', 'V', 't']), dam: pick(set.damascene, ['metal', 'w', 'ar', 'tb']),
     rel: pick(set.release, ['W', 'S', 'over', 'n']), planar: pick(set.planar, ['NB', 'T2', 't2']) };
 }
@@ -42,14 +45,15 @@ export function init() {
   $('#vfTeach').addEventListener('click', () => { route = routeSteps('teaching_cmos').map((s) => s.id); draw('Loaded the teaching route.'); });
   $('#vfGaa').addEventListener('click', () => { route = routeSteps('modern_gaa').map((s) => s.id); draw('Loaded the modern route.'); });
   $('#vfPlanar').addEventListener('click', () => { route = routeSteps('historical_planar').map((s) => s.id); draw('Loaded the 1959 route.'); });
+  $('#vfRun').addEventListener('click', () => { route = [...LABRUN.vfab_route]; draw('Loaded the 2024 cleanroom run.'); });
   $('#vfShuffle').addEventListener('click', () => { const r = mulberry32(Date.now() & 0xffff); for (let i = route.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [route[i], route[j]] = [route[j], route[i]]; } draw('Shuffled. Find the holds and fix the order.'); });
   $('#vfClear').addEventListener('click', () => { route = []; draw('Cleared.'); });
-  $('#vfMine').querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String((b.dataset.v === 'mine') === useMine)));
+  $('#vfMine').querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === mode)));
   $('#vfMine').addEventListener('click', (e) => {
-    const b = e.target.closest('button'); if (!b) return; useMine = b.dataset.v === 'mine'; store.set('vfabMine', useMine);
-    $('#vfMine').querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', String(x === b))); draw(useMine ? 'Using your theatre settings.' : 'Using the theatre defaults.');
+    const b = e.target.closest('button'); if (!b) return; mode = b.dataset.v; store.set('vfabMode', mode);
+    $('#vfMine').querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', String(x === b))); draw(MODE_SAID[mode]);
   });
-  document.addEventListener('tfe:procset', (e) => { mine = e.detail || {}; if (useMine) draw(); });
+  document.addEventListener('tfe:procset', (e) => { mine = e.detail || {}; if (mode === 'mine') draw(); });
   $('#vfD0').addEventListener('input', () => kpis());
   $('#vfArea').addEventListener('input', () => kpis());
   draw();
@@ -57,7 +61,7 @@ export function init() {
 
 function draw() {
   store.set('vfab', route);
-  const miss = check(route), res = VF.run(route, miss.map((m) => m.length > 0), useMine ? cfgFrom(mine) : null);
+  const miss = check(route), res = VF.run(route, miss.map((m) => m.length > 0), mode === 'mine' ? cfgFrom(mine) : mode === 'run' ? RUN_CFG : null);
   $('#vfRows').innerHTML = route.length ? route.map((id, i) => {
     const s = BY[id], m = miss[i], ok = !m.length;
     return `<li class="trow${ok ? '' : ' hold'}"><span class="n">${String((i + 1) * 10).padStart(3, '0')}</span>`
@@ -66,15 +70,41 @@ function draw() {
       + `<span class="vf-move"><button type="button" data-act="up" data-i="${i}" aria-label="Move ${esc(s.title)} up">↑</button><button type="button" data-act="down" data-i="${i}" aria-label="Move ${esc(s.title)} down">↓</button><button type="button" data-act="del" data-i="${i}" aria-label="Remove ${esc(s.title)}">✕</button></span><span></span></li>`;
   }).join('') : '<li class="vf-empty">Your traveler is empty. Add a step from the list, or load the teaching route.</li>';
   stack(res);
+  lastHeat = res.heat_nm;
   kpis(miss);
+  compare(res);
 }
 
+/** Why each computed number differs from the measured one; the run's own recipe is in data/lab_runs.json. */
+const CMP_NOTE = {
+  field_ox: 'The run grew it dry–wet–dry at 1000 °C: 5, 90 and 5 minutes. One dry hour, the theatre default, grows about a tenth of it.',
+  gate_ox: 'Dry oxygen at 1100 °C for 60 minutes, on the silicon the first etch opened. The default route has only one oxidation.',
+  inter_ox: 'Grown in the 37-minute drive-in at 1050 °C and measured on a bare-silicon control wafer. Only the run’s recipe grows oxide in the drive-in.',
+  sd_rs: 'From the run’s diffused resistor. With the theatre default the diffusivity is the intrinsic one and the gap is ten-fold; the run’s recipe lets it rise with doping, as heavy phosphorus does, which more than halves the gap. The drive-in also grew oxide, so the recipe assumes three times the usual interstitials (an assumption, not a measurement): that pushes the junction from about 0.9 to 1.3 µm but barely moves the sheet resistance, because the dose was already fixed. The rest hangs on the predeposition time and surface concentration, which were not recorded: 5 × 10²⁰ cm⁻³ at the surface would give about 5.3 Ω/sq.',
+  actv_bias: 'The Virtual Fab etches straight down, as a plasma etch does. The run used a wet etch, which undercuts the resist on both sides.',
+  al_rs: '',
+  masks: 'ACTV, POLY, CONT and METL.',
+};
+const FMT = { nm: (v) => `${NM(v)} nm`, 'Ω/sq': (v) => `${v < 1 ? v.toFixed(3) : v.toFixed(1)} Ω/sq`, 'µm': (v) => `${v > 0 ? '+' : ''}${v.toFixed(2)} µm`, '': (v) => String(Math.round(v)) };
+function compare(res) {
+  const rows = VF.compare(res, LABRUN), al = rows.find((r) => r.key === 'al_rs');
+  const note = { ...CMP_NOTE, al_rs: `At the Virtual Fab’s estimated ${VF.METAL_NM} nm film. The measured value means about ${(VF.RHO_AL / al.measured * 1e7).toFixed(0)} nm of aluminium.` };
+  $('#vfCmp').innerHTML = rows.map((r) => {
+    const f = FMT[r.unit], has = r.computed !== null, ratio = has && r.computed > 0 && r.measured > 0 ? r.computed / r.measured : null;
+    const cls = !has ? 'none' : ratio === null ? 'far' : Math.abs(Math.log(ratio)) < Math.log(1.1) ? 'good' : Math.abs(Math.log(ratio)) < Math.log(2) ? 'near' : 'far';
+    const said = !has ? 'not in this traveler' : ratio === null ? (r.unit ? `${(r.computed - r.measured).toFixed(2)} ${r.unit} off` : '—') : `×${ratio < 10 ? ratio.toFixed(2) : ratio.toFixed(0)}`;
+    return `<tr><td>${esc(r.label)}<small>${esc(note[r.key])}</small></td><td class="${cls}" data-h="Computed">${has ? f(r.computed) : '—'}</td><td data-h="Measured">${f(r.measured)}</td><td class="${cls}" data-h="Ratio">${said}</td></tr>`;
+  }).join('');
+}
+
+let lastHeat = 0;   // nm the window junction moved in hot steps after it was made (the thermal budget)
 function kpis(miss = check(route)) {
   const D0 = +$('#vfD0').value, S = +$('#vfArea').value;
   $('#vfD0O').textContent = `${D0.toFixed(2)} /cm²`; $('#vfAreaO').textContent = `${S} mm²`;
   const holds = miss.filter((m) => m.length).length, masks = route.filter((id) => BY[id].area === 'lithography').length;
   const dpw = Math.floor(diesPerWafer(S)), y = yieldModel(S, D0);
   $('#vfKpis').innerHTML = `<div>Steps<b>${route.length}</b></div><div>Masks<b>${masks}</b></div><div>Holds<b style="color:${holds ? '#f0a26b' : '#5fd896'}">${holds}</b></div>`
+    + `<div title="How far furnace steps after doping moved the window junction">Junction moved by later heat<b>${Math.abs(lastHeat) < 0.05 ? '0 nm' : `${lastHeat > 0 ? '+' : '−'}${NM(Math.abs(lastHeat))} nm`}</b></div>`
     + `<div>Dies per wafer<b>${dpw}</b></div><div>Yield<b>${(y * 100).toFixed(0)} %</b></div><div>Good dies<b>${Math.floor(dpw * y)}</b></div>`;
 }
 
@@ -84,7 +114,8 @@ function said(l) {
   if (!l || l.value == null) return '';
   return ' · ' + ({ ox_thermal: `${NM(l.value)} nm oxide`, litho_expose: `${NM(l.value)} nm resist`, etch_rie: `${NM(l.value)} nm cleared`, implant: `xⱼ ${NM(l.value)} nm as implanted`,
     diffuse_predep: `xⱼ ${NM(l.value)} nm`, anneal: `xⱼ ${NM(l.value)} nm`, dep_pvd: `${NM(l.value)} nm metal`, cmp: `up to ${NM(l.value)} nm polished`, damascene: `${NM(l.value)} nm copper line`,
-    gaa_release: `sheet edges ${l.value.toFixed(2)} nm`, planar_hoerni: `xⱼ ${(l.value / 1000).toFixed(2)} µm` }[l.id] || '');
+    gaa_release: `sheet edges ${l.value.toFixed(2)} nm`, planar_hoerni: `xⱼ ${(l.value / 1000).toFixed(2)} µm` }[l.id] || '')
+    + (l.push !== undefined && Math.abs(l.push) >= 0.05 ? ` · heat moves the earlier junction ${l.push > 0 ? '+' : '−'}${NM(Math.abs(l.push))} nm` : '');
 }
 
 const MAT = { ox: ['#8fcfd4', 'oxide'], resist: ['#e07fb0', 'resist'], metal: ['#e2b650', 'metal'], ild: ['#5b6676', 'dielectric'], cu: ['#d9825b', 'copper'] };

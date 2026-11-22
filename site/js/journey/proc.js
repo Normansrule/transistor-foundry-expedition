@@ -223,18 +223,23 @@ const implant = {
 const SOURCE = '#d9a35f';
 const diffusion = {
   controls: [
-    { id: 'ion', label: 'Dopant', type: 'seg', options: [['P', 'Phosphorus'], ['B', 'Boron']] },
+    { id: 'ion', label: 'Dopant', type: 'seg', options: [['P', 'Phosphorus'], ['B', 'Boron'], ['As', 'Arsenic'], ['Sb', 'Antimony']] },
     { id: 'Cs', label: 'Surface concentration', type: 'log', min: 1e19, max: 1e21, fmt: (v) => `${sci(v)} cm⁻³` },
     { id: 'T1', label: 'Predeposition temperature', type: 'range', min: 900, max: 1150, step: 10, fmt: (v) => `${v} °C` },
     { id: 't1', label: 'Predeposition time', type: 'log', min: 60, max: 3600, fmt: (v) => `${f0(v / 60)} min` },
     { id: 'T2', label: 'Drive-in temperature', type: 'range', min: 900, max: 1150, step: 10, fmt: (v) => `${v} °C` },
     { id: 't2', label: 'Drive-in time', type: 'log', min: 60, max: 7200, fmt: (v) => `${f0(v / 60)} min` },
     { id: 'Nbg', label: 'Substrate doping', type: 'log', min: 1e15, max: 1e17, fmt: (v) => `${sci(v)} cm⁻³` },
+    { id: 'model', label: 'Diffusivity', type: 'seg', options: [['int', 'Intrinsic'], ['cd', 'Rises with doping']] },
+    { id: 'S', label: 'Drive-in ambient: interstitials ÷ equilibrium', type: 'range', min: 1, max: 10, step: 0.5, fmt: (v) => (v === 1 ? '1 (inert nitrogen)' : `${f1(v)} (oxide growing)`) },
   ],
-  defaults: { ion: 'P', Cs: 3e20, T1: 1050, t1: 600, T2: 1050, t2: 2220, Nbg: 1.66e16 },
-  eq: ['N(x) = C_s\\,\\mathrm{erfc}\\!\\left(\\frac{x}{2\\sqrt{D_1t_1}}\\right), \\qquad Q = 2C_s\\sqrt{\\frac{D_1t_1}{\\pi}}', 'N(x) = \\frac{Q}{\\sqrt{\\pi Dt}}\\,e^{-x^2/4Dt}, \\qquad Dt = D_1t_1 + D_2t_2'],
+  defaults: { ion: 'P', Cs: 3e20, T1: 1050, t1: 600, T2: 1050, t2: 2220, Nbg: 1.66e16, model: 'int', S: 1 },
+  eq: ['N(x) = C_s\\,\\mathrm{erfc}\\!\\left(\\frac{x}{2\\sqrt{D_1t_1}}\\right), \\qquad Q = 2C_s\\sqrt{\\frac{D_1t_1}{\\pi}}', 'N(x) = \\frac{Q}{\\sqrt{\\pi Dt}}\\,e^{-x^2/4Dt}, \\qquad Dt = D_1t_1 + D_2t_2', 'D = D^0 + D^-\\frac{n}{n_i} + D^{=}\\left(\\frac{n}{n_i}\\right)^2 \\quad \\text{(rises with doping)}', '\\frac{D}{D^*} = f_I\\,\\frac{C_I}{C_I^*} + (1-f_I)\\,\\frac{C_I^*}{C_I} \\quad \\text{(oxidising drive-in)}'],
   model: 'diffusion.py',
-  sim(s) { return DF.run(s.ion, s.Cs, s.T1, s.t1, s.T2, s.t2, s.Nbg); },
+  sim(s) {
+    const S = s.S ?? 1, r = DF.run(s.ion, s.Cs, s.T1, s.t1, s.T2, s.t2, s.Nbg, 600, S);
+    return s.model === 'cd' ? { ...r, cd: DF.runCd(s.ion, s.Cs, s.T1, s.t1, s.T2, s.t2, s.Nbg, 301, 300, S) } : r;
+  },
   draw(s, r, st, p) {
     const pre = st < 2 ? 0 : st === 2 ? p : 1, drv = st < 4 ? 0 : st === 4 ? p : 1;
     const DtNow = r.Dt1 * Math.max(pre, 1e-3) + (r.Dt - r.Dt1) * drv, dose = r.dose * Math.sqrt(Math.max(pre, 1e-3));
@@ -262,23 +267,27 @@ const diffusion = {
       const xx = win[0] + 6 + RND[i * 5] * (win[1] - win[0] - 12), yy = ys - 6 + ((RND[i * 5 + 1] + p * 2) % 1) * Math.max(10, xjNow * sc * 0.7);
       g += `<circle cx="${f1(xx)}" cy="${f1(yy)}" r="2.2" fill="${col}"/>`;
     }
-    if (st === 5) g += [0, 1, 2, 3].map((i) => line(win[0] + 13 + i * 18, ys - 34, win[0] + 13 + i * 18, ys, M.w, 'stroke-width="3"')).join('') + txt(win[0] - 30, ys - 40, `four-point probe: ${f1(r.Rs)} Ω/□`, { size: 10.5, fill: M.ink });
+    if (st === 5) g += [0, 1, 2, 3].map((i) => line(win[0] + 13 + i * 18, ys - 34, win[0] + 13 + i * 18, ys, M.w, 'stroke-width="3"')).join('') + txt(win[0] - 30, ys - 40, `four-point probe: ${f1(r.cd ? r.cd.Rs : r.Rs)} Ω/□`, { size: 10.5, fill: M.ink });
     g += txt(x0, ys + 276, `depth scale: ${f0(depthMax)} nm = 250 px`, { size: 10, fill: M.muted }) + txt(x0, 40, st >= 2 && st !== 3 ? `${st === 2 ? 'predeposition' : 'drive-in'} at ${st === 2 ? s.T1 : s.T2} °C` : st === 3 ? 'source removed: dose now fixed' : 'masking oxide, window open', { size: 11, fill: st === 2 || st === 4 ? M.amber : M.muted });
     // profile plot
     const xs = Array.from({ length: 140 }, (_, i) => depthMax * i / 139);
     const ser = [{ pts: xs.map((x) => [x, s.Nbg]), stroke: M.muted, dash: '2 4', width: 1.2 }];
     if (st >= 2) ser.push({ pts: xs.map((x) => [x, Math.max(1e14, DF.erfcProfile(x, s.Cs, r.Dt1 * (st === 2 ? Math.max(pre, 1e-3) : 1)))]), stroke: M.ink2, dash: '5 4', width: 1.4 });
     if (st >= 4) ser.push({ pts: xs.map((x) => [x, Math.max(1e14, N(x))]), stroke: col, width: 2.4 });
+    if (st >= 4 && r.cd) ser.push({ pts: r.cd.x.filter((x) => x <= depthMax).map((x, i) => [x, Math.max(1e14, r.cd.N[i])]), stroke: M.amber, width: 2.4 });
     g += plot(380, 70, 270, 230, [0, depthMax], [1e14, 3e21], ser, { ylog: true, title: 'N (cm⁻³), log scale, against depth', xlab: 'depth →', marks: xjNow > 0 ? [[xjNow, s.Nbg, `xⱼ ${f0(xjNow)} nm`]] : [] });
     g += txt(382, 322, 'dashed: after predeposition (erfc)', { size: 10, fill: M.muted }) + txt(382, 337, `dotted: substrate ${sci(s.Nbg)} cm⁻³`, { size: 10, fill: M.muted });
+    if (r.cd) g += txt(382, 352, `amber: D rises with doping, xⱼ ${f0(r.cd.xj)} nm`, { size: 10, fill: M.amber });
     g += legend([[M.si, 'silicon'], [col, `${IM.IONS[s.ion].name} (${IM.IONS[s.ion].type}-type)`], [M.ox, 'masking oxide'], [SOURCE, 'dopant source film']], 20, H - 40);
     return g;
   },
   read(s, r) {
     return [['Dose Q', `${sci(r.dose)} cm⁻²`], ['Junction after predeposition', `${f0(r.xj_pre)} nm`], ['Junction after drive-in', `${f0(r.xj)} nm`, r.xj > 2000 ? 'warn' : ''],
-      ['Surface after drive-in', `${sci(r.Cs_after)} cm⁻³`], ['Diffusion length 2√Dt', `${f0(r.L)} nm`], ['Sheet resistance', `${isFinite(r.Rs) ? f1(r.Rs) : '∞'} Ω/□`]];
+      ['Surface after drive-in', `${sci(r.Cs_after)} cm⁻³`], ['Diffusion length 2√Dt', `${f0(r.L)} nm`], ['Sheet resistance', `${isFinite(r.Rs) ? f1(r.Rs) : '∞'} Ω/□`],
+      ...(r.oed !== 1 ? [['Drive-in D ÷ inert D', `×${f2(r.oed)}`, r.oed < 1 ? 'warn' : '']] : []),
+      ...(r.cd ? [['With D rising with doping: dose', `${sci(r.cd.dose)} cm⁻²`], ['… junction', `${f0(r.cd.xj)} nm`], ['… sheet resistance', `${isFinite(r.cd.Rs) ? f1(r.cd.Rs) : '∞'} Ω/□`], ['D at the surface ÷ intrinsic D', `×${f0(r.cd.D_surf / r.cd.D_int)}`]] : [])];
   },
-  verdict(s, r) { return !isFinite(r.Rs) ? ['No junction formed', false] : r.Rs < 50 ? ['Source/drain class', true] : r.Rs < 500 ? ['Resistor or base class', true] : ['Lightly doped well', true]; },
+  verdict(s, r) { r = r.cd ? { ...r, Rs: r.cd.Rs } : r; return !isFinite(r.Rs) ? ['No junction formed', false] : r.Rs < 50 ? ['Source/drain class', true] : r.Rs < 500 ? ['Resistor or base class', true] : ['Lightly doped well', true]; },
 };
 
 // ======================= czochralski =======================

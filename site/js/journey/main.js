@@ -1,5 +1,5 @@
 // Fab Journey entry: hero lens, fab map, route card, lazy theatre and Virtual Fab, sources.
-import { FAB, THEATRES, REFS } from './data.js';
+import { FAB, THEATRES, REFS, FAMILIES } from './data.js';
 import { Lens } from './lens.js';
 import { esc, store, routeSteps } from './util.js';
 
@@ -100,6 +100,15 @@ function route() {
 
 addEventListener('tfe:progress', () => { map(); route(); });
 
+// Process-family comparison matrix (data/families.json): one row per family, every cell with its references
+function families() {
+  const head = $('#famHead'), body = $('#famRows'); if (!head || !FAMILIES) return;
+  const cols = FAMILIES.columns;
+  head.innerHTML = `<tr><th scope="col">Family</th>${cols.map((c) => `<th scope="col">${esc(c.label)}</th>`).join('')}</tr>`;
+  body.innerHTML = FAMILIES.families.map((f) => `<tr><th scope="row" data-h="Family"><b>${esc(f.name)}</b> <span class="fam-era">${esc(f.era)}</span>${f.link ? `<br><a class="fam-link" href="${esc(f.link.href)}">${esc(f.link.label)} →</a>` : ''}</th>`
+    + cols.map((c) => { const v = f[c.id]; return `<td data-h="${esc(c.label)}">${esc(v.t)}${v.refs.length ? ` <span class="refchips" data-refs="${esc(v.refs.join(' '))}"></span>` : ''}</td>`; }).join('') + '</tr>').join('');
+}
+
 function refs() {
   const host = $('#fjRefs');
   const used = new Set([...document.querySelectorAll('[data-refs]')].flatMap((n) => n.dataset.refs.split(/\s+/)));
@@ -127,9 +136,12 @@ function lazy(id, path) {
 }
 
 safe(() => new Lens($('#lens'), $('#scopes'), $('#lensReadout')), 'lens');
-safe(tracks, 'tracks'); safe(map, 'map'); safe(mapEvents, 'mapEvents'); safe(route, 'route'); safe(refs, 'refs');
+safe(tracks, 'tracks'); safe(map, 'map'); safe(mapEvents, 'mapEvents'); safe(route, 'route'); safe(families, 'families'); safe(refs, 'refs');
 if (window.katex) renderTeX(); else addEventListener('load', renderTeX);
 lazy('litho', './theatre.js');
 lazy('proc', './proc.js');
 lazy('gates', './gates.js');
+lazy('builder', './builder.js');
+lazy('nodelab', './nodelab.js');
+lazy('defects', './defects.js');
 lazy('vfab', './vfab.js');

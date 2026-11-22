@@ -23,7 +23,7 @@ def test_oxide_comes_from_deal_grove_and_consumes_silicon():
 def test_teaching_route_dopes_only_the_window():
     r = V.run(TEACH)
     d = diffusion.run("P", 3e20, 1050.0, 600.0, 1050.0, 2220.0, V.N_SUB)
-    assert r["window"]["xj"] == pytest.approx(d["xj"]) and r["field"]["xj"] == 0.0
+    assert r["window"]["xj"] == pytest.approx(d["xj"], rel=1e-3) and r["field"]["xj"] == 0.0   # the spike anneal nudges it
     assert [m for m, _ in r["field"]["layers"]] == ["ox", "metal"] and [m for m, _ in r["window"]["layers"]] == ["metal"]
     assert r["window"]["si_top"] < r["field"]["si_top"]           # over-etch recesses the window
 
@@ -90,3 +90,53 @@ def test_historical_route_ends_with_aluminium_on_the_planar_junction():
     r = V.run(["wafer_start", "rca_clean", "ox_thermal", "litho_expose", "diffuse_predep", "planar_hoerni", "evap_al", "probe_dice_bond"])
     assert r["window"]["by"] == "planar" and r["window"]["layers"] == [["metal", V.METAL_NM]] and r["done"]
     assert [m for m, _ in r["field"]["layers"]] == ["ox", "metal"]          # the oxide insulates the lead elsewhere
+
+
+LAB = __import__("json").loads((Path(__file__).resolve().parents[1] / "data" / "lab_runs.json").read_text(encoding="utf-8"))
+
+
+def test_the_2024_run_route_runs_without_a_hold():
+    import json
+    steps = json.loads((Path(__file__).resolve().parents[1] / "data" / "fab_steps.json").read_text(encoding="utf-8"))["steps"]
+    by = {s["id"]: s for s in steps}
+    route = LAB["vfab_route"]
+    for i, sid in enumerate(route):
+        before = set(route[:i])
+        assert set(by[sid]["requires"]) <= before, sid
+        anyof = by[sid].get("requires_any", [])
+        assert not anyof or before & set(anyof), sid
+    assert sum(1 for s in route if s == "litho_expose") == V.RUN_MASKS
+
+
+def test_run_recipe_chains_the_furnace_steps_like_the_process_lab():
+    from transistor_sim.physics import labrun
+    cfg = V.run_cfg(LAB)
+    r = V.run(LAB["vfab_route"], None, cfg)
+    ox = {o["id"]: o for o in LAB["oxides"]}
+    first = [l for l in r["log"] if l["id"] == "ox_thermal"]
+    assert first[0]["value"] == pytest.approx(labrun.oxide_sequence(ox["field"]["steps"])[-1] * 1000)
+    assert first[1]["win"] == pytest.approx(labrun.oxide_sequence(ox["gate"]["steps"])[-1] * 1000)   # bare window after the etch
+    d = next(l for l in r["log"] if l["id"] == "diffuse_predep")
+    assert d["win"] == pytest.approx(labrun.oxide_sequence(ox["inter"]["steps"])[-1] * 1000)
+    assert not any(m == "resist" for c in (r["field"], r["window"]) for m, _ in c["layers"])   # stripped before probing
+    assert r["window"]["xj"] > 0 and r["field"]["xj"] == 0.0
+
+
+def test_compare_sets_computed_beside_measured():
+    rows = {w["key"]: w for w in V.compare(V.run(LAB["vfab_route"], None, V.run_cfg(LAB)), LAB)}
+    for k in ("field_ox", "gate_ox", "inter_ox"):                 # Deal–Grove lands within 10 % of all three oxides
+        assert rows[k]["computed"] == pytest.approx(rows[k]["measured"], rel=0.10), k
+    assert rows["sd_rs"]["measured"] == pytest.approx(57.1 * 11 / 201)
+    assert 2 * rows["sd_rs"]["measured"] < rows["sd_rs"]["computed"] < 6 * rows["sd_rs"]["measured"]   # D rising with doping halves the gap
+    intrinsic = {w["key"]: w for w in V.compare(V.run(LAB["vfab_route"], None, {**V.run_cfg(LAB), "diff": {**V.run_cfg(LAB)["diff"], "model": "int"}}), LAB)}
+    assert intrinsic["sd_rs"]["computed"] > 5 * intrinsic["sd_rs"]["measured"]
+    assert rows["actv_bias"]["computed"] == 0.0 and rows["actv_bias"]["measured"] == pytest.approx(2.48, abs=0.01)
+    assert rows["al_rs"]["computed"] == pytest.approx(2.65e-6 / 500e-7) and rows["masks"]["computed"] == 4
+    empty = {w["key"]: w["computed"] for w in V.compare(V.run(["wafer_start"]), LAB)}
+    assert empty["field_ox"] is None and empty["sd_rs"] is None and empty["masks"] == 0
+
+
+def test_default_settings_miss_the_wet_field_oxide():
+    rows = {w["key"]: w for w in V.compare(V.run(LAB["vfab_route"]), LAB)}
+    assert rows["field_ox"]["computed"] < 0.2 * rows["field_ox"]["measured"]   # one dry hour cannot grow half a micron
+    assert rows["inter_ox"]["computed"] is None

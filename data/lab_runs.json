@@ -14,6 +14,22 @@
    "teaching_process_manual2023"
   ]
  },
+ "vfab_route": [
+  "wafer_start",
+  "rca_clean",
+  "ox_thermal",
+  "litho_expose",
+  "etch_rie",
+  "ox_thermal",
+  "litho_expose",
+  "etch_rie",
+  "diffuse_predep",
+  "litho_expose",
+  "etch_rie",
+  "dep_pvd",
+  "litho_expose",
+  "probe_dice_bond"
+ ],
  "steps": [
   {
    "n": 1,

@@ -1,0 +1,83 @@
+{
+  "_about": "3D layer builder (roadmap item 6): six transistor builds, step by step. Dimensions are in nanometres. Each dimension names the reference it comes from; a null reference marks a drawing value (labelled est. on the page). Geometry is computed by sim/transistor_sim/physics/builder.py and its twin site/js/physics/builder.js.",
+  "archs": [
+    {
+      "id": "planar_45", "name": "Planar, high-k metal gate", "short": "Planar", "year": 2007, "node": "45 nm", "style": "planar",
+      "blurb": "The gate sits on top of a flat channel. Only one face of the silicon is under the gate, so the drain can reach under it.",
+      "dims": {
+        "cpp": [160, "mistry2007"], "lg": [35, "mistry2007"], "w": [120, null], "sti_w": [40, null], "sti_d": [60, null],
+        "xj": [20, null], "spacer": [20, null], "gate_h": [50, null], "contact_w": [30, null], "tk": [2, null], "eot": [1.0, null]
+      },
+      "steps": ["wafer", "sti", "dummy", "spacer", "sd_implant", "open", "hkmg", "contact"]
+    },
+    {
+      "id": "finfet_22", "name": "FinFET, first generation", "short": "FinFET 22 nm", "year": 2011, "node": "22 nm", "style": "finfet",
+      "blurb": "The silicon stands up as thin fins and the gate wraps three faces of each. Three fins make one transistor.",
+      "dims": {
+        "cpp": [90, "auth2012"], "lg": [30, "auth2012"], "fin_pitch": [60, "auth2012"], "fin_h": [34, "auth2012"], "fin_w": [8, "auth2012"],
+        "nfin": [3, null], "subfin": [20, null], "spacer": [10, null], "gate_h": [40, null], "contact_w": [20, null], "tk": [2, null], "eot": [0.9, null]
+      },
+      "steps": ["wafer", "fin", "sti", "dummy", "spacer", "sd_epi", "open", "hkmg", "contact"]
+    },
+    {
+      "id": "finfet_14", "name": "FinFET, second generation", "short": "FinFET 14 nm", "year": 2014, "node": "14 nm", "style": "finfet",
+      "blurb": "Taller fins at a tighter pitch. Two fins now give more channel width than three did at 22 nm (184 nm against 228), and the gate pitch shrinks from 90 to 70 nm.",
+      "dims": {
+        "cpp": [70, "natarajan2014"], "lg": [20, null], "fin_pitch": [42, "natarajan2014"], "fin_h": [42, "natarajan2014"], "fin_w": [8, null],
+        "nfin": [2, null], "subfin": [20, null], "spacer": [9, null], "gate_h": [35, null], "contact_w": [16, null], "tk": [2, null], "eot": [0.9, null]
+      },
+      "steps": ["wafer", "fin", "sti", "dummy", "spacer", "sd_epi", "open", "hkmg", "contact"]
+    },
+    {
+      "id": "finfet_10", "name": "FinFET, third generation", "short": "FinFET 10 nm", "year": 2018, "node": "10 nm", "style": "finfet",
+      "blurb": "Taller, thinner, closer fins. Two of them give nearly as much channel width as three did at 22 nm (198 nm against 228), in under half the cell width.",
+      "dims": {
+        "cpp": [54, "auth2017"], "lg": [18, "auth2017"], "fin_pitch": [34, "auth2017"], "fin_h": [46, "auth2017"], "fin_w": [7, "auth2017"],
+        "nfin": [2, null], "subfin": [20, null], "spacer": [8, null], "gate_h": [30, null], "contact_w": [14, null], "tk": [2, null], "eot": [0.9, null]
+      },
+      "steps": ["wafer", "fin", "sti", "dummy", "spacer", "sd_epi", "open", "hkmg", "contact"]
+    },
+    {
+      "id": "nanosheet", "name": "Gate-all-around nanosheet", "short": "Nanosheet", "year": 2017, "node": "research, then 2 nm class", "style": "gaa",
+      "blurb": "The fin is turned on its side and sliced into stacked sheets. The gate fills the gaps, so it surrounds all four faces of every sheet.",
+      "dims": {
+        "cpp": [44, "loubet2017"], "lg": [12, "loubet2017"], "sheets": [3, null], "sheet_t": [5, null], "sheet_w": [30, null], "gap": [10, null],
+        "space": [20, null], "subfin": [15, null], "spacer": [6, null], "gate_h": [20, null], "contact_w": [14, null], "tk": [2, null], "eot": [0.8, null]
+      },
+      "steps": ["wafer", "superlattice", "fin", "sti", "dummy", "spacer", "inner", "sd_epi", "open", "release", "hkmg", "contact"]
+    },
+    {
+      "id": "cfet", "name": "Complementary FET (CFET)", "short": "CFET", "year": 2018, "node": "research", "style": "cfet",
+      "blurb": "An nFET and a pFET stacked on top of each other under one shared gate. The pair takes the footprint of one transistor.",
+      "dims": {
+        "cpp": [44, null], "lg": [12, null], "sheets": [2, null], "sheet_t": [5, null], "sheet_w": [30, null], "gap": [10, null], "mid": [30, null],
+        "space": [20, null], "subfin": [15, null], "spacer": [6, null], "gate_h": [20, null], "contact_w": [14, null], "tk": [2, null], "eot": [0.8, null]
+      },
+      "steps": ["wafer", "superlattice", "fin", "sti", "dummy", "spacer", "inner", "sd_bottom", "sd_iso", "sd_top", "open", "release", "hkmg", "contact"]
+    }
+  ],
+  "steps": {
+    "wafer": {"title": "Start with the wafer", "module": "Materials", "text": "A polished single-crystal silicon wafer. Only a thin slice of its top surface will ever hold transistors; the rest is a handle.", "refs": ["plummer2000"]},
+    "superlattice": {"title": "Grow the superlattice", "module": "Deposition", "text": "Epitaxy grows alternating layers of silicon-germanium (SiGe) and silicon, each a few nanometres thick, continuing the crystal of the wafer. The silicon layers will become the channels; the SiGe layers only hold their places.", "refs": ["loubet2017"]},
+    "fin": {"title": "Pattern and etch the fins", "module": "Lithography and etch", "text": "Lithography and a plasma etch cut the top of the wafer into narrow lines: fins. Everything outside the fins is etched away.", "refs": ["hisamoto2000"]},
+    "sti": {"title": "Isolate with trench oxide", "module": "Device modules", "text": "Shallow trench isolation (STI): the trenches are filled with oxide, polished flat and, for fins, etched back so the fins stand above it. The oxide keeps neighbouring transistors apart.", "refs": ["plummer2000"]},
+    "dummy": {"title": "Lay a dummy gate", "module": "Device modules", "text": "A line of polysilicon is patterned across the channel. It is a placeholder: it marks where the gate will be so everything else can line up to it.", "refs": ["mistry2007"]},
+    "spacer": {"title": "Add the spacers", "module": "Deposition and etch", "text": "A thin dielectric is deposited everywhere and etched straight down, which leaves it only on the side walls of the dummy gate. These spacers set how far the source and drain stay from the gate: self-alignment.", "refs": ["plummer2000"]},
+    "inner": {"title": "Cut the inner spacers", "module": "Device modules", "text": "The ends of the SiGe layers under the spacers are etched back a few nanometres and refilled with dielectric. These inner spacers keep the future gate from touching the source and drain between the sheets.", "refs": ["loubet2017"]},
+    "sd_implant": {"title": "Implant the source and drain", "module": "Doping", "text": "Ions are implanted beside the spacers and annealed, turning the silicon there strongly n-type. The gate and spacers mask the channel, so the junctions line up with the gate by themselves.", "refs": ["plummer2000"]},
+    "sd_epi": {"title": "Recess and grow the source and drain", "module": "Doping and deposition", "text": "The channel material beside the spacers is etched out and doped silicon is grown back by epitaxy. Grown in place, the source and drain can strain the channel and meet every sheet or fin.", "refs": ["mistry2007", "loubet2017"]},
+    "sd_bottom": {"title": "Grow the bottom (n-type) source and drain", "module": "Doping and deposition", "text": "After the recess, n-type silicon is grown up to the height of the lower sheets only. It contacts the bottom nFET and nothing above it.", "refs": ["ryckaert2018"]},
+    "sd_iso": {"title": "Isolate the two levels", "module": "Deposition", "text": "A dielectric layer is put on top of the lower source and drain so the upper ones cannot short to them.", "refs": ["ryckaert2018"]},
+    "sd_top": {"title": "Grow the top (p-type) source and drain", "module": "Doping and deposition", "text": "p-type silicon is grown on the upper sheets. One stack now holds an nFET underneath and a pFET on top.", "refs": ["ryckaert2018"]},
+    "open": {"title": "Pull the dummy gate", "module": "Etch", "text": "The surroundings are filled with oxide and polished down to the dummy gate, which is then etched out. A narrow trench is left exactly where the gate belongs: the replacement-gate flow.", "refs": ["mistry2007"]},
+    "release": {"title": "Release the sheets", "module": "Etch", "text": "A selective etch removes the SiGe from inside the trench, leaving the silicon sheets suspended between the source and drain like the rungs of a ladder.", "refs": ["loubet2017"]},
+    "hkmg": {"title": "Fill the high-k metal gate", "module": "Deposition", "text": "Atomic layer deposition (ALD) coats every exposed face with a high-k dielectric such as hafnium oxide, and metal fills the rest of the trench. On fins and sheets the gate now wraps the channel.", "refs": ["mistry2007"]},
+    "contact": {"title": "Make the contacts", "module": "Interconnect", "text": "Openings are etched down to the source and drain and filled with metal. From here the wiring of the interconnect stack takes over.", "refs": ["auth2017"]}
+  },
+  "materials": {
+    "si": "Silicon substrate", "sich": "Silicon channel", "sige": "SiGe (sacrificial)", "sti": "Trench oxide (STI)", "poly": "Dummy polysilicon gate",
+    "spacer": "Spacer", "ispacer": "Inner spacer", "n": "n⁺ source / drain", "p": "p⁺ source / drain", "highk": "High-k dielectric",
+    "metal": "Metal gate", "oxide": "Isolation oxide", "contact": "Contact metal"
+  },
+  "tour": ["planar_45", "finfet_22", "finfet_14", "finfet_10", "nanosheet", "cfet"]
+}

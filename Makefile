@@ -1,6 +1,6 @@
 PY ?= python3
 
-.PHONY: figures data test serve spice all clean qa gifs zip nav banner
+.PHONY: figures data test serve spice all clean qa gifs zip nav banner pwa icons
 
 all: figures test
 
@@ -8,13 +8,23 @@ figures:
 	$(PY) sim/make_figures.py
 	$(PY) scripts/build_data.py
 	$(PY) scripts/build_nav.py
+	$(PY) scripts/build_pwa.py
 
 data:
 	$(PY) scripts/build_data.py
 	$(PY) scripts/build_nav.py
+	$(PY) scripts/build_pwa.py
 
 nav:
 	$(PY) scripts/build_nav.py
+
+# Offline app: manifest, service worker precache list and head tags (run after any site change)
+pwa:
+	$(PY) scripts/build_pwa.py
+
+# Re-render the app icons from the favicon drawing (needs Node.js and Playwright)
+icons:
+	node scripts/qa/render_icons.mjs
 
 test:
 	$(PY) -m pytest -q tests

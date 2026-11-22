@@ -3,7 +3,7 @@
     python scripts/build_nav.py          rewrite the <nav> block in site/*.html
     python scripts/build_nav.py --check  exit 1 if any page is out of date (used by the tests)
 
-Every page gets: the brand, the seven pages (always one click away, current page marked with
+Every page gets: the brand, the nine pages (always one click away, current page marked with
 aria-current), an "On this page" menu with the page's sections, and the Source link. Below
 1100 px the page links fold into the same menu, so a phone can reach every page.
 """
@@ -27,12 +27,14 @@ PAGES = [
     ("circuits", "Circuit Lab"),
     ("process", "Process Lab"),
     ("manuals", "Manuals"),
+    ("experiments", "Experiments"),
     ("analog", "Analog & RF"),
 ]
 
 SECTIONS = {
+    "experiments": [("bench", "The bench"), ("xp-safety", "Safety tiers"), ("experiments", "Experiments"), ("xp-fitting", "How the fits work"), ("xp-sources", "Sources")],
     "manuals": [("shelf", "All manuals"), ("route", "By route"), ("mn-safety", "Safety"), ("mn-sources", "Sources")],
-    "fab": [("map", "Fab map"), ("route", "Route"), ("litho", "Lithography theatre"), ("proc", "Process theatres"), ("gates", "Gate to silicon"), ("vfab", "Virtual Fab"),
+    "fab": [("map", "Fab map"), ("route", "Route"), ("litho", "Lithography theatre"), ("proc", "Process theatres"), ("gates", "Gate to silicon"), ("builder", "Layer builder"), ("nodelab", "Read the node"), ("defects", "Spot the defect"), ("vfab", "Virtual Fab"), ("families", "Other families"),
             ("fj-sources", "Sources")],
     "index": [("scale", "Scale"), ("timeline", "Timeline"), ("explorer", "3D explorer"), ("fab", "Fab"),
               ("lab", "Device lab"), ("moore", "Moore’s law"), ("chips", "Chips"), ("materials", "Materials"),

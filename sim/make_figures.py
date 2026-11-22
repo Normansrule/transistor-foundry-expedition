@@ -531,7 +531,34 @@ HETERO_CASES = [("Si", "Si", -1e17, 1e17, 0.0), ("Si", "Si", -1e17, 1e17, -2.0),
 
 VF_TEACH = ["wafer_start", "rca_clean", "ox_thermal", "litho_expose", "etch_rie", "implant", "diffuse_predep", "anneal", "dep_pvd", "probe_dice_bond"]
 VF_GAA = ["wafer_start", "rca_clean", "litho_expose", "etch_rie", "implant", "anneal", "dep_pvd", "cmp", "gaa_release", "damascene", "probe_dice_bond"]
+VF_HEAT_D = ["wafer_start", "rca_clean", "ox_thermal", "litho_expose", "etch_rie", "diffuse_predep", "ox_thermal", "anneal"]   # heat after doping
+VF_HEAT_I = ["wafer_start", "rca_clean", "litho_expose", "etch_rie", "implant", "anneal", "ox_thermal"]
 VF_PLANAR = ["wafer_start", "rca_clean", "ox_thermal", "litho_expose", "diffuse_predep", "planar_hoerni", "evap_al", "probe_dice_bond"]
+VF_LAB = json.loads((ROOT / "data" / "lab_runs.json").read_text(encoding="utf-8"))
+VF_RUN = VF_LAB["vfab_route"]
+
+
+def fitting_reference():
+    """Experiments page: every example's rows and fit, a real-data fit and the CSV parser (v1.27)."""
+    from transistor_sim.physics import fitting
+    exps = json.loads((ROOT / "data" / "experiments.json").read_text(encoding="utf-8"))["experiments"]
+    out = {"rng": [fitting._mulberry32(42)() for _ in range(1)] + (lambda r: [r() for _ in range(4)])(fitting._mulberry32(7)),
+           "csv": fitting.parse_csv("V,I_mA\n# note\n0.5;0.1\n0.6\t1.2\n\n0.7, 3e-2\n"),
+           "dvdt": fitting.diode_dvdt(0.6, 298.15), "examples": []}
+    for x in exps:
+        ex = x.get("example")
+        if not ex:
+            continue
+        rows = fitting.example(x["model"], ex["xs"], ex["truth"], ex["noise"], ex["seed"])
+        p = {k: v for k, v in ex["truth"].items() if k in fitting.MODELS[x["model"]]["params"]}
+        r = fitting.fit(x["model"], rows, p)
+        out["examples"].append({"id": x["id"], "model": x["model"], "rows": rows, "params": p,
+                                "a": r["a"], "b": r["b"], "r2": r["r2"], "out": r["out"], "err": r["err"]})
+    chips = json.loads((ROOT / "data" / "chips.json").read_text(encoding="utf-8"))["chips"]
+    rows = [[c["year"], c["transistors"]] for c in chips if c["family"] in ("planar", "3d") and c["id"] not in ("wse3", "ibm07")]
+    r = fitting.fit("moore", rows)
+    out["moore"] = {"T": r["out"]["T_years"], "err": r["err"]["T_years"]}
+    return out
 
 
 def export_physics_json():
@@ -612,7 +639,21 @@ def export_physics_json():
                                                   "diff": {"ion": "B"}, "ann": {"T": 1000.0, "hold": 10.0, "rate": 50.0}, "etch": {"sel": 4.0, "oe": 1.0}}),
             (VF_GAA, [False] * len(VF_GAA), {"imp": {"ion": "B"}, "cmp": {"P": 10.0, "V": 0.5, "t": 1.0}, "dam": {"metal": "Ru", "w": 12.0, "ar": 2.5},
                                               "rel": {"W": 45.0, "S": 30.0, "over": 0.4, "n": "4"}}),
-            (VF_PLANAR, [False] * len(VF_PLANAR), {"planar": {"NB": 1e16, "T2": 1150.0, "t2": 240.0}, "diff": {"T2": 1100.0, "t2": 3600.0}})]]],
+            (VF_PLANAR, [False] * len(VF_PLANAR), {"planar": {"NB": 1e16, "T2": 1150.0, "t2": 240.0}, "diff": {"T2": 1100.0, "t2": 3600.0}}),
+            (VF_RUN, [False] * len(VF_RUN), vfab.run_cfg(VF_LAB)),
+            (VF_HEAT_D, [False] * len(VF_HEAT_D), {"ox": {"amb": "wet", "T": 1100.0, "t": 1.0}}),
+            (VF_HEAT_I, [False] * len(VF_HEAT_I), {"imp": {"ion": "As", "E": 40.0, "dose": 5e15}}),
+            (VF_HEAT_I + ["diffuse_predep"], [False] * (len(VF_HEAT_I) + 1))]]],
+        "diffusion_cd": [{"case": list(c), **(lambda r: {q: r[q] for q in ("xj", "Rs", "dose", "Cs_after", "ni", "D_surf", "D_int")} | {"N_mid": r["N"][60], "x_mid": r["x"][60]})(diffusion.run_cd(*c))}
+                         for c in [("P", 3e20, 1050.0, 600.0, 1050.0, 2220.0, 1.66e16), ("B", 1e20, 1000.0, 1200.0, 1100.0, 1800.0, 1e15),
+                                   ("As", 2e20, 1000.0, 900.0, 1050.0, 600.0, 1e16), ("P", 1e19, 950.0, 300.0, 1000.0, 600.0, 1e17)]],
+        "diffusion_oed": [{"case": list(c), "factor": diffusion.oed_factor(c[0], c[-1]),
+                           "int": {q: diffusion.run(*c[:7], 600, c[-1])[q] for q in ("xj", "Rs", "Dt", "oed")},
+                           "cd": {q: diffusion.run_cd(*c[:7], 301, 300, c[-1])[q] for q in ("xj", "Rs", "dose", "oed")}}
+                          for c in [("P", 3e20, 1050.0, 600.0, 1050.0, 2220.0, 1.66e16, 3.0), ("B", 1e20, 1000.0, 1200.0, 1100.0, 1800.0, 1e15, 2.0),
+                                    ("Sb", 5e19, 1100.0, 900.0, 1100.0, 3600.0, 1e15, 4.0), ("As", 2e20, 1000.0, 900.0, 1050.0, 600.0, 1e16, 1.5)]],
+        "vfab_compare": [{"case": [list(r), c], "rows": vfab.compare(vfab.run(list(r), None, c), VF_LAB)}
+                         for r, c in [(VF_RUN, vfab.run_cfg(VF_LAB)), (VF_RUN, None), (VF_TEACH, None), (["wafer_start"], None)]],
         "planar": [{"case": list(c), **{q: planar.run(*c)[q] for q in ("xj", "Rs", "bv_pp", "W_um", "ratio", "bv_cyl")}}
                    for c in [(1e15, 1100.0, 60.0), (1e16, 1050.0, 20.0), (2e14, 1180.0, 300.0)]],
         "czochralski": [{"case": list(c), **(lambda r: {"f_usable": r["f_usable"], "rho_tail": r["rho_tail"], "N_seed": r["N_seed"], "rho_mid": r["rho"][60]})(czochralski.run(*c))}
@@ -651,6 +692,13 @@ def export_physics_json():
                    "noise": {"corner": analog.noise_corner(mosfet.preset("1999_180nm"), 1e-3, 10), "rms": analog.noise_rms(mosfet.preset("2011_22nm_finfet"), 5e-4, 4, 10, 1e7),
                              "psd": analog.noise_psd(mosfet.preset("2025_2nm_gaa"), 2e-4, 1, [1e3])[0].item()}},
     }
+    ref["fitting"] = fitting_reference()
+    from transistor_sim.physics import builder as layer_builder
+    ref["builder"] = layer_builder.reference()
+    from transistor_sim.physics import nodelab
+    ref["nodelab"] = nodelab.reference()
+    from transistor_sim.physics import defects
+    ref["defects"] = defects.reference()
     (ROOT / "data" / "physics_reference.json").write_text(json.dumps(ref, indent=1), encoding="utf-8")
     print("data/physics_reference.json")
 

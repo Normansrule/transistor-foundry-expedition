@@ -11,7 +11,7 @@ CMP follows Preston’s law<sup>[1](#sources)</sup> and the pattern-density mode
 
 | You need | |
 |---|---|
-| Wafer with a bumpy oxide over lines | ×1 · Manual 7 · Deposition |
+| Wafer with a bumpy oxide over lines | ×1 · Manual 7B · Deposition |
 | Polisher with pad and slurry | ×1 |
 
 ## 1 · See the problem

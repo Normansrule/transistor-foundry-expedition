@@ -616,9 +616,7 @@
     "teaching_cmos",
     "modern_gaa"
    ],
-   "requires": [
-    "anneal"
-   ],
+   "requires": [],
    "problem": "Contacts and wires need conducting films a few nanometres to microns thick.",
    "physics": "Ions from a magnetron plasma knock atoms off a target; they land on the wafer as a film.",
    "model": null,
@@ -645,7 +643,11 @@
     "engineer": "",
     "process": ""
    },
-   "status": "seed"
+   "status": "seed",
+   "requires_any": [
+    "anneal",
+    "diffuse_predep"
+   ]
   },
   {
    "id": "cmp",

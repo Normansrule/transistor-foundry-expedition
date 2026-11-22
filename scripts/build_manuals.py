@@ -52,6 +52,15 @@ MAT = {
     "ar": ("#3a4352", "Anti-reflective layer"),
     "quartz": ("#bcd9dd", "Fused silica (quartz)"),
     "uv": ("#b58fd6", "Ultraviolet light"),
+    "n_diff": ("#3f7fe0", "n⁺ diffused silicon"),
+    "dopant_film": ("#9a80dc", "Dopant source film"),
+    "scribe": ("#2f3845", "Scribe lane"),
+    "organic": ("#c98500", "Organic film"),
+    "film": ("#9fd08a", "Deposited film (CVD or ALD)"),
+    "barrier": ("#8c7bc2", "Barrier and seed liner"),
+    "gate_metal": ("#9aa7b8", "Gate metal"),
+    "melt": ("#ffb347", "Molten silicon"),
+    "sige": ("#c9a46a", "Silicon–germanium"),
 }
 TIER = {0: "Tier 0 · safe", 1: "Tier 1 · care", 2: "Tier 2 · heat or equipment", 3: "Tier 3 · institution-only"}
 TIER_LONG = {0: "safe to describe", 1: "describe with care", 2: "heat, vacuum or high-voltage equipment: no home procedure",
@@ -127,7 +136,7 @@ def frame_svg(step, label):
             post.append(f'<path d="M{x} {YB + 30} q 6 -8 0 -16 q -6 -8 0 -16" fill="none" stroke="#e07f3f" stroke-width="2" stroke-linecap="round" opacity=".85"/>')
     if "oven" in props:
         post.append(f'<rect x="{X0 - 14}" y="{YB + OY - 70}" width="{W + OX + 28}" height="{-OY + 96}" rx="10" fill="none" stroke="#e07f3f" stroke-width="1.4" stroke-dasharray="6 5" opacity=".8"/>'
-                    + lab(X0 - 6, YB + OY - 76, "oven", "#e07f3f"))
+                    + lab(X0 - 6, YB + OY - 76, fr.get("oven_label", "oven"), "#e07f3f"))
     if "chamber" in props:
         pre.append(f'<rect x="{X0 - 14}" y="18" width="{W + OX + 30}" height="{YB - 2}" rx="14" fill="#10161e" stroke="#2f3845" stroke-dasharray="6 5"/>'
                    + lab(X0 - 4, 34, "vacuum chamber", "#8a94a3"))
@@ -228,6 +237,33 @@ def frame_svg(step, label):
     if "flat" in props:
         post.append(f'<line x1="{X0 - 10}" y1="{top_y}" x2="{X0 + W + 10}" y2="{top_y}" stroke="#7fd3d0" stroke-width="1.2" stroke-dasharray="5 4"/>'
                     + lab(X0 - 8, top_y + OY - 16, "flat within the depth of focus", "#7fd3d0"))
+    if "particles" in props:
+        for i, (a, h) in enumerate(((.12, 5), (.31, 3), (.47, 6), (.63, 3.5), (.78, 4.5), (.9, 3))):
+            x = X0 + W * a + OX * (.3 + .4 * (i % 2))
+            post.append(f'<circle cx="{x:.1f}" cy="{top_y + OY * (.3 + .4 * (i % 2)) - h:.1f}" r="{h:.1f}" fill="#f0a26b" stroke="#0a0d11" stroke-width=".6"/>')
+        post.append(lab(X0 - 4, top_y - 14, fr.get("particles_label", "particles"), "#f0a26b"))
+    if "rinse" in props:
+        for i in range(6):
+            x = X0 + 20 + i * 38 + OX * .5
+            post.append(f'<path d="M{x} {top_y - 60} l 0 30" stroke="#7fd3d0" stroke-width="1.6" stroke-dasharray="4 4" marker-end="url(#arrt)"/>')
+        post.append(lab(X0 - 4, top_y - 66, fr.get("rinse_label", "ultrapure water"), "#7fd3d0"))
+    if "probe" in props:
+        for a in (.3, .62):
+            x = X0 + W * a + OX * .5
+            post.append(f'<path d="M{x - 40} {top_y - 70} L{x} {top_y + OY * .5 - 2}" stroke="#cfd6e0" stroke-width="2.2" stroke-linecap="round"/>'
+                        f'<circle cx="{x}" cy="{top_y + OY * .5 - 2}" r="2.4" fill="#f2b84b"/>')
+        post.append(f'<rect x="{X0 + 10}" y="{top_y - 86}" width="{W * .75}" height="14" rx="3" fill="#3a4352" stroke="#8a94a3"/>'
+                    + lab(X0 + 16, top_y - 92, fr.get("probe_label", "probe card"), "#cfd6e0"))
+    if "saw" in props:
+        sx = X0 + W * .5 + OX * .5
+        post.append(f'<circle cx="{sx}" cy="{top_y - 40}" r="34" fill="none" stroke="#cfd6e0" stroke-width="3"/><circle cx="{sx}" cy="{top_y - 40}" r="6" fill="#8a94a3"/>'
+                    f'<path d="M{sx + 40} {top_y - 70} a 46 46 0 0 1 4 40" fill="none" stroke="#f2b84b" stroke-width="1.6" marker-end="url(#arr)"/>'
+                    + lab(sx + 46, top_y - 76, fr.get("saw_label", "dicing blade"), "#cfd6e0"))
+    if "wire" in props:
+        x1 = X0 + W * .35 + OX * .5
+        post.append(f'<path d="M{x1} {top_y + OY * .5} C {x1 + 10} {top_y - 70}, {X0 + W + 40} {top_y - 70}, {X0 + W + OX + 10} {YB + 4}" fill="none" stroke="#e8c45c" stroke-width="2.2"/>'
+                    f'<circle cx="{x1}" cy="{top_y + OY * .5}" r="4" fill="#e8c45c"/>'
+                    + lab(x1 + 20, top_y - 62, fr.get("wire_label", "bond wire"), "#e8c45c"))
     if "stamp" in props:
         post.append(f'<g transform="translate({X0 + W + OX - 4} {YB - 8}) rotate(-12)"><circle r="22" fill="none" stroke="#f2b84b" stroke-width="2"/>'
                     + lab(0, 4, "PASS", "#f2b84b", "middle", True) + "</g>")
@@ -322,7 +358,8 @@ def step_html(m, s, C, slug):
     params = "".join(f'<tr><th scope="row">{escape(p["name"])}</th><td>{escape(p["value"])}{C.sup(refs_of(p))}</td></tr>'
                      for p in s["spec"]["params"]) or '<tr><td colspan="2" class="mn-none">Set by the tool program; no public number to cite.</td></tr>'
     eq = f'<p class="mn-eq">{escape(s["eq"])}</p>' if s.get("eq") else ""
-    lab_ = f'<a class="mn-lab" href="../{s["lab"]}">Open the live simulator →</a>' if s.get("lab") else ""
+    lab_ = (f'<a class="mn-lab" href="../{s["lab"]}">{"Open that manual →" if s["lab"].startswith("manuals/") else "Open the live simulator →"}</a>'
+            if s.get("lab") else "")
     return f'''
   <article class="mn-step" id="{slug}-{s['id']}" data-tier="{tier}">
     <header class="mn-step-head">
@@ -408,6 +445,11 @@ def head(title, desc, css_prefix=""):
 <link rel="stylesheet" href="{css_prefix}css/style.css">
 <link rel="stylesheet" href="{css_prefix}css/manual.css">{'' if css_prefix else chr(10) + '<link rel="stylesheet" href="css/traveler.css">'}
 <script>document.documentElement.classList.add('js')</script>
+<!-- pwa:start · generated by scripts/build_pwa.py -->
+<link rel="manifest" href="{css_prefix}manifest.webmanifest">
+<meta name="theme-color" content="#0a0d11">
+<link rel="apple-touch-icon" href="{css_prefix}assets/icons/icon-180.png">
+<!-- pwa:end -->
 </head>'''
 
 
@@ -617,7 +659,7 @@ def readme_block(doc, manuals):
          "## Step-by-step process manuals", "",
          "Illustrated manuals in the style of a building-brick instruction book: one picture per step, the new part outlined, "
          "a parts list, and a check at the end of each step. Open any step for the engineer’s operation specification "
-         "(tool, cited parameter ranges, control and what to do when it goes wrong). Every web manual has a Save as PDF button.", "",
+         "(tool, cited parameter ranges, control and what to do when it goes wrong). Every web manual has a Save as PDF button, and `node scripts/qa/print_manuals.mjs` prints them all as one book, `dist/manuals/process-manuals-book.pdf`.", "",
          "| Manual | Steps | Web | GitHub |", "|---|---|---|---|"]
     for m in manuals:
         s = m["id"]

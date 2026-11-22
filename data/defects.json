@@ -1,0 +1,152 @@
+{
+ "_about": "Spot the defect (showcase on fab.html#defects). Seven defects; for each, the process model in sim/transistor_sim/physics/defects.py decides which of four features fails, and the page shuffles them. This file holds the words: what the picture shows, three possible causes, why it happened, how a fab finds it and how it is fixed. Numbers shown on the page come from the model, not from this file.",
+ "cases": [
+  {
+   "id": "fill",
+   "title": "A trench that closed too soon",
+   "step": "dep_pvd",
+   "theatre": "#proc-deposition",
+   "view": "Cross-section",
+   "noun": "Trench",
+   "shows": "Four trenches, all 80 nm deep, are being lined with the same film at the same time. One of them is now useless.",
+   "causes": [
+    {"id": "pinch", "text": "The film grew faster at the mouth than at the bottom, so the mouth closed over an empty space"},
+    {"id": "lag", "text": "The trench was etched too shallow, so the film had nothing to fill"},
+    {"id": "dishing", "text": "Polishing removed the film from the top of the trench"}
+   ],
+   "answer": "pinch",
+   "why": "Gas molecules enter a narrow trench and react with the first wall they hit, so less of them reach the bottom. The film is thickest at the mouth. In the narrowest trench the two sides meet at the top while the bottom is still open, and the gap is sealed in as a void (a keyhole). Wider trenches are still open and keep filling.",
+   "engineer": "The model solves a reaction-diffusion balance down the trench, n″ = (3s / 2w²) n, with sticking probability s, and re-solves it as the gap narrows. A large s starves the bottom; a self-limiting process (ALD) saturates every surface before the next dose.",
+   "find": "A cross-section through the trench, cut and imaged with an electron microscope, shows the void. In production a chain of filled contacts is tested electrically: a void raises its resistance.",
+   "fix": "Use a more conformal process: atomic layer deposition (ALD) grows one layer per cycle everywhere, so the narrow trench fills from both walls with only a seam. Fabs also taper the trench walls or etch back the mouth and deposit again.",
+   "good": "Fill with ALD instead",
+   "refs": ["plummer2000", "george2010"]
+  },
+  {
+   "id": "etch",
+   "title": "An opening that never reached the bottom",
+   "step": "etch_rie",
+   "theatre": "#proc-etch",
+   "view": "Cross-section",
+   "noun": "Opening",
+   "shows": "Four openings of different widths are etched through a 200 nm film in one plasma etch, stopped 15 % after the widest one cleared. One will never make contact.",
+   "causes": [
+    {"id": "arde", "text": "Narrow openings etch more slowly, because less etchant reaches their bottom"},
+    {"id": "mask", "text": "The mask wore through and the plasma attacked the top of the film"},
+    {"id": "pinch", "text": "A film closed over the opening before the etch began"}
+   ],
+   "answer": "arde",
+   "why": "Etchant reaches the bottom of an opening by bouncing down it. In a deep, narrow opening many molecules react on the walls or bounce back out, so the bottom etches more slowly. This is called aspect-ratio-dependent etching (ARDE), or RIE lag. The etch was stopped by watching the plasma light from the wide openings, so the narrowest one still has film left in its bottom.",
+   "engineer": "The bottom rate is R₀ / (1 + 3 s AR / 4) for aspect ratio AR and reaction probability s (Coburn and Winters). Over-etch must cover the slowest opening, which the stop layer’s selectivity has to survive.",
+   "find": "Electrical test: a contact or via chain with an unopened hole reads open. Electron-microscope cross-sections of the smallest openings are checked when a new etch is set up.",
+   "fix": "Etch longer (more over-etch) with a stop layer the etch barely attacks, lower the reaction probability or the pressure, or pulse the plasma so the bottom catches up.",
+   "good": "Over-etch 50 % instead of 15 %",
+   "refs": ["coburn1989", "plummer2000"]
+  },
+  {
+   "id": "cmp",
+   "title": "A block polished out of focus",
+   "step": "cmp",
+   "theatre": "#proc-cmp",
+   "view": "Cross-section",
+   "noun": "Block",
+   "shows": "Four blocks of lines with different pattern densities sit on one die. Oxide over them is polished for three minutes. The next layer’s lithography will fail on one of them.",
+   "causes": [
+    {"id": "density", "text": "The pad pressed harder on the block with few lines, so it was polished lower than the rest"},
+    {"id": "particle", "text": "A slurry particle scratched the block"},
+    {"id": "arde", "text": "The block’s lines were etched more slowly"}
+   ],
+   "answer": "density",
+   "why": "The pad only touches the raised lines at first, so the force is shared among fewer lines where the pattern is sparse. Those lines are polished faster (Preston’s law: rate grows with pressure). The sparse block ends up lower than its neighbours. If the difference is larger than the scanner’s depth of focus, the next layer cannot be in focus on every block at once.",
+   "engineer": "Up rate = K / ρ while the step is taller than the contact height, with ρ the pattern density (Stine et al.). The tolerance used is the depth of focus k₂ λ / NA² for a 193 nm immersion scanner at NA 1.35.",
+   "find": "Film-thickness maps across the die (optical reflectometry) and surface profiles across blocks of different density. Layout checks flag areas whose density is out of range before the mask is made.",
+   "fix": "Add dummy fill: shapes with no electrical job placed in sparse areas so every region has a similar density. Here the sparse block is filled to 50 %.",
+   "good": "Add dummy fill to the sparse block",
+   "refs": ["preston1927", "stine1998", "levinson2019"]
+  },
+  {
+   "id": "release",
+   "title": "Nanosheets still glued together",
+   "step": "gaa_release",
+   "theatre": "#proc-release",
+   "view": "Cross-section",
+   "noun": "Stack",
+   "shows": "Four gate-all-around stacks of different widths have their silicon-germanium (SiGe) layers etched out from both sides at the same time. In one, the gate will not wrap the sheets.",
+   "causes": [
+    {"id": "lateral", "text": "The etch travelled the same distance in every stack, which was not far enough to meet in the middle of the widest one"},
+    {"id": "selectivity", "text": "The etch attacked the silicon sheets as fast as the SiGe"},
+    {"id": "pinch", "text": "The gate metal closed the gaps before the etch"}
+   ],
+   "answer": "lateral",
+   "why": "The selective etch eats into the SiGe from both open sides at the same speed in every stack. In the narrow stacks the two fronts meet and the sheets are freed. In the widest stack they stop short, leaving a core of SiGe that bridges the sheets. The gate cannot reach there, so that transistor has a weaker channel and different behaviour from its neighbours.",
+   "engineer": "Each front moves e = (W/2)(1 + f) for over-etch fraction f; a core W − 2e wide is left when e < W/2. Silicon is lost at e/S per face, so a longer etch thins the narrow sheets: the selectivity S sets how much over-etch you can afford.",
+   "find": "Transmission electron microscope cross-sections across the sheets, and electrical tests that compare wide and narrow devices.",
+   "fix": "Etch long enough for the widest sheet in the design, with a high-selectivity etch so the narrow sheets survive, or limit the sheet widths a design may use.",
+   "good": "Etch 40 nm from each side instead of 25 nm",
+   "refs": ["loubet2017"]
+  },
+  {
+   "id": "em",
+   "title": "A wire that will fail in service",
+   "step": "damascene",
+   "theatre": "#proc-damascene",
+   "view": "Top view",
+   "noun": "Line",
+   "shows": "Four copper lines of different lengths carry the same current density between two vias, at 105 °C. One will open up after a few years.",
+   "causes": [
+    {"id": "blech", "text": "The line is longer than the Blech length, so the stress the electron wind builds up is enough to open a void"},
+    {"id": "density", "text": "The line was polished thinner than the others"},
+    {"id": "particle", "text": "A particle landed on the line"}
+   ],
+   "answer": "blech",
+   "why": "Electrons push copper atoms along the line towards the far via (electromigration). The barriers at the ends block them, so stress builds up: tension at the start, compression at the end. In a short line the stress settles before it is strong enough to open a void, so the line never fails. A line longer than the Blech length keeps building stress until a void opens at the start, where the electrons enter.",
+   "engineer": "Steady-state stress peaks at G L / 2, so the line is immortal while j L < (j L)crit = 2 Ω σcrit / (e Z* ρ) (Blech). Above it, the time to nucleate a void scales as j⁻² exp(Ea / kT), Black’s law with n = 2 (Korhonen et al.).",
+   "find": "Accelerated stress tests at high current and temperature, extrapolated to use conditions with Black’s law. Design tools check every wire’s current density and length.",
+   "fix": "Keep long wires below the critical j L: lower the current density by widening the line, or break it with extra vias into segments shorter than the Blech length.",
+   "good": "Run 0.5 MA/cm² instead of 2",
+   "refs": ["black1969", "blech1976", "korhonen1993"]
+  },
+  {
+   "id": "particle",
+   "title": "A short circuit from one speck",
+   "step": "rca_clean",
+   "theatre": "#proc-cleaning",
+   "view": "Top view",
+   "noun": "Particle",
+   "shows": "Four particles of the sizes a typical surface carries land on metal lines spaced 100 nm apart. One of them joins two lines.",
+   "causes": [
+    {"id": "critical", "text": "The particle is wider than the space between the lines, so it bridges them"},
+    {"id": "blech", "text": "The current pushed metal into the space"},
+    {"id": "focus", "text": "The lines were printed out of focus"}
+   ],
+   "answer": "critical",
+   "why": "A particle only kills a circuit if it lands where it can do harm and is big enough to do it. Here that means wider than the space between two lines. Small particles are common and big ones rare: the number larger than a size d falls as 1/d², so a design with wider spaces is hit less often. The area where a particle of a given size causes a fault is called the critical area.",
+   "engineer": "Particle sizes follow a 1/d³ distribution above the inspection size d₀ (Stapper), so the share larger than a space s is (d₀ / s)². Yield models multiply the defect density by the critical area.",
+   "find": "Optical and electron-beam inspection map particles on every lot; review tools image them. Electrical test finds the short as two nets joined.",
+   "fix": "Clean the wafer before each step (particle removal is what a clean is for) and keep the tools clean. In design, widen spaces where the layout allows.",
+   "good": "Space the lines 200 nm apart",
+   "refs": ["stapper1983", "kern1990"]
+  },
+  {
+   "id": "focus",
+   "title": "A field that printed blurred",
+   "step": "litho_expose",
+   "theatre": "#litho",
+   "view": "Top view",
+   "noun": "Field",
+   "shows": "Lines at 160 nm pitch are printed in four exposure fields by a 193 nm immersion scanner at NA 1.35. One field sits 90 nm higher than the others because a particle under the wafer lifts it.",
+   "causes": [
+    {"id": "focus", "text": "The field sat outside the depth of focus, so the image lost its contrast"},
+    {"id": "arde", "text": "The resist in that field developed more slowly"},
+    {"id": "density", "text": "The lines in that field are too dense to print"}
+   ],
+   "answer": "focus",
+   "why": "A projection lens forms a sharp image only within a thin slab of height: the depth of focus. The scanner levels each field, but a bump smaller than a field, such as a particle trapped under the wafer, lifts part of it out of that slab. Out of focus the light and dark lines blur together and the resist can no longer tell them apart.",
+   "engineer": "Depth of focus ≈ k₂ λ / NA², about 106 nm here. The aerial image is computed with defocus as a phase on each diffraction order; the printed width is where the intensity crosses the resist threshold.",
+   "find": "Focus and levelling maps from the scanner, and line-width measurement with an electron microscope (CD-SEM). A repeated ‘hot spot’ in the same place on several wafers points to the chuck.",
+   "fix": "Clean the wafer chuck and the back of the wafers; flatten the topography the scanner has to cover (planarisation is one reason CMP exists).",
+   "good": "Clean the chuck",
+   "refs": ["levinson2019", "mack2007"]
+  }
+ ]
+}

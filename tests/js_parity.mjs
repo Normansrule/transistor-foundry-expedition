@@ -25,6 +25,7 @@ import * as ET from '../site/js/physics/etch.js';
 import * as DP from '../site/js/physics/deposition.js';
 import * as CM from '../site/js/physics/cmp.js';
 import { GATECELLS } from '../site/js/journey/data.js';
+import { LABRUN } from '../site/js/processlab/data.js';
 import * as OX from '../site/js/physics/oxidation.js';
 import * as LR from '../site/js/physics/labrun.js';
 import * as DF from '../site/js/physics/diffusion.js';
@@ -40,6 +41,7 @@ import * as IM from '../site/js/physics/implant.js';
 import * as YC from '../site/js/physics/yieldcost.js';
 import * as EM from '../site/js/physics/electromigration.js';
 import * as AN from '../site/js/physics/analog.js';
+import * as FIT from '../site/js/physics/fitting.js';
 
 const ref = JSON.parse(readFileSync(new URL('../data/physics_reference.json', import.meta.url)));
 let fails = 0;
@@ -163,8 +165,27 @@ for (const r of ref.vfab) {
     check(`${tag} ${k} layers`, c[k].layers.length, r[k].layers.length, 0);
     r[k].layers.forEach(([m, t], i) => { check(`${tag} ${k} ${m} ${i}`, c[k].layers[i]?.[1] ?? NaN, t, 1e-9); if (c[k].layers[i]?.[0] !== m) check(`${tag} ${k} material ${i}`, 1, 0, 0); });
   }
-  r.log.forEach((l, i) => { if (l.value !== null) check(`${tag} log ${l.id}`, c.log[i].value, l.value, 1e-9); else if (c.log[i].value !== null) check(`${tag} log ${l.id} null`, 1, 0, 0); });
+  r.log.forEach((l, i) => {
+    if (l.value !== null) check(`${tag} log ${l.id}`, c.log[i].value, l.value, 1e-9); else if (c.log[i].value !== null) check(`${tag} log ${l.id} null`, 1, 0, 0);
+    for (const q of ['win', 'Rs', 'push']) if (l[q] !== undefined) check(`${tag} log ${l.id} ${q}`, c.log[i][q], l[q], 1e-9);
+    if (l.push === undefined && c.log[i].push !== undefined) check(`${tag} log ${l.id} push extra`, 1, 0, 0);
+  });
+  check(`${tag} heat_nm`, c.heat_nm, r.heat_nm, 1e-9);
 }
+for (const r of ref.diffusion_cd) { const c = DF.runCd(...r.case); for (const q of ['xj', 'Rs', 'dose', 'Cs_after', 'ni', 'D_surf', 'D_int']) check(`diffusion cd ${r.case[0]} ${r.case[1]} ${q}`, c[q], r[q], 1e-6); check(`diffusion cd ${r.case[0]} N[60]`, c.N[60], r.N_mid, 1e-6); check(`diffusion cd ${r.case[0]} x[60]`, c.x[60], r.x_mid, 1e-9); }
+for (const r of ref.diffusion_oed) {
+  const c = r.case, a = DF.run(...c.slice(0, 7), 600, c[7]), b = DF.runCd(...c.slice(0, 7), 301, 300, c[7]);
+  check(`diffusion oed ${c[0]} factor`, DF.oedFactor(c[0], c[7]), r.factor, 1e-12);
+  for (const q of ['xj', 'Rs', 'Dt', 'oed']) check(`diffusion oed ${c[0]} int ${q}`, a[q], r.int[q], 1e-9);
+  for (const q of ['xj', 'Rs', 'dose', 'oed']) check(`diffusion oed ${c[0]} cd ${q}`, b[q], r.cd[q], 1e-6);
+}
+for (const r of ref.vfab_compare) {
+  const rows = VFB.compare(VFB.run(r.case[0], null, r.case[1]), LABRUN), tag = `vfab compare ${r.case[0].length} steps${r.case[1] ? ' (run recipe)' : ''}`;
+  check(`${tag} rows`, rows.length, r.rows.length, 0);
+  r.rows.forEach((w, i) => { check(`${tag} ${w.key} measured`, rows[i].measured, w.measured, 1e-12);
+    if (w.computed === null) { if (rows[i].computed !== null) check(`${tag} ${w.key} null`, 1, 0, 0); } else check(`${tag} ${w.key}`, rows[i].computed, w.computed, 1e-9); });
+}
+{ const a = VFB.runCfg(LABRUN), b = ref.vfab_compare[0].case[1]; check('vfab runCfg', JSON.stringify(a) === JSON.stringify(b) ? 1 : 0, 1, 0); }
 for (const r of ref.planar) { const c = PLN.run(...r.case); for (const q of ['xj', 'Rs', 'bv_pp', 'W_um', 'ratio', 'bv_cyl']) check(`planar ${r.case[0]} ${q}`, c[q], r[q], 1e-9); }
 for (const r of ref.anneal) { const c = AL.run(...r.case); for (const q of ['Dt', 'ramps', 't_eq', 't_total', 'xj', 'Rs']) check(`anneal ${r.case[0]} ${r.case[3]} ${q}`, c[q], r[q], 1e-6); }
 { const L = ref.labrun;
@@ -210,6 +231,80 @@ check('noise psd', AN.noisePsd(presets['2025_2nm_gaa'], 2e-4, 1, 1e3), ref.analo
     if (s.reduce((a, b, i) => a + (b << i), 0) + (carry[4] << 4) !== x + y + ci) bad++;
   }
   if (bad) fails++; console.log(`${bad ? 'FAIL' : 'ok  '} ripple-carry adder, all 512 cases (${bad} wrong)`); }
+// Experiments page (v1.27): the seeded generator, the CSV parser, every example fit and the real Moore fit
+{ const R = ref.fitting;
+  const g42 = FIT.mulberry32(42), g7 = FIT.mulberry32(7);
+  [g42(), g7(), g7(), g7(), g7()].forEach((v, i) => check(`fit rng ${i}`, v, R.rng[i], 1e-15));
+  const csv = FIT.parseCSV('V,I_mA\n# note\n0.5;0.1\n0.6\t1.2\n\n0.7, 3e-2\n');
+  { const ok = JSON.stringify(csv) === JSON.stringify(R.csv); if (!ok) fails++; console.log(`${ok ? 'ok  ' : 'FAIL'} fit parseCSV ${JSON.stringify(csv)}`); }
+  check('fit diode dV/dT', FIT.diodeDvdt(0.6, 298.15), R.dvdt, 1e-12);
+  for (const e of R.examples) {
+    const ex = (await import('../site/js/experiments/data.js')).EXPERIMENTS.experiments.find(x => x.id === e.id).example;
+    const rows = FIT.example(e.model, ex.xs, ex.truth, ex.noise, ex.seed);
+    rows.forEach((r, i) => r.forEach((v, j) => check(`fit ${e.id} row ${i}.${j}`, v, e.rows[i][j], 1e-12)));
+    const r = FIT.fit(e.model, rows, e.params);
+    for (const k of Object.keys(e.out)) { check(`fit ${e.id} ${k}`, r.out[k], e.out[k], 1e-9); check(`fit ${e.id} σ(${k})`, r.err[k], e.err[k], 1e-5); }
+    check(`fit ${e.id} R²`, r.r2, e.r2, 1e-12);
+  }
+  const { REAL } = await import('../site/js/experiments/data.js');
+  const m = FIT.fit('moore', REAL.chips.map(c => [c[0], c[1]]));
+  check('fit Moore doubling time (real chips)', m.out.T_years, R.moore.T, 1e-12);
+  check('fit Moore σ', m.err.T_years, R.moore.err, 1e-9);
+}
+// 3D layer builder (v1.28): every box of every architecture, the rectangle subtraction and the metrics
+{ const BL = await import('../site/js/physics/builder.js');
+  const { BUILDER } = await import('../site/js/journey/data.js');
+  for (const a of BUILDER.archs) {
+    const R = ref.builder[a.id], bx = BL.build(a);
+    let bad = bx.length === R.boxes.length ? 0 : 1;
+    bx.forEach((b, i) => { const r = R.boxes[i]; if (!r || b[0] !== r[0] || b[7] !== r[7] || b[8] !== r[8] || b.slice(1, 7).some((v, k) => Math.abs(v - r[k + 1]) > 1e-6)) bad++; });
+    if (bad) fails++; console.log(`${bad ? 'FAIL' : 'ok  '} builder ${a.id}: ${bx.length} boxes (${bad} differ)`);
+    const sub = BL.subtract([0, 10, 0, 10], [[2, 4, 1, 3], [3, 6, 2, 5], [8, 12, -1, 4]]);
+    { const ok = JSON.stringify(sub) === JSON.stringify(R.sub); if (!ok) fails++; if (!ok) console.log(`FAIL builder subtract ${JSON.stringify(sub)}`); }
+    const m = BL.metrics(a);
+    for (const [k, v] of Object.entries(R.metrics)) {
+      if (v === null) { const ok = m[k] === null; if (!ok) fails++; console.log(`${ok ? 'ok  ' : 'FAIL'} builder ${a.id} ${k} null`); }
+      else check(`builder ${a.id} ${k}`, m[k], v, 1e-12);
+    }
+  }
+}
+// Node-reading lab (v1.29): pitch from marks, its error, bitcells, node ranking and the drawn lines
+{ const NL = await import('../site/js/physics/nodelab.js');
+  const { NODEPITCH } = await import('../site/js/journey/data.js');
+  const R = ref.nodelab, nodes = NODEPITCH.nodes;
+  check('nodelab pitch 10', NL.pitch(13, 553, 10), R.pitch[0], 1e-12);
+  check('nodelab pitch 2 reversed', NL.pitch(700, 520, 2), R.pitch[1], 1e-12);
+  R.pitch_error.forEach((v, i) => check(`nodelab pitch error ${i}`, NL.pitchError(3, [1, 10][i]), v, 1e-12));
+  for (const n of nodes) { const c = NL.cell(n); check(`nodelab cell ${n.id} w`, c[0], R.cells[n.id][0], 1e-12); check(`nodelab cell ${n.id} h`, c[1], R.cells[n.id][1], 1e-12); }
+  const cases = [{ cpp: 54.6, mmp: 36.4 }, { cpp: 90 }, { cpp: 57, mmp: 40, fin: 30, sram: 0.027 }, { sram: 0.06 }, { cpp: 160, mmp: 150 }];
+  cases.forEach((c, i) => {
+    const r = NL.rank(c, nodes), want = R.ranks[i];
+    const ok = r.length === want.length && r.every((p, k) => p[0] === want[k][0] && Math.abs(p[1] - want[k][1]) < 1e-12);
+    if (!ok) fails++; console.log(`${ok ? 'ok  ' : 'FAIL'} nodelab rank ${i}: best ${r[0][0]}`);
+  });
+  for (const n of nodes) for (const layer of ['gate', 'metal', 'fin', 'sram']) {
+    const v = NL.view(n, layer, 600, 17), w = R.views[n.id][layer];
+    const ok = (v === null && w === null) || (v && w && v.centres.length === w.centres.length && v.centres.every((x, k) => Math.abs(x - w.centres[k]) < 1e-9) && Math.abs(v.width - w.width) < 1e-12);
+    if (!ok) { fails++; console.log(`FAIL nodelab view ${n.id} ${layer}`); }
+  }
+  console.log(`ok   nodelab views (${nodes.length} nodes × 4 layers)`);
+}
+// Spot the defect (v1.30): shuffles and the seven model-placed defects, bad and good settings
+{ const DF = await import('../site/js/physics/defects.js');
+  const R = ref.defects;
+  [1, 2, 3, 42, 2026].forEach((s, i) => { const ok = JSON.stringify(DF.order(s)) === JSON.stringify(R.orders[i]); if (!ok) fails++; console.log(`${ok ? 'ok  ' : 'FAIL'} defects order seed ${s}`); });
+  // deep compare: numbers to 1e-9 relative, everything else exactly
+  const same = (a, b, path) => {
+    if (typeof b === 'number') return (typeof a === 'number' && Math.abs(a - b) <= 1e-9 * Math.max(1, Math.abs(b))) || (console.log(`  ${path}: ${a} vs ${b}`), false);
+    if (b === null || typeof b !== 'object') return a === b || (console.log(`  ${path}: ${a} vs ${b}`), false);
+    if (Array.isArray(b)) return Array.isArray(a) && a.length === b.length && b.every((v, k) => same(a[k], v, `${path}[${k}]`));
+    return a && typeof a === 'object' && Object.keys(b).every((k) => same(a[k], b[k], `${path}.${k}`));
+  };
+  for (const c of DF.CASES) for (const g of ['bad', 'good']) {
+    const ok = same(DF.caseOf(c, 7, g === 'good'), R.cases[c][g], `${c}.${g}`);
+    if (!ok) fails++; console.log(`${ok ? 'ok  ' : 'FAIL'} defects ${c} ${g}: defect at ${JSON.stringify(R.cases[c][g].defect)}`);
+  }
+}
 const v = MC.simulate(1e5, { n: 1000, tPs: 3 });
 check('MC v(1e5 V/cm) within 25% of 1.07e7', v, 1.07e7, 0.25);
 if (fails) { console.error(`${fails} parity check(s) failed`); process.exit(1); }

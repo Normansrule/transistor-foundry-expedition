@@ -5,7 +5,19 @@ Each manual takes one process step by step, like a building-brick instruction bo
 
 | Manual | Steps | Web |
 |---|---|---|
+| [1 · Grow the crystal and cut the wafer](wafer.md) | 6 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/wafer.html) |
+| [2 · Clean the wafer before every furnace](cleaning.md) | 6 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/cleaning.html) |
+| [3 · Grow glass on the silicon](oxidation.md) | 6 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/oxidation.html) |
 | [4B · Make the photomask](photomask.md) | 8 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/photomask.html) |
 | [4A · Print a pattern with light](lithography.md) | 10 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/lithography.html) |
 | [5 · Carve the pattern into the film](etch.md) | 9 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/etch.html) |
+| [6A · Bake the dopant into the silicon](diffusion.md) | 6 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/diffusion.html) |
+| [6B · Fire dopant atoms into the silicon](implant.md) | 6 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/implant.html) |
+| [7A · Wire it up with aluminium](metal.md) | 7 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/metal.html) |
+| [7B · Coat every surface evenly](deposition.md) | 6 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/deposition.html) |
 | [8 · Make the surface flat again](planarize.md) | 7 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/planarize.html) |
+| [9 · Build the transistor in three dimensions](modules.md) | 6 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/modules.html) |
+| [10 · Wire the chip in copper](damascene.md) | 6 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/damascene.html) |
+| [11 · Find the good dies and package them](probe.md) | 7 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/probe.html) |
+| [12 · Make a transistor on glass](tft.md) | 6 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/tft.html) |
+| [13 · Make a planar transistor the 1959 way](history.md) | 6 | [web](https://normansrule.github.io/transistor-foundry-expedition/manuals/history.html) |

@@ -1,0 +1,84 @@
+{
+ "_about": "Process families compared on the Fab Journey (roadmap area 12). Each cell is {t, refs}; every number carries a reference. A dash means no cited value: mask counts of commercial processes are not public. scripts/build_data.py bundles this into site/js/journey/data.js; tests/test_families.py checks it.",
+ "columns": [
+  {"id": "substrate", "label": "Starts from"},
+  {"id": "defining", "label": "Defining step"},
+  {"id": "hottest", "label": "Hottest step"},
+  {"id": "masks", "label": "Masks"},
+  {"id": "devices", "label": "What it makes"}
+ ],
+ "families": [
+  {
+   "id": "planar1959", "name": "Planar silicon", "era": "1959",
+   "link": {"href": "#vfab", "label": "1959 route in the Virtual Fab"},
+   "substrate": {"t": "Silicon wafer under a grown oxide", "refs": ["frosch1957"]},
+   "defining": {"t": "Dopant diffused through windows in the oxide, so every junction ends under protecting glass", "refs": ["hoerni1962"]},
+   "hottest": {"t": "Furnace predeposition and drive-in", "refs": ["plummer2000"]},
+   "masks": {"t": "—", "refs": []},
+   "devices": {"t": "Bipolar transistors and diodes, then the first integrated circuits", "refs": ["hoerni1962", "noyce_patent"]}
+  },
+  {
+   "id": "teach_nmos", "name": "Teaching NMOS", "era": "2024",
+   "link": {"href": "#vfab", "label": "2024 run in the Virtual Fab"},
+   "substrate": {"t": "p-type silicon wafer", "refs": ["cleanroom_run_fab2024"]},
+   "defining": {"t": "Oxide grown three times in the furnace; source and drain diffused, not implanted", "refs": ["cleanroom_run_fab2024"]},
+   "hottest": {"t": "1100 °C dry gate oxidation", "refs": ["cleanroom_run_fab2024"]},
+   "masks": {"t": "4: active, polysilicon gate, contact, metal", "refs": ["cleanroom_run_fab2024"]},
+   "devices": {"t": "NMOS transistors, an inverter, diffused resistors, diodes and capacitors", "refs": ["cleanroom_run_char2024"]}
+  },
+  {
+   "id": "finfet_gaa", "name": "FinFET and gate-all-around logic", "era": "2011–",
+   "link": {"href": "#vfab", "label": "Modern route in the Virtual Fab"},
+   "substrate": {"t": "Bulk silicon wafer", "refs": ["natarajan2014"]},
+   "defining": {"t": "Channels stood on edge as fins, then stacked as released nanosheets wrapped by the gate", "refs": ["natarajan2014", "ferain2011"]},
+   "hottest": {"t": "Spike and millisecond anneals, short enough to keep junctions shallow", "refs": ["plummer2000"]},
+   "masks": {"t": "Many: fine pitches are split into self-aligned double and quadruple patterning", "refs": ["natarajan2014", "auth2017"]},
+   "devices": {"t": "Processors, memory controllers, SRAM", "refs": ["auth2017"]}
+  },
+  {
+   "id": "fdsoi", "name": "Fully depleted silicon on insulator (FD-SOI)", "era": "22 nm",
+   "link": null,
+   "substrate": {"t": "Thin silicon on a buried oxide", "refs": ["yan1992"]},
+   "defining": {"t": "Channel so thin it is fully depleted; the buried oxide isolates every transistor", "refs": ["yan1992"]},
+   "hottest": {"t": "—", "refs": []},
+   "masks": {"t": "—", "refs": []},
+   "devices": {"t": "Low-power logic and RF: nFET fT 347 GHz at 22 nm", "refs": ["ong2018"]}
+  },
+  {
+   "id": "sige_bicmos", "name": "Silicon–germanium BiCMOS", "era": "130 nm",
+   "link": null,
+   "substrate": {"t": "Silicon wafer", "refs": ["ihp_sg13g2"]},
+   "defining": {"t": "Heterojunction bipolar transistors with a SiGe base built beside CMOS", "refs": ["ihp_sg13g2"]},
+   "hottest": {"t": "—", "refs": []},
+   "masks": {"t": "—", "refs": []},
+   "devices": {"t": "RF and millimetre-wave front ends with CMOS control; an open-source PDK exists", "refs": ["ihp_sg13g2"]}
+  },
+  {
+   "id": "sic", "name": "Silicon carbide power", "era": "4H-SiC",
+   "link": null,
+   "substrate": {"t": "4H silicon carbide wafer with an epitaxial drift layer", "refs": ["kimoto2014"]},
+   "defining": {"t": "Dopants hardly diffuse, so every doped region is implanted", "refs": ["kimoto2014"]},
+   "hottest": {"t": "Implant activation anneal near 1600–1800 °C", "refs": ["kimoto2014"]},
+   "masks": {"t": "—", "refs": []},
+   "devices": {"t": "Kilovolt MOSFETs and Schottky diodes for power conversion", "refs": ["kimoto2014", "baliga1982"]}
+  },
+  {
+   "id": "gan_hemt", "name": "Gallium nitride HEMT", "era": "1993–",
+   "link": null,
+   "substrate": {"t": "GaN layers grown on SiC, silicon or sapphire", "refs": ["mishra2002"]},
+   "defining": {"t": "An AlGaN/GaN heterojunction whose polarisation makes a sheet of electrons without doping", "refs": ["ambacher1999", "khan1993"]},
+   "hottest": {"t": "Epitaxial growth of the layers", "refs": ["mishra2002"]},
+   "masks": {"t": "—", "refs": []},
+   "devices": {"t": "RF power amplifiers and fast power switches", "refs": ["mishra2002", "lidow2019"]}
+  },
+  {
+   "id": "igzo_tft", "name": "Oxide thin-film transistors (IGZO)", "era": "2004–",
+   "link": null,
+   "substrate": {"t": "Glass or plastic sheet", "refs": ["nomura2004"]},
+   "defining": {"t": "Amorphous oxide semiconductor deposited, not grown from a crystal", "refs": ["nomura2004", "weimer1962"]},
+   "hottest": {"t": "Room-temperature channel deposition on plastic", "refs": ["nomura2004"]},
+   "masks": {"t": "—", "refs": []},
+   "devices": {"t": "Display backplanes; a bendable RISC-V processor in 0.6 µm IGZO", "refs": ["ozer2024"]}
+  }
+ ]
+}

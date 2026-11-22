@@ -88,14 +88,16 @@ p { margin: 0; }
 .nm-narrow, .nm-pages-h, .nav-menu-panel .nm-pages { display: none; }
 .nav-gh { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line-2); padding: 6px 12px; border-radius: 999px; color: var(--ink); text-decoration: none; font-size: 13px; white-space: nowrap; }
 .nav-gh:hover { border-color: var(--amber); color: var(--amber-2); }
-@media (max-width: 1100px) {
+@media (max-width: 1240px) {
   .nav-pages { display: none; }
   .nav-menu { margin-left: auto; }
   .nm-wide { display: none; } .nm-narrow { display: inline; }
   .nm-pages-h { display: block; } .nav-menu-panel .nm-pages { display: grid; }
 }
-@media (max-width: 1520px) and (min-width: 1101px) { .brand-lead { display: none; } }
-@media (max-width: 1280px) and (min-width: 1101px) { .nav-pages a { padding-inline: 8px; } .nav .wrap { gap: 14px; } }
+.nav .wrap { max-width: 1480px; }                       /* nine pages: the bar may run wider than the content column */
+@media (max-width: 1600px) and (min-width: 1241px) { .brand-lead { display: none; } }
+@media (max-width: 1480px) and (min-width: 1241px) { .nav-pages a { padding-inline: 8px; } .nav .wrap { gap: 14px; } .nav-gh { padding: 6px 9px; gap: 0; } .nav-gh span { display: none; } }
+@media (max-width: 1340px) and (min-width: 1241px) { .nav-pages a { padding-inline: 6px; font-size: 13px; } .nm-wide { display: none; } .nm-narrow { display: inline; } }
 
 /* ---------- hero ---------- */
 .hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--line); isolation: isolate; }

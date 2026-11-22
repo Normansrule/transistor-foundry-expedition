@@ -41,3 +41,8 @@ for (const st of steps) {
 }
 for (const b of document.querySelectorAll('[data-print]')) b.addEventListener('click', () => window.print());
 window.addEventListener('beforeprint', () => { for (const el of document.querySelectorAll('.mn-spec')) el.open = true; });
+
+// Offline: the same service worker as the main pages (scope is the site root).
+if ('serviceWorker' in navigator && location.protocol !== 'file:' && !navigator.webdriver) {
+  addEventListener('load', () => navigator.serviceWorker.register('../sw.js').catch(() => {}));
+}

@@ -2126,6 +2126,70 @@
    "cat": "Device physics",
    "cite": "D. Macdonald, A. Cuevas, J. Wong-Leung, \"Capture Cross Sections of the Acceptor Level of Iron–Boron Pairs in p-Type Silicon by Injection-Level Dependent Lifetime Measurements,\" J. Appl. Phys. 89, 7932 (2001).",
    "doi": "10.1063/1.1372156"
+  },
+  {
+   "id": "fair1981",
+   "cat": "Process",
+   "cite": "R. B. Fair, \"Concentration Profiles of Diffused Dopants in Silicon,\" in F. F. Y. Wang (ed.), Impurity Doping Processes in Silicon, North-Holland, Amsterdam (1981), pp. 315–442."
+  },
+  {
+   "id": "hu1974",
+   "cat": "Process",
+   "cite": "S. M. Hu, \"Formation of stacking faults and enhanced diffusion in the oxidation of silicon,\" J. Appl. Phys. 45, 1567–1573 (1974)."
+  },
+  {
+   "id": "schroder2006",
+   "cat": "Experiments",
+   "cite": "D. K. Schroder, Semiconductor Material and Device Characterization, 3rd ed., Wiley-IEEE Press (2006): four-point probe, transfer length method, diode ideality and threshold-voltage extraction.",
+   "doi": "10.1002/0471749095"
+  },
+  {
+   "id": "berger1972",
+   "cat": "Experiments",
+   "cite": "H. H. Berger, \"Models for Contacts to Planar Devices,\" Solid-State Electron. 15, 145–158 (1972).",
+   "doi": "10.1016/0038-1101(72)90048-2"
+  },
+  {
+   "id": "smits1958",
+   "cat": "Experiments",
+   "cite": "F. M. Smits, \"Measurement of Sheet Resistivities with the Four-Point Probe,\" Bell Syst. Tech. J. 37, 711–718 (1958).",
+   "doi": "10.1002/j.1538-7305.1958.tb03883.x"
+  },
+  {
+   "id": "ecma130",
+   "cat": "Experiments",
+   "cite": "Ecma International, Standard ECMA-130, \"Data interchange on read-only 120 mm optical data disks (CD-ROM),\" 2nd ed. (1996): track pitch 1.6 µm.",
+   "url": "https://ecma-international.org/publications-and-standards/standards/ecma-130/"
+  },
+  {
+   "id": "ecma267",
+   "cat": "Experiments",
+   "cite": "Ecma International, Standard ECMA-267, \"120 mm DVD – Read-Only Disk,\" 3rd ed. (2001): track pitch 0.74 µm.",
+   "url": "https://ecma-international.org/publications-and-standards/standards/ecma-267/"
+  },
+  {
+   "id": "iec60825",
+   "cat": "Experiments",
+   "cite": "IEC 60825-1:2014, \"Safety of laser products – Part 1: Equipment classification and requirements\" (2014): Class 2 limits visible continuous lasers to 1 mW.",
+   "url": "https://webstore.iec.ch/en/publication/3587"
+  },
+  {
+   "id": "cdrinfo_intel_density2017",
+   "cat": "Process",
+   "cite": "CDRinfo, \"Intel Details 10nm, 22nm Processes, Proposes Transistor Density Metric\" (22 nm: 90 nm gate and 80 nm metal pitch; 14 nm: 70 nm gate, 52 nm interconnect and 42 nm fin pitch; 10 nm: 54 nm gate, 36 nm minimum metal and 34 nm fin pitch) (2017).",
+   "url": "https://cdrinfo.com/d7/content/intel-details-10-22nm-processes-proposes-transistor-density-metric"
+  },
+  {
+   "id": "wikichip_n7",
+   "cat": "Process",
+   "cite": "WikiChip, \"7 nm lithography process (N7)\" (TSMC N7: 57 nm high-density gate pitch, 40 nm metal pitch, 30 nm fin pitch, 0.027 µm² high-density SRAM bitcell).",
+   "url": "https://en.wikichip.org/wiki/N7"
+  },
+  {
+   "id": "angstronomics_n5",
+   "cat": "Process",
+   "cite": "Angstronomics, \"The Truth of TSMC 5nm\" (Apple A15 die: 51 nm average contacted gate pitch, 28 nm minimum fin pitch; N5 minimum metal pitch 30 % below N7's 40 nm) (2022).",
+   "url": "https://www.angstronomics.com/p/the-truth-of-tsmc-5nm"
   }
  ]
 }
