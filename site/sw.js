@@ -2,7 +2,7 @@
 // Precache the whole site on install so every page, lab and manual works offline.
 // Same-origin requests: cache first, then network. Photos hotlinked from Wikimedia Commons:
 // network first, and the last 80 seen are kept for offline use.
-const CACHE = "tfe-v1.30.0-f773cdb15d";
+const CACHE = "tfe-v1.32.0-c1ea115c30";
 const PHOTOS = 'tfe-photos';
 const PHOTO_MAX = 80;
 const FILES = [
@@ -93,6 +93,7 @@ const FILES = [
   "css/manual.css",
   "css/physics.css",
   "css/process.css",
+  "css/soc.css",
   "css/style.css",
   "css/traveler.css",
   "devices.html",
@@ -185,6 +186,7 @@ const FILES = [
   "js/physics/probe.js",
   "js/physics/qwell.js",
   "js/physics/release.js",
+  "js/physics/riscv.js",
   "js/physics/sram.js",
   "js/physics/thermal.js",
   "js/physics/tunnel.js",
@@ -216,6 +218,8 @@ const FILES = [
   "js/processlab/main.js",
   "js/processlab/oxide.js",
   "js/processlab/yield.js",
+  "js/soc/data.js",
+  "js/soc/main.js",
   "js/svgchart.js",
   "js/traveler.js",
   "manifest.webmanifest",
@@ -238,6 +242,7 @@ const FILES = [
   "manuals.html",
   "physics.html",
   "process.html",
+  "soc.html",
   "vendor/OrbitControls.js",
   "vendor/ScrollTrigger.min.js",
   "vendor/fonts/LICENSE-IBM-Plex.txt",

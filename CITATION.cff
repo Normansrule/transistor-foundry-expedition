@@ -4,8 +4,8 @@ title: "Transistor Foundry Expedition: an open, simulated history of how transis
 authors:
   - family-names: Norman
     given-names: Aleksander
-date-released: 2026-11-22
-version: 1.30.0
+date-released: 2026-11-23
+version: 1.32.0
 license: MIT
 repository-code: "https://github.com/Normansrule/transistor-foundry-expedition"
 url: "https://normansrule.github.io/transistor-foundry-expedition/"

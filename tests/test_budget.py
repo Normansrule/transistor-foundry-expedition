@@ -14,7 +14,7 @@ ZIP_WARN = 28 * 1024 * 1024         # keep ~2 MiB of headroom for the next relea
 GIF_LIMIT = 1_500_000               # 1.5 MB per animation
 BUDGET = {                          # per-folder ceilings, uncompressed
     "figures/anim": 15_000_000,
-    "site": 5_400_000,              # v1.29: raised from 5.3 MB for the node lab and the offline app (icons, manifest, service worker); v1.27: raised from 5.2 MB for the Experiments page (~80 KB); v1.26 from 5.0, v1.24 from 4.8
+    "site": 5_650_000,              # v1.32: raised from 5.4 MB for the SoC Explorer page (~170 KB: netlists, placements, cell shapes); v1.29: raised from 5.3 MB for the node lab and the offline app (icons, manifest, service worker); v1.27: raised from 5.2 MB for the Experiments page (~80 KB); v1.26 from 5.0, v1.24 from 4.8
     "figures": 29_000_000,
 }
 

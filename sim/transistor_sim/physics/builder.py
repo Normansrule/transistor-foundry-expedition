@@ -30,6 +30,7 @@ from pathlib import Path
 DATA = Path(__file__).resolve().parents[3] / "data" / "builder.json"
 EPS_RATIO = 11.7 / 3.9      # silicon over SiO2 permittivity; EOT is SiO2-equivalent
 SUB_D = 20.0                # drawn depth of substrate below the fins (nm)
+RAIL_D = 12.0               # drawn thickness of the backside power rail (nm, est.)
 
 
 def load():
@@ -109,8 +110,14 @@ def layout(a):
         L["floor"] = d["subfin"]
         L["top"] = d["subfin"] + d["fin_h"]
     else:
-        L["Y"] = d["sheet_w"] + d["space"]
-        L["act"] = [(d["space"] / 2, d["space"] / 2 + d["sheet_w"])]
+        if style == "forksheet":                      # an n stack and a p stack either side of a dielectric wall
+            w0 = d["space"] / 2 + d["sheet_w"]
+            L["Y"] = 2 * d["sheet_w"] + d["wall"] + d["space"]
+            L["act"] = [(d["space"] / 2, w0), (w0 + d["wall"], w0 + d["wall"] + d["sheet_w"])]
+            L["wall"] = (w0, w0 + d["wall"])
+        else:
+            L["Y"] = d["sheet_w"] + d["space"]
+            L["act"] = [(d["space"] / 2, d["space"] / 2 + d["sheet_w"])]
         z = d["subfin"]
         layers = []                                   # (material, z0, z1, tier)
         tiers = [("n", int(d["sheets"]))] + ([("p", int(d["sheets"]))] if style == "cfet" else [])
@@ -168,8 +175,11 @@ def build(a):
         put("metal", gz, (0, Y, tk, gtop), st("hkmg"))
         ctop = 0.0
     else:
-        put("si", full, (0, Y, -SUB_D, 0), st("wafer"))
+        put("si", full, (0, Y, -SUB_D, 0), st("wafer"), st("flip"))   # thinned away for backside power
         fins = [(a0, a1) for a0, a1 in L["act"]]
+        wall = [(L["wall"][0], L["wall"][1], 0, top + 4)] if style == "forksheet" else []
+        for r in wall:
+            put("wall", full, r, st("wall"))
         # material above the substrate before the fins are cut
         if style == "finfet":
             put("si", full, (0, Y, 0, top), st("wafer"), st("fin"))
@@ -179,11 +189,16 @@ def build(a):
                 put("sige" if m == "mid" else m, full, (0, Y, z0, z1), st("superlattice"), st("fin"))
         # the sub-fin under the trench oxide, and the oxide around it
         for f in fins:
-            put("si", full, (f[0], f[1], 0, flo), st("fin"))
-        for r in subtract((0, Y, 0, flo), [(f[0], f[1], 0, flo) for f in fins]):
+            if st("bs_contact") is not None:          # the source's sub-fin is replaced by a contact from below
+                put("si", Z["sdl"], (f[0], f[1], 0, flo), st("fin"), st("bs_contact"))
+                put("contact", Z["sdl"], (f[0], f[1], 0, flo), st("bs_contact"))
+                put("si", (Z["spl"][0], X), (f[0], f[1], 0, flo), st("fin"))
+            else:
+                put("si", full, (f[0], f[1], 0, flo), st("fin"))
+        for r in subtract((0, Y, 0, flo), [(f[0], f[1], 0, flo) for f in fins] + [(w[0], w[1], 0, flo) for w in wall]):
             put("sti", full, r, st("sti"))
         # the channel material, zone by zone
-        sd_step = st("sd_epi") if style in ("finfet", "gaa") else st("sd_bottom")
+        sd_step = st("sd_epi") if style in ("finfet", "gaa", "forksheet") else st("sd_bottom")
         for f in fins:
             if style == "finfet":
                 for xr in sd:
@@ -205,7 +220,7 @@ def build(a):
                         put("sige", gz, r, st("fin"), st("release"))
         # dummy gate and spacers wrap the fin or the whole stack
         body = [(f[0], f[1], flo, top) for f in fins]
-        for r in subtract((0, Y, flo, gtop), body):
+        for r in subtract((0, Y, flo, gtop), body + [(w[0], w[1], flo, w[3]) for w in wall]):
             put("poly", gz, r, st("dummy"), st("open"))
             for xr in spz:
                 put("spacer", xr, r, st("spacer"))
@@ -220,6 +235,11 @@ def build(a):
             ctop = top + 3
             for xr in sd:
                 put("n", xr, (a0 - 3, a1 + 3, flo, ctop), st("sd_epi"))
+        elif style == "forksheet":
+            ctop = top + 3
+            for xr in sd:
+                put("n", xr, (a0 - 3, L["wall"][0], flo, ctop), st("sd_epi"))
+                put("p", xr, (L["wall"][1], a1 + 3, flo, ctop), st("sd_epi"))
         else:
             mid = [ly for ly in L["layers"] if ly[0] == "mid"][0]
             ptop = [ly for ly in L["layers"] if ly[3] == "p" and ly[0] == "sich"][0]
@@ -236,16 +256,22 @@ def build(a):
         else:
             chan = [(f[0], f[1], z0, z1) for f in fins for m, z0, z1, _t in L["layers"] if m == "sich"]
         grown = [(c[0] - tk, c[1] + tk, max(flo, c[2] - tk), c[3] + tk) for c in chan] + [(0, Y, flo, flo + tk)]
-        metal = subtract((0, Y, flo, gtop), grown)
+        wz = [(w[0], w[1], flo, w[3]) for w in wall]
+        metal = subtract((0, Y, flo, gtop), grown + wz)
         for r in metal:
             put("metal", gz, r, st("hkmg"))
-        for r in subtract((0, Y, flo, gtop), metal + chan):
+        for r in subtract((0, Y, flo, gtop), metal + chan + wz):
             put("highk", gz, r, st("hkmg"))
     # contacts on the source and drain, centred half a gate pitch from the gate
     a0, a1 = L["act"][0][0], L["act"][-1][1]
     cw = d["contact_w"]
-    for xr in ((-X, -X + cw), (X - cw, X)):
-        put("contact", xr, (a0, a1, ctop, gtop), st("contact"))
+    ys = [(a0, L["wall"][0]), (L["wall"][1], a1)] if style == "forksheet" else [(a0, a1)]
+    ends = ((X - cw, X),) if st("bs_contact") is not None else ((-X, -X + cw), (X - cw, X))   # backside: source fed from below
+    for xr in ends:
+        for y in ys:
+            put("contact", xr, (y[0], y[1], ctop, gtop), st("contact"))
+    if st("bs_rail") is not None:
+        put("rail", (-X, X), (0, L["Y"], -RAIL_D, 0), st("bs_rail"))
     return [[b[0]] + [round(v, 9) for v in b[1:7]] + b[7:] for b in boxes]
 
 
@@ -273,10 +299,13 @@ def metrics(a):
     elif style == "finfet":
         sides, weff = 3, d["nfin"] * (2 * d["fin_h"] + d["fin_w"])
         lam = math.sqrt(EPS_RATIO * d["fin_w"] * d["eot"] / 2)
+    elif style == "forksheet":                           # top, bottom and the outer edge: the wall side is not gated
+        sides, weff = 3, d["sheets"] * (2 * d["sheet_w"] + d["sheet_t"])
+        lam = math.sqrt(EPS_RATIO * d["sheet_t"] * d["eot"] / 2)
     else:
         sides, weff = 4, d["sheets"] * 2 * (d["sheet_w"] + d["sheet_t"])
         lam = math.sqrt(EPS_RATIO * d["sheet_t"] * d["eot"] / 2)
-    pair_w = L["Y"] * (1 if style == "cfet" else 2)      # an nFET and a pFET: side by side, or stacked
+    pair_w = L["Y"] * (1 if style in ("cfet", "forksheet") else 2)   # n and p: in one cell, or two cells side by side
     return {"sides": sides, "weff_nm": weff, "cell_w_nm": L["Y"], "weff_per_w": weff / L["Y"],
             "pair_w_nm": pair_w, "pair_weff_per_w": 2 * weff / pair_w,
             "lam_nm": lam, "lg_over_lam": None if lam is None else d["lg"] / lam,

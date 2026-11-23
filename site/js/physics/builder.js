@@ -4,6 +4,7 @@
 // y across it, z up; born/died are build-step indices (died null = stays).
 export const EPS_RATIO = 11.7 / 3.9;   // silicon over SiO2 permittivity; EOT is SiO2-equivalent
 export const SUB_D = 20;               // drawn substrate depth below the fins (nm)
+export const RAIL_D = 12;              // drawn backside power rail thickness (nm, est.)
 
 export const dims = (a) => Object.fromEntries(Object.entries(a.dims).map(([k, v]) => [k, v[0]]));
 
@@ -47,7 +48,10 @@ export function layout(a) {
     L.act = Array.from({ length: n }, (_, i) => [fp * (i + 0.5) - w / 2, fp * (i + 0.5) + w / 2]);
     L.floor = d.subfin; L.top = d.subfin + d.fin_h;
   } else {
-    L.Y = d.sheet_w + d.space; L.act = [[d.space / 2, d.space / 2 + d.sheet_w]];
+    if (style === 'forksheet') {
+      const w0 = d.space / 2 + d.sheet_w;
+      L.Y = 2 * d.sheet_w + d.wall + d.space; L.act = [[d.space / 2, w0], [w0 + d.wall, w0 + d.wall + d.sheet_w]]; L.wall = [w0, w0 + d.wall];
+    } else { L.Y = d.sheet_w + d.space; L.act = [[d.space / 2, d.space / 2 + d.sheet_w]]; }
     let z = d.subfin; const layers = [];
     const tiers = [['n', Math.trunc(d.sheets)]].concat(style === 'cfet' ? [['p', Math.trunc(d.sheets)]] : []);
     tiers.forEach(([tier, ns], ti) => {
@@ -73,7 +77,7 @@ export function build(a) {
   };
   const full = [-X, X], sd = [Z.sdl, Z.sdr], spz = [Z.spl, Z.spr], gz = Z.g;
   const flo = L.floor, top = L.top, gtop = L.gtop, tk = d.tk;
-  let ctop;
+  let ctop, wall = [];
   if (style === 'planar') {
     const sdd = d.sti_d, xj = d.xj, [y0, y1] = L.act[0];
     put('si', full, [0, Y, -sdd - SUB_D, -sdd], st('wafer'));
@@ -90,16 +94,24 @@ export function build(a) {
     put('metal', gz, [0, Y, tk, gtop], st('hkmg'));
     ctop = 0;
   } else {
-    put('si', full, [0, Y, -SUB_D, 0], st('wafer'));
+    put('si', full, [0, Y, -SUB_D, 0], st('wafer'), st('flip'));
     const fins = L.act.map(([a0, a1]) => [a0, a1]);
+    wall = style === 'forksheet' ? [[L.wall[0], L.wall[1], 0, top + 4]] : [];
+    for (const r of wall) put('wall', full, r, st('wall'));
     if (style === 'finfet') put('si', full, [0, Y, 0, top], st('wafer'), st('fin'));
     else {
       put('si', full, [0, Y, 0, flo], st('wafer'), st('fin'));
       for (const [m, z0, z1] of L.layers) put(m === 'mid' ? 'sige' : m, full, [0, Y, z0, z1], st('superlattice'), st('fin'));
     }
-    for (const f of fins) put('si', full, [f[0], f[1], 0, flo], st('fin'));
-    for (const r of subtract([0, Y, 0, flo], fins.map((f) => [f[0], f[1], 0, flo]))) put('sti', full, r, st('sti'));
-    const sdStep = style === 'finfet' || style === 'gaa' ? st('sd_epi') : st('sd_bottom');
+    for (const f of fins) {
+      if (st('bs_contact') !== null) {
+        put('si', Z.sdl, [f[0], f[1], 0, flo], st('fin'), st('bs_contact'));
+        put('contact', Z.sdl, [f[0], f[1], 0, flo], st('bs_contact'));
+        put('si', [Z.spl[0], X], [f[0], f[1], 0, flo], st('fin'));
+      } else put('si', full, [f[0], f[1], 0, flo], st('fin'));
+    }
+    for (const r of subtract([0, Y, 0, flo], fins.map((f) => [f[0], f[1], 0, flo]).concat(wall.map((w) => [w[0], w[1], 0, flo])))) put('sti', full, r, st('sti'));
+    const sdStep = style === 'finfet' || style === 'gaa' || style === 'forksheet' ? st('sd_epi') : st('sd_bottom');
     for (const f of fins) {
       if (style === 'finfet') {
         for (const xr of sd) put('sich', xr, [f[0], f[1], flo, top], st('fin'), sdStep);
@@ -117,7 +129,7 @@ export function build(a) {
       }
     }
     const body = fins.map((f) => [f[0], f[1], flo, top]);
-    for (const r of subtract([0, Y, flo, gtop], body)) {
+    for (const r of subtract([0, Y, flo, gtop], body.concat(wall.map((w) => [w[0], w[1], flo, w[3]])))) {
       put('poly', gz, r, st('dummy'), st('open'));
       for (const xr of spz) put('spacer', xr, r, st('spacer'));
     }
@@ -128,6 +140,9 @@ export function build(a) {
     } else if (style === 'gaa') {
       ctop = top + 3;
       for (const xr of sd) put('n', xr, [a0 - 3, a1 + 3, flo, ctop], st('sd_epi'));
+    } else if (style === 'forksheet') {
+      ctop = top + 3;
+      for (const xr of sd) { put('n', xr, [a0 - 3, L.wall[0], flo, ctop], st('sd_epi')); put('p', xr, [L.wall[1], a1 + 3, flo, ctop], st('sd_epi')); }
     } else {
       const mid = L.layers.find((ly) => ly[0] === 'mid');
       const ptop = L.layers.find((ly) => ly[3] === 'p' && ly[0] === 'sich');
@@ -142,12 +157,16 @@ export function build(a) {
     const chan = style === 'finfet' ? fins.map((f) => [f[0], f[1], flo, top])
       : fins.flatMap((f) => L.layers.filter((ly) => ly[0] === 'sich').map(([, z0, z1]) => [f[0], f[1], z0, z1]));
     const grown = chan.map((c) => [c[0] - tk, c[1] + tk, Math.max(flo, c[2] - tk), c[3] + tk]).concat([[0, Y, flo, flo + tk]]);
-    const metal = subtract([0, Y, flo, gtop], grown);
+    const wz = wall.map((w) => [w[0], w[1], flo, w[3]]);
+    const metal = subtract([0, Y, flo, gtop], grown.concat(wz));
     for (const r of metal) put('metal', gz, r, st('hkmg'));
-    for (const r of subtract([0, Y, flo, gtop], metal.concat(chan))) put('highk', gz, r, st('hkmg'));
+    for (const r of subtract([0, Y, flo, gtop], metal.concat(chan, wz))) put('highk', gz, r, st('hkmg'));
   }
   const a0 = L.act[0][0], a1 = L.act[L.act.length - 1][1], cw = d.contact_w;
-  for (const xr of [[-X, -X + cw], [X - cw, X]]) put('contact', xr, [a0, a1, ctop, gtop], st('contact'));
+  const ys = style === 'forksheet' ? [[a0, L.wall[0]], [L.wall[1], a1]] : [[a0, a1]];
+  const ends = st('bs_contact') !== null ? [[X - cw, X]] : [[-X, -X + cw], [X - cw, X]];
+  for (const xr of ends) for (const y of ys) put('contact', xr, [y[0], y[1], ctop, gtop], st('contact'));
+  if (st('bs_rail') !== null) put('rail', [-X, X], [0, L.Y, -RAIL_D, 0], st('bs_rail'));
   return boxes;
 }
 
@@ -158,8 +177,9 @@ export function metrics(a) {
   let sides, weff, lam;
   if (style === 'planar') { sides = 1; weff = d.w; lam = null; }
   else if (style === 'finfet') { sides = 3; weff = d.nfin * (2 * d.fin_h + d.fin_w); lam = Math.sqrt(EPS_RATIO * d.fin_w * d.eot / 2); }
+  else if (style === 'forksheet') { sides = 3; weff = d.sheets * (2 * d.sheet_w + d.sheet_t); lam = Math.sqrt(EPS_RATIO * d.sheet_t * d.eot / 2); }
   else { sides = 4; weff = d.sheets * 2 * (d.sheet_w + d.sheet_t); lam = Math.sqrt(EPS_RATIO * d.sheet_t * d.eot / 2); }
-  const pairW = L.Y * (style === 'cfet' ? 1 : 2);
+  const pairW = L.Y * (style === 'cfet' || style === 'forksheet' ? 1 : 2);
   return {
     sides, weff_nm: weff, cell_w_nm: L.Y, weff_per_w: weff / L.Y, pair_w_nm: pairW, pair_weff_per_w: 2 * weff / pairW,
     lam_nm: lam, lg_over_lam: lam === null ? null : d.lg / lam, pair_area_nm2: d.cpp * pairW, steps: a.steps.length, height_nm: L.gtop,

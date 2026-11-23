@@ -491,6 +491,12 @@
    "doi": "10.1109/IEDM19573.2019.8993635"
   },
   {
+   "id": "imec_forksheet2019",
+   "cat": "Process",
+   "cite": "J. Ryckaert, imec, “Scaling CMOS beyond FinFETs: from nanosheets and forksheets to CFETs,” imec magazine (December 2019) (forksheet TCAD study for imec’s 2 nm node: 42 nm contacted gate pitch, 16 nm metal pitch, 5T to 4.3T track height, 8 nm p–n spacing, about 20 % cell area reduction, 10 % speed gain or 24 % power reduction).",
+   "url": "https://www.imec-int.com/en/imec-magazine/imec-magazine-december-2019/scaling-cmos-beyond-finfets-from-nanosheets-and-forksheets-to-cfets"
+  },
+  {
    "id": "ryckaert2018",
    "cat": "Process",
    "cite": "J. Ryckaert et al., \"The Complementary FET (CFET) for CMOS Scaling Beyond N3,\" VLSI Technology Symp. (2018).",
@@ -531,6 +537,12 @@
    "cat": "2020s nodes",
    "cite": "TSMC, \"A16 Technology\" (Super Power Rail backside power delivery).",
    "url": "https://www.tsmc.com/english/dedicatedFoundry/technology/logic/l_A16"
+  },
+  {
+   "id": "toms_a16",
+   "cat": "2020s nodes",
+   "cite": "A. Shilov, “TSMC unveils 1.6nm process technology with backside power delivery, rivals Intel’s competing design,” Tom’s Hardware (25 April 2024) (Super Power Rail connects the backside network to each transistor’s source and drain through a special contact; up to 10 % higher clock or 15–20 % lower power and 7–10 % higher density than N2P).",
+   "url": "https://www.tomshardware.com/tech-industry/tsmc-unveils-16nm-process-technology-with-backside-power-delivery-rivals-intels-competing-design"
   },
   {
    "id": "intel_18a",
@@ -2190,6 +2202,52 @@
    "cat": "Process",
    "cite": "Angstronomics, \"The Truth of TSMC 5nm\" (Apple A15 die: 51 nm average contacted gate pitch, 28 nm minimum fin pitch; N5 minimum metal pitch 30 % below N7's 40 nm) (2022).",
    "url": "https://www.angstronomics.com/p/the-truth-of-tsmc-5nm"
+  },
+  {
+   "id": "riscv_isa",
+   "cat": "SoC",
+   "cite": "A. Waterman, K. Asanović (eds.), \"The RISC-V Instruction Set Manual, Volume I: Unprivileged ISA,\" RISC-V International (document 20191213; RV32I base integer ISA version 2.1). RV32I has 40 unique instructions, x0 is hardwired to 0, and branches compare two registers instead of using condition codes.",
+   "url": "https://docs.riscv.org/reference/isa/unpriv/rv32.html"
+  },
+  {
+   "id": "intel_sdm",
+   "cat": "SoC",
+   "cite": "Intel, \"Intel 64 and IA-32 Architectures Software Developer’s Manual,\" Vol. 2A, §2.3.11: the maximum length of an Intel 64 and IA-32 instruction is 15 bytes.",
+   "url": "https://www.intel.com/content/www/us/en/developer/articles/technical/intel-sdm.html"
+  },
+  {
+   "id": "fog_microarch",
+   "cat": "SoC",
+   "cite": "A. Fog, \"The microarchitecture of Intel, AMD and VIA CPUs: An optimization guide for assembly programmers and compiler makers,\" Technical University of Denmark (updated yearly): the decoders split x86 instructions into µops and fuse an arithmetic or logic instruction with a following conditional jump.",
+   "url": "https://www.agner.org/optimize/microarchitecture.pdf"
+  },
+  {
+   "id": "wikichip_mopfusion",
+   "cat": "SoC",
+   "cite": "WikiChip, \"Macro-Operation Fusion (MOP Fusion)\": CMP, TEST, ADD, SUB, INC, DEC or AND followed by a conditional jump becomes a single operation-and-branch µop.",
+   "url": "https://en.wikichip.org/wiki/MOP-Fusion"
+  },
+  {
+   "id": "bakhvalov_uops",
+   "cat": "SoC",
+   "cite": "D. Bakhvalov, \"Micro-ops fusion in Intel CPUs,\" easyperf.net (Feb 2018), after the Intel 64 and IA-32 Architectures Optimization Reference Manual §2.4.2.1 (legacy decode pipeline).",
+   "url": "https://easyperf.net/blog/2018/02/04/Micro-ops-fusion"
+  },
+  {
+   "id": "patterson2020",
+   "cat": "SoC",
+   "cite": "D. A. Patterson, J. L. Hennessy, \"Computer Organization and Design RISC-V Edition: The Hardware Software Interface,\" 2nd ed., Morgan Kaufmann (2020), ISBN 978-0-12-820331-6 (multi-cycle control as a finite-state machine; the five-stage pipeline, forwarding, load-use stalls and branch flushes).",
+   "url": "https://shop.elsevier.com/books/computer-organization-and-design-risc-v-edition/patterson/978-0-12-820331-6"
+  },
+  {
+   "id": "quine1952",
+   "cat": "SoC",
+   "cite": "W. V. Quine, \"The Problem of Simplifying Truth Functions,\" American Mathematical Monthly 59(8), 521–531 (1952)."
+  },
+  {
+   "id": "mccluskey1956",
+   "cat": "SoC",
+   "cite": "E. J. McCluskey, \"Minimization of Boolean Functions,\" Bell System Technical Journal 35(6), 1417–1444 (1956)."
   }
  ]
 }

@@ -699,6 +699,9 @@ def export_physics_json():
     ref["nodelab"] = nodelab.reference()
     from transistor_sim.physics import defects
     ref["defects"] = defects.reference()
+    from transistor_sim.physics import riscv
+    from transistor_sim import soc
+    ref["riscv"] = riscv.reference() | {"gates": soc.gate_reference()}
     (ROOT / "data" / "physics_reference.json").write_text(json.dumps(ref, indent=1), encoding="utf-8")
     print("data/physics_reference.json")
 

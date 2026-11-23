@@ -73,7 +73,10 @@ def test_metrics_follow_from_the_cited_dimensions():
     m = {k: B.metrics(B.arch(k, DATA)) for k in ARCHS}
     assert m["finfet_22"]["weff_nm"] == 3 * (2 * 34 + 8)                 # auth2012
     assert m["finfet_10"]["weff_nm"] == 2 * (2 * 46 + 7)                 # auth2017
-    assert [m[k]["sides"] for k in ARCHS] == [1, 3, 3, 3, 4, 4]
+    assert [m[k]["sides"] for k in ARCHS] == [1, 3, 3, 3, 4, 4, 3, 4]
+    assert m["forksheet"]["weff_nm"] == 3 * (2 * 25 + 5)                 # top, bottom and the outer edge of each sheet
+    assert m["forksheet"]["pair_area_nm2"] < m["nanosheet"]["pair_area_nm2"]   # n and p 8 nm apart in one cell
+    assert m["nanosheet_bspdn"] == {**m["nanosheet"], "steps": m["nanosheet"]["steps"] + 3}
     assert m["finfet_14"]["weff_nm"] == 2 * (2 * 42 + 8)                 # natarajan2014 fins (width est.)
     w = [m[k]["pair_weff_per_w"] for k in ARCHS]
     assert w == sorted(w)                                                # each generation packs more width per footprint
@@ -114,3 +117,30 @@ def test_page_section_and_parity_reference():
     for k in ARCHS:
         assert len(ref[k]["boxes"]) == len(B.build(B.arch(k, DATA)))
     assert (ROOT / "site" / "js" / "physics" / "builder.js").exists()
+
+
+def test_forksheet_wall_splits_n_from_p():
+    a = B.arch("forksheet", DATA)
+    L = B.layout(a)
+    end = B.alive(B.build(a), len(a["steps"]) - 1)
+    wall = [b for b in end if b[0] == "wall"]
+    assert len(wall) == 1 and wall[0][4] - wall[0][3] == 8                # imec_forksheet2019: 8 nm p–n spacing
+    n = [b for b in end if b[0] == "n"]
+    p = [b for b in end if b[0] == "p"]
+    assert n and p and all(b[4] <= L["wall"][0] for b in n) and all(b[3] >= L["wall"][1] for b in p)
+    gate = [b for b in end if b[0] in ("metal", "highk") and b[1] < 0 < b[2]]
+    assert not any(b[3] < L["wall"][1] and b[4] > L["wall"][0] and b[5] < wall[0][6] for b in gate)   # no gate inside the wall
+
+
+def test_backside_power_removes_the_substrate_and_feeds_the_source_from_below():
+    a = B.arch("nanosheet_bspdn", DATA)
+    boxes = B.build(a)
+    flip, last = a["steps"].index("flip"), len(a["steps"]) - 1
+    end = B.alive(boxes, last)
+    assert not any(b[0] == "si" and b[5] < 0 for b in B.alive(boxes, flip))   # silicon below the devices is gone
+    rail = [b for b in end if b[0] == "rail"]
+    assert len(rail) == 1 and rail[0][6] == 0
+    front = [b for b in end if b[0] == "contact" and b[5] > 0]
+    back = [b for b in end if b[0] == "contact" and b[5] == 0]
+    assert len(front) == 1 and front[0][1] > 0                           # only the drain is contacted on the front
+    assert len(back) == 1 and back[0][2] < 0                             # the source is contacted from below

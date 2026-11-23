@@ -4,7 +4,7 @@
     python scripts/build_pwa.py --check  exit 1 if any of them is out of date (used by the tests)
 
 What it writes:
-- site/manifest.webmanifest: name, colours, icons and shortcuts to the nine pages.
+- site/manifest.webmanifest: name, colours, icons and shortcuts to the ten pages.
 - site/sw.js: the service worker. Its precache list is every file under site/ (except the large
   social-preview image), and its cache name carries the version from CITATION.cff, so a new release
   replaces the old cache in one step.

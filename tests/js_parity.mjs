@@ -305,6 +305,30 @@ check('noise psd', AN.noisePsd(presets['2025_2nm_gaa'], 2e-4, 1, 1e3), ref.analo
     if (!ok) fails++; console.log(`${ok ? 'ok  ' : 'FAIL'} defects ${c} ${g}: defect at ${JSON.stringify(R.cases[c][g].defect)}`);
   }
 }
+// RISC-V SoC Explorer (v1.32): assembler, multi-cycle FSM core, pipeline, x86 translation, gates and timing
+{ const RV = await import('../site/js/physics/riscv.js');
+  const R = ref.riscv;
+  const soc = JSON.parse(readFileSync(new URL('../data/soc.json', import.meta.url)));
+  const eq = (name, a, b) => { const ok = JSON.stringify(a) === JSON.stringify(b); if (!ok) { fails++; console.log(`  js=${JSON.stringify(a).slice(0, 200)}\n  py=${JSON.stringify(b).slice(0, 200)}`); } console.log(`${ok ? 'ok  ' : 'FAIL'} riscv ${name}`); };
+  const a = RV.assemble(soc.demo);
+  eq('demo words', a.words, R.words);
+  const mc = RV.multicycle(a.words), pl = RV.pipeline(a.words), sq = RV.sequential(a.words);
+  eq('multi-cycle cycles/retired', [mc.cycles, mc.retired], [R.mc_cycles, R.mc_retired]);
+  eq('multi-cycle states', mc.trace.slice(0, 40).map((t) => t.state), R.mc_states);
+  eq('registers and GPIO', [sq.x, sq.gpio, mc.x, mc.gpio], [R.x, R.gpio, R.x, R.gpio]);
+  eq('pipeline', [pl.cycles, pl.stalls, pl.flushes, pl.rows.map((r) => [r.idx, r.if, r.ex, r.wb, r.stall])], [R.pl_cycles, R.pl_stalls, R.pl_flushes, R.pl_rows]);
+  const tx = RV.x86Translate(soc.x86_demo);
+  eq('x86 translation', [tx.asm, tx.uop_count, tx.rv_count], [R.x86_asm, R.x86_uops, R.x86_rv]);
+  const tw = RV.assemble(tx.asm).words, ts = RV.sequential(tw);
+  eq('x86 translated run', [tw, ts.x, Object.fromEntries(Object.entries(ts.mem).map(([k, v]) => [String(k), v]))], [R.x86_words, R.x86_x, R.x86_mem]);
+  for (const [k, G] of Object.entries(R.gates)) {
+    const nl = soc.modules[k].netlist, t = RV.sta(nl, soc.effort);
+    check(`riscv ${k} critical path τ`, t.tau, G.tau, 1e-12);
+    eq(`${k} critical path cells`, [t.path, t.end], [G.path, G.end]);
+    const got = G.vectors.map(([vin]) => { const v = RV.evalNetlist(nl, Object.fromEntries(nl.inputs.map((n, i) => [n, vin[i]]))); return [vin, nl.outputs.map((n) => v[n])]; });
+    eq(`${k} gate evaluation (${G.vectors.length} vectors)`, got, G.vectors);
+  }
+}
 const v = MC.simulate(1e5, { n: 1000, tPs: 3 });
 check('MC v(1e5 V/cm) within 25% of 1.07e7', v, 1.07e7, 0.25);
 if (fails) { console.error(`${fails} parity check(s) failed`); process.exit(1); }

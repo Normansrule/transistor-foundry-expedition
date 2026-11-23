@@ -2,6 +2,26 @@
 
 All notable changes to Transistor Foundry Expedition (formerly Transistor Odyssey). Versions follow the `version` field in [CITATION.cff](CITATION.cff); `scripts/setup_ubuntu.sh` uses the newest entry as the commit message.
 
+## v1.32 — SoC Explorer: one RISC-V chip read four ways
+
+- **A new page, the SoC Explorer (`soc.html`): a RISC-V core, a 4 KiB RAM and a GPIO port with eight LEDs on one bus.**
+  - **The core.** 17 RV32I instructions with their real encodings, an assembler and decoder. A 12-state multi-cycle controller (FETCH, DECODE, execute, write-back) runs the demo program, 5 + 4 + 3 + 2 + 1 doubled to 30 on the LEDs, in 86 cycles. Step it a clock at a time and the datapath lights the busy blocks and the asserted write signals. You can edit the program.
+  - **Four linked views of two synthesised blocks, the controller and a 4-bit ALU slice:** the Verilog RTL, the gate schematic with live logic values, the placed transistor cells in 180 nm planar, 5 nm FinFET or 2 nm-class nanosheet rows (the Gate to silicon cells), and the controller as a state machine whose 19 arrows are viewing points. A click on a line, gate, cell, state or arrow selects it in every view. The ALU's critical path (the ripple carry, 74.7 τ, about 15 FO4) can be highlighted.
+  - **From RTL to silicon:** Quine–McCluskey minimisation with don't-cares, NAND–NAND mapping with shared terms, an exhaustive gate-level equivalence check, row placement and logical-effort timing.
+  - **The pipeline:** the same program on a five-stage pipeline with forwarding, one load-use stall and two-instruction flushes on taken branches: 36 cycles against 86.
+  - **x86 on a RISC-V core:** length-decodes real 32-bit x86 machine code (14 mnemonics), shows a typical µop split and translates it to RV32I with a lazy zero flag, fusing compare-and-jump pairs into one branch. The translated loop gives the same 15 as the RISC-V demo.
+- New model `physics/riscv.py` with its twin `js/physics/riscv.js`; the parity test compares encodings, cycle counts, state sequences, registers, pipeline rows, the translation and gate outputs. New generator `soc.py` writes `data/soc.json`. Deep links: `soc.html?mod=alu&tech=planar_180&crit=1&sel=state:EXEC_R`.
+- Chapter 30, a README section and screenshot, and SoC in the navigation (ten pages). 8 new references (382): the RISC-V ISA manual, Intel's SDM, Agner Fog's microarchitecture guide, WikiChip on macro-fusion, Bakhvalov on µops, Patterson and Hennessy, Quine 1952 and McCluskey 1956. 474 tests.
+
+## v1.31 — Backside power and the forksheet
+
+- **Two new builds in the layer builder (`fab.html#builder`), which now has eight.**
+  - **Nanosheet with backside power (15 steps).** After the contacts, the wafer is bonded to a carrier, flipped and thinned. The silicon under the source becomes a backside contact, and a power rail is laid on the back. The source loses its front contact, so only the drain is contacted on the front. This follows TSMC’s Super Power Rail, which connects each source and drain from below; Intel’s PowerVia is noted as the other approach.
+  - **Forksheet (13 steps).** An n stack and a p stack sit either side of an 8 nm dielectric wall at a 42 nm gate pitch (imec’s 2 nm study). There is a new “Build the dielectric wall” step, n-type epitaxy on one side and p-type on the other, and a gate that wraps three faces of each sheet. The pair’s area is 3,276 nm², against 4,400 for the nanosheet pair.
+- The builder model (`physics/builder.py`) and its twin gain a `forksheet` style, wall and backside steps and a three-face width (2w + t per sheet). The parity test compares all 143 forksheet boxes and all backside-power boxes. New tests check that the wall separates n from p with no gate inside it, and that the backside build removes the substrate, feeds the source from below and keeps one front contact.
+- The tour and the compare table include both builds. Chapter 27 and the README are updated.
+- 2 new references (374): imec’s 2019 forksheet article, and Tom’s Hardware on TSMC A16’s Super Power Rail. 449 tests.
+
 ## v1.30 — Spot the defect
 
 - **Spot the defect on the Fab Journey page (`fab.html#defects`), the last showcase on the list.** Seven challenges, each showing four features made together in one step. One failed, and the step’s own process model decided which:

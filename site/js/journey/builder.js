@@ -11,6 +11,7 @@ const $ = (s, r = document) => r.querySelector(s);
 const COL = { // §9.3 material colours
   si: '#4b596d', sich: '#7b8ca5', sige: '#b58fd6', sti: '#6fa9b3', poly: '#c95c50', spacer: '#cfd6e0', ispacer: '#a9b4c4',
   n: '#3f7fe0', p: '#e07f3f', highk: '#9a80dc', metal: '#e2b650', oxide: '#8fcfd4', contact: '#c9d1db',
+  wall: '#9be0c9', rail: '#d9825b',
 };
 const MAT = BUILDER.materials;
 const ARCH = Object.fromEntries(BUILDER.archs.map((a) => [a.id, a]));
@@ -20,9 +21,9 @@ const CUTS = [['whole', 'Whole'], ['along', 'Cut along the channel'], ['across',
 const DIM_LABEL = {
   cpp: 'contacted gate pitch', lg: 'gate length', w: 'channel width', fin_pitch: 'fin pitch', fin_h: 'fin height', fin_w: 'fin width',
   nfin: 'fins per transistor', sheets: 'sheets per transistor', sheet_t: 'sheet thickness', sheet_w: 'sheet width', gap: 'gap between sheets',
-  mid: 'gap between the n and p tiers', spacer: 'spacer thickness', eot: 'equivalent oxide thickness',
+  mid: 'gap between the n and p tiers', wall: 'dielectric wall between n and p', spacer: 'spacer thickness', eot: 'equivalent oxide thickness',
 };
-const SHOW = ['cpp', 'lg', 'w', 'fin_pitch', 'fin_h', 'fin_w', 'nfin', 'sheets', 'sheet_t', 'sheet_w', 'gap', 'mid', 'eot'];
+const SHOW = ['cpp', 'lg', 'w', 'fin_pitch', 'fin_h', 'fin_w', 'nfin', 'sheets', 'sheet_t', 'sheet_w', 'wall', 'gap', 'mid', 'eot'];
 
 const state = { arch: store.get('bld:arch', 'nanosheet'), step: 0, cut: store.get('bld:cut', 'along'), A: 'planar_45', B: 'nanosheet' };
 if (!ARCH[state.arch]) state.arch = 'nanosheet';

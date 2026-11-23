@@ -1,5 +1,5 @@
 {
-  "_about": "3D layer builder (roadmap item 6): six transistor builds, step by step. Dimensions are in nanometres. Each dimension names the reference it comes from; a null reference marks a drawing value (labelled est. on the page). Geometry is computed by sim/transistor_sim/physics/builder.py and its twin site/js/physics/builder.js.",
+  "_about": "3D layer builder (roadmap item 6): eight transistor builds, step by step. Dimensions are in nanometres. Each dimension names the reference it comes from; a null reference marks a drawing value (labelled est. on the page). Geometry is computed by sim/transistor_sim/physics/builder.py and its twin site/js/physics/builder.js.",
   "archs": [
     {
       "id": "planar_45", "name": "Planar, high-k metal gate", "short": "Planar", "year": 2007, "node": "45 nm", "style": "planar",
@@ -47,6 +47,24 @@
       "steps": ["wafer", "superlattice", "fin", "sti", "dummy", "spacer", "inner", "sd_epi", "open", "release", "hkmg", "contact"]
     },
     {
+      "id": "nanosheet_bspdn", "name": "Nanosheet with backside power", "short": "Backside power", "year": 2026, "node": "18A and A16 class", "style": "gaa",
+      "blurb": "The same nanosheet, finished from both sides. The wafer is flipped, the silicon under the transistors is removed, and power arrives from below through a contact straight into the source. The front keeps its wiring for signals.",
+      "dims": {
+        "cpp": [44, "loubet2017"], "lg": [12, "loubet2017"], "sheets": [3, null], "sheet_t": [5, null], "sheet_w": [30, null], "gap": [10, null],
+        "space": [20, null], "subfin": [15, null], "spacer": [6, null], "gate_h": [20, null], "contact_w": [14, null], "tk": [2, null], "eot": [0.8, null]
+      },
+      "steps": ["wafer", "superlattice", "fin", "sti", "dummy", "spacer", "inner", "sd_epi", "open", "release", "hkmg", "contact", "flip", "bs_contact", "bs_rail"]
+    },
+    {
+      "id": "forksheet", "name": "Forksheet", "short": "Forksheet", "year": 2019, "node": "research (imec 2 nm study)", "style": "forksheet",
+      "blurb": "An n-type and a p-type nanosheet stack side by side, split by a thin dielectric wall. The gate wraps three faces of each sheet; the wall lets n and p sit 8 nm apart instead of a full space.",
+      "dims": {
+        "cpp": [42, "imec_forksheet2019"], "lg": [12, null], "sheets": [3, null], "sheet_t": [5, null], "sheet_w": [25, null], "wall": [8, "imec_forksheet2019"],
+        "gap": [10, null], "space": [20, null], "subfin": [15, null], "spacer": [6, null], "gate_h": [20, null], "contact_w": [12, null], "tk": [2, null], "eot": [0.8, null]
+      },
+      "steps": ["wafer", "superlattice", "fin", "wall", "sti", "dummy", "spacer", "inner", "sd_epi", "open", "release", "hkmg", "contact"]
+    },
+    {
       "id": "cfet", "name": "Complementary FET (CFET)", "short": "CFET", "year": 2018, "node": "research", "style": "cfet",
       "blurb": "An nFET and a pFET stacked on top of each other under one shared gate. The pair takes the footprint of one transistor.",
       "dims": {
@@ -72,12 +90,17 @@
     "open": {"title": "Pull the dummy gate", "module": "Etch", "text": "The surroundings are filled with oxide and polished down to the dummy gate, which is then etched out. A narrow trench is left exactly where the gate belongs: the replacement-gate flow.", "refs": ["mistry2007"]},
     "release": {"title": "Release the sheets", "module": "Etch", "text": "A selective etch removes the SiGe from inside the trench, leaving the silicon sheets suspended between the source and drain like the rungs of a ladder.", "refs": ["loubet2017"]},
     "hkmg": {"title": "Fill the high-k metal gate", "module": "Deposition", "text": "Atomic layer deposition (ALD) coats every exposed face with a high-k dielectric such as hafnium oxide, and metal fills the rest of the trench. On fins and sheets the gate now wraps the channel.", "refs": ["mistry2007"]},
-    "contact": {"title": "Make the contacts", "module": "Interconnect", "text": "Openings are etched down to the source and drain and filled with metal. From here the wiring of the interconnect stack takes over.", "refs": ["auth2017"]}
+    "contact": {"title": "Make the contacts", "module": "Interconnect", "text": "Openings are etched down to the source and drain and filled with metal. From here the wiring of the interconnect stack takes over.", "refs": ["auth2017"]},
+    "wall": {"title": "Build the dielectric wall", "module": "Deposition and etch", "text": "The n and p stacks are patterned as a pair with a narrow slot between them, and the slot is filled with a dielectric such as silicon nitride. The wall will separate the n gate from the p gate and the n source and drain from the p ones, so the two can sit a few nanometres apart.", "refs": ["weckx2019", "imec_forksheet2019"]},
+    "flip": {"title": "Bond, flip and thin from the back", "module": "Back end and packaging", "text": "With the front finished, the wafer is bonded face down to a carrier wafer and the original silicon is ground and etched away from the back until the bottom of the transistors is reached. The carrier is not drawn.", "refs": ["intel_18a", "tsmc_a16"]},
+    "bs_contact": {"title": "Contact the source from below", "module": "Interconnect", "text": "Openings are etched from the back up to the source and filled with metal. The source no longer needs a contact on the front, which frees room there. TSMC’s Super Power Rail connects to the source and drain this way.", "refs": ["toms_a16", "tsmc_a16"]},
+    "bs_rail": {"title": "Lay the power rail on the back", "module": "Interconnect", "text": "A thick power rail runs under the cell, and the rest of the power network is built below it. Power no longer climbs down through the thin signal layers on the front, so less voltage is lost on the way and the front wiring can be packed tighter.", "refs": ["intel_18a", "tsmc_a16", "toms_a16"]}
   },
   "materials": {
     "si": "Silicon substrate", "sich": "Silicon channel", "sige": "SiGe (sacrificial)", "sti": "Trench oxide (STI)", "poly": "Dummy polysilicon gate",
     "spacer": "Spacer", "ispacer": "Inner spacer", "n": "n⁺ source / drain", "p": "p⁺ source / drain", "highk": "High-k dielectric",
-    "metal": "Metal gate", "oxide": "Isolation oxide", "contact": "Contact metal"
+    "metal": "Metal gate", "oxide": "Isolation oxide", "contact": "Contact metal",
+    "wall": "Dielectric wall", "rail": "Backside power rail"
   },
-  "tour": ["planar_45", "finfet_22", "finfet_14", "finfet_10", "nanosheet", "cfet"]
+  "tour": ["planar_45", "finfet_22", "finfet_14", "finfet_10", "nanosheet", "nanosheet_bspdn", "forksheet", "cfet"]
 }
